@@ -13,28 +13,53 @@ public class GUIController {
 	private PropertiesIO translations = new PropertiesIO("translations.propertie");
 	private GUI gui;
 	private GUI_Player[] players_GUI;
+
+	private void setupPlayers(int amount) {
+		players_GUI = new GUI_Player[amount];
+	}
+
+	private void setupBoard(int fieldAmounts) {
+		fields_GUI = new GUI_Field[fieldAmounts];
+	}
 	
-	
-	private void create(Field[] fields) {
-		fields_GUI = new GUI_Field[fields.length];
+	private void createFields(Field[] fields) {
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
-			initializeField(i, fields[i]);
+			switch (fields[i].type) {
+				case 0:
+					fields_GUI[i] = new GUI_Start();
+					break;
+				case 1:
+					fields_GUI[i] = new GUI_Street();
+					break;
+				case 2:
+					fields_GUI[i] = new GUI_Brewery();
+					break;
+				case 3:
+					fields_GUI[i] = new GUI_Shipping();
+					break;
+				case 4:
+					fields_GUI[i] = new GUI_Chance();
+					break;
+				case 5:
+					fields_GUI[i] = new GUI_Jail();
+					break;
+				case 6:
+					fields_GUI[i] = new GUI_Refuge();
+					break;
+				case 7:
+					fields_GUI[i] = new GUI_Tax();
+					break;
+				default:
+					fields_GUI[i] = new GUI_Empty();
+					break;
+			}
 		}
+		gui = new GUI(fields_GUI);
 	}
 
-	private void initializeField(int i, Field field) {
-		switch (field.type) {
-			case 0:
-				fields_GUI[i] = new GUI_Start();
-				break;
-			case 1:
-				fields_GUI[i] = new GUI_Brewery(String picture, String title, String subText, String description, String rent, Color bgColor, Color fgColor);
-
-		}
-	}
-
-	private void addPlayer(String name, int balance) {
-
+	private void addPlayers(int startValue, int playerAmount, String... names) {
+		players_GUI = new GUI_Player[playerAmount];
+		for (int i = 0 ; i < playerAmount ; i++) players_GUI[i] = new GUI_Player(names[i], startValue);
 	}
 
 	private void displayChanceCard(String cardText) {
@@ -53,7 +78,49 @@ public class GUIController {
 		}
 	}
 
-	private void updatePlayerBalance(int id, int balance) {
+	private void updatePlayerBalance(int id, int newValue, int oldValue) {
+		for (int i = oldValue ; i < newValue ; i++) {
+			players_GUI[id].setBalance(i);
+			try {
+				TimeUnit.MILLISECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
+	/**
+	 * Lets the user input an integer the system can interprit. A pre defined message will be displayed alongside the text field.
+	 * @return int
+	 */
+	public int requestNumberOfPlayers() {
+		return gui.getUserInteger("Choose number of players.", 2, 4);
+	}
+
+	/**
+	 * Lets the user input a String message the system can interpret.
+	 * @param message - Message the GUI will display along with the text field.
+	 * @return String
+	 */
+	public String requestStringInput(String message) {
+		return gui.getUserString(message);
+	}
+
+	/**
+	 * Creates a bottom and dropdown menu on the board, with the message provided, and the options provided. Returns a String for the users choice.
+	 * @param message the message which will be written to the players.
+	 * @param options the list of options for the dropdown menu.
+	 * @return a String with the players choice.
+	 */
+	public String requestPlayerChoice(String message, String... options) {
+		return gui.getUserSelection(message, options);
+	}
+
+	/**
+	 * Writes a message on the GUI.
+	 * @param message the String which will be written.
+	 */
+	public void writeMessage(String message) {
+		gui.showMessage(message);
 	}
 }
