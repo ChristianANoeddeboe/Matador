@@ -7,6 +7,8 @@ public class Player{
 	private String name;
 	private Account account;
 	private boolean prison;
+	protected int prisonCard;
+	protected int id_GUI;
 	protected int startPosition;
 	/**
 	 * Constructor
@@ -18,11 +20,13 @@ public class Player{
 	 * Constructor with params
 	 * @param name The players name
 	 */
-	public Player(String name) {
+	public Player(String name, int idGui) {
 		this.name = name;
 		this.account = new Account();
 		this.prison = false;
 		this.startPosition = 0;
+		this.prisonCard = 0;
+		this.id_GUI = idGui;
 	}
 
 	/**
