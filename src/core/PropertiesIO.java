@@ -8,15 +8,15 @@ import java.util.Properties;
  * @author Magnus Stjernborg Koch - s175189
  * Translator is being handled using a properties file.
  */
-public class Translator {
+public class PropertiesIO {
     private Properties translations = new Properties();
     /**
      * Translator constructor
      * @throws IOException may throw exception if file is not found
      */
-    public Translator () {
+    public PropertiesIO (String name) {
         try {
-            translations.load(ClassLoader.getSystemResourceAsStream("config.properties"));
+            translations.load(ClassLoader.getSystemResourceAsStream(name));
         } catch (FileNotFoundException e) {
             System.out.println("File not found: "+e);
         } catch (IOException e) {

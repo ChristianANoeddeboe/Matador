@@ -18,9 +18,9 @@ public class GameController {
 	private static GUI_Field[] fields = new GUI_Field[40]; 
 	protected static int[] prisonarray = new int[fields.length];
 	protected static int[] taxiarray = new int[fields.length];
-	public static Translator translator = new Translator();
+	public static Properties properties = new Properties();
 	public Player[] playerArr;
-	private Player[] propertiesarray = new Player[Integer.parseInt(translator.getTranslation("amountoffields"))];
+	private Player[] propertiesarray = new Player[Integer.parseInt(properties.getTranslation("amountoffields"))];
 	public Dice[] dicesArr;
 	public GUI_Player[] playerGUIArr;
 	private boolean startup = true;
@@ -58,52 +58,6 @@ public class GameController {
 
 
 	/**
-	 * Chooses a random pattern so no two cars look alike
-	 * @param i the player number
-	 * @return a pattern
-	 */
-	private static GUI_Car.Pattern nextPattern(int i) {
-		switch (i) {
-		case 1:
-			return GUI_Car.Pattern.CHECKERED;
-		case 2:
-			return GUI_Car.Pattern.DOTTED;
-		case 3:
-			return GUI_Car.Pattern.DIAGONAL_DUAL_COLOR;
-		case 4:
-			return GUI_Car.Pattern.HORIZONTAL_LINE;
-		case 5:
-			return GUI_Car.Pattern.ZEBRA;
-		case 6:
-			return GUI_Car.Pattern.HORIZONTAL_GRADIANT;
-		default:
-			return GUI_Car.Pattern.HORIZONTAL_DUAL_COLOR;
-		}
-	}
-	/**
-	 * Chooses a random color so no two cars have the same colour
-	 * @param i the player number
-	 * @return a color
-	 */
-	private static Color randomColour(int i) {
-		switch (i) {
-		case 1:
-			return Color.RED;
-		case 2:
-			return Color.BLUE;
-		case 3:
-			return Color.CYAN;
-		case 4:
-			return Color.DARK_GRAY;
-		case 5:
-			return Color.PINK;
-		case 6:
-			return Color.MAGENTA;
-		default:
-			return Color.YELLOW;
-		}
-	}
-	/**
 	 * Method that starts the game and then keeps it running
 	 */
 
@@ -114,7 +68,7 @@ public class GameController {
 	private void runGame() throws InterruptedException {
 
 
-		String result = this.gui.getUserSelection("\t\t"+translator.getTranslation("playerchoosertext"), "2", "3", "4", "5", "6");
+		String result = this.gui.getUserSelection("\t\t"+properties.getTranslation("playerchoosertext"), "2", "3", "4", "5", "6");
 		int noPlayers = Integer.parseInt(result);
 
 		/**
@@ -122,12 +76,12 @@ public class GameController {
 		 */
 		this.playerGUIArr = new GUI_Player[noPlayers];
 		for (int i = 1; i <= noPlayers; i++) {
-			String name = this.gui.getUserString("\t\t"+translator.getTranslation("playernameleft")+i+" "+translator.getTranslation("playernameright"));
+			String name = this.gui.getUserString("\t\t"+properties.getTranslation("playernameleft")+i+" "+properties.getTranslation("playernameright"));
 			while(name.length() <= 0) {
-				name = this.gui.getUserString("\t\t"+translator.getTranslation("playernameleft")+i+ translator.getTranslation("playernameright"));
+				name = this.gui.getUserString("\t\t"+properties.getTranslation("playernameleft")+i+ properties.getTranslation("playernameright"));
 			}
 			GUI_Car car = new GUI_Car(randomColour(i), randomColour(i+1), GUI_Car.Type.RACECAR, nextPattern(i));
-			this.playerGUIArr[i-1] = new GUI_Player(name, Integer.parseInt(translator.getTranslation("startmoney")), car);
+			this.playerGUIArr[i-1] = new GUI_Player(name, Integer.parseInt(properties.getTranslation("startmoney")), car);
 		}
 		/**
 		 * Adds the white car which controls the game
@@ -173,10 +127,10 @@ public class GameController {
 	 */
 	public void startRound(Player player, Dice dice1, Dice dice2) {
 		if(startup) {
-			this.gui.displayChanceCard(translator.getTranslation("informationtext"));
+			this.gui.displayChanceCard(properties.getTranslation("informationtext"));
 		}
-		this.gui.showMessage(translator.getTranslation("turntextleft")+player.getName()+" "+translator.getTranslation("turntextright"));
-		this.gui.getUserButtonPressed(translator.getTranslation("rollbuttoninfo"), translator.getTranslation("rollbuttontext"));
+		this.gui.showMessage(properties.getTranslation("turntextleft")+player.getName()+" "+properties.getTranslation("turntextright"));
+		this.gui.getUserButtonPressed(properties.getTranslation("rollbuttoninfo"), properties.getTranslation("rollbuttontext"));
 		this.gui.setDice(dice1.roll(), dice2.roll());
 		startup = false;
 	}
@@ -191,15 +145,15 @@ public class GameController {
 
 	public int gameLogic(GUI_Player player, Dice dice1, Dice dice2) throws InterruptedException { // Exception here due to Thread.sleep()
 		int totalFaceValue = dice1.getValue() + dice2.getValue();
-		int value = Integer.valueOf(translator.getTranslation("fieldvalue"+totalFaceValue));
+		int value = Integer.valueOf(properties.getTranslation("fieldvalue"+totalFaceValue));
 		int currentPosition = this.playerArr[player.getNumber()].startPosition; // Saves the current position
-		this.gui.displayChanceCard(player.getName() +" " + translator.getTranslation("rolledtext")+ " " + totalFaceValue);
+		this.gui.displayChanceCard(player.getName() +" " + properties.getTranslation("rolledtext")+ " " + totalFaceValue);
 		mainloop:
 			for(int i = 0; i <= totalFaceValue; i++) { // Loop makes the player move one field at a time instead of teleporting
 				for (int j = 0; j < fields.length; j++) {
 					fields[j].setCar(player, false);
 				}
-				if(currentPosition+i >= Integer.parseInt(translator.getTranslation("amountoffields"))) {
+				if(currentPosition+i >= Integer.parseInt(properties.getTranslation("amountoffields"))) {
 					for (int j = 0; j <= (totalFaceValue-i); j++) {
 						for (int j2 = 0; j2 < fields.length; j2++) {
 							fields[j2].setCar(player, false);
@@ -209,14 +163,14 @@ public class GameController {
 							this.playerArr[player.getNumber()].getAccount().deposit(3000);
 							fields[iterator].setCar(guiwhitecar, false);
 							iterator++; // Move car one step each time we pass start until it's at the end
-							if(iterator == Integer.parseInt(translator.getTranslation("amountoffields"))) { // Check if the white car has moved to the end
+							if(iterator == Integer.parseInt(properties.getTranslation("amountoffields"))) { // Check if the white car has moved to the end
 								Player max = this.playerArr[0];
 								for (int j2 = 0; j2 < this.playerArr.length; j2++) {
 									if(this.playerArr[j2].getAccount().getBalance() >= max.getAccount().getBalance()) {
 										max = this.playerArr[j2];
 									}
 								}
-								this.gui.displayChanceCard(max.getName()+" "+translator.getTranslation("winnertext")); 
+								this.gui.displayChanceCard(max.getName()+" "+properties.getTranslation("winnertext")); 
 								Thread.sleep(2500);
 								System.exit(0);
 							}else {
@@ -238,8 +192,8 @@ public class GameController {
 				Thread.sleep(250); // Sleep to make the movement more realistic (1000 = 1 sec)
 			}
 		
-			int fieldvalue = Integer.parseInt(translator.getTranslation("fieldvalue"+(this.playerArr[player.getNumber()].getStartPosition()+1)));
-			if(currentPosition + totalFaceValue > Integer.parseInt(translator.getTranslation("amountoffields"))) {
+			int fieldvalue = Integer.parseInt(properties.getTranslation("fieldvalue"+(this.playerArr[player.getNumber()].getStartPosition()+1)));
+			if(currentPosition + totalFaceValue > Integer.parseInt(properties.getTranslation("amountoffields"))) {
 			}else {
 				this.playerArr[player.getNumber()].setStartPosition(totalFaceValue+currentPosition); // Saves the new position of the Player
 			}
@@ -260,8 +214,8 @@ public class GameController {
 			
 			
 			if(checkIfOnTaxiField && canPlayerAfford) {
-				int result = this.gui.getUserInteger(translator.getTranslation("taxifieldtext"), 2,25);
-				if(result >=1 && result <=Integer.parseInt(translator.getTranslation("amountoffields"))) { // Taxi field being handled here
+				int result = this.gui.getUserInteger(properties.getTranslation("taxifieldtext"), 2,25);
+				if(result >=1 && result <=Integer.parseInt(properties.getTranslation("amountoffields"))) { // Taxi field being handled here
 					fields[this.playerArr[player.getNumber()].getStartPosition()].setCar(player, false);
 					fields[result-1].setCar(player, true);
 					this.playerArr[player.getNumber()].getAccount().withdraw(fieldvalue);
@@ -271,23 +225,23 @@ public class GameController {
 			} 
 			if(checkIfOnPrisonField && playerNotInPrison){
 				this.playerArr[player.getNumber()].setPrison(true); // Player is now in prison and is skipped a turn
-				this.gui.displayChanceCard(player.getName() + " "+translator.getTranslation("prisonfieldtext"));
+				this.gui.displayChanceCard(player.getName() + " "+properties.getTranslation("prisonfieldtext"));
 			}
 			//Below if for buying property or when you land on someone elses property.
 			if(checkStartPosNot25 && checkIfOwned &&  checkIfNotOnPrisonField && checkIfNotOnTaxiField && canPlayerAfford) {
-				boolean result = this.gui.getUserLeftButtonPressed(translator.getTranslation("fieldbuytext")+" "+fields[this.playerArr[player.getNumber()].getStartPosition()].getTitle() , translator.getTranslation("yesbutton"), translator.getTranslation("nobutton"));
+				boolean result = this.gui.getUserLeftButtonPressed(properties.getTranslation("fieldbuytext")+" "+fields[this.playerArr[player.getNumber()].getStartPosition()].getTitle() , properties.getTranslation("yesbutton"), properties.getTranslation("nobutton"));
 				if(result) {
 					propertiesarray[this.playerArr[player.getNumber()].getStartPosition()] = this.playerArr[player.getNumber()];
 					this.playerArr[player.getNumber()].getAccount().withdraw(fieldvalue);
 					player.setBalance(player.getBalance()-fieldvalue);
 					fields[this.playerArr[player.getNumber()].getStartPosition()].setSubText(this.playerArr[player.getNumber()].getName()+":"+fieldvalue);
-					this.gui.displayChanceCard(player.getName() +" "+translator.getTranslation("boughtfieldtext")+" "+ fields[this.playerArr[player.getNumber()].getStartPosition()].getTitle());
+					this.gui.displayChanceCard(player.getName() +" "+properties.getTranslation("boughtfieldtext")+" "+ fields[this.playerArr[player.getNumber()].getStartPosition()].getTitle());
 					fields[this.playerArr[player.getNumber()].getStartPosition()].setBackGroundColor(player.getPrimaryColor());
 					Thread.sleep(2500);
 				}
 			}else {
 				if(checkStartPosNot25 && checkIfNotOnPrisonField && checkIfNotOnTaxiField && canPlayerAfford) {
-					this.gui.displayChanceCard(translator.getTranslation("landfieldtextright")+" "+propertiesarray[this.playerArr[player.getNumber()].getStartPosition()].getName()+ " " + translator.getTranslation("landfieldtextleft") + " "+ value);
+					this.gui.displayChanceCard(properties.getTranslation("landfieldtextright")+" "+propertiesarray[this.playerArr[player.getNumber()].getStartPosition()].getName()+ " " + properties.getTranslation("landfieldtextleft") + " "+ value);
 					player.setBalance(player.getBalance()-fieldvalue);
 					this.playerArr[player.getNumber()].getAccount().withdraw(fieldvalue);
 					propertiesarray[this.playerArr[player.getNumber()].getStartPosition()].getAccount().deposit(fieldvalue);
