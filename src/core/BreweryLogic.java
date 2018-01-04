@@ -7,7 +7,9 @@ package core;
 public class BreweryLogic {
 	
 	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
-		if(FieldArr[id].getOwner == null) {
+		Entities entities = Entities.getInstance();
+		Brewery[] fields = (Brewery[]) entities.getFieldArr();
+		if(fields[id].getOwner == null) {
 			if(currentPlayer.getAccount().canAfford(FieldArr[id].currentValue)) {
 				return "NotOwned";
 			}
@@ -27,7 +29,7 @@ public class BreweryLogic {
 				}else {
 					rentPrice = 100*totalFaceValue;
 				}
-				//Spilleren har råd til at betale leje
+				//Spilleren har rï¿½d til at betale leje
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
 					fieldArr[id].getOwner().getAccount().deposit(rentPrice);
