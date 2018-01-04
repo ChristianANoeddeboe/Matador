@@ -3,6 +3,7 @@ package core;
 import java.awt.*;
 
 public class Normal extends Property {
+	private int houseCounter;
 	private int house1Price;
 	private int house2Price;
 	private int house3Price;
@@ -14,6 +15,7 @@ public class Normal extends Property {
 	public Normal(int id, String name, String type, Player owner, int baseValue, int pawnValue, int house1Price, int house2Price, int house3Price, int house4Price, int buildPrice, int hotelprice, Color colour) {
 		super(id, name, type, owner, baseValue, pawnValue);
 		this.owner = owner;
+		this.houseCounter = 0;
 		this.house1Price = house1Price;
 		this.house2Price = house2Price;
 		this.house3Price = house3Price;
@@ -23,7 +25,15 @@ public class Normal extends Property {
 		this.colour = colour;
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public int getHouseCounter() {
+		return houseCounter;
+	}
+	
+	public void setHouseCounter(int houseCounter) {
+		this.houseCounter = houseCounter;
+	}
+	
 	public int getHouse1Price() {
 		return house1Price;
 	}
