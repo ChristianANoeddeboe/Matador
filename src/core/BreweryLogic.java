@@ -17,7 +17,7 @@ public class BreweryLogic {
 				return "CannotAfford";
 			}
 		}else{
-			if(FieldArr[id].getOwner == currentPlayer) {
+			if(fields[id].getOwner() == currentPlayer) {
 				//Felt er ejet af spilleren selv
 				return "OwnedByPlayer";
 			}else {
@@ -32,10 +32,10 @@ public class BreweryLogic {
 				//Spilleren har r�d til at betale leje
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
-					fieldArr[id].getOwner().getAccount().deposit(rentPrice);
+					fields[id].getOwner().getAccount().deposit(rentPrice);
 					return "Rentprice,"+rentPrice;
 				}else {
-					return "saleLogic"
+					return "saleLogic";
 				}
 
 			}

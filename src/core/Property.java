@@ -34,7 +34,7 @@ public abstract class Property extends Field {
 	public boolean isOwned () {
 		return this.owner == null;
 	}
-	public String getOwner() { return owner.getName(); }
+	public Player getOwner() { return owner; }
 	public void setOwner(Player newOwner) { owner = newOwner; }
 	public boolean getIsPawned() { return isPawned; }
 	public void setIsPawned(boolean b) { isPawned = b; }
