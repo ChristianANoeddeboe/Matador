@@ -2,34 +2,34 @@ package core;
 
 public class GameLogic {
 
-	public static int findLogic(int id, int totalFaceValue,Player currentPlayer) {
-		String type = fieldArr[id].getType();
+	public static String findLogic(int id, int totalFaceValue,Player currentPlayer) {
+		String type = FieldArr[id].getType();
 		switch (type) {
 		case "normal":
-			NormalLogic.logic(id, currentPlayer);
-			break;
+			return NormalLogic.logic(id, currentPlayer);
 		case "Brewery":
-			BreweryLogic.logic(id, totalFaceValue, currentPlayer);
-			break;
+			return BreweryLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Chance":
 			//Kald magnuses metode
 		break;
 		case "Shipping":
-			ShippingLogic.logic(id, totalFaceValue, currentPlayer);
-			break;
+			return ShippingLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Parking":
-			break;
+			return "Parking";
 		case "Prison":
-			break;
+			return PrisonLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Tax":
 			if(id == 38) {
 				if(currentPlayer.getAccount().canAfford(2000)) {
 					currentPlayer.getAccount().withdraw(2000);
+					return "TaxPrice, "+2000;
 				}else {
 					//Pantsætning
+					return "saleLogic";
 				}
 			}else {
 				//Spørg gui om hvad der skal ske
+				return "TaxChoice";
 			}
 		default:
 			break;

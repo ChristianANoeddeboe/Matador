@@ -6,16 +6,18 @@ package core;
  */
 public class BreweryLogic {
 	
-	public static void logic(int id,int totalFaceValue, Player currentPlayer) {
+	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
 		if(FieldArr[id].getOwner == null) {
 			//Felt er ikke ejet
+			return "NotOwned";
 		}else{
 			if(FieldArr[id].getOwner == currentPlayer) {
-				//Felt er ejet af spilleren selve
+				//Felt er ejet af spilleren selv
+				return "OwnedByPlayer";
 			}else {
 				int rentPrice = 0;
 				//Hvormange bryggerier ejer spilleren?
-				if(getOwnerBrewery(id) == 2) {
+				if(getOwnedBrewery(id) == 2) {
 					rentPrice = 200*totalFaceValue;
 
 				}else {
@@ -25,8 +27,9 @@ public class BreweryLogic {
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
 					fieldArr[id].getOwner().getAccount().deposit(rentPrice);
+					return "Rentprice,"+rentPrice;
 				}else {
-					//Pantsætning
+					return "saleLogic"
 				}
 
 			}
