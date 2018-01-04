@@ -31,9 +31,8 @@ public class GameLogic {
 
 		
 		
-		String type = fields[id].getType();
-		switch (type) {
-		case "normal":
+		switch (fields[id].getClass().getSimpleName()) {
+		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
 		case "Brewery":
 			return breweryLogic.logic(id, totalFaceValue, currentPlayer);

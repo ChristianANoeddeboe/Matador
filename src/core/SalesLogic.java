@@ -11,8 +11,8 @@ public class SalesLogic {
 		Entities entities = Entities.getInstance();
 		Normal[] fields = (Normal[]) entities.getFieldArr();
 		
-		currentPlayer.getAccount().deposit(fields[id].getHousePrice());
-		return "SoldHouse, "+ fields[id].getHousePrice();
+		currentPlayer.getAccount().deposit(fields[id].getHousePrices()[1]);
+		return "SoldHouse, "+ fields[id].getHousePrices()[1];
 	}
 	
 	public String pawnProperty(int id, Player currentPlayer) {
