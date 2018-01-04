@@ -7,7 +7,7 @@ public class Entities {
 	private Dice dice[];
 	private PropertiesIO config;
 	private PropertiesIO translate;
-	private Field logicFields[];
+	private Field fieldArr[];
 	private String chanceCardsArray[]; 
 	
 	public Entities() {
