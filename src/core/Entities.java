@@ -3,24 +3,33 @@ package core;
 import java.awt.Color;
 
 public class Entities {
+	private static Entities entities = null;
 	private Player players[];
 	private Dice dice[];
 	private PropertiesIO config;
 	private PropertiesIO translate;
-	private Field logicFields[];
+	private Field fieldArr[];
 	private String chanceCardsArray[]; 
 	
-	public Entities() {
+	private Entities() {
 		config = new PropertiesIO("config.properties");
 		initFields();
 	}
+	
+    public static Entities getInstance()
+    {
+        if (entities == null)
+            entities = new Entities();
+ 
+        return entities;
+    }
 
 	private void initFields() {
-		logicFields = new Field[40];
-		for (int i = 0; i <= logicFields.length; i++) {
+		fieldArr = new Field[40];
+		for (int i = 0; i <= fieldArr.length; i++) {
 			// START FIELD
 			if(i == 0)
-				logicFields[i] = new Start(i,config.getTranslation("field"+i),config.getTranslation("field"+i+"type"));
+				fieldArr[i] = new Start(i,config.getTranslation("field"+i),config.getTranslation("field"+i+"type"));
 			
 			// NORMAL FIELDS
 			if (i == 1 && i == 3 && i == 6 && i == 8 && i == 9 && i == 11 && i == 13 && i == 14 && i == 16 && i == 18 && i == 19 && i == 21 && i == 23 && i == 24 && i == 26 && i == 27 && i == 29 && i == 31 && i == 32 && i == 34 && i == 37 && i == 39) {
@@ -37,7 +46,7 @@ public class Entities {
 					case "rød" : color = Color.red; break;
 				}
 				
-				logicFields[i] = new Normal(i,
+				fieldArr[i] = new Normal(i,
 						config.getTranslation("field"+i),
 						"normal", 
 						null, 
@@ -54,7 +63,7 @@ public class Entities {
 			
 			// SHIPPING FIELDS
 			if(i == 5 && i == 15 && i == 25 && i == 35) {
-				logicFields[i] = new Shipping(i,
+				fieldArr[i] = new Shipping(i,
 						config.getTranslation("field"+i),
 						"shipping",
 						null,
@@ -64,7 +73,7 @@ public class Entities {
 			
 			// BREWERY FIELDS
 			if(i == 12 && i == 28) {
-				logicFields[i] = new Brewery(i,
+				fieldArr[i] = new Brewery(i,
 						config.getTranslation("field"+i),
 						"brewery",
 						null,
@@ -74,14 +83,14 @@ public class Entities {
 			
 			// CHANCE CARD FIELDS
 			if(i == 2 && i == 7 && i == 17 && i == 22 && i == 33 && i == 36) {
-				logicFields[i] = new Chance(i,
+				fieldArr[i] = new Chance(i,
 						config.getTranslation("field"+i),
 						"chance");
 			}
 			
 			//TAX FIELDS
 			if(i == 4 && i == 38) {
-				logicFields[i] = new Tax(i,
+				fieldArr[i] = new Tax(i,
 						config.getTranslation("field"+i),
 						"tax",
 						Integer.parseInt(config.getTranslation("field"+i+"value")));
@@ -89,20 +98,68 @@ public class Entities {
 			
 			//PRISON FIELD
 			if(i == 10 && i == 30) {
-				logicFields[i] = new Prison(i,
+				fieldArr[i] = new Prison(i,
 						config.getTranslation("field"+i),
 						"prison");
 			}
 			
 			//Parking FIELD
 			if(i == 20) {
-				logicFields[i] = new Parking(i,
+				fieldArr[i] = new Parking(i,
 						config.getTranslation("field"+i),
 						"parking");
 			}
 			
 			
 		}
+	}
+
+	public Player[] getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(Player[] players) {
+		this.players = players;
+	}
+
+	public Dice[] getDice() {
+		return dice;
+	}
+
+	public void setDice(Dice[] dice) {
+		this.dice = dice;
+	}
+
+	public PropertiesIO getConfig() {
+		return config;
+	}
+
+	public void setConfig(PropertiesIO config) {
+		this.config = config;
+	}
+
+	public PropertiesIO getTranslate() {
+		return translate;
+	}
+
+	public void setTranslate(PropertiesIO translate) {
+		this.translate = translate;
+	}
+
+	public Field[] getFieldArr() {
+		return fieldArr;
+	}
+
+	public void setFieldArr(Field[] fieldArr) {
+		this.fieldArr = fieldArr;
+	}
+
+	public String[] getChanceCardsArray() {
+		return chanceCardsArray;
+	}
+
+	public void setChanceCardsArray(String[] chanceCardsArray) {
+		this.chanceCardsArray = chanceCardsArray;
 	}
 	
 }
