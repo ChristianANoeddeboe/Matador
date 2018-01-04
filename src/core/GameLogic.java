@@ -15,8 +15,22 @@ public class GameLogic {
 			//Kald magnuses metode
 		break;
 		case "Shipping":
-			
+			ShippingLogic.logic(id, totalFaceValue, currentPlayer);
 			break;
+		case "Parking":
+			break;
+		case "Prison":
+			break;
+		case "Tax":
+			if(id == 38) {
+				if(currentPlayer.getAccount().canAfford(2000)) {
+					currentPlayer.getAccount().withdraw(2000);
+				}else {
+					//Pantsætning
+				}
+			}else {
+				//Spørg gui om hvad der skal ske
+			}
 		default:
 			break;
 		}
