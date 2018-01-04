@@ -19,20 +19,20 @@ public class GUIController {
 
 	private GUIController() {}
 
-	public GUIController getGuiController() {
+	public static GUIController getInstance() {
 		return guiController;
 	}
 
-	private void setupPlayers(int amount) {
+	public void setupPlayers(int amount) {
 		players_GUI = new GUI_Player[amount];
 	}
 
-	private void setupBoard(Field[] fields) {
+	public void setupBoard(Field[] fields) {
 		fields_GUI = new GUI_Field[fields.length];
 		createFields(fields);
 	}
 
-	private void createFields(Field[] fields) {
+	public void createFields(Field[] fields) {
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
 			switch (fields[i].getType()) {
 				case "Start":
@@ -74,16 +74,16 @@ public class GUIController {
 		gui = new GUI(fields_GUI);
 	}
 
-	private void addPlayer(int id, int startValue, String name) {
+	public void addPlayer(int id, int startValue, String name) {
 		players_GUI[id] = new GUI_Player(name, startValue);
 		fields_GUI[0].setCar(players_GUI[id], true);
 	}
 
-	private void displayChanceCard(String cardText) {
+	public void displayChanceCard(String cardText) {
 		gui.displayChanceCard(cardText);
 	}
 
-	private void updatePlayerPosition(int id, int newPos, int oldPos) {
+	public void updatePlayerPosition(int id, int newPos, int oldPos) {
 		for (int i = oldPos ; i < newPos ; i++) {
 			fields_GUI[i].setCar(players_GUI[id], false);
 			fields_GUI[i+1].setCar(players_GUI[id], true);
@@ -95,7 +95,7 @@ public class GUIController {
 		}
 	}
 
-	private void updatePlayerBalance(int id, int newValue, int oldValue) {
+	public void updatePlayerBalance(int id, int newValue, int oldValue) {
 		for (int i = oldValue ; i < newValue ; i++) {
 			players_GUI[id].setBalance(i);
 			try {
