@@ -7,15 +7,17 @@ package core;
 public class BreweryLogic {
 	
 	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
-		if(FieldArr[id].getOwner == null) {
-			if(currentPlayer.getAccount().canAfford(FieldArr[id].currentValue)) {
+		Entities entities = Entities.getInstance();
+		Brewery[] fields = (Brewery[]) entities.getFieldArr();
+		if(fields[id].getOwner() == null) {
+			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
 				return "NotOwned";
 			}
 			else {
 				return "CannotAfford";
 			}
 		}else{
-			if(FieldArr[id].getOwner == currentPlayer) {
+			if(fields[id].getOwner() == currentPlayer) {
 				//Felt er ejet af spilleren selv
 				return "OwnedByPlayer";
 			}else {
@@ -27,13 +29,13 @@ public class BreweryLogic {
 				}else {
 					rentPrice = 100*totalFaceValue;
 				}
-				//Spilleren har råd til at betale leje
+				//Spilleren har rï¿½d til at betale leje
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
-					fieldArr[id].getOwner().getAccount().deposit(rentPrice);
+					fields[id].getOwner().getAccount().deposit(rentPrice);
 					return "Rentprice,"+rentPrice;
 				}else {
-					return "saleLogic"
+					return "saleLogic";
 				}
 
 			}
