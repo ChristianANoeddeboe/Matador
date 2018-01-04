@@ -2,34 +2,35 @@ package core;
 
 public class GameLogic {
 
-	public static int basicOutcome(int id, Player currentPlayer) {
-		String type = "tax2";//FieldArr[id].getType();
-		switch (type) {
-		case "tax1":
-			return id;
-		case "tax2":
-			currentPlayer.getAccount().withdraw(2000);
-			return id;
-		default:
-			System.out.println("Error on " + id);
-			break;
-		}
-		return id;
-	}
-
-
-	public static int advanceOutcome(int id, Player currentPlayer) {
-		
-		return id;
-	}
-	
-	
-	public static int findLogic(int id, Player currentPlayer) {
+	public static String findLogic(int id, int totalFaceValue,Player currentPlayer) {
+		String type = FieldArr[id].getType();
 		switch (type) {
 		case "normal":
-			NormalLogic
-			break;
-
+			return NormalLogic.logic(id, currentPlayer);
+		case "Brewery":
+			return BreweryLogic.logic(id, totalFaceValue, currentPlayer);
+		case "Chance":
+			//Kald magnuses metode
+		break;
+		case "Shipping":
+			return ShippingLogic.logic(id, totalFaceValue, currentPlayer);
+		case "Parking":
+			return "Parking";
+		case "Prison":
+			return PrisonLogic.logic(id, totalFaceValue, currentPlayer);
+		case "Tax":
+			if(id == 38) {
+				if(currentPlayer.getAccount().canAfford(2000)) {
+					currentPlayer.getAccount().withdraw(2000);
+					return "TaxPrice, "+2000;
+				}else {
+					//Pantsætning
+					return "saleLogic";
+				}
+			}else {
+				//Spørg gui om hvad der skal ske
+				return "TaxChoice";
+			}
 		default:
 			break;
 		}
@@ -39,7 +40,7 @@ public class GameLogic {
 	public static void main(String[] args) {
 		Player test = new Player("Test", 2);
 		System.out.println(test.getAccount().getBalance());
-		basicOutcome(1, test);
+		findLogic(1, test);
 		System.out.println(test.getAccount().getBalance());
 	}	
 
