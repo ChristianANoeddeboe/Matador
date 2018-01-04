@@ -28,12 +28,8 @@ public class GUIController {
 		createFields(fields);
 	}
 
-	public void setupPlayers(int amount) {
-		players_GUI = new GUI_Player[amount];
-	}
-
 	public void createFields(Field[] fields) {
-		System.out.println(fields[0].getType());
+		System.out.println(fields[0].getClass().getSimpleName());
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
 			switch (fields[i].getType()) {
 				case "start":
@@ -113,7 +109,10 @@ public class GUIController {
 	 * @return int
 	 */
 	public int requestNumberOfPlayers() {
-		return gui.getUserInteger("Choose number of players.", 3, 6);
+		int input = gui.getUserInteger("Choose number of players.", 3, 6);
+		players_GUI = new GUI_Player[input];
+		return input;
+
 	}
 
 	/**
