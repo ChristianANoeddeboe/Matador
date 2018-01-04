@@ -13,6 +13,7 @@ public class ChanceCardLogic {
 	public String getCard(Player currentPlayer) {
 		String returnbesked = "";
 		int chancecardid  = entities.getChanceId();
+        int playerCurrentPosition;
 		switch (chancecardid) {
 			case 0:
 				currentPlayer.addPrisonCard();
@@ -24,7 +25,7 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance2");
 				break;
 			case 2:
-				int playerCurrentPosition = currentPlayer.getEndPosition();
+				playerCurrentPosition = currentPlayer.getEndPosition();
 				if (playerCurrentPosition == 3) {
 					currentPlayer.setEndPosition(6);
 				}
@@ -160,19 +161,46 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance27");
 				break;
 			case 27:
-				returnbesked = config.getTranslation("chance28");
-				break;
+                currentPlayer.setEndPosition(11);
+                currentPlayer.isPrison();
+                returnbesked = config.getTranslation("chance2"); //Der findes to udgaver af kortet
+                break;
 			case 28:
-				returnbesked = config.getTranslation("chance29");
+                currentPlayer.addPrisonCard();
+				returnbesked = config.getTranslation("chance1"); //Der findes to udgaver af kortet
 				break;
 			case 29:
-				returnbesked = config.getTranslation("chance30");
+                playerCurrentPosition = currentPlayer.getEndPosition();
+                if (playerCurrentPosition == 3) {
+                    currentPlayer.setEndPosition(6);
+                }
+
+                if (playerCurrentPosition == 8) {
+                    currentPlayer.setEndPosition(16);
+                }
+
+                if (playerCurrentPosition == 18 || playerCurrentPosition == 22) {
+                    currentPlayer.setEndPosition(26);
+                }
+
+                if (playerCurrentPosition == 34) {
+                    currentPlayer.setEndPosition(36);
+                }
+
+                if (playerCurrentPosition == 37) {
+                    currentPlayer.setEndPosition(6);
+                    currentPlayer.getAccount().deposit(4000); //husk at checke med gameLogicController i forholdsvis til start penge
+                }
+                //(Ikke lavet endnu) hvis den ejes skal spilleren betale 2 gange den leje (brug field array referancerne)
+                returnbesked = config.getTranslation("chance3"); //Der findes to udgaver af kortet
 				break;
 			case 30:
-				returnbesked = config.getTranslation("chance31");
+                currentPlayer.getAccount().deposit(1000);
+				returnbesked = config.getTranslation("chance6"); //Der findes to udgaver af kortet
 				break;
 			case 31:
-				returnbesked = config.getTranslation("chance32");
+                currentPlayer.getAccount().deposit(1000);
+				returnbesked = config.getTranslation("chance6"); //Der findes to udgaver af kortet
 				break;
 			default:
 				returnbesked = "fejl, kort er ude af rækkevidte";
