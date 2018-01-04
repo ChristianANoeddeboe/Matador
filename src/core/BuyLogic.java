@@ -1,7 +1,7 @@
 package core;
 
 public class BuyLogic {
-	
+
 	static Entities entities = Entities.getInstance();
 	static Normal[] fields = (Normal[]) entities.getFieldArr();
 	public static String propertyBuyLogic(int id, Player currentPlayer) {
@@ -9,7 +9,7 @@ public class BuyLogic {
 		fields[id].setOwner(currentPlayer);
 		return "Bought";
 	}
-	
+
 	public static String houseBuyLogic(int id, Player currentPlayer) {
 		// Player can buy new house and there is no more than 4 buildings on the field
 		if(currentPlayer.getAccount().canAfford(fields[id].getBuildPrice()) && fields[id].getHouseCounter() < 5) {
@@ -27,7 +27,7 @@ public class BuyLogic {
 			return "CannotAfford, "+fields[id].getBuildPrice();
 		}
 	}
-	
+
 	// Calculates the new price of rent when a new house has been build
 	private static int calcHousePrice(int id, int houses) {
 		switch (houses) {
@@ -45,5 +45,45 @@ public class BuyLogic {
 			return id;
 		}
 	}
-	
+	//Buy shipping
+	public static String shippingBuyLogic(int id, Player currentPlayer) {
+		int counter = 0;
+		currentPlayer.getAccount().withdraw(fields[id].getBaseValue());
+		fields[id].setOwner(currentPlayer);
+		Property[] fields = (Property[]) entities.getFieldArr(); 
+		for (int i = 0; i <= fields.length; i++) {
+			if(fields[i].getOwner() == currentPlayer && fields[i].getType().equals("shipping")) {
+				counter ++;
+			}
+		}
+		int rent = getShippingValue(counter);
+		for (int i = 0; i <= fields.length; i++) {
+			if(fields[i].getOwner() == currentPlayer && fields[i].getType().equals("shipping")) {
+				fields[i].setCurrentValue(getShippingValue(counter));
+			}
+		}
+		return "Bought";
+	}
+	//Calculate shipping value dependent on how many a player owns
+	public static int getShippingValue(int i) {
+		switch (i) {
+		case 1:
+			return 500;
+		case 2:
+			return 1000;
+		case 3:
+			return 2000;
+		case 4:
+			return 4000;
+		default:
+			return 0;
+		}
+	}
+	//Buy brewery
+	public static String breweryBuyLogic(int id, Player currentPlayer) {
+		currentPlayer.getAccount().withdraw(fields[id].getBaseValue());
+		fields[id].setOwner(currentPlayer);
+		return "Bought";
+	}
+
 }
