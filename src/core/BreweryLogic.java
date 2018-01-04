@@ -9,8 +9,8 @@ public class BreweryLogic {
 	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
 		Entities entities = Entities.getInstance();
 		Brewery[] fields = (Brewery[]) entities.getFieldArr();
-		if(fields[id].getOwner == null) {
-			if(currentPlayer.getAccount().canAfford(FieldArr[id].currentValue)) {
+		if(fields[id].getOwner() == null) {
+			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
 				return "NotOwned";
 			}
 			else {
