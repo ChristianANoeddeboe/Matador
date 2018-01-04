@@ -85,5 +85,9 @@ public class BuyLogic {
 		fields[id].setOwner(currentPlayer);
 		return "Bought";
 	}
+	
+	public static String unPawnProperty(int id, Player currentPlayer) {
+		
+	}
 
 }

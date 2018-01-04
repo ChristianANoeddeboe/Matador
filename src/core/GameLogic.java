@@ -1,9 +1,13 @@
 package core;
 
 public class GameLogic {
+	
+	public GameLogic(int id, int totalFaceValue, Player currentPlayer) {
+		findLogic(id, totalFaceValue, currentPlayer);
+	}
 	static Entities entities = Entities.getInstance();
 	static Field[] fields = entities.getFieldArr();
-	public static String findLogic(int id, int totalFaceValue,Player currentPlayer) {
+	public String findLogic(int id, int totalFaceValue,Player currentPlayer) {
 		
 		String type = fields[id].getType();
 		switch (type) {
@@ -33,13 +37,4 @@ public class GameLogic {
 		}
 		return "Type not found";
 	}
-	
-	
-	public static void main(String[] args) {
-		Player test = new Player("Test", 2);
-		System.out.println(test.getAccount().getBalance());
-		findLogic(1,12, test);
-		System.out.println(test.getAccount().getBalance());
-	}	
-
 }
