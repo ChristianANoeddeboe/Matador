@@ -5,21 +5,21 @@ public class GameLogic {
 	static Field[] fields = entities.getFieldArr();
 	public static String findLogic(int id, int totalFaceValue,Player currentPlayer) {
 		
-		switch (fields[id].getClass().toString()) {
-		case "core.Normal":
+		switch (fields[id].getClass().getSimpleName()) {
+		case "Normal":
 			return NormalLogic.logic(id, currentPlayer);
-		case "core.Brewery":
+		case "Brewery":
 			return BreweryLogic.logic(id, totalFaceValue, currentPlayer);
-		case "core.Chance":
+		case "Chance":
 			//Kald magnuses metode
 		break;
-		case "core.Shipping":
+		case "Shipping":
 			return ShippingLogic.logic(id, totalFaceValue, currentPlayer);
-		case "core.Parking":
+		case "Parking":
 			return "Parking";
-		case "core.Prison":
+		case "Prison":
 			return PrisonLogic.logic(id, totalFaceValue, currentPlayer);
-		case "core.Tax":
+		case "Tax":
 			if(id == 38) {
 				TaxLogic.taxLogic38(currentPlayer);
 				
