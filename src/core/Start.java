@@ -1,8 +1,8 @@
 package core;
 
 public class Start extends Field {
-	public Start(int id, String name, String type) {
-		super(id, name, type);
+	public Start(int id, String name) {
+		super(id, name);
 			// TODO Auto-generated constructor stub
 	}
 }

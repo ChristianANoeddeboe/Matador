@@ -8,8 +8,8 @@ public class Normal extends Property {
 	private int BuildPrice;
 	private Color colour;
 	
-	public Normal(int id, String name, String type, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour) {
-		super(id, name, type, owner, baseValue, pawnValue);
+	public Normal(int id, String name, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour) {
+		super(id, name, owner, baseValue, pawnValue);
 		this.houseCounter = 0;
 		for (int i = 0 ; i < housePrices.length ; i++) {
 			this.housePrices[i] = housePrices[i];
