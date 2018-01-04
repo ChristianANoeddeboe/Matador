@@ -37,7 +37,7 @@ public class GUIController {
 					break;
 				case "normal":
 					Normal normal = (Normal)fields[i];
-					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Description", ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
+					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Leje af grund	"+normal.getHousePrices()[0]+"\nm/ 1 hus	>> "+normal.getHousePrices()[1]+" kr.\n >> 2 huse	>> "+normal.getHousePrices()[2]+" kr.\n >> 3 huse	>> "+, ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
 					break;
 				case "brewery":
 					Brewery brewery = (Brewery)fields[i];
