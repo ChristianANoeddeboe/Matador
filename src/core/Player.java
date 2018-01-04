@@ -7,10 +7,10 @@ public class Player{
 	private String name;
 	private Account account;
 	private boolean prison;
-	protected int prisonCard;
-	protected int id_GUI;
-	protected int startPosition;
-	protected int endPosition;
+	private int prisonCard;
+	private int id_GUI;
+	private int startPosition;
+	private int endPosition;
 	/**
 	 * Constructor
 	 */
@@ -35,6 +35,12 @@ public class Player{
 	}
 	public void setPrisonCard(int prisonCard) {
 		this.prisonCard = prisonCard;
+	}
+	public void addPrisonCard() {
+		this.prisonCard += 1;
+	}
+	public void removePrisonCard() {
+		this.prisonCard -= 1;
 	}
 	public int getId_GUI() {
 		return id_GUI;
