@@ -1,7 +1,18 @@
 package core;
 
 public class TaxLogic {
-	public static String taxLogic38(Player currentPlayer) {
+	
+	public TaxLogic(int id, Player currentPlayer, int choice) {
+		if(id == 38) {
+		taxLogic38(currentPlayer);
+		}
+		else {
+			taxLogic4(currentPlayer, choice);
+		}
+	}
+	
+	
+	public String taxLogic38(Player currentPlayer) {
 		if(currentPlayer.getAccount().canAfford(2000)) {
 			currentPlayer.getAccount().withdraw(2000);
 			return "TaxPrice, "+2000;
@@ -11,7 +22,7 @@ public class TaxLogic {
 		}
 	}
 
-	public static String taxLogic4(Player currentPlayer, int choice) {
+	public String taxLogic4(Player currentPlayer, int choice) {
 		if(choice == 0) {
 			//Calculate income tax
 		}else {

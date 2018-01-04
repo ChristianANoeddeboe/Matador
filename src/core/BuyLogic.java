@@ -40,15 +40,15 @@ public class BuyLogic {
 	private int calcHousePrice(int id, int houses) {
 		switch (houses) {
 		case 1:
-			return fields[id].getHouse1Price();
+			return fields[id].getHousePrices()[1];
 		case 2:
-			return fields[id].getHouse2Price();
+			return fields[id].getHousePrices()[2];
 		case 3:
-			return fields[id].getHouse3Price();
+			return fields[id].getHousePrices()[3];
 		case 4:
-			return fields[id].getHouse4Price();
+			return fields[id].getHousePrices()[4];
 		case 5:
-			return fields[id].getHotelPrice();
+			return fields[id].getHousePrices()[5];
 		default:
 			return id;
 		}
@@ -95,6 +95,7 @@ public class BuyLogic {
 	}
 	
 	public static String unPawnProperty(int id, Player currentPlayer) {
+		return null;
 		
 	}
 

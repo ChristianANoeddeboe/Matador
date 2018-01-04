@@ -16,7 +16,7 @@ public class GameLogic {
 		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
 		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
 		prisonLogic = new PrisonLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value);
-		taxLogic = new TaxLogic(currentPlayer, choice);
+		taxLogic = new TaxLogic(id, currentPlayer, choice);
 		buyLogic = new BuyLogic(id, currentPlayer);
 		salesLogic = new SalesLogic(id, currentPlayer);
 		
@@ -31,9 +31,8 @@ public class GameLogic {
 
 		
 		
-		String type = fields[id].getType();
-		switch (type) {
-		case "normal":
+		switch (fields[id].getClass().getSimpleName()) {
+		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
 		case "Brewery":
 			return breweryLogic.logic(id, totalFaceValue, currentPlayer);
