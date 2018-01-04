@@ -6,11 +6,22 @@ import gui_main.GUI;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Christian S. Andersen
+ */
+
 public class GUIController {
 
 	private GUI_Field[] fields_GUI;
 	private GUI gui;
 	private GUI_Player[] players_GUI;
+	private static final GUIController guiController = new GUIController();
+
+	private GUIController() {}
+
+	public GUIController getGuiController() {
+		return guiController;
+	}
 
 	private void setupPlayers(int amount) {
 		players_GUI = new GUI_Player[amount];
