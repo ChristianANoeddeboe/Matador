@@ -16,7 +16,7 @@ public class GameLogic {
 		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
 		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
 		prisonLogic = new PrisonLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value);
-		taxLogic = new TaxLogic(currentPlayer, choice);
+		taxLogic = new TaxLogic(id, currentPlayer, choice);
 		buyLogic = new BuyLogic(id, currentPlayer);
 		salesLogic = new SalesLogic(id, currentPlayer);
 		
