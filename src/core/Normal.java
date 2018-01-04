@@ -14,7 +14,6 @@ public class Normal extends Property {
 	
 	public Normal(int id, String name, String type, Player owner, int baseValue, int pawnValue, int house1Price, int house2Price, int house3Price, int house4Price, int buildPrice, int hotelprice, Color colour) {
 		super(id, name, type, owner, baseValue, pawnValue);
-		this.owner = owner;
 		this.houseCounter = 0;
 		this.house1Price = house1Price;
 		this.house2Price = house2Price;

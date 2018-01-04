@@ -5,10 +5,10 @@ package core;
  *
  */
 public class BreweryLogic {
-	
+	static Entities entities = Entities.getInstance();
+	static Brewery[] fields = (Brewery[]) entities.getFieldArr();
 	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
-		Entities entities = Entities.getInstance();
-		Brewery[] fields = (Brewery[]) entities.getFieldArr();
+		
 		if(fields[id].getOwner() == null) {
 			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
 				return "NotOwned";
@@ -45,18 +45,19 @@ public class BreweryLogic {
 	
 	public static int getOwnedBrewery(int id) {
 		if(id == 12) {
-			if(fieldArr[28].getOwner == fieldArr[12].getOwner) {
+			if(fields[28].getOwner() == fields[12].getOwner()) {
 				return 2;
 			}else {
 				return 1;
 			}
 		}else if(id == 28) {
-			if(fieldArr[12].getOwner == fieldArr[28].getOwner) {
+			if(fields[12].getOwner() == fields[28].getOwner()) {
 				return 2;
 			}else {
 				return 1;
 			}
 		}
+		return 1;
 	}
 }
 
