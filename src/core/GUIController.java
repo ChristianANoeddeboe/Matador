@@ -9,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 public class GUIController {
 
 	private GUI_Field[] fields_GUI;
-	private PropertiesIO config = new PropertiesIO("config.properties");
-	private PropertiesIO translations = new PropertiesIO("translations.propertie");
 	private GUI gui;
 	private GUI_Player[] players_GUI;
 
@@ -18,35 +16,37 @@ public class GUIController {
 		players_GUI = new GUI_Player[amount];
 	}
 
-	private void setupBoard(int fieldAmounts) {
-		fields_GUI = new GUI_Field[fieldAmounts];
+	private void setupBoard(Field[] fields) {
+		fields_GUI = new GUI_Field[fields.length];
+		createFields(fields);
 	}
-	
+
 	private void createFields(Field[] fields) {
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
 			switch (fields[i].type) {
-				case 0:
+				case "Start":
 					fields_GUI[i] = new GUI_Start();
 					break;
-				case 1:
-					fields_GUI[i] = new GUI_Street();
+				case "Normal":
+					Normal normal = (Normal)fields[i];
+					fields_GUI[i] = new GUI_Street(normal.getName(), String subText, String description, normal.getBaseValue(), normal.getColor, Color fgColor);
 					break;
-				case 2:
+				case "Brewery":
 					fields_GUI[i] = new GUI_Brewery();
 					break;
-				case 3:
+				case "Shipping":
 					fields_GUI[i] = new GUI_Shipping();
 					break;
-				case 4:
+				case "Chance":
 					fields_GUI[i] = new GUI_Chance();
 					break;
-				case 5:
+				case "Jail":
 					fields_GUI[i] = new GUI_Jail();
 					break;
-				case 6:
+				case "Parking":
 					fields_GUI[i] = new GUI_Refuge();
 					break;
-				case 7:
+				case "Tax":
 					fields_GUI[i] = new GUI_Tax();
 					break;
 				default:
@@ -57,9 +57,8 @@ public class GUIController {
 		gui = new GUI(fields_GUI);
 	}
 
-	private void addPlayers(int startValue, int playerAmount, String... names) {
-		players_GUI = new GUI_Player[playerAmount];
-		for (int i = 0 ; i < playerAmount ; i++) players_GUI[i] = new GUI_Player(names[i], startValue);
+	private void addPlayer(int id, int startValue, String name) {
+		players_GUI[id] = new GUI_Player(name, startValue);
 	}
 
 	private void displayChanceCard(String cardText) {
@@ -94,7 +93,7 @@ public class GUIController {
 	 * @return int
 	 */
 	public int requestNumberOfPlayers() {
-		return gui.getUserInteger("Choose number of players.", 2, 4);
+		return gui.getUserInteger("Choose number of players.", 3, 6);
 	}
 
 	/**
