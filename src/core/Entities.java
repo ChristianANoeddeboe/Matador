@@ -30,21 +30,23 @@ public class Entities {
 			
 			// START FIELD
 			if(i == 0)
-				fieldArr[i] = new Start(i,config.getTranslation("field"+(i+1)),config.getTranslation("field"+(i+1)+"type"));
+				fieldArr[i] = new Start(i,config.getTranslation("field"+(i+1)),"start");
 			
 			// NORMAL FIELDS
 			if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
 				Color color;
 				switch(config.getTranslation("field"+(i+1)+"color")) {
 					default : color = Color.black; break;
-					case "yellow" : color = Color.yellow; break;
-					case "blue" : color = Color.blue; break;
+					case "gul" : color = Color.yellow; break;
+					case "blå" : color = Color.blue; break;
 					case "pink" : color = Color.pink; break;
 					case "brun"	: color = Color.orange; break;
 					case "hvid" : color = Color.white; break;
 					case "grøn" : color = Color.green; break;
 					case "lilla" : color = Color.magenta; break;
 					case "rød" : color = Color.red; break;
+					case "grå" : color = Color.gray; break;
+					
 				}
 				
 				fieldArr[i] = new Normal(i,
@@ -113,6 +115,10 @@ public class Entities {
 			
 			
 		}
+	}
+	
+	public void initPlayers() {
+		
 	}
 
 	public Player[] getPlayers() {
