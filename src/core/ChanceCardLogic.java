@@ -142,25 +142,40 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance24");
 				break;
 			case 24:
+				if (!(3 == currentPlayer.getEndPosition())) {
+					currentPlayer.getAccount().deposit(4000);
+				}
 				currentPlayer.setEndPosition(6);
-				returnbesked = config.getTranslation("chance22");
+				returnbesked = config.getTranslation("chance25");
 				break;
 			case 25:
+				//tag 200 fra hver spiller og giv det til current spiller
+				returnbesked = config.getTranslation("chance26");
 				break;
 			case 26:
+				if (34 == currentPlayer.getEndPosition() || 37 == currentPlayer.getEndPosition()) {
+					currentPlayer.getAccount().deposit(4000);
+				}
+				currentPlayer.setEndPosition(6);
+				returnbesked = config.getTranslation("chance27");
 				break;
 			case 27:
+				returnbesked = config.getTranslation("chance28");
 				break;
 			case 28:
+				returnbesked = config.getTranslation("chance29");
 				break;
 			case 29:
+				returnbesked = config.getTranslation("chance30");
 				break;
 			case 30:
+				returnbesked = config.getTranslation("chance31");
 				break;
 			case 31:
+				returnbesked = config.getTranslation("chance32");
 				break;
 			default:
-				returnbesked = "fejl";
+				returnbesked = "fejl, kort er ude af rækkevidte";
 				break;
 		}
 		return returnbesked;
