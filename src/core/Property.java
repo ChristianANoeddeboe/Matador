@@ -20,9 +20,6 @@ public abstract class Property extends Field {
 	
 	public Property(int id, String name, String type, Player owner, int baseValue, int pawnValue) {
 		super(id, name, type);
-		this.id = id;
-		this.name = name;
-		this.type = type;
 		this.baseValue = baseValue;
 		this.pawnValue = pawnValue;
 		this.owner = owner;
