@@ -23,46 +23,47 @@ public class GUIController {
 		return guiController;
 	}
 
-	public void setupPlayers(int amount) {
-		players_GUI = new GUI_Player[amount];
-	}
-
 	public void setupBoard(Field[] fields) {
 		fields_GUI = new GUI_Field[fields.length];
 		createFields(fields);
 	}
 
+	public void setupPlayers(int amount) {
+		players_GUI = new GUI_Player[amount];
+	}
+
 	public void createFields(Field[] fields) {
+		System.out.println(fields[0].getType());
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
 			switch (fields[i].getType()) {
-				case "Start":
-					fields_GUI[i] = new GUI_Start();
+				case "start":
+					fields_GUI[i] = new GUI_Start("Start", "Subtext", "Sd21o1iey2eh7812dg872hd2 \n 12eei21eh82dh2udh21 \n ud2hd2ui1dh2udh2u1d", Color.GREEN, Color.BLACK);
 					break;
-				case "Normal":
+				case "normal":
 					Normal normal = (Normal)fields[i];
-					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Description", ""+normal.getBaseValue(), normal.getColour(), Color.WHITE);
+					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Description", ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
 					break;
-				case "Brewery":
+				case "brewery":
 					Brewery brewery = (Brewery)fields[i];
 					fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "Subtext", "Description", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
 					break;
-				case "Shipping":
+				case "shipping":
 					Shipping shipping = (Shipping)fields[i];
 					fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "Subtext", "Description", ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
 					break;
-				case "Chance":
+				case "chance":
 					Chance chance = (Chance)fields[i];
 					fields_GUI[i] = new GUI_Chance(chance.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
-				case "Prison":
+				case "prison":
 					Prison prison = (Prison)fields[i];
 					fields_GUI[i] = new GUI_Jail("default", prison.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
-				case "Parking":
+				case "parking":
 					Parking parking = (Parking)fields[i];
 					fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
-				case "Tax":
+				case "tax":
 				    Tax tax = (Tax)fields[i];
 					fields_GUI[i] = new GUI_Tax(tax.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
@@ -77,6 +78,7 @@ public class GUIController {
 	public void addPlayer(int id, int startValue, String name) {
 		players_GUI[id] = new GUI_Player(name, startValue);
 		fields_GUI[0].setCar(players_GUI[id], true);
+		gui.addPlayer(players_GUI[id]);
 	}
 
 	public void displayChanceCard(String cardText) {
