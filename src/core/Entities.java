@@ -37,14 +37,16 @@ public class Entities {
 				Color color;
 				switch(config.getTranslation("field"+(i+1)+"color")) {
 					default : color = Color.black; break;
-					case "yellow" : color = Color.yellow; break;
-					case "blue" : color = Color.blue; break;
+					case "gul" : color = Color.yellow; break;
+					case "blå" : color = Color.blue; break;
 					case "pink" : color = Color.pink; break;
 					case "brun"	: color = Color.orange; break;
 					case "hvid" : color = Color.white; break;
 					case "grøn" : color = Color.green; break;
 					case "lilla" : color = Color.magenta; break;
 					case "rød" : color = Color.red; break;
+					case "grå" : color = Color.gray; break;
+					
 				}
 				
 				fieldArr[i] = new Normal(i,
@@ -113,6 +115,10 @@ public class Entities {
 			
 			
 		}
+	}
+	
+	public void initPlayers() {
+		
 	}
 
 	public Player[] getPlayers() {
