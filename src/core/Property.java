@@ -31,7 +31,7 @@ public abstract class Property extends Field {
 	public void setCurrentValue(int value) { currentValue = value; }
 	public int getPawnValue() { return pawnValue; }
 	public void setPawnValue(int value) { pawnValue = value; } 
-	public String getOwner() { return owner.getName(); }
+	public Player getOwner() { return owner; }
 	public void setOwner(Player newOwner) { owner = newOwner; }
 	public boolean getIsPawned() { return isPawned; }
 	public void setIsPawned(boolean b) { isPawned = b; }
