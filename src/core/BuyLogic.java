@@ -7,6 +7,7 @@ public class BuyLogic {
 		houseBuyLogic(id, currentPlayer);
 		shippingBuyLogic(id, currentPlayer);
 		breweryBuyLogic(id, currentPlayer);
+		unPawnProperty(id, currentPlayer);
 	}
 	
 
@@ -94,9 +95,16 @@ public class BuyLogic {
 		return "Bought";
 	}
 	
-	public static String unPawnProperty(int id, Player currentPlayer) {
-		return null;
-		
+	public String unPawnProperty(int id, Player currentPlayer) {
+		if(currentPlayer.getAccount().canAfford(fields[id].getPawnValue() + ((int)(fields[id].getPawnValue()*0.10)))) {
+			currentPlayer.getAccount().withdraw(fields[id].getPawnValue() + ((int)(fields[id].getPawnValue()*0.10)));
+			fields[id].setIsPawned(false);
+			return "UnPawned, " + (fields[id].getPawnValue() + ((int)(fields[id].getPawnValue()*0.10)));
+		}
+		else {
+			return "CannotAfford";
+		}
 	}
+		
 
 }
