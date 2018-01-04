@@ -1,6 +1,8 @@
 package core;
 
 //Husk at tage field som en array, -1 på værdierne
+//Lav om til en singleton
+//evt bedre navne til værdier og objekter
 
 public class ChanceCardLogic {
 	private PropertiesIO config = new PropertiesIO("config.properties");
@@ -124,8 +126,13 @@ public class ChanceCardLogic {
 						if (currentPlayer == property.getOwner()) {
 							property = (Property) fields[i];
 							normal = (Normal) fields[i];
-							playerValue += (property.getBaseValue()+(*normal.getHouseCounter()));
-
+							playerValue += (property.getBaseValue());
+							if (normal.getHouseCounter() > 0) {
+								int buildPrice = normal.getBuildPrice();
+								for (int j = 0; j < normal.getHouseCounter(); j++) {
+									playerValue += buildPrice;
+								}
+							}
 						}
 					}
 
@@ -208,8 +215,14 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance25");
 				break;
 			case 25:
-				for ()
-				//tag 200 fra hver spiller og giv det til current spiller
+				int	present = 0;
+				for (int i = 0; i < players.length; i++) {
+					if (!(players[i] == currentPlayer)) {
+						players[i].getAccount().withdraw(200);
+						present += 200;
+					}
+				}
+				currentPlayer.getAccount().deposit(present);
 				returnbesked = config.getTranslation("chance26");
 				break;
 			case 26:
@@ -218,52 +231,6 @@ public class ChanceCardLogic {
 				}
 				currentPlayer.setEndPosition(6);
 				returnbesked = config.getTranslation("chance27");
-				break;
-			case 27:
-                currentPlayer.setEndPosition(11);
-                currentPlayer.isPrison();
-                returnbesked = config.getTranslation("chance2"); //Der findes to udgaver af kortet
-                break;
-			case 28:
-                currentPlayer.addPrisonCard();
-				returnbesked = config.getTranslation("chance1"); //Der findes to udgaver af kortet
-				break;
-			case 29:
-                if (currentPlayer.getEndPosition() == 3) {
-                    currentPlayer.setEndPosition(6);
-                }
-
-                if (currentPlayer.getEndPosition() == 8) {
-                    currentPlayer.setEndPosition(16);
-                }
-
-                if (currentPlayer.getEndPosition() == 18 || currentPlayer.getEndPosition() == 22) {
-                    currentPlayer.setEndPosition(26);
-                }
-
-                if (currentPlayer.getEndPosition() == 34) {
-                    currentPlayer.setEndPosition(36);
-                }
-
-                if (currentPlayer.getEndPosition() == 37) {
-                    currentPlayer.setEndPosition(6);
-                    currentPlayer.getAccount().deposit(4000);
-                }
-				property = (Property) fields[currentPlayer.getEndPosition()];
-
-                if (property.isOwned()) {
-                    currentPlayer.getAccount().withdraw(8000);
-					property.getOwner().getAccount().deposit(8000);
-                }
-                returnbesked = config.getTranslation("chance3"); //Der findes to udgaver af kortet
-                break;
-			case 30:
-                currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance6"); //Der findes to udgaver af kortet
-				break;
-			case 31:
-                currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance6"); //Der findes to udgaver af kortet
 				break;
 			default:
 				returnbesked = "fejl, kort er ude af rækkevidte";
