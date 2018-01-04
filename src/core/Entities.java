@@ -3,12 +3,12 @@ package core;
 import java.awt.Color;
 
 public class Entities {
-	protected Player players[];
-	protected Dice dice[];
-	protected PropertiesIO config;
-	protected PropertiesIO translate;
-	protected Field logicFields[];
-	protected String chanceCardsArray[]; 
+	private Player players[];
+	private Dice dice[];
+	private PropertiesIO config;
+	private PropertiesIO translate;
+	private Field logicFields[];
+	private String chanceCardsArray[]; 
 	
 	public Entities() {
 		config = new PropertiesIO("config.properties");

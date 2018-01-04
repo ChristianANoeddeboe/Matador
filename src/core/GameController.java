@@ -3,9 +3,10 @@ package core;
 
 public class GameController {
 	
+	public Entities entities;
 	
 	public static void main(String Args[]) {
-		Entities entities = new Entities();
+		entities = new Entities();
 	}
 	
 	public GameController() {
