@@ -1,28 +1,30 @@
 package core;
 
 public class BuyLogic {
-
+	
+	static Entities entities = Entities.getInstance();
+	static Normal[] fields = (Normal[]) entities.getFieldArr();
 	public static String propertyBuyLogic(int id, Player currentPlayer) {
-		currentPlayer.getAccount().getBalance().withdraw(FieldArr[id].baseValue);
-		FieldArr[id].setOwner(currentPlayer);
+		currentPlayer.getAccount().withdraw(fields[id].getBaseValue());
+		fields[id].setOwner(currentPlayer);
 		return "Bought";
 	}
 	
 	public static String houseBuyLogic(int id, Player currentPlayer) {
 		// Player can buy new house and there is no more than 4 buildings on the field
-		if(currentPlayer.getAccount().canAfford(FieldArr[id].getBuildPrice && FieldArr[id].getHouseNumber < 5)) {
-			currentPlayer.getAccount().getBalance().withdraw(FieldArr[id].getBuildPrice);
-			FieldArr[id].houseNumber++;
-			FieldArr[id].setCurrentPrice(calcHousePrice(id, FieldArr[id].houseNumber));
+		if(currentPlayer.getAccount().canAfford(fields[id].getBuildPrice()) && fields[id].getHouseCounter() < 5) {
+			currentPlayer.getAccount().withdraw(fields[id].getBuildPrice());
+			fields[id].setHouseCounter(fields[id].getHouseCounter() + 1);
+			fields[id].setCurrentValue(calcHousePrice(id, fields[id].getHouseCounter()));
 			return "HouseBought";
 		}
 		// There is already a hotel (5 houses) on the field
-		else if(FieldArr[id].getHouseNumber == 5) {
+		else if(fields[id].getHouseCounter() == 5) {
 			return "TooManyHouses";
 		}
 		// The Player cannot afford another house
 		else {
-			return "CannotAfford, "+FieldArr[id].getBuildPrice();
+			return "CannotAfford, "+fields[id].getBuildPrice();
 		}
 	}
 	
@@ -30,17 +32,17 @@ public class BuyLogic {
 	private static int calcHousePrice(int id, int houses) {
 		switch (houses) {
 		case 1:
-			return FieldArr[id].getHouse1Price();
+			return fields[id].getHouse1Price();
 		case 2:
-			return FieldArr[id].getHouse2Price();
+			return fields[id].getHouse2Price();
 		case 3:
-			return FieldArr[id].getHouse3Price();
+			return fields[id].getHouse3Price();
 		case 4:
-			return FieldArr[id].getHouse4Price();
+			return fields[id].getHouse4Price();
 		case 5:
-			return FieldArr[id].getHotelPrice();
+			return fields[id].getHotelPrice();
 		default:
-			break;
+			return id;
 		}
 	}
 	
