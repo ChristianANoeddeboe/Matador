@@ -4,22 +4,16 @@ import java.awt.*;
 
 public class Normal extends Property {
 	private int houseCounter;
-	private int house1Price;
-	private int house2Price;
-	private int house3Price;
-	private int house4Price;
+	private int[] housePrices = new int[6];
 	private int BuildPrice;
-	private int hotelPrice;
 	private Color colour;
 	
-	public Normal(int id, String name, String type, Player owner, int baseValue, int pawnValue, int house1Price, int house2Price, int house3Price, int house4Price, int buildPrice, int hotelprice, Color colour) {
+	public Normal(int id, String name, String type, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour) {
 		super(id, name, type, owner, baseValue, pawnValue);
 		this.houseCounter = 0;
-		this.house1Price = house1Price;
-		this.house2Price = house2Price;
-		this.house3Price = house3Price;
-		this.house4Price = house4Price;
-		this.hotelPrice = hotelprice;
+		for (int i = 0 ; i < housePrices.length ; i++) {
+			this.housePrices[i] = housePrices[i];
+		}
 		this.BuildPrice = buildPrice;
 		this.colour = colour;
 		// TODO Auto-generated constructor stub
@@ -32,38 +26,6 @@ public class Normal extends Property {
 	public void setHouseCounter(int houseCounter) {
 		this.houseCounter = houseCounter;
 	}
-	
-	public int getHouse1Price() {
-		return house1Price;
-	}
-
-	public void setHouse1Price(int house1Price) {
-		this.house1Price = house1Price;
-	}
-
-	public int getHouse2Price() {
-		return house2Price;
-	}
-
-	public void setHouse2Price(int house2Price) {
-		this.house2Price = house2Price;
-	}
-
-	public int getHouse3Price() {
-		return house3Price;
-	}
-
-	public void setHouse3Price(int house3Price) {
-		this.house3Price = house3Price;
-	}
-
-	public int getHouse4Price() {
-		return house4Price;
-	}
-
-	public void setHouse4Price(int house4Price) {
-		this.house4Price = house4Price;
-	}
 
 	public int getBuildPrice() {
 		return BuildPrice;
@@ -73,20 +35,12 @@ public class Normal extends Property {
 		BuildPrice = buildPrice;
 	}
 
-	public int getHousePrice() {
-		return house1Price;
+	public int[] getHousePrices() {
+		return housePrices;
 	}
 
-	public void setHousePrice(int value) {
-		house1Price = value;
-	}
-
-	public int getHotelPrice() {
-		return hotelPrice;
-	}
-
-	public void setHotelPrice(int value) {
-		hotelPrice = value;
+	public void setHousePrices(int[] housePrices) {
+		this.housePrices = housePrices;
 	}
 
 	public Color getColour() {
