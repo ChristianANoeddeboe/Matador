@@ -2,7 +2,7 @@ package core;
 
 public abstract class Property extends Field {
 
-	Player owner = null;
+	private Player owner = null;
 	private int baseValue = 0;
 	private int currentValue = 0;
 	private int pawnValue = 0;
@@ -30,8 +30,11 @@ public abstract class Property extends Field {
 	}
 	public void setCurrentValue(int value) { currentValue = value; }
 	public int getPawnValue() { return pawnValue; }
-	public void setPawnValue(int value) { pawnValue = value; } 
-	public Player getOwner() { return owner; }
+	public void setPawnValue(int value) { pawnValue = value; }
+	public boolean isOwned () {
+		return this.owner == null;
+	}
+	public String getOwner() { return owner.getName(); }
 	public void setOwner(Player newOwner) { owner = newOwner; }
 	public boolean getIsPawned() { return isPawned; }
 	public void setIsPawned(boolean b) { isPawned = b; }
