@@ -23,28 +23,33 @@ public class GUIController {
 
 	private void createFields(Field[] fields) {
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
-			switch (fields[i].type) {
+			switch (fields[i].) {
 				case "Start":
 					fields_GUI[i] = new GUI_Start();
 					break;
 				case "Normal":
 					Normal normal = (Normal)fields[i];
-					fields_GUI[i] = new GUI_Street(normal.getName(), String subText, String description, normal.getBaseValue(), normal.getColor, Color fgColor);
+					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Description", ""+normal.getBaseValue(), normal.getColour(), Color.WHITE);
 					break;
 				case "Brewery":
-					fields_GUI[i] = new GUI_Brewery();
+					Brewery brewery = (Brewery)fields[i];
+					fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "Subtext", "Description", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
 					break;
 				case "Shipping":
-					fields_GUI[i] = new GUI_Shipping();
+					Shipping shipping = (Shipping)fields[i];
+					fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "Subtext", "Description", ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
 					break;
 				case "Chance":
-					fields_GUI[i] = new GUI_Chance();
+					Chance chance = (Chance)fields[i];
+					fields_GUI[i] = new GUI_Chance(chance.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
-				case "Jail":
-					fields_GUI[i] = new GUI_Jail();
+				case "Prison":
+					Prison prison = (Prison)fields[i];
+					fields_GUI[i] = new GUI_Jail("default", prison.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
 				case "Parking":
-					fields_GUI[i] = new GUI_Refuge();
+					Parking parking = (Parking)fields[i];
+					fields_GUI[i] = new GUI_Refuge("default", parking.getName(), String subText, String description, Color bgColor, Color fgColor);
 					break;
 				case "Tax":
 					fields_GUI[i] = new GUI_Tax();
