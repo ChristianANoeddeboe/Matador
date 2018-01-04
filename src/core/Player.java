@@ -11,6 +11,7 @@ public class Player{
 	private int id_GUI;
 	private int startPosition;
 	private int endPosition;
+	private int prisontries;
 	/**
 	 * Constructor
 	 */
@@ -28,6 +29,7 @@ public class Player{
 		this.startPosition = 0;
 		this.prisonCard = 0;
 		this.id_GUI = idGui;
+		this.prisontries = 0;
 	}
 
 	public int getPrisonCard() {
@@ -97,5 +99,13 @@ public class Player{
 	}
 	public boolean isPrison() {
 		return this.prison;
+	}
+	
+	public void setPrisontries(int prisontries) {
+		this.prisontries = prisontries;
+	}
+	
+	public int getPrisontries() {
+		return prisontries;
 	}
 }
