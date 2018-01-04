@@ -23,7 +23,7 @@ public class GUIController {
 
 	private void createFields(Field[] fields) {
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
-			switch (fields[i].) {
+			switch (fields[i].getType()) {
 				case "Start":
 					fields_GUI[i] = new GUI_Start();
 					break;
@@ -49,10 +49,11 @@ public class GUIController {
 					break;
 				case "Parking":
 					Parking parking = (Parking)fields[i];
-					fields_GUI[i] = new GUI_Refuge("default", parking.getName(), String subText, String description, Color bgColor, Color fgColor);
+					fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
 				case "Tax":
-					fields_GUI[i] = new GUI_Tax();
+				    Tax tax = (Tax)fields[i];
+					fields_GUI[i] = new GUI_Tax(tax.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
 					break;
 				default:
 					fields_GUI[i] = new GUI_Empty();
@@ -64,6 +65,7 @@ public class GUIController {
 
 	private void addPlayer(int id, int startValue, String name) {
 		players_GUI[id] = new GUI_Player(name, startValue);
+		fields_GUI[0].setCar(players_GUI[id], true);
 	}
 
 	private void displayChanceCard(String cardText) {
