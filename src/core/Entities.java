@@ -48,19 +48,20 @@ public class Entities {
 					case "grå" : color = Color.gray; break;
 					
 				}
-				
+				int[] housearr = {0,
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus1")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus2")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus3")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus4")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"hotel"))};
 				fieldArr[i] = new Normal(i,
 						config.getTranslation("field"+(i+1)),
 						"normal", 
 						null, 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")), 
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
+						housearr, 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")), 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus1")), 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus2")), 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus3")), 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus4")), 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"build")), 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"hotel")),
 						color);
 			}
 			
