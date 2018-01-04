@@ -10,6 +10,7 @@ public class Player{
 	protected int prisonCard;
 	protected int id_GUI;
 	protected int startPosition;
+	protected int endPosition;
 	/**
 	 * Constructor
 	 */
@@ -29,6 +30,24 @@ public class Player{
 		this.id_GUI = idGui;
 	}
 
+	public int getPrisonCard() {
+		return prisonCard;
+	}
+	public void setPrisonCard(int prisonCard) {
+		this.prisonCard = prisonCard;
+	}
+	public int getId_GUI() {
+		return id_GUI;
+	}
+	public void setId_GUI(int id_GUI) {
+		this.id_GUI = id_GUI;
+	}
+	public int getEndPosition() {
+		return endPosition;
+	}
+	public void setEndPosition(int endPosition) {
+		this.endPosition = endPosition;
+	}
 	/**
 	 * @return the balance of the players account
 	 */
