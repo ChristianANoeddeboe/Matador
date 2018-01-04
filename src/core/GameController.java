@@ -7,7 +7,9 @@ public class GameController {
 		Entities entities = Entities.getInstance();
 		
 		Field fields[] = entities.getFieldArr();
-		System.out.println(((Normal) fields[1]).getBaseValue());
+		for ( int i = 0 ; i < fields.length ; i++) {
+			System.out.println(fields[i].getName());
+		}
 		
 		
 		
