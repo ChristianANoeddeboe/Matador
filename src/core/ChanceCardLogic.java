@@ -1,6 +1,6 @@
 package core;
 
-public class ChanceCardController {
+public class ChanceCardLogic {
 	private int[] chanceCardsArray = new int[32];
 	
 	public void getCard() {
