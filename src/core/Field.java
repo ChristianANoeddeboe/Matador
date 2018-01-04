@@ -4,7 +4,6 @@ public abstract class Field {
 
 	private String name;
 	private int id;
-	private String type;
 
 	public String getName() {
 		return name;
@@ -21,17 +20,8 @@ public abstract class Field {
 		id = i;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Field(int id, String name, String type) {
+	public Field(int id, String name) {
 		this.id = id;
 		this.name = name;
-		this.type = type;
 	}
 }
