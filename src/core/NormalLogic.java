@@ -1,0 +1,24 @@
+/**
+ * 
+ */
+package core;
+
+/**
+ * @author s175191
+ *
+ */
+public class NormalLogic {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	public static void logic() {
+		
+	}
+
+}
