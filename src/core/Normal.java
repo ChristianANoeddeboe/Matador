@@ -80,10 +80,10 @@ public class Normal extends Property {
 	}
 
 
-	private int getHousePrice() { return house1Price; }
-	private void setHousePrice(int value) { house1Price = value; }
-	private int getHotelPrice() { return hotelPrice; }
-	private void setHotelPrice(int value) { hotelPrice = value; }
-	private String getColour() { return colour; }
-	private void setColour(String type) { colour = type; }
+	public int getHousePrice() { return house1Price; }
+	public void setHousePrice(int value) { house1Price = value; }
+	public int getHotelPrice() { return hotelPrice; }
+	public void setHotelPrice(int value) { hotelPrice = value; }
+	public String getColour() { return colour; }
+	public void setColour(String type) { colour = type; }
 }
