@@ -30,7 +30,7 @@ public class Entities {
 			
 			// START FIELD
 			if(i == 0)
-				fieldArr[i] = new Start(i,config.getTranslation("field"+(i+1)),config.getTranslation("field"+(i+1)+"type"));
+				fieldArr[i] = new Start(i,config.getTranslation("field"+(i+1)),"start");
 			
 			// NORMAL FIELDS
 			if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
