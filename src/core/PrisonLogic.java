@@ -1,7 +1,15 @@
 package core;
 
 public class PrisonLogic {
-	public static String logic(int id, int totalFaceValue, Player currentPlayer) {
+	
+	public PrisonLogic(int id, int totalFaceValue, Player currentPlayer, int dice1value, int dice2value) {
+		logic(id, totalFaceValue, currentPlayer);
+		prisonCardLogic(currentPlayer);
+		payPrisonLogic(currentPlayer);
+		prisonRollLogic(currentPlayer, dice1value, dice2value);
+	}
+	
+	public String logic(int id, int totalFaceValue, Player currentPlayer) {
 		if(id == 30 && !currentPlayer.isPrison()){
 			//If we landed on prison and we are not prisoned
 			if(currentPlayer.getPrisonCard() > 0) {
@@ -29,20 +37,20 @@ public class PrisonLogic {
 		return "Nothing";
 	}
 
-	public static void prisonCardLogic(Player currentPlayer) {
+	public void prisonCardLogic(Player currentPlayer) {
 		if(currentPlayer.getPrisonCard() > 0) {
 			currentPlayer.setPrison(false);
 			currentPlayer.setPrisonCard(currentPlayer.getPrisonCard() - 1);
 		}
 	}
 
-	public static void payPrisonLogic(Player currentPlayer) {
+	public void payPrisonLogic(Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(1000);
 		currentPlayer.setPrisontries(0);
 		currentPlayer.setPrison(false);
 	}
 
-	public static void prisonRollLogic(Player currentPlayer, int dice1value, int dice2value) {
+	public void prisonRollLogic(Player currentPlayer, int dice1value, int dice2value) {
 		if(currentPlayer.getPrisontries() < 3) {
 			if(dice1value == dice2value) {
 				currentPlayer.setPrisontries(0);

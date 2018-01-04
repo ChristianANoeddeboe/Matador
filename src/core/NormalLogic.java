@@ -8,9 +8,14 @@ package core;
  *
  */
 public class NormalLogic {
+	
+	public NormalLogic(int id, Player currentPlayer) {
+		logic(id, currentPlayer);
+	}
+	
 	static Entities entities = Entities.getInstance();
 	static Normal[] fields = (Normal[]) entities.getFieldArr();
-	public static String logic(int id, Player currentPlayer) {
+	public String logic(int id, Player currentPlayer) {
 		if(fields[id].getOwner() == null) {
 			//Felt er ikke ejet
 			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {

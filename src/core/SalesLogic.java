@@ -2,7 +2,12 @@ package core;
 
 public class SalesLogic {
 	
-	public static String sellHouse(int id, Player currentPlayer) {
+	public SalesLogic(int id, Player currentPlayer) {
+		sellHouse(id, currentPlayer);
+		pawnProperty(id, currentPlayer);
+	}
+	
+	public String sellHouse(int id, Player currentPlayer) {
 		Entities entities = Entities.getInstance();
 		Normal[] fields = (Normal[]) entities.getFieldArr();
 		
@@ -10,7 +15,7 @@ public class SalesLogic {
 		return "SoldHouse, "+ fields[id].getHousePrice();
 	}
 	
-	public static String pawnProperty(int id, Player currentPlayer) {
+	public String pawnProperty(int id, Player currentPlayer) {
 		Entities entities = Entities.getInstance();
 		Property[] fields = (Property[]) entities.getFieldArr();
 		

@@ -1,7 +1,12 @@
 package core;
 
 public class ShippingLogic {
-	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
+	
+	public ShippingLogic(int id, int totalFaceValue, Player currentPlayer) {
+		logic(id, totalFaceValue, currentPlayer);
+	}
+	
+	public String logic(int id,int totalFaceValue, Player currentPlayer) {
 		Entities entities = Entities.getInstance();
 		Shipping[] fields = (Shipping[]) entities.getFieldArr();
 		if(fields[id].getOwner() == null) {
