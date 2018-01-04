@@ -10,12 +10,17 @@ public class TaxLogic {
 			return "saleLogic";
 		}
 	}
-	
+
 	public static String taxLogic4(Player currentPlayer, int choice) {
 		if(choice == 0) {
-			
+			//Calculate income tax
+		}else {
+			if(currentPlayer.getAccount().canAfford(4000)) {
+				currentPlayer.getAccount().withdraw(4000);
+				return "TaxPrice,"+4000;
+			}
+			return "SalesLogic";
 		}
-		
+		return null;
 	}
-	
 }

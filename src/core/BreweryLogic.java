@@ -5,9 +5,14 @@ package core;
  *
  */
 public class BreweryLogic {
-	static Entities entities = Entities.getInstance();
-	static Brewery[] fields = (Brewery[]) entities.getFieldArr();
-	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
+	
+	public BreweryLogic(int id, int totalFaceValue, Player currentPlayer) {
+		logic(id, totalFaceValue, currentPlayer);
+	}
+	
+	Entities entities = Entities.getInstance();
+	Brewery[] fields = (Brewery[]) entities.getFieldArr();
+	public String logic(int id,int totalFaceValue, Player currentPlayer) {
 		
 		if(fields[id].getOwner() == null) {
 			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
@@ -43,7 +48,7 @@ public class BreweryLogic {
 		}
 	}
 	
-	public static int getOwnedBrewery(int id) {
+	public int getOwnedBrewery(int id) {
 		if(id == 12) {
 			if(fields[28].getOwner() == fields[12].getOwner()) {
 				return 2;

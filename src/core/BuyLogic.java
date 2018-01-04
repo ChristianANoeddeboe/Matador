@@ -1,16 +1,24 @@
 package core;
 
 public class BuyLogic {
+	
+	public BuyLogic(int id, Player currentPlayer) {
+		propertyBuyLogic(id, currentPlayer);
+		houseBuyLogic(id, currentPlayer);
+		shippingBuyLogic(id, currentPlayer);
+		breweryBuyLogic(id, currentPlayer);
+	}
+	
 
 	static Entities entities = Entities.getInstance();
 	static Normal[] fields = (Normal[]) entities.getFieldArr();
-	public static String propertyBuyLogic(int id, Player currentPlayer) {
+	public String propertyBuyLogic(int id, Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(fields[id].getBaseValue());
 		fields[id].setOwner(currentPlayer);
 		return "Bought";
 	}
 
-	public static String houseBuyLogic(int id, Player currentPlayer) {
+	public String houseBuyLogic(int id, Player currentPlayer) {
 		// Player can buy new house and there is no more than 4 buildings on the field
 		if(currentPlayer.getAccount().canAfford(fields[id].getBuildPrice()) && fields[id].getHouseCounter() < 5) {
 			currentPlayer.getAccount().withdraw(fields[id].getBuildPrice());
@@ -29,7 +37,7 @@ public class BuyLogic {
 	}
 
 	// Calculates the new price of rent when a new house has been build
-	private static int calcHousePrice(int id, int houses) {
+	private int calcHousePrice(int id, int houses) {
 		switch (houses) {
 		case 1:
 			return fields[id].getHouse1Price();
@@ -46,7 +54,7 @@ public class BuyLogic {
 		}
 	}
 	//Buy shipping
-	public static String shippingBuyLogic(int id, Player currentPlayer) {
+	public String shippingBuyLogic(int id, Player currentPlayer) {
 		int counter = 0;
 		currentPlayer.getAccount().withdraw(fields[id].getBaseValue());
 		fields[id].setOwner(currentPlayer);
@@ -65,7 +73,7 @@ public class BuyLogic {
 		return "Bought";
 	}
 	//Calculate shipping value dependent on how many a player owns
-	public static int getShippingValue(int i) {
+	public int getShippingValue(int i) {
 		switch (i) {
 		case 1:
 			return 500;
@@ -80,10 +88,14 @@ public class BuyLogic {
 		}
 	}
 	//Buy brewery
-	public static String breweryBuyLogic(int id, Player currentPlayer) {
+	public String breweryBuyLogic(int id, Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(fields[id].getBaseValue());
 		fields[id].setOwner(currentPlayer);
 		return "Bought";
+	}
+	
+	public static String unPawnProperty(int id, Player currentPlayer) {
+		
 	}
 
 }
