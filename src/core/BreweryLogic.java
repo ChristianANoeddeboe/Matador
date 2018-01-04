@@ -8,8 +8,12 @@ public class BreweryLogic {
 	
 	public static String logic(int id,int totalFaceValue, Player currentPlayer) {
 		if(FieldArr[id].getOwner == null) {
-			//Felt er ikke ejet
-			return "NotOwned";
+			if(currentPlayer.getAccount().canAfford(FieldArr[id].currentValue)) {
+				return "NotOwned";
+			}
+			else {
+				return "CannotAfford";
+			}
 		}else{
 			if(FieldArr[id].getOwner == currentPlayer) {
 				//Felt er ejet af spilleren selv
