@@ -22,13 +22,8 @@ public class GameLogic {
 			return PrisonLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Tax":
 			if(id == 38) {
-				if(currentPlayer.getAccount().canAfford(2000)) {
-					currentPlayer.getAccount().withdraw(2000);
-					return "TaxPrice, "+2000;
-				}else {
-					//Pants�tning
-					return "saleLogic";
-				}
+				TaxLogic.taxLogic38(currentPlayer);
+				
 			}else {
 				//Sp�rg gui om hvad der skal ske
 				return "TaxChoice";
