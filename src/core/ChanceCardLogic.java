@@ -1,20 +1,32 @@
 package core;
 
+//Husk at tage field som en array, -1 på værdierne
+//Lav om til en singleton
+//evt bedre navne til værdier og objekter
+
 public class ChanceCardLogic {
-	private int[] chanceCardsArray = new int[31];
-	private Entities entities;
 	private PropertiesIO config = new PropertiesIO("config.properties");
 	private Property property;
+	private static int index;
+	private Entities entities;
 
 	public ChanceCardLogic () {
 
 	}
+
+	private int getIndex () {
+		return index;
+	}
 	
 	public String getCard(Player currentPlayer) {
 		String returnbesked = "";
-		int chancecardid  = entities.getChanceId();
-        int playerCurrentPosition;
-		switch (chancecardid) {
+		Field[] fields = entities.getFieldArr();
+		Player[] players = entities.getPlayers();
+		Property property = null;
+		Normal normal = null;
+		int estateTax;
+
+		switch (getIndex()) {
 			case 0:
 				currentPlayer.addPrisonCard();
 				returnbesked = config.getTranslation("chance1");
@@ -25,28 +37,33 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance2");
 				break;
 			case 2:
-				playerCurrentPosition = currentPlayer.getEndPosition();
-				if (playerCurrentPosition == 3) {
+				if (currentPlayer.getEndPosition() == 3) {
 					currentPlayer.setEndPosition(6);
 				}
 
-				if (playerCurrentPosition == 8) {
+				if (currentPlayer.getEndPosition() == 8) {
 					currentPlayer.setEndPosition(16);
 				}
 
-				if (playerCurrentPosition == 18 || playerCurrentPosition == 22) {
+				if (currentPlayer.getEndPosition() == 18 || currentPlayer.getEndPosition() == 22) {
 					currentPlayer.setEndPosition(26);
 				}
 
-				if (playerCurrentPosition == 34) {
+				if (currentPlayer.getEndPosition() == 34) {
 					currentPlayer.setEndPosition(36);
 				}
 
-				if (playerCurrentPosition == 37) {
+				if (currentPlayer.getEndPosition() == 37) {
 					currentPlayer.setEndPosition(6);
-					currentPlayer.getAccount().deposit(4000); //husk at checke med gameLogicController i forholdsvis til start penge
+					currentPlayer.getAccount().deposit(4000);
 				}
-				//(Ikke lavet endnu) hvis den ejes skal spilleren betale 2 gange den leje (brug field array referancerne)
+
+				property = (Property) fields[currentPlayer.getEndPosition()];
+
+				if (property.isOwned()) {
+                    currentPlayer.getAccount().withdraw(8000);
+                    property.getOwner().getAccount().deposit(8000);
+                }
 				returnbesked = config.getTranslation("chance3");
 				break;
 			case 3:
@@ -62,8 +79,20 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance6");
 				break;
 			case 6:
-				//loop der går igennem alle fields og checker ejeren og antal huse og hoteler
-				//800 pr hus og 2300 pr hotel
+				estateTax = 0;
+
+				for (int i = 0; i < fields.length; i++) {
+					normal = (Normal) fields[i];
+					if (normal.getOwner() == currentPlayer) {
+						if (normal.getHouseCounter() == 5) {
+							estateTax += 2300;
+						}
+						else {
+							estateTax += (800*(normal.getHouseCounter()));
+						}
+					}
+				}
+				currentPlayer.getAccount().withdraw(estateTax);
 				returnbesked = config.getTranslation("chance7");
 				break;
 			case 7:
@@ -91,7 +120,31 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance12");
 				break;
 			case 12:
-				//vent med at implentere
+				int playerValue = 0;
+				for (int i = 0; i < fields.length; i++) {
+					if (fields[i].getClass().getSimpleName() == "Normal") {
+						if (currentPlayer == property.getOwner()) {
+							property = (Property) fields[i];
+							normal = (Normal) fields[i];
+							playerValue += (property.getBaseValue());
+							if (normal.getHouseCounter() > 0) {
+								int buildPrice = normal.getBuildPrice();
+								for (int j = 0; j < normal.getHouseCounter(); j++) {
+									playerValue += buildPrice;
+								}
+							}
+						}
+					}
+
+					else if (fields[i].getClass().getSimpleName() == "Shipping" || fields[i].getClass().getSimpleName() == "Brewery") {
+						if (currentPlayer == property.getOwner()) {
+							playerValue += (property.getBaseValue());
+						}
+					}
+				}
+
+				if (playerValue <= 15000)
+					currentPlayer.getAccount().deposit(15000);
 				returnbesked = config.getTranslation("chance13");
 				break;
 			case 13:
@@ -103,8 +156,20 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance15");
 				break;
 			case 15:
-				//loop der går igennem alle fields og checker ejeren og antal huse og hoteler
-				//pr. hus 500 og 2000 pr hotel
+				estateTax = 0;
+
+				for (int i = 0; i < fields.length; i++) {
+					normal = (Normal) fields[i];
+					if (normal.getOwner() == currentPlayer) {
+						if (normal.getHouseCounter() == 5) {
+							estateTax += 2000;
+						}
+						else {
+							estateTax += (500*(normal.getHouseCounter()));
+						}
+					}
+				}
+				currentPlayer.getAccount().withdraw(estateTax);
 				returnbesked = config.getTranslation("chance16");
 				break;
 			case 16:
@@ -150,7 +215,14 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance25");
 				break;
 			case 25:
-				//tag 200 fra hver spiller og giv det til current spiller
+				int	present = 0;
+				for (int i = 0; i < players.length; i++) {
+					if (!(players[i] == currentPlayer)) {
+						players[i].getAccount().withdraw(200);
+						present += 200;
+					}
+				}
+				currentPlayer.getAccount().deposit(present);
 				returnbesked = config.getTranslation("chance26");
 				break;
 			case 26:
@@ -160,52 +232,11 @@ public class ChanceCardLogic {
 				currentPlayer.setEndPosition(6);
 				returnbesked = config.getTranslation("chance27");
 				break;
-			case 27:
-                currentPlayer.setEndPosition(11);
-                currentPlayer.isPrison();
-                returnbesked = config.getTranslation("chance2"); //Der findes to udgaver af kortet
-                break;
-			case 28:
-                currentPlayer.addPrisonCard();
-				returnbesked = config.getTranslation("chance1"); //Der findes to udgaver af kortet
-				break;
-			case 29:
-                playerCurrentPosition = currentPlayer.getEndPosition();
-                if (playerCurrentPosition == 3) {
-                    currentPlayer.setEndPosition(6);
-                }
-
-                if (playerCurrentPosition == 8) {
-                    currentPlayer.setEndPosition(16);
-                }
-
-                if (playerCurrentPosition == 18 || playerCurrentPosition == 22) {
-                    currentPlayer.setEndPosition(26);
-                }
-
-                if (playerCurrentPosition == 34) {
-                    currentPlayer.setEndPosition(36);
-                }
-
-                if (playerCurrentPosition == 37) {
-                    currentPlayer.setEndPosition(6);
-                    currentPlayer.getAccount().deposit(4000); //husk at checke med gameLogicController i forholdsvis til start penge
-                }
-                //(Ikke lavet endnu) hvis den ejes skal spilleren betale 2 gange den leje (brug field array referancerne)
-                returnbesked = config.getTranslation("chance3"); //Der findes to udgaver af kortet
-				break;
-			case 30:
-                currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance6"); //Der findes to udgaver af kortet
-				break;
-			case 31:
-                currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance6"); //Der findes to udgaver af kortet
-				break;
 			default:
 				returnbesked = "fejl, kort er ude af rækkevidte";
 				break;
 		}
+		index += 1;
 		return returnbesked;
 	}
 
