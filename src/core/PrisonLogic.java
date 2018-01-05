@@ -1,5 +1,9 @@
 package core;
-
+/**
+ * 
+ * @author Mathias Thejsen - Thejsen@live.dk
+ *
+ */
 public class PrisonLogic {
 	
 	public PrisonLogic(int id, int totalFaceValue, Player currentPlayer, int dice1value, int dice2value) {
