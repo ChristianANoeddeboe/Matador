@@ -18,7 +18,7 @@ public class TaxLogic {
 			currentPlayer.getAccount().withdraw(2000);
 			return "TaxPrice, "+2000;
 		}else {
-			//Pants�tning
+			//Pantsaetning
 			return "saleLogic";
 		}
 	}
@@ -31,7 +31,7 @@ public class TaxLogic {
 			for (int i = 0; i <= fields.length; i++) {
 				if(fields[i].getOwner() == currentPlayer) {
 					propertyvalue = propertyvalue + fields[i].getBaseValue();
-					if(fields[i].getType() == "Normal") {
+					if(fields[i].getClass().getSimpleName().equals("Normal")) {
 						Normal[] fields = (Normal[]) entities.getFieldArr();
 						for (int j = 0; j < fields[i].getHouseCounter(); j++) {
 							buildingvalue = buildingvalue + fields[i].getHousePrices()[i];
