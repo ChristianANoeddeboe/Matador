@@ -3,12 +3,12 @@ package core;
 public class TaxLogic {
 	static Entities entities = Entities.getInstance();
 	static Property[] fields = (Property[]) entities.getFieldArr();
-	public TaxLogic(int id, Player currentPlayer, int choice) {
+	public TaxLogic(int id, Player currentPlayer) {
 		if(id == 38) {
-		taxLogic38(currentPlayer);
+		//taxLogic38(currentPlayer);
 		}
 		else {
-			taxLogic4(currentPlayer, choice);
+		//	taxLogic4(currentPlayer, choice);
 		}
 	}
 	

@@ -1,6 +1,12 @@
 package core;
 
 public class GameLogic {
+	static Entities entities = Entities.getInstance();
+	static Field[] fields = entities.getFieldArr();
+	int dice1value = entities.getDiceArr()[0].getValue();
+	int dice2value = entities.getDiceArr()[1].getValue();
+	int totalFaceValue = dice1value+dice2value;
+	int id;
 	NormalLogic normalLogic;
 	BreweryLogic breweryLogic;
 	ShippingLogic shippingLogic;
@@ -9,30 +15,24 @@ public class GameLogic {
 	BuyLogic buyLogic;
 	SalesLogic salesLogic;
 	
-	
-	public GameLogic(int id, int totalFaceValue, Player currentPlayer,int dice1value, int dice2value, int choice) {
-		findLogic(currentPlayer);
+
+	public GameLogic(Player currentPlayer) {
+		id = currentPlayer.getEndPosition();
 		normalLogic = new NormalLogic(id, currentPlayer);
 		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
 		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
 		prisonLogic = new PrisonLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value);
-		taxLogic = new TaxLogic(id, currentPlayer, choice);
+		taxLogic = new TaxLogic(id, currentPlayer);
 		buyLogic = new BuyLogic(id, currentPlayer);
 		salesLogic = new SalesLogic(id, currentPlayer);
-		
+
 	}
+
+
 	
-	
-	static Entities entities = Entities.getInstance();
-	static Field[] fields = entities.getFieldArr();
-	
+
 	public String findLogic(Player currentPlayer) {
-		int dice1value = entities.getDiceArr()[0].getValue();
-		int dice2value = entities.getDiceArr()[1].getValue();
-		int totalFaceValue = dice1value+dice2value;
-		int id = currentPlayer.getEndPosition();
-		
-		
+		id = currentPlayer.getEndPosition();
 		switch (fields[id].getClass().getSimpleName()) {
 		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
@@ -40,7 +40,7 @@ public class GameLogic {
 			return breweryLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Chance":
 			//Kald magnuses metode
-		break;
+			break;
 		case "Shipping":
 			return shippingLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Parking":
