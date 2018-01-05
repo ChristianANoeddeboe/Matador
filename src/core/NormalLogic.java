@@ -8,9 +8,12 @@ package core;
  *
  */
 public class NormalLogic {
+	int id;
+	Player currentPlayer;
 	
 	public NormalLogic(int id, Player currentPlayer) {
-		logic(id, currentPlayer);
+		this.id = id;
+		this.currentPlayer = currentPlayer;
 	}
 	
 	static Entities entities = Entities.getInstance();
