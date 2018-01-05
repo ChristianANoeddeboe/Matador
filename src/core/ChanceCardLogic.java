@@ -1,32 +1,38 @@
 package core;
 
-//Husk at tage field som en array, -1 på værdierne
 //Lav om til en singleton
 //evt bedre navne til værdier og objekter
 
 public class ChanceCardLogic {
-	private PropertiesIO config = new PropertiesIO("config.properties");
 	private Property property;
 	private static int index;
 	private Entities entities;
+	private PropertiesIO config;
+	private Normal normal;
+	private int[] chanceCards;
+	private Player[] players;
+	private Field[] fields;
+	private String returnbesked;
 
 	public ChanceCardLogic () {
-
+		index = 1;
+		entities = Entities.getInstance();
+		config = entities.getConfig();
+		property = null;
+		normal = null;
+		chanceCards = entities.getChanceCardArr();
+		players = entities.getPlayers();
+		fields = entities.getFieldArr();
+		returnbesked = null;
 	}
 
-	private int getIndex () {
+	public int getIndex () {
 		return index;
 	}
 	
 	public String getCard(Player currentPlayer) {
-		String returnbesked = "";
-		Field[] fields = entities.getFieldArr();
-		Player[] players = entities.getPlayers();
-		Property property = null;
-		Normal normal = null;
-		int estateTax;
 
-		switch (getIndex()) {
+		switch (chanceCards[getIndex()]) {
 			case 0:
 				currentPlayer.addPrisonCard();
 				returnbesked = config.getTranslation("chance1");
@@ -79,7 +85,7 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance6");
 				break;
 			case 6:
-				estateTax = 0;
+				int estateTax = 0;
 
 				for (int i = 0; i < fields.length; i++) {
 					normal = (Normal) fields[i];
@@ -239,5 +245,4 @@ public class ChanceCardLogic {
 		index += 1;
 		return returnbesked;
 	}
-
 }
