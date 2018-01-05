@@ -2,8 +2,8 @@ package core;
 
 public class Parking extends Field {
 
-	public Parking(int id, String name) {
-		super(id, name);
+	Parking(int id, String name, String description) {
+		super(id, name, description);
 		// TODO Auto-generated constructor stub
 	}
 
