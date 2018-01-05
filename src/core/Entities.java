@@ -121,7 +121,7 @@ public class Entities {
 						descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
 						descriptionSplit[6]+"\n"+
 						descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
-						descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+"\n"+"+ 4 huse"+"\n"+
+						descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+" + husene"+"\n"+
 						descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
 				);
 
