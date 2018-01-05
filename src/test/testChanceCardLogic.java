@@ -1,24 +1,32 @@
 package test;
 
+import core.ChanceCardLogic;
+import core.Player;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Magnus Stjernborg Koch - s175189 og Zeth Benjamin ...
  * This class contains test functions for the object/class ChanceCardLogic
  */
-public class testChanceCardLogic {
+public class testChanceCardLogic{
+    private ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
+    Player player = new Player("Magnus", 1);
     @Test
     public void testSingletonFunctionality() {
-
     }
 
     @Test
     public void testIndex () {
-
+        assertEquals(1, chanceCardLogic.getIndex());
+        chanceCardLogic.getCard(player);
+        assertEquals(2, chanceCardLogic.getIndex());
     }
 
     @Test
     public void testChance1 () {
+        Player player = new Player("Magnus", 1);
 
     }
 
