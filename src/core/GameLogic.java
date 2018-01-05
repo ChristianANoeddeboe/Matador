@@ -25,15 +25,7 @@ public class GameLogic {
 	 * @param currentPlayer
 	 */
 	public GameLogic() {
-		id = currentPlayer.getEndPosition();
-		normalLogic = new NormalLogic(id, currentPlayer);
-		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
-		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
-		prisonLogic = new PrisonLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value);
-		taxLogic = new TaxLogic(id, currentPlayer);
-		buyLogic = new BuyLogic(id, currentPlayer);
-		salesLogic = new SalesLogic(id, currentPlayer);
-
+		
 	}
 
 
@@ -45,6 +37,14 @@ public class GameLogic {
 	 */
 	public String findLogic(Player currentPlayer) {
 		id = currentPlayer.getEndPosition();
+		normalLogic = new NormalLogic(id, currentPlayer);
+		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
+		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
+		prisonLogic = new PrisonLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value);
+		taxLogic = new TaxLogic(id, currentPlayer);
+		buyLogic = new BuyLogic(id, currentPlayer);
+		salesLogic = new SalesLogic(id, currentPlayer);
+
 		switch (fields[id].getClass().getSimpleName()) { // Check what kind of field we are landing on
 		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
