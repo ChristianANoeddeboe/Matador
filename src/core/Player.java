@@ -30,6 +30,7 @@ public class Player{
 		this.prisonCard = 0;
 		this.id_GUI = idGui;
 		this.prisontries = 0;
+		this.endPosition = this.startPosition;
 	}
 
 	public int getPrisonCard() {
