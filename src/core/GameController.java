@@ -1,24 +1,116 @@
 package core;
 
+import java.util.Arrays;
 
 public class GameController {
+	private Entities entities;
+	private GUIController guiController;
+	private GameLogic gameLogic;
+	private Player currentPlayer;
+	private boolean playerRoundHasEnded = false;
 	
 	public static void main(String Args[]) {
-		Entities entities = Entities.getInstance();
+		GameController gameController = new GameController();
 
-		Field[] fields = entities.getFieldArr();
-
-		GUIController guiController = GUIController.getInstance();
-		guiController.setupBoard(fields);
-		int playeramount = guiController.requestNumberOfPlayers();
-		guiController.setupPlayers(playeramount);
-		guiController.addPlayer(0, 4000, guiController.requestStringInput("Please write name."));
+		gameController.prepareGame();
 		
+		gameController.startGame();
+	
 	}
 	
 	public GameController() {
+		entities = Entities.getInstance();
+		guiController = GUIController.getInstance();
+		//gameLogic = new GameLogic()
 		
 	}
+	
+	public void prepareGame() {
+		guiController.setupBoard(entities.getFieldArr());
+		
+		int amountOfPlayers = guiController.requestNumberOfPlayers();
+		entities.initPlayers(amountOfPlayers);
+		
+		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
+			String name = guiController.requestStringInput("Please write name.");
+			Player player = new Player(name, i);
+			
+			guiController.addPlayer(0, 30000, name);
+			entities.getPlayers()[i] = player;
+		}
+		
+		currentPlayer = entities.getPlayers()[0];
+	}
+	
+	public void startGame() {
+		boolean gameIsLive = true;
+		
+		while(gameIsLive) {
+			choosePlayer();
+			startRound();
+			//gameIsLive = gameLogic.isGameOver;
+			
+		}
+	}
+	
+	public void playRound() {
+		rollDice();
+		gameLogic.findLogic(currentPlayer);
+	}
+		
+		
+		//switch (gameLogic.findLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value, choice))
+	
+	public void rollDice() {
+		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
+			entities.getDiceArr()[i].roll();
+	}
+	
+	public void startRound() {
+		String choices[] = {"Roll dice", "Build house/hotel","Auction"};
+		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+			case "Roll dice" : {
+				playRound();
+				break;
+			}
+			case "Build house/hotel" : {
+				build();
+				break;
+			}
+			case "Auction" : {
+				auction();
+				break;
+			}
+		}
+	}
+	
+	public void build() {
+		
+	}
+	
+	public void auction() {
+		
+	}
+	
+	public void choosePlayer() {
+		boolean choosePlayer = false;
+		if(playerRoundHasEnded) {
+			do {
+				for (Player player : entities.getPlayers()) {
+					if(choosePlayer)
+						currentPlayer = player;
+					
+					if(player == currentPlayer)
+						choosePlayer = true;
+				}
+			} while (choosePlayer);
+		}
+	}
+
+
+	
+	
+	
 	
 }
 
