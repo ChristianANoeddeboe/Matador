@@ -1,5 +1,9 @@
 package core;
-
+/**
+ * 
+ * @author Mathias Thejsen - Thejsen@live.dk
+ *
+ */
 public class PrisonLogic {
 	
 	public PrisonLogic(int id, int totalFaceValue, Player currentPlayer, int dice1value, int dice2value) {
@@ -10,19 +14,22 @@ public class PrisonLogic {
 	}
 	
 	public String logic(int id, int totalFaceValue, Player currentPlayer) {
+		String returnstr = "";
 		if(id == 30 && !currentPlayer.isPrison()){
 			//If we landed on prison and we are not prisoned
 			if(currentPlayer.getPrisonCard() > 0) {
 				//We have a prison card
-				return "PrisonCard";
-			}else if(currentPlayer.getAccount().canAfford(1000)) {
+				returnstr = returnstr + ",PrisonCard";
+			}
+			if(currentPlayer.getAccount().canAfford(1000)) {
 				//We can afford to pay the fine
-				return "PayFine";
+				returnstr = returnstr + ",CanPayFine";
 			}else {
 				//the player is prisoned
 				currentPlayer.setPrison(true);
-				return "PlayerPrisoned";
+				returnstr =  returnstr + ",CanNotPayFine";
 			}
+			return returnstr;
 		}else if(id == 30 && currentPlayer.isPrison()) {
 			if(currentPlayer.getPrisontries() < 3 ) {
 				return "PlayerRoll";

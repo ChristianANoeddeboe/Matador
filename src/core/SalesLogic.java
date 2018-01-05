@@ -1,5 +1,9 @@
 package core;
-
+/**
+ * 
+ * @author Simon Fritz
+ *
+ */
 public class SalesLogic {
 	
 	public SalesLogic(int id, Player currentPlayer) {
