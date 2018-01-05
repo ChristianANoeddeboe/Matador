@@ -11,7 +11,7 @@ public class GameLogic {
 	
 	
 	public GameLogic(int id, int totalFaceValue, Player currentPlayer,int dice1value, int dice2value, int choice) {
-		findLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value, choice);
+		findLogic(currentPlayer);
 		normalLogic = new NormalLogic(id, currentPlayer);
 		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
 		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
@@ -26,9 +26,11 @@ public class GameLogic {
 	static Entities entities = Entities.getInstance();
 	static Field[] fields = entities.getFieldArr();
 	
-	public String findLogic(int id, int totalFaceValue,Player currentPlayer, int dice1value, int dice2value, int choice) {
-		
-
+	public String findLogic(Player currentPlayer) {
+		int dice1value = entities.getDiceArr()[0].getValue();
+		int dice2value = entities.getDiceArr()[1].getValue();
+		int totalFaceValue = dice1value+dice2value;
+		int id = currentPlayer.getEndPosition();
 		
 		
 		switch (fields[id].getClass().getSimpleName()) {
@@ -48,7 +50,6 @@ public class GameLogic {
 		case "Tax":
 			if(id == 38) {
 				taxLogic.taxLogic38(currentPlayer);
-				
 			}else {
 				//Sp�rg gui om hvad der skal ske
 				return "TaxChoice";
