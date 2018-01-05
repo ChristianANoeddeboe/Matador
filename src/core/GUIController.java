@@ -31,7 +31,7 @@ public class GUIController {
 	public void createFields(Field[] fields) {
 		System.out.println(fields[0].getClass().getSimpleName());
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
-			switch (fields[i].getType()) {
+			switch (fields[i].getClass().getSimpleName().toLowerCase()) {
 				case "start":
 					fields_GUI[i] = new GUI_Start("Start", "Subtext", "Sd21o1iey2eh7812dg872hd2 \n 12eei21eh82dh2udh21 \n ud2hd2ui1dh2udh2u1d", Color.GREEN, Color.BLACK);
 					break;
