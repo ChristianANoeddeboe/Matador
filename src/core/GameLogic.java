@@ -1,5 +1,9 @@
 package core;
-
+/**
+ * 
+ * @author Mathias Thejsen - Thejsen@live.dk && Simon Fritz
+ *
+ */
 public class GameLogic {
 	static Entities entities = Entities.getInstance();
 	static Field[] fields = entities.getFieldArr();
@@ -15,7 +19,10 @@ public class GameLogic {
 	BuyLogic buyLogic;
 	SalesLogic salesLogic;
 	
-
+	/**
+	 * 
+	 * @param currentPlayer
+	 */
 	public GameLogic(Player currentPlayer) {
 		id = currentPlayer.getEndPosition();
 		normalLogic = new NormalLogic(id, currentPlayer);
@@ -30,7 +37,11 @@ public class GameLogic {
 
 
 	
-
+	/**
+	 * Called by the gamecontroller, this switch checks what kind of field we land on, and then calls a respective logic switch
+	 * @param currentPlayer
+	 * @return
+	 */
 	public String findLogic(Player currentPlayer) {
 		id = currentPlayer.getEndPosition();
 		switch (fields[id].getClass().getSimpleName()) {
