@@ -31,6 +31,7 @@ public class GameController {
 		
 		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
 			String name = guiController.requestStringInput("Please write name.");
+			if (name.equals("")) name = "player"+(i+1);
 			Player player = new Player(name, i);
 			
 			guiController.addPlayer(0, 30000, name);
