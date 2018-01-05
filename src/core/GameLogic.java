@@ -1,6 +1,8 @@
 package core;
 
 public class GameLogic {
+	static Entities entities = Entities.getInstance();
+	static Field[] fields = entities.getFieldArr();
 	NormalLogic normalLogic;
 	BreweryLogic breweryLogic;
 	ShippingLogic shippingLogic;
@@ -9,7 +11,7 @@ public class GameLogic {
 	BuyLogic buyLogic;
 	SalesLogic salesLogic;
 	
-	
+
 	public GameLogic(int id, int totalFaceValue, Player currentPlayer,int dice1value, int dice2value, int choice) {
 		findLogic(currentPlayer);
 		normalLogic = new NormalLogic(id, currentPlayer);
@@ -19,20 +21,19 @@ public class GameLogic {
 		taxLogic = new TaxLogic(id, currentPlayer, choice);
 		buyLogic = new BuyLogic(id, currentPlayer);
 		salesLogic = new SalesLogic(id, currentPlayer);
-		
+
 	}
+
+
 	
-	
-	static Entities entities = Entities.getInstance();
-	static Field[] fields = entities.getFieldArr();
-	
+
 	public String findLogic(Player currentPlayer) {
 		int dice1value = entities.getDiceArr()[0].getValue();
 		int dice2value = entities.getDiceArr()[1].getValue();
 		int totalFaceValue = dice1value+dice2value;
 		int id = currentPlayer.getEndPosition();
-		
-		
+
+
 		switch (fields[id].getClass().getSimpleName()) {
 		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
@@ -40,7 +41,7 @@ public class GameLogic {
 			return breweryLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Chance":
 			//Kald magnuses metode
-		break;
+			break;
 		case "Shipping":
 			return shippingLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Parking":
