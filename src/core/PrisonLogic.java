@@ -5,12 +5,18 @@ package core;
  *
  */
 public class PrisonLogic {
+	int id;
+	int totalFaceValue;
+	Player currentPlayer;
+	int dice1value;
+	int dice2value;
 	
 	public PrisonLogic(int id, int totalFaceValue, Player currentPlayer, int dice1value, int dice2value) {
-		logic(id, totalFaceValue, currentPlayer);
-		prisonCardLogic(currentPlayer);
-		payPrisonLogic(currentPlayer);
-		prisonRollLogic(currentPlayer, dice1value, dice2value);
+		this.id = id;
+		this.totalFaceValue = totalFaceValue;
+		this.currentPlayer = currentPlayer;
+		this.dice1value = dice1value;
+		this.dice2value = dice2value;
 	}
 	
 	public String logic(int id, int totalFaceValue, Player currentPlayer) {

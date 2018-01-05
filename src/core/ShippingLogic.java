@@ -1,9 +1,14 @@
 package core;
 
 public class ShippingLogic {
+	int id;
+	int totalFaceValue;
+	Player currentPlayer;
 	
 	public ShippingLogic(int id, int totalFaceValue, Player currentPlayer) {
-		logic(id, totalFaceValue, currentPlayer);
+		this.id = id;
+		this.totalFaceValue = totalFaceValue;
+		this.currentPlayer = currentPlayer;
 	}
 	
 	public String logic(int id,int totalFaceValue, Player currentPlayer) {

@@ -5,9 +5,14 @@ package core;
  *
  */
 public class BreweryLogic {
+	int id;
+	int totalFaceValue;
+	Player currentPlayer;
 	
 	public BreweryLogic(int id, int totalFaceValue, Player currentPlayer) {
-		logic(id, totalFaceValue, currentPlayer);
+		this.id = id;
+		this.totalFaceValue = totalFaceValue;
+		this.currentPlayer = currentPlayer;
 	}
 	
 	Entities entities = Entities.getInstance();
