@@ -6,13 +6,15 @@ public class GameController {
 	private Entities entities;
 	private GUIController guiController;
 	private GameLogic gameLogic;
+	private Player currentPlayer;
+	private boolean playerRoundHasEnded = false;
 	
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
 
-		//gameController.prepareGame();
+		gameController.prepareGame();
 		
-		//gameController.startGame();
+		gameController.startGame();
 	
 	}
 	
@@ -37,14 +39,71 @@ public class GameController {
 			entities.getPlayers()[i] = player;
 		}
 		
+		currentPlayer = entities.getPlayers()[0];
 	}
 	
 	public void startGame() {
-		int PlayerChooser = 0;
 		boolean gameIsLive = true;
 		
 		while(gameIsLive) {
+			choosePlayer();
+			startRound();
+			//gameIsLive = gameLogic.isGameOver;
 			
+		}
+	}
+	
+	public void playRound() {
+		rollDice();
+		gameLogic.findLogic(currentPlayer);
+	}
+		
+		
+		//switch (gameLogic.findLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value, choice))
+	
+	public void rollDice() {
+		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
+			entities.getDiceArr()[i].roll();
+	}
+	
+	public void startRound() {
+		String choices[] = {"Roll dice", "Build house/hotel","Auction"};
+		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+			case "Roll dice" : {
+				playRound();
+				break;
+			}
+			case "Build house/hotel" : {
+				build();
+				break;
+			}
+			case "Auction" : {
+				auction();
+				break;
+			}
+		}
+	}
+	
+	public void build() {
+		
+	}
+	
+	public void auction() {
+		
+	}
+	
+	public void choosePlayer() {
+		boolean choosePlayer = false;
+		if(playerRoundHasEnded) {
+			do {
+				for (Player player : entities.getPlayers()) {
+					if(choosePlayer)
+						currentPlayer = player;
+					
+					if(player == currentPlayer)
+						choosePlayer = true;
+				}
+			} while (choosePlayer);
 		}
 	}
 
