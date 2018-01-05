@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * @author Magnus Stjernborg Koch - s175189
+ * @author Magnus Stjernborg Koch - s175189 && Mathias
  * Translator is being handled using a properties file.
  */
 public class PropertiesIO {
