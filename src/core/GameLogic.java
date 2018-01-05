@@ -11,6 +11,7 @@ public class GameLogic {
 	int dice2value = entities.getDiceArr()[1].getValue();
 	int totalFaceValue = dice1value+dice2value;
 	int id;
+	Player currentPlayer;
 	NormalLogic normalLogic;
 	BreweryLogic breweryLogic;
 	ShippingLogic shippingLogic;
@@ -23,7 +24,7 @@ public class GameLogic {
 	 * Constructor for gamelogic
 	 * @param currentPlayer
 	 */
-	public GameLogic(Player currentPlayer) {
+	public GameLogic() {
 		id = currentPlayer.getEndPosition();
 		normalLogic = new NormalLogic(id, currentPlayer);
 		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
