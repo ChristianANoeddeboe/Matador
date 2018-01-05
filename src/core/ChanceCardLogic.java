@@ -15,7 +15,7 @@ public class ChanceCardLogic {
 	private String returnbesked;
 
 	public ChanceCardLogic () {
-		index = 1;
+		index = 0;
 		entities = Entities.getInstance();
 		config = entities.getConfig();
 		property = null;
@@ -25,6 +25,10 @@ public class ChanceCardLogic {
 		fields = entities.getFieldArr();
 		returnbesked = null;
 	}
+
+	public void setIndex (int value) {
+	    value = index;
+    }
 
 	public int getIndex () {
 		return index;
@@ -242,7 +246,10 @@ public class ChanceCardLogic {
 				returnbesked = "fejl, kort er ude af rækkevidte";
 				break;
 		}
-		index += 1;
+		if (index <= 31)
+		    index += 1;
+		else
+            setIndex(0);
 		return returnbesked;
 	}
 }
