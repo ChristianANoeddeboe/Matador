@@ -10,7 +10,7 @@ public class ShippingLogic {
 		Entities entities = Entities.getInstance();
 		Shipping[] fields = (Shipping[]) entities.getFieldArr();
 		if(fields[id].getOwner() == null) {
-			if(currentPlayer.getAccount().canAfford(fields[id].currentValue)) {
+			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
 				return "NotOwned";
 			}
 			else {
