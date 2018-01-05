@@ -20,7 +20,7 @@ public class GameLogic {
 	SalesLogic salesLogic;
 	
 	/**
-	 * 
+	 * Constructor for gamelogic
 	 * @param currentPlayer
 	 */
 	public GameLogic(Player currentPlayer) {
@@ -44,13 +44,12 @@ public class GameLogic {
 	 */
 	public String findLogic(Player currentPlayer) {
 		id = currentPlayer.getEndPosition();
-		switch (fields[id].getClass().getSimpleName()) {
+		switch (fields[id].getClass().getSimpleName()) { // Check what kind of field we are landing on
 		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
 		case "Brewery":
 			return breweryLogic.logic(id, totalFaceValue, currentPlayer);
 		case "Chance":
-			//Kald magnuses metode
 			break;
 		case "Shipping":
 			return shippingLogic.logic(id, totalFaceValue, currentPlayer);

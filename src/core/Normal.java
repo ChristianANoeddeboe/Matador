@@ -1,13 +1,28 @@
 package core;
 
 import java.awt.*;
-
+/**
+ * 
+ * @author Mathias Thejsen - Thejsen@live.dk && Simon Fritz
+ *
+ */
 public class Normal extends Property {
 	private int houseCounter;
 	private int[] housePrices = new int[6];
 	private int BuildPrice;
 	private Color colour;
-	
+	/**
+	 * Constructor for normal field logic
+	 * @param id
+	 * @param name
+	 * @param owner
+	 * @param baseValue
+	 * @param housePrices
+	 * @param pawnValue
+	 * @param buildPrice
+	 * @param colour
+	 * @param description
+	 */
 	Normal(int id, String name, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour, String description) {
 		super(id, name, owner, baseValue, pawnValue, description);
 		this.houseCounter = 0;
@@ -16,7 +31,6 @@ public class Normal extends Property {
 		}
 		this.BuildPrice = buildPrice;
 		this.colour = colour;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public int getHouseCounter() {
