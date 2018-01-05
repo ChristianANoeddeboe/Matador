@@ -21,7 +21,7 @@ public class GameController {
 	public GameController() {
 		entities = Entities.getInstance();
 		guiController = GUIController.getInstance();
-		//gameLogic = new GameLogic()
+		//gameLogic = new GameLogic();
 		
 	}
 	
@@ -62,8 +62,16 @@ public class GameController {
 		//switch (gameLogic.findLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value, choice))
 	
 	public void rollDice() {
+		int totalValue = 0;
 		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
-			entities.getDiceArr()[i].roll();
+			totalValue += entities.getDiceArr()[i].roll();
+		
+		//save start position and set new end position
+		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+		if( ( currentPlayer.getEndPosition() + totalValue ) > 39)
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 41);
+		else
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
 	}
 	
 	public void startRound() {
@@ -85,7 +93,7 @@ public class GameController {
 	}
 	
 	public void build() {
-		
+		playerRoundHasEnded = true;
 	}
 	
 	public void auction() {
@@ -97,13 +105,17 @@ public class GameController {
 		if(playerRoundHasEnded) {
 			do {
 				for (Player player : entities.getPlayers()) {
-					if(choosePlayer)
+					if(choosePlayer) {
 						currentPlayer = player;
+						choosePlayer = false;
+						break;
+					}
 					
 					if(player == currentPlayer)
 						choosePlayer = true;
 				}
 			} while (choosePlayer);
+			playerRoundHasEnded = false;
 		}
 	}
 
