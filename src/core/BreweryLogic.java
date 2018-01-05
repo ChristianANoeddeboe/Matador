@@ -5,41 +5,50 @@ package core;
  *
  */
 public class BreweryLogic {
+	int id;
+	int totalFaceValue;
+	Player currentPlayer;
 	
 	public BreweryLogic(int id, int totalFaceValue, Player currentPlayer) {
-		logic(id, totalFaceValue, currentPlayer);
+		this.id = id;
+		this.totalFaceValue = totalFaceValue;
+		this.currentPlayer = currentPlayer;
 	}
 	
 	Entities entities = Entities.getInstance();
 	Brewery[] fields = (Brewery[]) entities.getFieldArr();
+	/**
+	 * Logic method for brewery
+	 * @param id The current field -1
+	 * @param totalFaceValue The total face value of the dices, as landing on the field is dependent on it
+	 * @param currentPlayer Current player
+	 * @return Dependent on outcome but a string
+	 */
 	public String logic(int id,int totalFaceValue, Player currentPlayer) {
-		
-		if(fields[id].getOwner() == null) {
+		if(fields[id].getOwner() == null) { // Field is not owned
 			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
 				return "NotOwned";
 			}
 			else {
-				return "CannotAfford";
+				return "CannotAfford"; //Player can't afford field
 			}
 		}else{
-			if(fields[id].getOwner() == currentPlayer) {
-				//Felt er ejet af spilleren selv
+			if(fields[id].getOwner() == currentPlayer) { // Field is owned by the same player
 				return "OwnedByPlayer";
 			}else {
 				int rentPrice = 0;
-				//Hvormange bryggerier ejer spilleren?
+				//We calculate how many brewery the player owns and then calculate an according rentprice
 				if(getOwnedBrewery(id) == 2) {
 					rentPrice = 200*totalFaceValue;
-
 				}else {
 					rentPrice = 100*totalFaceValue;
 				}
-				//Spilleren har r�d til at betale leje
+				//We check if the landing player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
 					fields[id].getOwner().getAccount().deposit(rentPrice);
 					return "Rentprice,"+rentPrice;
-				}else {
+				}else { //The player can't afford and has to sell something
 					return "saleLogic";
 				}
 
@@ -47,7 +56,11 @@ public class BreweryLogic {
 
 		}
 	}
-	
+	/**
+	 * A method to check how many brewery a player owns
+	 * @param id The current brewery
+	 * @return 1 or 2 depending on how many brewery are owned by the same player
+	 */
 	public int getOwnedBrewery(int id) {
 		if(id == 12) {
 			if(fields[28].getOwner() == fields[12].getOwner()) {

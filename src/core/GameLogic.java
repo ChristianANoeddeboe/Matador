@@ -1,8 +1,16 @@
 package core;
-
+/**
+ * 
+ * @author Mathias Thejsen - Thejsen@live.dk && Simon Fritz
+ *
+ */
 public class GameLogic {
 	static Entities entities = Entities.getInstance();
 	static Field[] fields = entities.getFieldArr();
+	int dice1value = entities.getDiceArr()[0].getValue();
+	int dice2value = entities.getDiceArr()[1].getValue();
+	int totalFaceValue = dice1value+dice2value;
+	int id;
 	NormalLogic normalLogic;
 	BreweryLogic breweryLogic;
 	ShippingLogic shippingLogic;
@@ -11,14 +19,17 @@ public class GameLogic {
 	BuyLogic buyLogic;
 	SalesLogic salesLogic;
 	
-
-	public GameLogic(int id, int totalFaceValue, Player currentPlayer,int dice1value, int dice2value, int choice) {
-		findLogic(currentPlayer);
+	/**
+	 * 
+	 * @param currentPlayer
+	 */
+	public GameLogic(Player currentPlayer) {
+		id = currentPlayer.getEndPosition();
 		normalLogic = new NormalLogic(id, currentPlayer);
 		breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
 		shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
 		prisonLogic = new PrisonLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value);
-		taxLogic = new TaxLogic(id, currentPlayer, choice);
+		taxLogic = new TaxLogic(id, currentPlayer);
 		buyLogic = new BuyLogic(id, currentPlayer);
 		salesLogic = new SalesLogic(id, currentPlayer);
 
@@ -26,14 +37,13 @@ public class GameLogic {
 
 
 	
-
+	/**
+	 * Called by the gamecontroller, this switch checks what kind of field we land on, and then calls a respective logic switch
+	 * @param currentPlayer
+	 * @return
+	 */
 	public String findLogic(Player currentPlayer) {
-		int dice1value = entities.getDiceArr()[0].getValue();
-		int dice2value = entities.getDiceArr()[1].getValue();
-		int totalFaceValue = dice1value+dice2value;
-		int id = currentPlayer.getEndPosition();
-
-
+		id = currentPlayer.getEndPosition();
 		switch (fields[id].getClass().getSimpleName()) {
 		case "Normal":
 			return normalLogic.logic(id, currentPlayer);
