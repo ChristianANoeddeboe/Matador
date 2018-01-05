@@ -10,8 +10,8 @@ package core;
 public class NormalLogic {
 	int id;
 	Player currentPlayer;
-	static Entities entities = Entities.getInstance();
-	static Normal[] fields = (Normal[]) entities.getFieldArr();
+	Entities entities = Entities.getInstance();
+	Normal[] fields = (Normal[]) entities.getFieldArr();
 	/**
 	 * Constructor for normal logic
 	 * @param id
@@ -28,7 +28,8 @@ public class NormalLogic {
 	 * @return
 	 */
 	public String logic(int id, Player currentPlayer) {
-		if(fields[id].getOwner() == null) { // Check if field is owned
+		System.out.println("yaa");
+		if(((Property) fields[id]).getOwner() == null) { // Check if field is owned
 			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) { // If it is not owned and we can afford it
 				return "NotOwned";
 			}
