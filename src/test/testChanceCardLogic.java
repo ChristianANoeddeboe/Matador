@@ -1,6 +1,7 @@
 package test;
 
 import core.ChanceCardLogic;
+import core.Entities;
 import core.Player;
 import org.junit.Test;
 
@@ -12,22 +13,54 @@ import static org.junit.Assert.assertEquals;
  */
 public class testChanceCardLogic{
     private ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
-    Player player = new Player("Magnus", 1);
+    private Player testPlayer = new Player("Magnus", 1);
+    private Entities entities = Entities.getInstance();
+
+    public int[] chanceCardDeck () {
+        return entities.getChanceCardArr();
+    }
+
+    public int findChanceInDeck (int chance) {
+        int cardNumber = 0;
+        for (int i = 0; i < chanceCardDeck().length; i++) {
+            if (chanceCardDeck()[i] == chance)
+                chanceCardDeck()[i] = cardNumber;
+        }
+        return cardNumber;
+    }
+
+    public void testChance (int chance) {
+        chanceCardLogic.setIndex(findChanceInDeck(chance));
+        chanceCardLogic.getCard(testPlayer);
+    }
+
     @Test
     public void testSingletonFunctionality() {
     }
 
     @Test
     public void testIndex () {
-        assertEquals(1, chanceCardLogic.getIndex());
-        chanceCardLogic.getCard(player);
-        assertEquals(2, chanceCardLogic.getIndex());
+        assertEquals(0, chanceCardLogic.getIndex());
+        //assertEquals(0, chanceCardLogic.getIndex());
+
+    }
+
+    @Test
+    public void testRandomizerOfCardArray () {
+        goThrowCardDeck();
+    }
+
+    @Test
+    public void testAllChances () {
+        for (int i = 0; i < 32; i++) {
+            chanceCardLogic.getCard(testPlayer);
+            System.out.print(i);
+        }
     }
 
     @Test
     public void testChance1 () {
-        Player player = new Player("Magnus", 1);
-
+        testChance(1);
     }
 
     @Test
