@@ -1,7 +1,5 @@
 package core;
 
-import java.util.Arrays;
-
 public class GameController {
 	private Entities entities;
 	private GUIController guiController;
@@ -52,54 +50,7 @@ public class GameController {
 			
 		}
 	}
-	
-	public void playRound() {
-		rollDice();
-		gameLogic.findLogic(currentPlayer);
-	}
-		
-		
-		//switch (gameLogic.findLogic(id, totalFaceValue, currentPlayer, dice1value, dice2value, choice))
-	
-	public void rollDice() {
-		int totalValue = 0;
-		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
-			totalValue += entities.getDiceArr()[i].roll();
-		
-		//save start position and set new end position
-		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-		if( ( currentPlayer.getEndPosition() + totalValue ) > 39)
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 41);
-		else
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
-	}
-	
-	public void startRound() {
-		String choices[] = {"Roll dice", "Build house/hotel","Auction"};
-		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
-			case "Roll dice" : {
-				playRound();
-				break;
-			}
-			case "Build house/hotel" : {
-				build();
-				break;
-			}
-			case "Auction" : {
-				auction();
-				break;
-			}
-		}
-	}
-	
-	public void build() {
-		playerRoundHasEnded = true;
-	}
-	
-	public void auction() {
-		
-	}
-	
+
 	public void choosePlayer() {
 		boolean choosePlayer = false;
 		if(playerRoundHasEnded) {
@@ -119,7 +70,75 @@ public class GameController {
 		}
 	}
 
+	public void startRound() {
+		String choices[] = {"Roll dice", "Build house/hotel","Auction"};
+		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+			case "Roll dice" : {
+				playRound();
+				break;
+			}
+			case "Build house/hotel" : {
+				build();
+				break;
+			}
+			case "Auction" : {
+				auction();
+				break;
+			}
+		}
+	}
+	
+	public void playRound() {
+		rollDice();
+		switch(gameLogic.findLogic(currentPlayer)) {
+			case "NotOwned" : {
+				break;
+			}
+			case "CannotAfford" : {
+				break;
+			}
+			case "OwnedByPlayer" : {
+				break;
+			}
+			case "CanAfford" : {
+				break;
+			}
+			case "SaleLogic" : {
+				break;
+			}
+			case "Rentprice" : {
+				break;
+			}
+			case "saleLogic" : {
+				break;
+			}	
+		}	
+	}
+		
+		
+	public void rollDice() {
+		int totalValue = 0;
+		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
+			totalValue += entities.getDiceArr()[i].roll();
+		
+		//save start position and set new end position
+		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+		if( ( currentPlayer.getEndPosition() + totalValue ) > 39)
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 41);
+		else
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
+	}
+	
 
+	
+	public void build() {
+		playerRoundHasEnded = true;
+	}
+	
+	public void auction() {
+		
+	}
+	
 	
 	
 	
