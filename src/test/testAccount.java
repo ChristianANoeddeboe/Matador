@@ -2,8 +2,6 @@ package test;
 
 import core.Account;
 import core.Player;
-import gui_fields.GUI_Player;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class testAccount {
     //One player is created for testing purposes
-    private Player player = new Player("player1");
+    private Player player = new Player("player1",1);
     //The account related to the player here gets an reference
     private Account player1_Account = player.getAccount();
 

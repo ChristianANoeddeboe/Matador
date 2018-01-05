@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  *
  */
 public class testPlayer extends Player {
-	Player player = new Player("Grethe");
+	Player player = new Player("Grethe",1);
 	/**
 	 * Tests the constructor to insure the values are as expected
 	 */
