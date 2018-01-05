@@ -2,14 +2,14 @@ package core;
 
 public abstract class Property extends Field {
 
-	private Player owner = null;
-	private int baseValue = 0;
-	private int currentValue = 0;
-	private int pawnValue = 0;
+	private Player owner;
+	private int baseValue;
+	private int currentValue;
+	private int pawnValue;
 	private boolean isPawned;
 
-	public Property(int id, String name, Player owner, int baseValue, int pawnValue) {
-		super(id, name);
+	Property(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
+		super(id, name, description);
 		this.baseValue = baseValue;
 		this.pawnValue = pawnValue;
 		this.owner = owner;

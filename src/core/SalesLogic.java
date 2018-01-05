@@ -1,10 +1,16 @@
 package core;
-
+/**
+ * 
+ * @author Simon Fritz
+ *
+ */
 public class SalesLogic {
+	int id;
+	Player currentPlayer;
 	
 	public SalesLogic(int id, Player currentPlayer) {
-		sellHouse(id, currentPlayer);
-		pawnProperty(id, currentPlayer);
+		this.id = id;
+		this.currentPlayer = currentPlayer;
 	}
 	
 	public String sellHouse(int id, Player currentPlayer) {

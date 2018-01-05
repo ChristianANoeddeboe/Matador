@@ -1,16 +1,21 @@
 package core;
 
 public class ShippingLogic {
+	int id;
+	int totalFaceValue;
+	Player currentPlayer;
 	
 	public ShippingLogic(int id, int totalFaceValue, Player currentPlayer) {
-		logic(id, totalFaceValue, currentPlayer);
+		this.id = id;
+		this.totalFaceValue = totalFaceValue;
+		this.currentPlayer = currentPlayer;
 	}
 	
 	public String logic(int id,int totalFaceValue, Player currentPlayer) {
 		Entities entities = Entities.getInstance();
 		Shipping[] fields = (Shipping[]) entities.getFieldArr();
 		if(fields[id].getOwner() == null) {
-			if(currentPlayer.getAccount().canAfford(fields[id].currentValue)) {
+			if(currentPlayer.getAccount().canAfford(fields[id].getCurrentValue())) {
 				return "NotOwned";
 			}
 			else {
