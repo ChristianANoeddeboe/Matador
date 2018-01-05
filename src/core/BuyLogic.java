@@ -61,13 +61,13 @@ public class BuyLogic {
 		fields[id].setOwner(currentPlayer);
 		Property[] fields = (Property[]) entities.getFieldArr(); 
 		for (int i = 0; i <= fields.length; i++) {
-			if(fields[i].getOwner() == currentPlayer && fields[i].getType().equals("shipping")) {
+			if(fields[i].getOwner() == currentPlayer && fields[i].getClass().getSimpleName().equals("shipping")) {
 				counter ++;
 			}
 		}
 		int rent = getShippingValue(counter);
 		for (int i = 0; i <= fields.length; i++) {
-			if(fields[i].getOwner() == currentPlayer && fields[i].getType().equals("shipping")) {
+			if(fields[i].getOwner() == currentPlayer && fields[i].getClass().getSimpleName().equals("shipping")) {
 				fields[i].setCurrentValue(getShippingValue(counter));
 			}
 		}

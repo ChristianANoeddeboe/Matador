@@ -31,13 +31,13 @@ public class GUIController {
 	public void createFields(Field[] fields) {
 		System.out.println(fields[0].getClass().getSimpleName());
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
-			switch (fields[i].getType()) {
+			switch (fields[i].getClass().getSimpleName().toLowerCase()) {
 				case "start":
 					fields_GUI[i] = new GUI_Start("Start", "Subtext", "Sd21o1iey2eh7812dg872hd2 \n 12eei21eh82dh2udh21 \n ud2hd2ui1dh2udh2u1d", Color.GREEN, Color.BLACK);
 					break;
 				case "normal":
 					Normal normal = (Normal)fields[i];
-					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Description", ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
+					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Leje af grund	"+normal.getHousePrices()[0]+"\nm/ 1 hus	>> "+normal.getHousePrices()[1]+" kr.\n >> 2 huse	>> "+normal.getHousePrices()[2]+" kr.\n >> 3 huse	>> ", ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
 					break;
 				case "brewery":
 					Brewery brewery = (Brewery)fields[i];
@@ -112,7 +112,6 @@ public class GUIController {
 		int input = gui.getUserInteger("Choose number of players.", 3, 6);
 		players_GUI = new GUI_Player[input];
 		return input;
-
 	}
 
 	/**

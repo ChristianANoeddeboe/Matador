@@ -8,8 +8,8 @@ public abstract class Property extends Field {
 	private int pawnValue = 0;
 	private boolean isPawned;
 
-	public Property(int id, String name, String type, Player owner, int baseValue, int pawnValue) {
-		super(id, name, type);
+	public Property(int id, String name, Player owner, int baseValue, int pawnValue) {
+		super(id, name);
 		this.baseValue = baseValue;
 		this.pawnValue = pawnValue;
 		this.owner = owner;
