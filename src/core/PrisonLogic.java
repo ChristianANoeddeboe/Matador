@@ -5,31 +5,28 @@ package core;
  *
  */
 public class PrisonLogic {
-	int id,totalFaceValue,dice1value,dice2value;
-	Player currentPlayer;
+	private int id,totalFaceValue,dice1value,dice2value;
+	private Player currentPlayer;
 	/**
 	 * Constructor for prison logic
 	 * @param id
-	 * @param totalFaceValue
 	 * @param currentPlayer
 	 * @param dice1value
 	 * @param dice2value
 	 */
-	public PrisonLogic(int id, int totalFaceValue, Player currentPlayer, int dice1value, int dice2value) {
+	public PrisonLogic(int id, Player currentPlayer, int dice1value, int dice2value) {
 		this.id = id;
-		this.totalFaceValue = totalFaceValue;
 		this.currentPlayer = currentPlayer;
 		this.dice1value = dice1value;
 		this.dice2value = dice2value;
+		this.totalFaceValue = dice1value + dice2value;
 	}
 	/**
 	 * Decides what should happen when landing on the field
-	 * @param id
-	 * @param totalFaceValue
 	 * @param currentPlayer
 	 * @return
 	 */
-	public String logic(int id, int totalFaceValue, Player currentPlayer) {
+	protected String logic(Player currentPlayer) {
 		String returnstr = ""; // Used to build a series of strings for the gui to display all options
 		if(id == 30 && !currentPlayer.isPrison()){ // Checking if the player is not prisoned and if it is the right prison field
 			//If we landed on prison and we are not prisoned
@@ -60,7 +57,7 @@ public class PrisonLogic {
 	 * Logic for when a player uses their prison card
 	 * @param currentPlayer
 	 */
-	public void prisonCardLogic(Player currentPlayer) {
+	protected void prisonCardLogic(Player currentPlayer) {
 		if(currentPlayer.getPrisonCard() > 0) { // We make sure we have atleast 1 prison card
 			currentPlayer.setPrison(false); // We use it, and thereby get out
 			currentPlayer.setPrisonCard(currentPlayer.getPrisonCard() - 1); // We substract a prison card from the player
@@ -70,7 +67,7 @@ public class PrisonLogic {
 	 * Logic for when the player wnats to get out of jail
 	 * @param currentPlayer
 	 */
-	public void payPrisonLogic(Player currentPlayer) {
+	protected void payPrisonLogic(Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(1000); // We withdraw 1000
 		currentPlayer.setPrisontries(0); // Set the prison tries to 0
 		currentPlayer.setPrison(false); // Put the prison state as fals
@@ -80,12 +77,10 @@ public class PrisonLogic {
 	/**
 	 * Logic for when a player wants to get out of jail
 	 * @param currentPlayer 
-	 * @param dice1value
-	 * @param dice2value
 	 */
-	public void prisonRollLogic(Player currentPlayer, int dice1value, int dice2value) {
+	protected void prisonRollLogic(Player currentPlayer) {
 		if(currentPlayer.getPrisontries() < 3) { // Make sure the player has not tried too many times
-			if(dice1value == dice2value) { // Make sure it is a pairs
+			if(this.dice1value == this.dice2value) { // Make sure it is a pairs
 				currentPlayer.setPrisontries(0); // If it is, then we let the player out of jail
 				currentPlayer.setPrison(false);
 			}

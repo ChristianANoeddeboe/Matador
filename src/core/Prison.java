@@ -11,7 +11,7 @@ public class Prison extends Field {
 	 * @param name
 	 * @param description
 	 */
-	Prison(int id, String name, String description) {
+	public Prison(int id, String name, String description) {
 		super(id, name, description);
 	}
 

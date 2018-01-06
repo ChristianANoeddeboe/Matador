@@ -19,7 +19,7 @@ public abstract class Property extends Field {
 	 * @param pawnValue
 	 * @param description
 	 */
-	Property(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
+	public Property(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
 		super(id, name, description);
 		this.baseValue = baseValue;
 		this.pawnValue = pawnValue;
