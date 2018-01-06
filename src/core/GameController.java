@@ -31,9 +31,8 @@ public class GameController {
 		
 		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
 			String name = guiController.requestStringInput("Please write name.");
-			if (name.equals("")) name = "player"+(i+1);
+			if (name.equals("")) { name = "player"+(i+1);}
 			Player player = new Player(name, i);
-			
 			guiController.addPlayer(0, 30000, name);
 			entities.getPlayers()[i] = player;
 		}
@@ -92,6 +91,7 @@ public class GameController {
 	public void playRound() {
 		rollDice();
 		System.out.println(gameLogic.findLogic(currentPlayer));
+		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
 				break;
@@ -120,9 +120,10 @@ public class GameController {
 		
 	public void rollDice() {
 		int totalValue = 0;
-		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
+		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ ) {
 			totalValue += entities.getDiceArr()[i].roll();
-		
+		}
+		guiController.showDice();
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if( ( currentPlayer.getEndPosition() + totalValue ) > 39)
