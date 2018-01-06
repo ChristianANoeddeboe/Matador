@@ -1,5 +1,9 @@
 package core;
-
+/**
+ * 
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
+ *
+ */
 public class TaxLogic {
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();

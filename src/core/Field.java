@@ -1,7 +1,7 @@
 package core;
 /**
  * Basic field
- * @author Mathias Thejsen - Thejsen@live.dk && Simon
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
 public abstract class Field {

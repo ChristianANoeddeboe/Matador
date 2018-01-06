@@ -1,7 +1,7 @@
 package core;
 /**
  * 
- * @author Simon Fritz
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
 public class SalesLogic {
