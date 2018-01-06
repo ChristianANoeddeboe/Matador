@@ -12,7 +12,7 @@ public class Parking extends Field {
 	 * @param name
 	 * @param description
 	 */
-	Parking(int id, String name, String description) {
+	public Parking(int id, String name, String description) {
 		super(id, name, description);
 	}
 

@@ -57,30 +57,18 @@ public class Player{
 	public void setEndPosition(int endPosition) {
 		this.endPosition = endPosition;
 	}
-	/**
-	 * @return the balance of the players account
-	 */
 	public Account getAccount() {
 		return this.account;
 	}
-
-	/**
-	 * @param balance the balance to set of the given players account
-	 */
+	
 	public void setAccount(Account account) {
 		this.account = account;
 	}
 
-	/**
-	 * @return the name of the player
-	 */
 	public String getName() {
 		return this.name;
 	}
 
-	/**
-	 * @param sets the name of the player
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -88,9 +76,6 @@ public class Player{
 		return this.startPosition;
 	}
 
-	/**
-	 * @param sets the name of the player
-	 */
 	public void setStartPosition(int fieldNumber) {
 		this.startPosition = fieldNumber;
 	}

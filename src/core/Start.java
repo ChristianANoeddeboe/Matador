@@ -11,8 +11,7 @@ public class Start extends Field {
 	 * @param name Field name
 	 * @param description Field description
 	 */
-	Start(int id, String name, String description) {
+	public Start(int id, String name, String description) {
 		super(id, name, description);
-			// TODO Auto-generated constructor stub
 	}
 }

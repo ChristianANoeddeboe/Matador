@@ -90,6 +90,7 @@ public class GameController {
 	
 	public void playRound() {
 		rollDice();
+		System.out.println(gameLogic.findLogic(currentPlayer));
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
 				break;

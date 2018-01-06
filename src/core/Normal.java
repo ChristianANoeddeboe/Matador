@@ -23,7 +23,7 @@ public class Normal extends Property {
 	 * @param colour
 	 * @param description
 	 */
-	Normal(int id, String name, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour, String description) {
+	public Normal(int id, String name, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour, String description) {
 		super(id, name, owner, baseValue, pawnValue, description);
 		this.houseCounter = 0;
 		for (int i = 0 ; i < housePrices.length ; i++) {
