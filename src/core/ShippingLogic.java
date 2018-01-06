@@ -1,7 +1,7 @@
 package core;
 /**
  * Logic for landing on a shipping field
- * @author Mathias Thejsen - Thejsen@live.dk
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
 public class ShippingLogic {

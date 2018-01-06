@@ -1,7 +1,7 @@
 package core;
 /**
  * 
- * @author Mathias Thejsen - Thejsen@live.dk && simon fritz
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
 public class Shipping extends Property {

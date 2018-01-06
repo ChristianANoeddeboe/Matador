@@ -4,7 +4,7 @@
 package core;
 
 /**
- * @author Simon og Mathias
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
 public class NormalLogic {
