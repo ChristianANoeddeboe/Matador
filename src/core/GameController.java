@@ -19,7 +19,7 @@ public class GameController {
 	public GameController() {
 		entities = Entities.getInstance();
 		guiController = GUIController.getInstance();
-		//gameLogic = new GameLogic();
+		gameLogic = new GameLogic();
 		
 	}
 	
