@@ -4,6 +4,7 @@ import gui_fields.*;
 import gui_main.GUI;
 
 import java.awt.*;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -72,22 +73,62 @@ public class GUIController {
 		gui = new GUI(fields_GUI);
 	}
 
+	/**
+	 * Used when adding a new player to the board.
+	 * @param id the id associated with the Player object.
+	 * @param startValue value the player starts with.
+	 * @param name name of the player.
+	 */
 	public void addPlayer(int id, int startValue, String name) {
-		players_GUI[id] = new GUI_Player(name, startValue);
+		System.out.println(id);
+		players_GUI[id] = new GUI_Player(name, startValue, createCar(id));
 		fields_GUI[0].setCar(players_GUI[id], true);
 		gui.addPlayer(players_GUI[id]);
 	}
 
-	public void displayChanceCard(String cardText) {
-		gui.displayChanceCard(cardText);
+	/**
+	 * Creates the GUI vehicle for a player.
+	 * @param id the id associated with the player.
+	 * @return object type GUI_Car.
+	 */
+	private GUI_Car createCar(int id) {
+		Color color = getVehicleColor(id);
+		return new GUI_Car(color, color, GUI_Car.Type.CAR, GUI_Car.Pattern.FILL);
+	}
+
+	/**
+	 * Displays a message in the middle of the board, with black text on white background.
+	 * @param message the message you would like displayed on the card.
+	 */
+	public void displayChanceCard(String message) {
+		gui.displayChanceCard(message);
 	}
 
 	public void updatePlayerPosition(int id, int newPos, int oldPos) {
+		if (oldPos > newPos) {
+			for (int i = oldPos ; i < fields_GUI.length-1 ; i++) {
+				fields_GUI[i].setCar(players_GUI[id], false);
+				fields_GUI[i+1].setCar(players_GUI[id], true);
+				try {
+					TimeUnit.MILLISECONDS.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			fields_GUI[fields_GUI.length-1].setCar(players_GUI[id], false);
+			fields_GUI[0].setCar(players_GUI[id], true);
+			oldPos = 0;
+			try {
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		for (int i = oldPos ; i < newPos ; i++) {
 			fields_GUI[i].setCar(players_GUI[id], false);
 			fields_GUI[i+1].setCar(players_GUI[id], true);
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.MILLISECONDS.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -98,11 +139,22 @@ public class GUIController {
 		for (int i = oldValue ; i < newValue ; i++) {
 			players_GUI[id].setBalance(i);
 			try {
-				TimeUnit.MILLISECONDS.sleep(1);
+				TimeUnit.MICROSECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Moves the players vehicle from the GUI to the jail field.
+	 * @param id the id associated with the player.
+	 * @param playerPos position of the player.
+	 * @param jailPos position of the jail.
+	 */
+	public void jailPlayer(int id, int playerPos, int jailPos) {
+		fields_GUI[playerPos].setCar(players_GUI[id],false);
+		fields_GUI[jailPos].setCar(players_GUI[id],true);
 	}
 
 	/**
@@ -141,8 +193,49 @@ public class GUIController {
 	public void writeMessage(String message) {
 		gui.showMessage(message);
 	}
-	
+
+	/**
+	 * Changes the dice on the board.
+	 */
 	public void showDice() {
 		gui.setDice(Entities.getInstance().getDiceArr()[0].getValue(), Entities.getInstance().getDiceArr()[1].getValue());
+	}
+
+	/**
+	 * Returns the color depending on what number the player is.
+	 * @return Color
+	 */
+	public Color getVehicleColor(int id) {
+		switch (id) {
+			case 0:
+				return Color.BLUE;
+			case 1:
+				return Color.RED;
+			case 2:
+				return Color.GREEN;
+			case 3:
+				return Color.YELLOW;
+			case 4:
+				return Color.MAGENTA;
+			case 5:
+				return Color.CYAN;
+			case 6:
+				return Color.WHITE;
+			default:
+				return Color.BLUE;
+		}
+	}
+
+	/**
+	 * Used when starting new game. Will reset all players position to start and set all their money to the start money.
+	 */
+	public void resetUIPlayers(int startBalance) {
+		for (GUI_Field field : fields_GUI) {
+			field.removeAllCars();
+		}
+		for (GUI_Player player : players_GUI) {
+			fields_GUI[0].setCar(player, true);
+			player.setBalance(startBalance);
+		}
 	}
 }
