@@ -68,20 +68,19 @@ public class Entities {
 
 	private void initFields() {
 		fieldArr = new Field[40];
-		for (int i = 0; i <= fieldArr.length ; i++) {
-
+		for (int i = 0; i < fieldArr.length ; i++) {
 			String description = "";
 			String[] descriptionSplit;
 
 			// START FIELD
 			if(i == 0) {
-				description = config.getTranslation("field"+(i+1)+"description");
-				descriptionSplit = description.split(",");
-				description = descriptionSplit[0]+config.getTranslation("field"+(i+1)+"value")+descriptionSplit[1];
-				fieldArr[i] = new Start(i,
-						config.getTranslation("field"+(i+1)),
-						description);
-			}
+                description = config.getTranslation("startdescription");
+                descriptionSplit = description.split(",");
+                description = (descriptionSplit[0]+config.getTranslation("startpassedvalue")+descriptionSplit[1]);
+                fieldArr[i] = new Start(i,
+                        config.getTranslation("field"+(i+1)),
+                        description);
+            }
 			// NORMAL FIELDS
 			if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
 				Color color;
@@ -108,6 +107,24 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hotel"))
 				};
 
+				descriptionSplit = new String[10];
+                for (int j = 0 ; j < descriptionSplit.length ; j++) {
+                    descriptionSplit[j] = config.getTranslation("propertydesc"+(j+1));
+                }
+
+                description = (
+                		descriptionSplit[0]+config.getTranslation("field"+(i+1)+"leje")+"\n"+
+						descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
+						descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
+						descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
+						descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
+						descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
+						descriptionSplit[6]+"\n"+
+						descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
+						descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+" + husene"+"\n"+
+						descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
+				);
+
 				fieldArr[i] = new Normal(i,
 						config.getTranslation("field"+(i+1)), 
 						null,
@@ -116,7 +133,7 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")), 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"build")), 
 						color,
-						"test");
+						description);
 			}
 
 			// SHIPPING FIELDS

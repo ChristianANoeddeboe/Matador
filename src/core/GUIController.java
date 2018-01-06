@@ -33,15 +33,16 @@ public class GUIController {
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
 			switch (fields[i].getClass().getSimpleName().toLowerCase()) {
 				case "start":
-					fields_GUI[i] = new GUI_Start("Start", "Subtext", "Sd21o1iey2eh7812dg872hd2 \n 12eei21eh82dh2udh21 \n ud2hd2ui1dh2udh2u1d", Color.GREEN, Color.BLACK);
+					Start start = (Start)fields[i];
+					fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
 					break;
 				case "normal":
 					Normal normal = (Normal)fields[i];
-					fields_GUI[i] = new GUI_Street(normal.getName(), "Subtext", "Leje af grund	"+normal.getHousePrices()[0]+"\nm/ 1 hus	>> "+normal.getHousePrices()[1]+" kr.\n >> 2 huse	>> "+normal.getHousePrices()[2]+" kr.\n >> 3 huse	>> ", ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
+					fields_GUI[i] = new GUI_Street(normal.getName(), "", normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
 					break;
 				case "brewery":
 					Brewery brewery = (Brewery)fields[i];
-					fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "Subtext", "Description", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
+					fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "", "0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
 					break;
 				case "shipping":
 					Shipping shipping = (Shipping)fields[i];
