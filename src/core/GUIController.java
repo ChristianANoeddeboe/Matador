@@ -4,7 +4,6 @@ import gui_fields.*;
 import gui_main.GUI;
 
 import java.awt.*;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
