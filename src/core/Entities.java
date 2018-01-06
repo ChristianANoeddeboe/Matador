@@ -51,7 +51,10 @@ public class Entities {
 			chanceCardArr[i] = rndNumber;
 		}
 	}
-
+	/**
+	 * 
+	 * @param amountOfDies
+	 */
 	private void initDies(int amountOfDies) {
 		diceArr = new Dice[amountOfDies];
 		for ( int i = 0 ; i < diceArr.length ; i++)
@@ -66,25 +69,58 @@ public class Entities {
 		return entities;
 	}
 
+	/**
+	 * initializes the fields
+	 */
 	private void initFields() {
-		fieldArr = new Field[40];
-		for (int i = 0; i < fieldArr.length ; i++) {
+		fieldArr = new Field[40]; // We create an array of the lenght 40 of the type field
+		for (int i = 0; i < fieldArr.length ; i++) { // Loop through all our fields
 			String description = "";
 			String[] descriptionSplit;
 
-			// START FIELD
-			if(i == 0) {
-                description = config.getTranslation("startdescription");
-                descriptionSplit = description.split(",");
-                description = (descriptionSplit[0]+config.getTranslation("startpassedvalue")+descriptionSplit[1]);
-                fieldArr[i] = new Start(i,
-                        config.getTranslation("field"+(i+1)),
-                        description);
-            }
-			// NORMAL FIELDS
-			if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
+			if(i == 0) { // START FIELD "id, name, description"
+				description = config.getTranslation("startdescription"); // As we have to put something inbetween the sentence we split it
+				descriptionSplit = description.split(",");
+				description = (descriptionSplit[0]+config.getTranslation("startpassedvalue")+descriptionSplit[1]);
+				fieldArr[i] = new Start(i,
+						config.getTranslation("field"+(i+1)),
+						description);
+			}else if(i == 5 || i == 15 || i == 25 || i == 35) { // SHIPPING FIELDS "id, name, owner, basevalue, pawnvalue, description)
+				fieldArr[i] = new Shipping(i,
+						config.getTranslation("field"+(i+1)),
+						null,
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
+						"test");
+			}else if(i == 12 || i == 28) { // BREWERY FIELDS "id, name, owner, basevalue, pawnvalue, description"
+				fieldArr[i] = new Brewery(i,
+						config.getTranslation("field"+(i+1)),
+						null,
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
+						"test");
+			}else if(i == 2 || i == 7 || i == 17 || i == 22 || i == 33 || i == 36) { // CHANCE CARD FIELDS "id, name, description"
+				fieldArr[i] = new Chance(i,
+						config.getTranslation("field"+(i+1)),
+						"test");
+			}else if(i == 4 || i == 38) { //TAX FIELDS "id, name, taxvalue, description"
+				fieldArr[i] = new Tax(i,
+						config.getTranslation("field"+(i+1)),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
+						"test");
+			}else if(i == 10 || i == 30) { //PRISON FIELD "id, name, description"
+				fieldArr[i] = new Prison(i,
+						config.getTranslation("field"+(i+1)),
+						"test");
+			}else if(i == 20) { //Parking FIELD "id, name, description"
+				fieldArr[i] = new Parking(i,
+						config.getTranslation("field"+(i+1)),
+						"test");
+			}else {
+				// NORMAL FIELDS "id, name, owner, basevalue, houseprices, pawnvalue, buildprice, colour, description"
+				//if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
 				Color color;
-				switch(config.getTranslation("field"+(i+1)+"color")) {
+				switch(config.getTranslation("field"+(i+1)+"color")) { // Switch tot ranslate colour from config to gui colour.
 				default : color = Color.black; break;
 				case "gul" : color = Color.yellow; break;
 				case "blå" : color = Color.blue; break;
@@ -98,7 +134,7 @@ public class Entities {
 
 				}
 
-				int housePrices[] = { 
+				int housePrices[] = { // Get all the house prices 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus1")), 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus2")), 
@@ -107,25 +143,25 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hotel"))
 				};
 
-				descriptionSplit = new String[10];
-                for (int j = 0 ; j < descriptionSplit.length ; j++) {
-                    descriptionSplit[j] = config.getTranslation("propertydesc"+(j+1));
-                }
+				descriptionSplit = new String[10]; // Split description of field, made up of 10 parts
+				for (int j = 0 ; j < descriptionSplit.length ; j++) {
+					descriptionSplit[j] = config.getTranslation("propertydesc"+(j+1)); // Loop through the config and fill out array
+				}
 
-                description = (
-                		descriptionSplit[0]+config.getTranslation("field"+(i+1)+"leje")+"\n"+
-						descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
-						descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
-						descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
-						descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
-						descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
-						descriptionSplit[6]+"\n"+
-						descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
-						descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+" + husene"+"\n"+
-						descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
-				);
+				description = ( // put everything in the right order
+						descriptionSplit[0]+config.getTranslation("field"+(i+1)+"leje")+"\n"+
+								descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
+								descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
+								descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
+								descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
+								descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
+								descriptionSplit[6]+"\n"+
+								descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
+								descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+" + husene"+"\n"+
+								descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
+						);
 
-				fieldArr[i] = new Normal(i,
+				fieldArr[i] = new Normal(i, // Constructor is called here, we inititialize a new normal object
 						config.getTranslation("field"+(i+1)), 
 						null,
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")), 
@@ -135,57 +171,6 @@ public class Entities {
 						color,
 						description);
 			}
-
-			// SHIPPING FIELDS
-			if(i == 5 || i == 15 || i == 25 || i == 35) {
-				fieldArr[i] = new Shipping(i,
-						config.getTranslation("field"+(i+1)),
-						null,
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
-						"test");
-			}
-
-			// BREWERY FIELDS
-			if(i == 12 || i == 28) {
-				fieldArr[i] = new Brewery(i,
-						config.getTranslation("field"+(i+1)),
-						null,
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
-						"test");
-			}
-
-			// CHANCE CARD FIELDS
-			if(i == 2 || i == 7 || i == 17 || i == 22 || i == 33 || i == 36) {
-				fieldArr[i] = new Chance(i,
-						config.getTranslation("field"+(i+1)),
-						"test");
-			}
-
-			//TAX FIELDS
-			if(i == 4 || i == 38) {
-				fieldArr[i] = new Tax(i,
-						config.getTranslation("field"+(i+1)),
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
-						"test");
-			}
-
-			//PRISON FIELD
-			if(i == 10 || i == 30) {
-				fieldArr[i] = new Prison(i,
-						config.getTranslation("field"+(i+1)),
-						"test");
-			}
-
-			//Parking FIELD
-			if(i == 20) {
-				fieldArr[i] = new Parking(i,
-						config.getTranslation("field"+(i+1)),
-						"test");
-			}
-
-
 		}
 	}
 
