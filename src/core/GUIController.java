@@ -141,4 +141,8 @@ public class GUIController {
 	public void writeMessage(String message) {
 		gui.showMessage(message);
 	}
+	
+	public void showDice() {
+		gui.setDice(Entities.getInstance().getDiceArr()[0].getValue(), Entities.getInstance().getDiceArr()[1].getValue());
+	}
 }
