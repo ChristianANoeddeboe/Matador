@@ -33,7 +33,7 @@ public class GameController {
 			String name = guiController.requestStringInput("Please write name.");
 			if (name.equals("")) { name = "player"+(i+1);}
 			Player player = new Player(name, i);
-			guiController.addPlayer(0, 30000, name);
+			guiController.addPlayer(i, 30000, name);
 			entities.getPlayers()[i] = player;
 		}
 		
@@ -127,7 +127,7 @@ public class GameController {
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if( ( currentPlayer.getEndPosition() + totalValue ) > 39)
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 41);
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 40);
 		else
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
 	}
