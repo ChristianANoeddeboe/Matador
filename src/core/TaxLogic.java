@@ -8,6 +8,8 @@ public class TaxLogic {
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();
 	private int id;
+	private Tax tax;
+
 
 	/**
 	 * Constructor for tax logic
@@ -15,12 +17,9 @@ public class TaxLogic {
 	 * @param id
 	 * @param currentPlayer
 	 */
-	public TaxLogic(int id, Player currentPlayer) {
-		if (id == 38) {
-			// taxLogic38(currentPlayer);
-		} else {
-			// taxLogic4(currentPlayer, choice);
-		}
+	public TaxLogic(Player currentPlayer) {
+		this.id = currentPlayer.getEndPosition();
+		this.tax = (Tax) fields[id];
 	}
 
 	/**
@@ -31,10 +30,9 @@ public class TaxLogic {
 	protected String taxLogic38(Player currentPlayer) {
 		if (currentPlayer.getAccount().canAfford(2000)) {
 			currentPlayer.getAccount().withdraw(2000);
-			return "TaxPrice," + 2000;
+			return "StateTax";
 		} else {
-			// Pantsaetning
-			return "saleLogic";
+			return "SaleLogic";
 		}
 	}
 
@@ -63,13 +61,27 @@ public class TaxLogic {
 					}
 				}
 			}
-			return "TaxPrice," + ((int) ((buildingvalue + playervalue + propertyvalue) * 0.10)); // Add the building value,player value and property value and take 10%, casting to a integer to avoid decimals
-		} else {
+			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10);
+			if(currentPlayer.getAccount().canAfford(value)) {
+				return Integer.toString(value); // Add the building value,player value and property value and take 10%, casting to a integer to avoid decimals
+			}else {
+				return "SaleLogic";
+			}
+			
+		}else{
 			if (currentPlayer.getAccount().canAfford(4000)) {
 				currentPlayer.getAccount().withdraw(4000);
-				return "TaxPrice," + 4000;
+				return "4000";
 			}
-			return "SalesLogic";
+			return "SaleLogic";
+		}
+	}
+
+	protected String taxLogic(Player currentPlayer) {
+		if(currentPlayer.getEndPosition() == 38) {
+			return this.taxLogic38(currentPlayer);
+		}else {
+			return "TaxChoice";
 		}
 	}
 }
