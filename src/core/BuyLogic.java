@@ -6,24 +6,19 @@ package core;
  *
  */
 public class BuyLogic {
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = (Field[]) entities.getFieldArr();
-	private int id;
 	private Property property;
+	private Entities entities = Entities.getInstance();
+	private Field[] fields = entities.getFieldArr();
+	private int id;
 
 	/**
 	 * Constructor for the buy logic
 	 * @param id
 	 * @param currentPlayer
 	 */
-	public BuyLogic(int id, Player currentPlayer) {
+	public BuyLogic(Player currentPlayer) {
+		this.id = currentPlayer.getEndPosition();
 		this.property = (Property) fields[id];
-		this.id = id;
-		propertyBuyLogic(currentPlayer);
-		houseBuyLogic(currentPlayer);
-		shippingBuyLogic(currentPlayer);
-		breweryBuyLogic(currentPlayer);
-		unPawnProperty(currentPlayer);
 	}
 
 	/**
@@ -31,10 +26,16 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String propertyBuyLogic(Player currentPlayer) {
-		currentPlayer.getAccount().withdraw((property.getBaseValue())); // Withdraw money form player based on the property base value
-		property.setOwner(currentPlayer); // Set the owner
-		return "Bought";
+	protected void propertyBuyLogic(Player currentPlayer) {
+		Field field = Entities.getInstance().getFieldArr()[currentPlayer.getEndPosition()];
+		if(field instanceof Normal) {
+			currentPlayer.getAccount().withdraw((property.getBaseValue())); // Withdraw money form player based on the property base value
+			property.setOwner(currentPlayer); // Set the owner
+		}else if(field instanceof Brewery) {
+			this.breweryBuyLogic(currentPlayer);
+		}else if(field instanceof Shipping) {
+			this.shippingBuyLogic(currentPlayer);
+		}
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String shippingBuyLogic(Player currentPlayer) {
+	protected void shippingBuyLogic(Player currentPlayer) {
 		int counter = 0; // How many the player owns
 		currentPlayer.getAccount().withdraw(property.getBaseValue()); // Withdraw the basevalue from the player
 		property.setOwner(currentPlayer); // Set the owner
@@ -109,7 +110,6 @@ public class BuyLogic {
 				}
 			}
 		}
-		return "Bought";
 	}
 
 	/**
@@ -137,10 +137,9 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String breweryBuyLogic(Player currentPlayer) {
+	protected void breweryBuyLogic(Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(property.getBaseValue());
 		property.setOwner(currentPlayer);
-		return "Bought";
 	}
 
 	/**
