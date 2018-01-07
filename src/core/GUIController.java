@@ -194,6 +194,16 @@ public class GUIController {
 	}
 
 	/**
+	 * Creates 'x' amount of buttons, along with a message, and returns the selected button.
+	 * @param message the message to display to the player.
+	 * @param options the various buttons to display.
+	 * @return string
+	 */
+	public String requestPlayerChoiceButtons(String message, String... options) {
+		return gui.getUserButtonPressed(message, options);
+	}
+
+	/**
 	 * Writes a message on the GUI.
 	 * @param message the String which will be written.
 	 */
