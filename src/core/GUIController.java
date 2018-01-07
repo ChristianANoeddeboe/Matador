@@ -32,41 +32,41 @@ public class GUIController {
 		System.out.println(fields[0].getClass().getSimpleName());
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
 			switch (fields[i].getClass().getSimpleName().toLowerCase()) {
-				case "start":
-					Start start = (Start)fields[i];
-					fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
-					break;
-				case "normal":
-					Normal normal = (Normal)fields[i];
-					fields_GUI[i] = new GUI_Street(normal.getName(), "", normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
-					break;
-				case "brewery":
-					Brewery brewery = (Brewery)fields[i];
-					fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "", "0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
-					break;
-				case "shipping":
-					Shipping shipping = (Shipping)fields[i];
-					fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "Subtext", "Description", ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
-					break;
-				case "chance":
-					Chance chance = (Chance)fields[i];
-					fields_GUI[i] = new GUI_Chance(chance.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-					break;
-				case "prison":
-					Prison prison = (Prison)fields[i];
-					fields_GUI[i] = new GUI_Jail("default", prison.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-					break;
-				case "parking":
-					Parking parking = (Parking)fields[i];
-					fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-					break;
-				case "tax":
-				    Tax tax = (Tax)fields[i];
-					fields_GUI[i] = new GUI_Tax(tax.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-					break;
-				default:
-					fields_GUI[i] = new GUI_Empty();
-					break;
+			case "start":
+				Start start = (Start)fields[i];
+				fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
+				break;
+			case "normal":
+				Normal normal = (Normal)fields[i];
+				fields_GUI[i] = new GUI_Street(normal.getName(), "", normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
+				break;
+			case "brewery":
+				Brewery brewery = (Brewery)fields[i];
+				fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "", "0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
+				break;
+			case "shipping":
+				Shipping shipping = (Shipping)fields[i];
+				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "Subtext", "Description", ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
+				break;
+			case "chance":
+				Chance chance = (Chance)fields[i];
+				fields_GUI[i] = new GUI_Chance(chance.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				break;
+			case "prison":
+				Prison prison = (Prison)fields[i];
+				fields_GUI[i] = new GUI_Jail("default", prison.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				break;
+			case "parking":
+				Parking parking = (Parking)fields[i];
+				fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				break;
+			case "tax":
+				Tax tax = (Tax)fields[i];
+				fields_GUI[i] = new GUI_Tax(tax.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				break;
+			default:
+				fields_GUI[i] = new GUI_Empty();
+				break;
 			}
 		}
 		gui = new GUI(fields_GUI);
@@ -135,12 +135,23 @@ public class GUIController {
 	}
 
 	public void updatePlayerBalance(int id, int newValue, int oldValue) {
-		for (int i = oldValue ; i < newValue ; i++) {
-			players_GUI[id].setBalance(i);
-			try {
-				TimeUnit.MICROSECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		if(newValue >= oldValue) { // If we are updating gui balance in a positive way
+			for (int i = oldValue ; i <= newValue ; i++) {
+				players_GUI[id].setBalance(i);
+				try {
+					TimeUnit.NANOSECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}else {
+			for (int i = oldValue ; i >= newValue ; i--) { // if we are updating balance in a negative way
+				players_GUI[id].setBalance(i);
+				try {
+					TimeUnit.NANOSECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -206,22 +217,22 @@ public class GUIController {
 	 */
 	public Color getVehicleColor(int id) {
 		switch (id) {
-			case 0:
-				return Color.BLUE;
-			case 1:
-				return Color.RED;
-			case 2:
-				return Color.GREEN;
-			case 3:
-				return Color.YELLOW;
-			case 4:
-				return Color.MAGENTA;
-			case 5:
-				return Color.CYAN;
-			case 6:
-				return Color.WHITE;
-			default:
-				return Color.BLUE;
+		case 0:
+			return Color.BLUE;
+		case 1:
+			return Color.RED;
+		case 2:
+			return Color.GREEN;
+		case 3:
+			return Color.YELLOW;
+		case 4:
+			return Color.MAGENTA;
+		case 5:
+			return Color.CYAN;
+		case 6:
+			return Color.WHITE;
+		default:
+			return Color.BLUE;
 		}
 	}
 
