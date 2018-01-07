@@ -6,7 +6,7 @@ package core;
 public class Player{
 	private String name;
 	private Account account;
-	private boolean prison;
+	private boolean prison, bankrupt,startRound;
 	private int prisonCard;
 	private int id_GUI;
 	private int startPosition;
@@ -26,6 +26,8 @@ public class Player{
 		this.name = name;
 		this.account = new Account();
 		this.prison = false;
+		this.bankrupt = false;
+		this.startRound = true;
 		this.startPosition = 0;
 		this.prisonCard = 0;
 		this.id_GUI = idGui;
@@ -93,5 +95,20 @@ public class Player{
 	
 	public int getPrisontries() {
 		return prisontries;
+	}
+	
+	public boolean isBanktrupt() {
+		return this.bankrupt;
+	}
+	
+	public void setBanktrupt(boolean bankrupt) {
+		this.bankrupt = bankrupt;
+	}
+	
+	public boolean isStartRound() {
+		return startRound;
+	}
+	public void setStartRound(boolean startRound) {
+		this.startRound = startRound;
 	}
 }

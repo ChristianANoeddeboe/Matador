@@ -52,5 +52,24 @@ public class GameLogic {
 		}
 		return "Type not found";
 	}
+
+	/**
+	 * Updates balance if we passed start, called everytime we roll dices
+	 * @param currentPlayer
+	 * @return
+	 */
+	protected boolean passedStart(Player currentPlayer) {
+		if(!currentPlayer.isStartRound()) {
+			System.out.println(currentPlayer.getName() + currentPlayer.getStartPosition() + currentPlayer.getEndPosition());
+			if(((entities.getDiceArr()[0].getValue() + entities.getDiceArr()[1].getValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
+				currentPlayer.getAccount().deposit(3000);
+				return true;
+			}
+		}else {
+			currentPlayer.setStartRound(false);
+			return false;
+		}
+		return false;
+	}
 }
 

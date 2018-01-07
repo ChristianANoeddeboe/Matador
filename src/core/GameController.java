@@ -90,7 +90,6 @@ public class GameController {
 	
 	public void playRound() {
 		rollDice();
-		System.out.println(gameLogic.findLogic(currentPlayer));
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
@@ -113,8 +112,12 @@ public class GameController {
 			}
 			case "saleLogic" : {
 				break;
-			}	
-		}	
+			}
+		}
+		if(gameLogic.passedStart(currentPlayer)) { // Check if we passed start
+			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-3000);
+		}
+		playerRoundHasEnded = true;
 	}
 		
 		
@@ -126,10 +129,11 @@ public class GameController {
 		guiController.showDice();
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-		if( ( currentPlayer.getEndPosition() + totalValue ) > 39)
+		if( ( currentPlayer.getEndPosition() + totalValue ) > 39) {
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 40);
-		else
+		}else {
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
+		}
 	}
 	
 

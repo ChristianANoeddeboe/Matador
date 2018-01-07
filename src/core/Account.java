@@ -16,7 +16,7 @@ public class Account {
 	 * Constructor which sets the account value to the default value
 	 */
 	public Account() {
-		this.balance = 12000;
+		this.balance = 30000;
 	}
 
 	/**
