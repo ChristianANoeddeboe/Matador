@@ -86,19 +86,25 @@ public class Entities {
 						config.getTranslation("field"+(i+1)),
 						description);
 			}else if(i == 5 || i == 15 || i == 25 || i == 35) { // SHIPPING FIELDS "id, name, owner, basevalue, pawnvalue, description)
+				description = config.getTranslation("shippingdesc")+config.getTranslation("field"+(i+1)+"pant");
+				description = description.replace("[1]", ""+config.getTranslation("field"+(i+1)+"leje"));
+				description = description.replace("[2]", ""+config.getTranslation("field"+(i+1)+"rederi2"));
+				description = description.replace("[3]", ""+config.getTranslation("field"+(i+1)+"rederi3"));
+				description = description.replace("[4]", ""+config.getTranslation("field"+(i+1)+"rederi4"));
 				fieldArr[i] = new Shipping(i,
 						config.getTranslation("field"+(i+1)),
 						null,
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
-						"test");
+						description);
 			}else if(i == 12 || i == 28) { // BREWERY FIELDS "id, name, owner, basevalue, pawnvalue, description"
+				description = config.getTranslation("brewerydesc")+config.getTranslation("field"+(i+1)+"value");
 				fieldArr[i] = new Brewery(i,
 						config.getTranslation("field"+(i+1)),
 						null,
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
-						"test");
+						description);
 			}else if(i == 2 || i == 7 || i == 17 || i == 22 || i == 33 || i == 36) { // CHANCE CARD FIELDS "id, name, description"
 				fieldArr[i] = new Chance(i,
 						config.getTranslation("field"+(i+1)),
@@ -150,14 +156,14 @@ public class Entities {
 
 				description = ( // put everything in the right order
 						descriptionSplit[0]+config.getTranslation("field"+(i+1)+"leje")+"\n"+
-								descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
-								descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
-								descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
-								descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
-								descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
+						descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
+						descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
+						descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
+						descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
+						descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
 								descriptionSplit[6]+"\n"+
 								descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
-								descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+" + husene"+"\n"+
+								descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+"\n"+
 								descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
 						);
 
