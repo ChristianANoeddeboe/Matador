@@ -43,7 +43,7 @@ public class ShippingLogic {
 				if(currentPlayer.getAccount().canAfford(rentPrice)) { // We check if the player can afford the rent
 					currentPlayer.getAccount().withdraw(rentPrice); // We withdraw
 					shipping.getOwner().getAccount().deposit(rentPrice); // and deposit back to the field owner
-					return "Rentprice,"+rentPrice; 
+					return "CanAfford"; 
 				}else {
 					//Player can't afford to land on the field
 					return "saleLogic";
