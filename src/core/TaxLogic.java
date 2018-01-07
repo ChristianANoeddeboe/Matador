@@ -48,7 +48,7 @@ public class TaxLogic {
 		int propertyvalue = 0;
 		// Player can either choose 10% of income tax or 4000
 		if (choice == 0) { // we calulate 10% of income tax
-			for (int i = 0; i <= fields.length; i++) { // looping over all fields
+			for (int i = 0; i < fields.length; i++) { // looping over all fields
 				if (fields[i] instanceof Property) {
 					Property property = (Property) fields[i];
 					if (property.getOwner() == currentPlayer) {// find those that the player owns
