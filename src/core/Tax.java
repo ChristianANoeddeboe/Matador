@@ -15,7 +15,7 @@ public class Tax extends Field {
 	 * @param taxvalue Taxvalue
 	 * @param description Description
 	 */
-	public Tax(int id, String name, int taxvalue, String description) {
+	Tax(int id, String name, int taxvalue, String description) {
 		super(id, name, description);
 		this.taxvalue = taxvalue;
 	}

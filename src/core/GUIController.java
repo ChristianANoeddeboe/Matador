@@ -35,25 +35,25 @@ public class GUIController {
 				fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
 			}else if(fields[i] instanceof Normal) {
 				Normal normal = (Normal)fields[i];
-				fields_GUI[i] = new GUI_Street(normal.getName(), "", normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
+				fields_GUI[i] = new GUI_Street(normal.getName(), "kr. "+normal.getBaseValue(), normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
 			}else if(fields[i] instanceof Brewery) {
 				Brewery brewery = (Brewery)fields[i];
-				fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "", "0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "kr. "+brewery.getBaseValue(), brewery.getDescription(), ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Shipping) {
 				Shipping shipping = (Shipping)fields[i];
-				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "Subtext", "Description", ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "kr. "+shipping.getBaseValue(), shipping.getDescription(), ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Chance) {
 				Chance chance = (Chance)fields[i];
-				fields_GUI[i] = new GUI_Chance(chance.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Chance(chance.getName(), "", chance.getDescription(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Prison) {
 				Prison prison = (Prison)fields[i];
-				fields_GUI[i] = new GUI_Jail("default", prison.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Jail("default", prison.getName(), "", prison.getDescription(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Parking) {
 				Parking parking = (Parking)fields[i];
-				fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "", parking.getDescription(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Tax) {
 				Tax tax = (Tax)fields[i];
-				fields_GUI[i] = new GUI_Tax(tax.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Tax(tax.getName(), "kr. "+tax.getTaxvalue(), tax.getDescription(), Color.WHITE, Color.BLACK);
 			}else {
 				fields_GUI[i] = new GUI_Empty();
 			}
@@ -120,6 +120,10 @@ public class GUIController {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void updateFieldSubtext(String text, int field_id) {
+		fields_GUI[field_id].setSubText(text);
 	}
 
 	public void updatePlayerBalance(int id, int newValue, int oldValue) {
