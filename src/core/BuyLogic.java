@@ -10,7 +10,7 @@ public class BuyLogic {
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();
 	private int id;
-
+	
 	/**
 	 * Constructor for the buy logic
 	 * @param id
@@ -36,6 +36,10 @@ public class BuyLogic {
 		}else if(field instanceof Shipping) {
 			this.shippingBuyLogic(currentPlayer);
 		}
+	}
+	
+	protected int getPropertyValue(Player currentPlayer) {
+		return property.getBaseValue();
 	}
 
 	/**

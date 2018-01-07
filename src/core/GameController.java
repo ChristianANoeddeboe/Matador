@@ -1,5 +1,7 @@
 package core;
 
+import java.io.ObjectInputStream.GetField;
+
 public class GameController {
 	private Entities entities;
 	private GUIController guiController;
@@ -88,20 +90,24 @@ public class GameController {
 			switch (guiController.requestPlayerChoice(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
 			case "Yes":
 				BuyLogic buyLogic = new BuyLogic(currentPlayer);
+				guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance()-buyLogic.getPropertyValue(currentPlayer), currentPlayer.getAccount().getBalance());
 				buyLogic.propertyBuyLogic(currentPlayer);
+				guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
 				break;
 			case "No":
-				System.out.println("No");
 				break;
 			}
 		}
 		case "CannotAfford" : {
+			// Nothing should happen if we can't afford buying a property
 			break;
 		}
 		case "OwnedByPlayer" : {
+			// Nothing should happen when we land on our own property
 			break;
 		}
 		case "CanAfford" : {
+			
 			break;
 		}
 		case "SaleLogic" : {
