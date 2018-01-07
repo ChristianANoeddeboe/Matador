@@ -30,7 +30,7 @@ public class ShippingLogic {
 	public String logic(Player currentPlayer) {
 		if(shipping.getOwner() == null) { // We check if the field is owned
 			if(currentPlayer.getAccount().canAfford(shipping.getBaseValue())) {// If it is not owned and the player can afford it
-				return "NotOwnedAndCanAfford"; 
+				return "NotOwned"; 
 			}
 			else {
 				return "CannotAfford"; // Player cant afford the field

@@ -29,44 +29,33 @@ public class GUIController {
 	}
 
 	public void createFields(Field[] fields) {
-		System.out.println(fields[0].getClass().getSimpleName());
 		for (int i = 0 ; i < fields_GUI.length ; i++) {
-			switch (fields[i].getClass().getSimpleName().toLowerCase()) {
-			case "start":
-				Start start = (Start)fields[i];
+			if(fields[i] instanceof Start) {
+				Start start = (Start) fields[i];
 				fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
-				break;
-			case "normal":
+			}else if(fields[i] instanceof Normal) {
 				Normal normal = (Normal)fields[i];
 				fields_GUI[i] = new GUI_Street(normal.getName(), "", normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
-				break;
-			case "brewery":
+			}else if(fields[i] instanceof Brewery) {
 				Brewery brewery = (Brewery)fields[i];
 				fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "", "0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n0101010101010101010101010\n", ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
-				break;
-			case "shipping":
+			}else if(fields[i] instanceof Shipping) {
 				Shipping shipping = (Shipping)fields[i];
 				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "Subtext", "Description", ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
-				break;
-			case "chance":
+			}else if(fields[i] instanceof Chance) {
 				Chance chance = (Chance)fields[i];
 				fields_GUI[i] = new GUI_Chance(chance.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-				break;
-			case "prison":
+			}else if(fields[i] instanceof Prison) {
 				Prison prison = (Prison)fields[i];
 				fields_GUI[i] = new GUI_Jail("default", prison.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-				break;
-			case "parking":
+			}else if(fields[i] instanceof Parking) {
 				Parking parking = (Parking)fields[i];
 				fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-				break;
-			case "tax":
+			}else if(fields[i] instanceof Tax) {
 				Tax tax = (Tax)fields[i];
 				fields_GUI[i] = new GUI_Tax(tax.getName(), "Subtext", "Description", Color.WHITE, Color.BLACK);
-				break;
-			default:
+			}else {
 				fields_GUI[i] = new GUI_Empty();
-				break;
 			}
 		}
 		gui = new GUI(fields_GUI);
@@ -79,7 +68,6 @@ public class GUIController {
 	 * @param name name of the player.
 	 */
 	public void addPlayer(int id, int startValue, String name) {
-		System.out.println(id);
 		players_GUI[id] = new GUI_Player(name, startValue, createCar(id));
 		fields_GUI[0].setCar(players_GUI[id], true);
 		gui.addPlayer(players_GUI[id]);
@@ -192,7 +180,7 @@ public class GUIController {
 	 * @param options the list of options for the dropdown menu.
 	 * @return a String with the players choice.
 	 */
-	public String requestPlayerChoice(String message, String... options) {
+	public String requestPlayerChoice(String message, String[] options) {
 		return gui.getUserSelection(message, options);
 	}
 
