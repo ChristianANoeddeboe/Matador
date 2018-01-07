@@ -85,7 +85,7 @@ public class Entities {
 				fieldArr[i] = new Start(i,
 						config.getTranslation("field"+(i+1)),
 						description);
-			}else if(i == 5 || i == 15 || i == 25 || i == 35) { // SHIPPING FIELDS "id, name, owner, basevalue, pawnvalue, description)
+			} else if(i == 5 || i == 15 || i == 25 || i == 35) { // SHIPPING FIELDS "id, name, owner, basevalue, pawnvalue, description)
 				description = config.getTranslation("shippingdesc")+config.getTranslation("field"+(i+1)+"pant");
 				description = description.replace("[1]", ""+config.getTranslation("field"+(i+1)+"leje"));
 				description = description.replace("[2]", ""+config.getTranslation("field"+(i+1)+"rederi2"));
@@ -97,7 +97,7 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
 						description);
-			}else if(i == 12 || i == 28) { // BREWERY FIELDS "id, name, owner, basevalue, pawnvalue, description"
+			} else if(i == 12 || i == 28) { // BREWERY FIELDS "id, name, owner, basevalue, pawnvalue, description"
 				description = config.getTranslation("brewerydesc")+config.getTranslation("field"+(i+1)+"value");
 				fieldArr[i] = new Brewery(i,
 						config.getTranslation("field"+(i+1)),
@@ -105,24 +105,28 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"pant")),
 						description);
-			}else if(i == 2 || i == 7 || i == 17 || i == 22 || i == 33 || i == 36) { // CHANCE CARD FIELDS "id, name, description"
+			} else if(i == 2 || i == 7 || i == 17 || i == 22 || i == 33 || i == 36) { // CHANCE CARD FIELDS "id, name, description"
+				description = config.getTranslation("chancedesc");
 				fieldArr[i] = new Chance(i,
 						config.getTranslation("field"+(i+1)),
-						"test");
-			}else if(i == 4 || i == 38) { //TAX FIELDS "id, name, taxvalue, description"
+						description);
+			} else if(i == 4 || i == 38) { //TAX FIELDS "id, name, taxvalue, description"
 				fieldArr[i] = new Tax(i,
 						config.getTranslation("field"+(i+1)),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
-						"test");
-			}else if(i == 10 || i == 30) { //PRISON FIELD "id, name, description"
+						"");
+			} else if(i == 10 || i == 30) { //PRISON FIELD "id, name, description"
+				if (i == 10) description = config.getTranslation("prisondesc1");
+				else description = config.getTranslation("prisondesc2");
 				fieldArr[i] = new Prison(i,
 						config.getTranslation("field"+(i+1)),
-						"test");
-			}else if(i == 20) { //Parking FIELD "id, name, description"
+						description);
+			} else if(i == 20) { //Parking FIELD "id, name, description"
+				description = config.getTranslation("parkingdesc");
 				fieldArr[i] = new Parking(i,
 						config.getTranslation("field"+(i+1)),
-						"test");
-			}else {
+						description);
+			} else {
 				// NORMAL FIELDS "id, name, owner, basevalue, houseprices, pawnvalue, buildprice, colour, description"
 				//if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
 				Color color;
