@@ -139,15 +139,12 @@ public class GameController {
 		}
 		case "CanAfford" : {
 			Property property = (Property) entities.getFieldArr()[currentPlayer.getEndPosition()];
+			guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
 			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-property.getCurrentValue());
 			guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance(), property.getOwner().getAccount().getBalance()+property.getCurrentValue());
-			guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
 			break;
 		}
 		case "SaleLogic" : {
-			break;
-		}
-		case "Rentprice" : {
 			break;
 		}
 		case "saleLogic" : {

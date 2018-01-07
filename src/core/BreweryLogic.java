@@ -47,7 +47,7 @@ public class BreweryLogic {
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
 					brewery.getOwner().getAccount().deposit(rentPrice);
-					return "Rentprice,"+rentPrice;
+					return "CanAfford";
 				}else { //The player can't afford and has to sell something
 					return "saleLogic";
 				}
