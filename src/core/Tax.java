@@ -5,7 +5,9 @@ package core;
  *
  */
 public class Tax extends Field {
+
 	private int taxvalue;
+
 	/**
 	 * Constructor for Tax field
 	 * @param id Field number
@@ -18,6 +20,7 @@ public class Tax extends Field {
 		this.taxvalue = taxvalue;
 	}
 
-	
-	
+	public int getTaxvalue() {
+		return taxvalue;
+	}
 }
