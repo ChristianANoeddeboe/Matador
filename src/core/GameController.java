@@ -82,11 +82,16 @@ public class GameController {
 	}
 
 	public void playRound() {
-		String choices[] = {"Yes", "No"};
 		rollDice();
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
+		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) { // Incase we throw pairs
+			rollDice();
+			guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());			
+		}
+		System.out.println(gameLogic.findLogic(currentPlayer));
 		switch(gameLogic.findLogic(currentPlayer)) {
 		case "NotOwned" : {
+			String choices[] = {"Yes", "No"};
 			switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
 			case "Yes":
 				BuyLogic buyLogic = new BuyLogic(currentPlayer);
@@ -97,7 +102,33 @@ public class GameController {
 			case "No":
 				break;
 			}
+			break;
 		}
+		case "StateTax":{
+			guiController.writeMessage("You were taxed 2000 in state tax");
+			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-2000);
+			break;
+		}
+
+		case "TaxChoice":{
+			String choices[] = {"4000", "Incometax"};
+			String response;
+			TaxLogic taxLogic = new TaxLogic(currentPlayer);
+			if(guiController.requestPlayerChoiceButtons("Would you like to pay 4000 or 10% income tax?", choices).equals("4000")) {
+				response = taxLogic.taxLogic4(currentPlayer, 1);
+			}else {
+				response = taxLogic.taxLogic4(currentPlayer, 0);
+			}
+
+			if (response.equals("SaleLogic")){ // Incase the player could not afford the taxes
+				//Call stuff here
+			}else {
+				guiController.writeMessage("You have paid your taxes which amounted to a total of: " + response);
+				guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-Integer.parseInt(response));
+			}
+			break;
+		}
+
 		case "CannotAfford" : {
 			// Nothing should happen if we can't afford buying a property
 			break;
@@ -107,7 +138,10 @@ public class GameController {
 			break;
 		}
 		case "CanAfford" : {
-			
+			Property property = (Property) entities.getFieldArr()[currentPlayer.getEndPosition()];
+			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-property.getCurrentValue());
+			guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance(), property.getOwner().getAccount().getBalance()+property.getCurrentValue());
+			guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
 			break;
 		}
 		case "SaleLogic" : {
@@ -121,7 +155,7 @@ public class GameController {
 		}
 		}
 		if(gameLogic.passedStart(currentPlayer)) { // Check if we passed start
-			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-3000);
+			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-4000);
 		}
 		playerRoundHasEnded = true;
 	}

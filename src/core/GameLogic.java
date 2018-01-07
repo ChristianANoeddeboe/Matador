@@ -46,9 +46,8 @@ public class GameLogic {
 			//TODO
 			return "Parking";
 		} else if (fields[id] instanceof Tax) {
-			TaxLogic taxLogic = new TaxLogic(id, currentPlayer);
-			//TODO
-			return "Tax";
+			TaxLogic taxLogic = new TaxLogic(currentPlayer);
+			return taxLogic.taxLogic(currentPlayer);
 		}
 		return "Type not found";
 	}
@@ -62,7 +61,7 @@ public class GameLogic {
 		if(!currentPlayer.isStartRound()) {
 			System.out.println(currentPlayer.getName() + currentPlayer.getStartPosition() + currentPlayer.getEndPosition());
 			if(((entities.getDiceArr()[0].getValue() + entities.getDiceArr()[1].getValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
-				currentPlayer.getAccount().deposit(3000);
+				currentPlayer.getAccount().deposit(4000);
 				return true;
 			}
 		}else {
@@ -71,7 +70,5 @@ public class GameLogic {
 		}
 		return false;
 	}
-	
-	
 }
 
