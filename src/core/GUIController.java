@@ -156,6 +156,15 @@ public class GUIController {
 	}
 
 	/**
+	 * Changes the border of an ownable field, to the color of the player.
+	 * @param player_id the location of the specific GUI_Player object in the array of GUI_Player objects.
+	 * @param field_id the location of the specific GUI_Field object in the array of GUI_Field objects.
+	 */
+	public void setOwner(int player_id, int field_id) {
+		((GUI_Ownable)fields_GUI[field_id]).setBorder(players_GUI[player_id].getPrimaryColor());
+	}
+
+	/**
 	 * Lets the user input an integer the system can interprit. A pre defined message will be displayed alongside the text field.
 	 * @return int
 	 */
