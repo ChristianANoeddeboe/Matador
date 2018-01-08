@@ -11,14 +11,14 @@ public class Entities {
 	private Dice diceArr[];
 	private int chanceCardArr[]; 
 	private Player playerArr[];
-	private Field[] NormalBlue = new Field[2];
-	private Field[] NormalRed = new Field[3];
-	private Field[] NormalPurple = new Field[2];
-	private Field[] NormalYellow = new Field[3];
-	private Field[] NormalWhite = new Field[3];
-	private Field[] NormalGrey = new Field[3];
-	private Field[] NormalGreen = new Field[3];
-	private Field[] NormalOrange = new Field[3];
+	private Normal[] NormalBlue = new Normal[2];
+	private Normal[] NormalRed = new Normal[3];
+	private Normal[] NormalPurple = new Normal[2];
+	private Normal[] NormalYellow = new Normal[3];
+	private Normal[] NormalWhite = new Normal[3];
+	private Normal[] NormalGrey = new Normal[3];
+	private Normal[] NormalGreen = new Normal[3];
+	private Normal[] NormalOrange = new Normal[3];
 	private int blue = 0, red = 0, purple = 0, yellow = 0, white = 0, grey = 0, green = 0, orange = 0;
 	
 
@@ -137,18 +137,17 @@ public class Entities {
 				// NORMAL FIELDS "id, name, owner, basevalue, houseprices, pawnvalue, buildprice, colour, description"
 				//if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
 				Color color;
-				switch(config.getTranslation("field"+(i+1)+"color")) { // Switch tot ranslate colour from config to gui colour.
-				default : color = Color.black; break;
-				case "gul" : color = Color.yellow; break;
-				case "blå" : color = Color.blue; break;
-				case "pink" : color = Color.pink; break;
-				case "brun"	: color = Color.orange; break;
-				case "hvid" : color = Color.white; break;
-				case "grøn" : color = Color.green; break;
-				case "lilla" : color = Color.magenta; break;
-				case "rød" : color = Color.red; break;
-				case "grå" : color = Color.gray; break;
-
+				String colorString = config.getTranslation("field"+(i+1)+"color");
+				switch(colorString) { // Switch tot ranslate colour from config to gui colour.
+					default : color = Color.black; break;
+					case "gul" : color = Color.yellow; break;
+					case "blå" : color = Color.blue; break;
+					case "pink" : color = Color.orange; break;
+					case "hvid" : color = Color.white; break;
+					case "grøn" : color = Color.green; break;
+					case "lilla" : color = Color.magenta; break;
+					case "rød" : color = Color.red; break;
+					case "grå" : color = Color.gray; break;
 				}
 				
 			
@@ -191,37 +190,38 @@ public class Entities {
 						color,
 						description);
 				
-				switch (color.toString()) {
-				case "Color.blue":
-					NormalBlue[blue] = fieldArr[i];
+	
+				switch (colorString) {
+				case "blå":
+					NormalBlue[blue] = (Normal) fieldArr[i];
 					blue++;
 					break;
-				case "Color.yellow":
-					NormalYellow[yellow] = fieldArr[i];
+				case "gul":
+					NormalYellow[yellow] = (Normal) fieldArr[i];
 					yellow++;
 					break;
-				case "Color.magenta":
-					NormalPurple[purple] = fieldArr[i];
+				case "lilla":
+					NormalPurple[purple] = (Normal) fieldArr[i];
 					purple++;
 					break;
-				case "Color.orange":
-					NormalOrange[orange] = fieldArr[i];
+				case "pink":
+					NormalOrange[orange] = (Normal) fieldArr[i];
 					orange++;
 					break;
-				case "Color.white":
-					NormalWhite[white] = fieldArr[i];
+				case "hvid":
+					NormalWhite[white] = (Normal) fieldArr[i];
 					white++;
 					break;
-				case "Color.green":
-					NormalGreen[green] = fieldArr[i];
+				case "grøn":
+					NormalGreen[green] = (Normal) fieldArr[i];
 					green++;
 					break;
-				case "Color.grey":
-					NormalGrey[grey] = fieldArr[i];
+				case "grå":
+					NormalGrey[grey] = (Normal) fieldArr[i];
 					grey++;
 					break;
-				case "Color.red":
-					NormalRed[red] = fieldArr[i];
+				case "rød":
+					NormalRed[red] = (Normal) fieldArr[i];
 					red++;
 					break;
 				}
@@ -283,28 +283,28 @@ public class Entities {
 		this.chanceCardArr = chanceCardArr;
 	}
 	
-	public Field[] getNormalBlue() {
+	public Normal[] getNormalBlue() {
 		return NormalBlue;
 	}
-	public Field[] getNormalGreen() {
+	public Normal[] getNormalGreen() {
 		return NormalGreen;
 	}
-	public Field[] getNormalGrey() {
+	public Normal[] getNormalGrey() {
 		return NormalGrey;
 	}
-	public Field[] getNormalOrange() {
+	public Normal[] getNormalOrange() {
 		return NormalOrange;
 	}
-	public Field[] getNormalPurple() {
+	public Normal[] getNormalPurple() {
 		return NormalPurple;
 	}
-	public Field[] getNormalRed() {
+	public Normal[] getNormalRed() {
 		return NormalRed;
 	}
-	public Field[] getNormalWhite() {
+	public Normal[] getNormalWhite() {
 		return NormalWhite;
 	}
-	public Field[] getNormalYellow() {
+	public Normal[] getNormalYellow() {
 		return NormalYellow;
 	}
 

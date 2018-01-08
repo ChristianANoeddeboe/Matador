@@ -81,6 +81,11 @@ public class GameController {
 
 	public void startRound() {
 		String choices[] = {"Roll dice"};
+		
+		for (Normal normal : entities.getNormalBlue()) {
+			System.out.println(normal.getName());
+		}
+		
 		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
 		if(buyLogic.canBuyHouse(currentPlayer)) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
