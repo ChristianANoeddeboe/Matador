@@ -117,8 +117,26 @@ public class BuyLogic {
 		case "black":
 			
 			break;
-
-		default:
+		case "blue":
+			
+			break;
+		case "orange":
+			
+			break;
+		case "white":
+			
+			break;
+		case "green":
+			
+			break;
+		case "purple":
+			
+			break;
+		case "red":
+			
+			break;
+		case "gray":
+			
 			break;
 		}
 		
