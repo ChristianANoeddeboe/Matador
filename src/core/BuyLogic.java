@@ -185,21 +185,25 @@ public class BuyLogic {
 							}
 							if(bool == true) {
 								for (int j = 0; j < fields.length; j++) {
-									Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
-									if(normal2.getColour() == colour) {
-										exists = false;
-										for (int k = 0; k < this.normal.length; k++) {
-											if(this.normal[k] == normal2)
-											{
-												exists = true;
+									if (fields[j] instanceof Normal) {
+										Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+										if(normal2.getColour() == colour) {
+											exists = false;
+											for (int k = 0; k < this.normal.length; k++) {
+												if(this.normal[k] == normal2)
+												{
+													exists = true;
+												}
 											}
+											if(!exists) {
+												
+												this.normal[val++] = normal2;
+												System.out.println(this.normal[val-1].getName());
+											}
+											
 										}
-										if(!exists) {
-											this.normal[val] = normal2;
-											val++;
-										}
-										
 									}
+									
 								}
 								//break;
 							}
