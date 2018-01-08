@@ -10,6 +10,7 @@ public class GameLogic {
 	private int dice1value = entities.getDiceArr()[0].getValue();
 	private int dice2value = entities.getDiceArr()[1].getValue();
 	private int totalFaceValue = dice1value+dice2value;
+	private PrisonLogic prisonLogic;
 
 	/**
 	 * Constructor for gamelogic
@@ -26,6 +27,8 @@ public class GameLogic {
 	 */
 	protected String findLogic(Player currentPlayer) {
 		int id = currentPlayer.getEndPosition();
+		dice1value = entities.getDiceArr()[0].getValue();
+		dice2value = entities.getDiceArr()[1].getValue();
 		if (fields[id] instanceof Normal) { 
 			NormalLogic normalLogic = new NormalLogic(id, currentPlayer);
 			return normalLogic.logic(currentPlayer);
@@ -39,8 +42,7 @@ public class GameLogic {
 			ShippingLogic shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
 			return shippingLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Prison) {
-			PrisonLogic prisonLogic = new PrisonLogic(id, currentPlayer, dice1value, dice1value);
-			prisonLogic.logic(currentPlayer);
+			prisonLogic = new PrisonLogic(id, currentPlayer, dice1value, dice2value);
 			return "Prison";
 		} else if (fields[id] instanceof Parking) {
 			//TODO
@@ -69,6 +71,10 @@ public class GameLogic {
 			return false;
 		}
 		return false;
+	}
+
+	public PrisonLogic getPrisonLogic() {
+		return prisonLogic;
 	}
 }
 
