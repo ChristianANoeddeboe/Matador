@@ -63,6 +63,8 @@ public class BuyLogic {
 		case 1:
 			normal = (Normal[]) entities.getNormalBlue();
 			for (int i = 0; i < normal.length; i++) {
+				System.out.println(normal[i].getOwner().getName());
+				System.out.println(currentPlayer.getName());
 				if(normal[i].getOwner() != currentPlayer) {
 					bool = false;
 					break;
