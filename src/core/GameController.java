@@ -8,6 +8,7 @@ public class GameController {
 	private GameLogic gameLogic;
 	private Player currentPlayer;
 	private boolean playerRoundHasEnded = false;
+	BuyLogic buyLogic;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
@@ -73,10 +74,31 @@ public class GameController {
 	}
 
 	public void startRound() {
-		String choices[] = {"Roll dice"};
+		buyLogic = new BuyLogic(currentPlayer);
+		boolean ownshouses = false;
+		String[] choices;
+		for (int i = 0; i <Entities.getInstance().getFieldArr().length; i++) {
+			if(Entities.getInstance().getFieldArr()[i] instanceof Property) {
+				Property property = (Property) entities.getFieldArr()[i];
+				if(property.getOwner() == currentPlayer) {
+					ownshouses = true;
+					break;
+				}
+			}
+		}
+		if(ownshouses) {
+			choices = new String[] {"Roll dice", "Buy houses"};
+		}else {
+			choices = new String[ ]{"Roll dice"};
+		}
+		
+		
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : 
 			playRound();
+			break;
+		case "Buy houses" :
+			String reponse = buyLogic.houseBuyLogic(currentPlayer);
 			break;
 		}
 	}
@@ -84,10 +106,6 @@ public class GameController {
 	public void playRound() {
 		rollDice();
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) { // Incase we throw pairs
-			rollDice();
-			guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());			
-		}
 		System.out.println(gameLogic.findLogic(currentPlayer));
 		
 		switch(gameLogic.findLogic(currentPlayer)) {
@@ -95,7 +113,6 @@ public class GameController {
 			String choices[] = {"Yes", "No"};
 			switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
 			case "Yes":
-				BuyLogic buyLogic = new BuyLogic(currentPlayer);
 				guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance()-buyLogic.getPropertyValue(currentPlayer), currentPlayer.getAccount().getBalance());
 				buyLogic.propertyBuyLogic(currentPlayer);
 				guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
@@ -155,6 +172,12 @@ public class GameController {
 		if(gameLogic.passedStart(currentPlayer)) { // Check if we passed start
 			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-4000);
 		}
+		
+		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) { // Incase we throw pairs
+			playRound();
+			guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());			
+		}
+		
 		playerRoundHasEnded = true;
 	}
 
