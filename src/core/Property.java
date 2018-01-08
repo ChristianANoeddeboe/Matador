@@ -48,7 +48,7 @@ public abstract class Property extends Field {
 		pawnValue = value;
 	}
 	public boolean isOwned () {
-		return this.owner == null;
+		return !(this.owner == null);
 	}
 	public Player getOwner() {
 		return owner;
