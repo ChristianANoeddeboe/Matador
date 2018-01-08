@@ -11,14 +11,15 @@ public class Entities {
 	private Dice diceArr[];
 	private int chanceCardArr[]; 
 	private Player playerArr[];
-	private Normal[] NormalBlue = new Normal[2];
-	private Normal[] NormalRed = new Normal[3];
-	private Normal[] NormalPurple = new Normal[2];
-	private Normal[] NormalYellow = new Normal[3];
-	private Normal[] NormalWhite = new Normal[3];
-	private Normal[] NormalGrey = new Normal[3];
-	private Normal[] NormalGreen = new Normal[3];
-	private Normal[] NormalOrange = new Normal[3];
+	private Field[] NormalBlue = new Field[2];
+	private Field[] NormalRed = new Field[3];
+	private Field[] NormalPurple = new Field[2];
+	private Field[] NormalYellow = new Field[3];
+	private Field[] NormalWhite = new Field[3];
+	private Field[] NormalGrey = new Field[3];
+	private Field[] NormalGreen = new Field[3];
+	private Field[] NormalOrange = new Field[3];
+	private int blue = 0, red = 0, purple = 0, yellow = 0, white = 0, grey = 0, green = 0, orange = 0;
 	
 
 	private Entities() {
@@ -149,6 +150,9 @@ public class Entities {
 				case "grå" : color = Color.gray; break;
 
 				}
+				
+			
+				
 
 				int housePrices[] = { // Get all the house prices 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
@@ -186,7 +190,44 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"build")), 
 						color,
 						description);
+				
+				switch (color.toString()) {
+				case "Color.blue":
+					NormalBlue[blue] = fieldArr[i];
+					blue++;
+					break;
+				case "Color.yellow":
+					NormalYellow[yellow] = fieldArr[i];
+					yellow++;
+					break;
+				case "Color.magenta":
+					NormalPurple[purple] = fieldArr[i];
+					purple++;
+					break;
+				case "Color.orange":
+					NormalOrange[orange] = fieldArr[i];
+					orange++;
+					break;
+				case "Color.white":
+					NormalWhite[white] = fieldArr[i];
+					white++;
+					break;
+				case "Color.green":
+					NormalGreen[green] = fieldArr[i];
+					green++;
+					break;
+				case "Color.grey":
+					NormalGrey[grey] = fieldArr[i];
+					grey++;
+					break;
+				case "Color.red":
+					NormalRed[red] = fieldArr[i];
+					red++;
+					break;
+				}
+				
 			}
+			
 		}
 	}
 
