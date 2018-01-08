@@ -14,7 +14,6 @@ public class GameController {
 		gameController.prepareGame();
 
 		gameController.startGame();
-
 	}
 
 	public GameController() {
@@ -101,7 +100,7 @@ public class GameController {
 			break;
 		}
 	}
-
+	
 	public void playRound() {
 		rollDice();
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
