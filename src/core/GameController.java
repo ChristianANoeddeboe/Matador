@@ -21,6 +21,7 @@ public class GameController {
 		entities = Entities.getInstance();
 		guiController = GUIController.getInstance();
 		gameLogic = new GameLogic();
+		buyLogic = new BuyLogic();
 
 	}
 
@@ -72,6 +73,7 @@ public class GameController {
 	}
 
 	public void startRound() {
+		buyLogic.updatePlayer(currentPlayer);
 		String choices[] = {"Roll dice"};
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : 
@@ -86,64 +88,71 @@ public class GameController {
 	public void playRound() {
 		rollDice();
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
+		
+		//FOR FUNS
 		System.out.println(gameLogic.findLogic(currentPlayer));
 		
 		switch(gameLogic.findLogic(currentPlayer)) {
-		case "NotOwned" : {
-			String choices[] = {"Yes", "No"};
-			switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
-			case "Yes":
-				buyLogic.propertyBuyLogic(currentPlayer);
-				guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
+			case "NotOwned" : {
+				String choices[] = {"Yes", "No"};
+				switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
+					case "Yes": {
+						buyLogic.propertyBuyLogic(currentPlayer);
+						guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
+						break;
+					}
+					case "No":
+						break;
+				}
+			}
+			
+			case "StateTax":{
+				guiController.writeMessage("You were taxed 2000 in state tax");
 				break;
-			case "No":
+			}
+
+			case "TaxChoice":{
+				String choices[] = {"4000", "Incometax"};
+				String response;
+				TaxLogic taxLogic = new TaxLogic(currentPlayer);
+				if(guiController.requestPlayerChoiceButtons("Would you like to pay 4000 or 10% income tax?", choices).equals("4000")) {
+					response = taxLogic.taxLogic4(currentPlayer, 1);
+				}else {
+					response = taxLogic.taxLogic4(currentPlayer, 0);
+				}
+	
+				if (response.equals("SaleLogic")){ // Incase the player could not afford the taxes
+					//Call stuff here
+				}else {
+					guiController.writeMessage("You have paid your taxes which amounted to a total of: " + response);
+				}
 				break;
 			}
-			break;
-		}
-		case "StateTax":{
-			guiController.writeMessage("You were taxed 2000 in state tax");
-			break;
-		}
 
-		case "TaxChoice":{
-			String choices[] = {"4000", "Incometax"};
-			String response;
-			TaxLogic taxLogic = new TaxLogic(currentPlayer);
-			if(guiController.requestPlayerChoiceButtons("Would you like to pay 4000 or 10% income tax?", choices).equals("4000")) {
-				response = taxLogic.taxLogic4(currentPlayer, 1);
-			}else {
-				response = taxLogic.taxLogic4(currentPlayer, 0);
+			case "CannotAfford" : {
+				// Nothing should happen if we can't afford buying a property
+				break;
 			}
-
-			if (response.equals("SaleLogic")){ // Incase the player could not afford the taxes
-				//Call stuff here
-			}else {
-				guiController.writeMessage("You have paid your taxes which amounted to a total of: " + response);
+			
+			case "OwnedByPlayer" : {
+				// Nothing should happen when we land on our own property
+				break;
 			}
-			break;
-		}
-
-		case "CannotAfford" : {
-			// Nothing should happen if we can't afford buying a property
-			break;
-		}
-		case "OwnedByPlayer" : {
-			// Nothing should happen when we land on our own property
-			break;
-		}
-		case "CanAfford" : {
-			Property property = (Property) entities.getFieldArr()[currentPlayer.getEndPosition()];
-			guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
-			guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance());
-			break;
-		}
-		case "SaleLogic" : {
-			break;
-		}
-		case "saleLogic" : {
-			break;
-		}
+			
+			case "CanAfford" : {
+				Property property = (Property) entities.getFieldArr()[currentPlayer.getEndPosition()];
+				guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
+				guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance());
+				break;
+			}
+			
+			case "SaleLogic" : {
+				break;
+			}
+			
+			case "saleLogic" : {
+				break;
+			}
 		}
 		
 		guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance());
@@ -160,9 +169,9 @@ public class GameController {
 
 	public void rollDice() {
 		int totalValue = 0;
-		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ ) {
+		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
 			totalValue += entities.getDiceArr()[i].roll();
-		}
+		
 		guiController.showDice();
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
