@@ -1,12 +1,16 @@
 package core;
 /**
  * 
- * @author Mathias Thejsen s175192 && Simon Hansen s175191
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191 && Christian Stahl Andersen s164150
  *
  */
 public class PrisonLogic {
 	private int id,totalFaceValue,dice1value,dice2value;
 	private Player currentPlayer;
+	private GUIController guiController = GUIController.getInstance();
+	private Entities entities = Entities.getInstance();
+
+
 	/**
 	 * Constructor for prison logic
 	 * @param id
@@ -21,6 +25,23 @@ public class PrisonLogic {
 		this.dice2value = dice2value;
 		this.totalFaceValue = dice1value + dice2value;
 	}
+
+	public void landOnField(Player currentPlayer) {
+		if (id == 10 && currentPlayer.isPrison()) {
+			if (currentPlayer.getPrisontries() < 3) {
+				guiController.writeMessage("TODO Du har "+(3-currentPlayer.getPrisontries())+" kast tilbage.");
+
+				entities.getDiceArr()[0].roll();
+				entities.getDiceArr()[1].roll();
+			}
+
+
+		}
+		if (id == 10) {
+			guiController.writeMessage("TODO Du besøger fænglset.");
+		}
+	}
+
 	/**
 	 * Decides what should happen when landing on the field
 	 * @param currentPlayer
