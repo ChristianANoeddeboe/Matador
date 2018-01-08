@@ -109,46 +109,67 @@ public class BuyLogic {
 
 	protected String[] buyHouseList(Player currentPlayer) {
 		String[] properties = new String[40];
-		int counter = 0;
+		int amount = 0;
 		Color colour;
 		Normal[] normal = this.normal;
-		
-		switch (convertColor(normal[counter].getColour())) {
-		case "black":
-			
-			break;
-		case "blue":
-			
-			break;
-		case "orange":
-			
-			break;
-		case "white":
-			
-			break;
-		case "green":
-			
-			break;
-		case "purple":
-			
-			break;
-		case "red":
-			
-			break;
-		case "gray":
-			
-			break;
+		for (int counter = 0; counter < normal.length; counter++) {
+			switch (convertColor(normal[counter].getColour())) {
+			case "blue":
+				if(normal[counter].getHouseCounter() < normal[counter+1].getHouseCounter() && normal[counter].getHouseCounter() != 5) {
+					properties[amount] = normal[counter].getName();
+					amount++;
+				}
+				if(normal[counter].getHouseCounter()> normal[counter+1].getHouseCounter() && normal[counter+1].getHouseCounter() !=5) {
+					properties[amount] = normal[counter+1].getName();
+					amount++;
+				}
+				if(normal[counter].getHouseCounter() == normal[counter+1].getHouseCounter() && normal[counter].getHouseCounter() != 5 && normal[counter].getHouseCounter() != 5) {
+					properties[amount] = normal[counter].getName();
+					properties[amount+1] = normal[counter+1].getName();
+					amount = amount +2;
+				}
+				counter = counter + 2;
+				break;
+			case "orange":
+				int a = 0;
+				int b = 0;
+				for (int i = 0; i <= 5; i++) {
+					if(normal[a].getHouseCounter() == i) {
+						
+					}
+				}
+				break;
+			case "green":
+
+				break;
+			case "gray":
+
+				break;
+			case "red":
+
+				break;
+			case "white":
+
+				break;
+			case "yellow":
+
+				break;
+			case "purple":
+
+				break;
+			}
 		}
-		
-		
-		
-		
+
+
+
+
+
 		return properties;
 	}
-	
+
 	private String convertColor(Color color) {
-		if(color == Color.black) {
-			return "black";
+		if(color == Color.yellow) {
+			return "yellow";
 		}else if(color == Color.blue) {
 			return "blue";
 		}else if(color == Color.orange) {
@@ -287,7 +308,7 @@ public class BuyLogic {
 		}
 	}
 
-	
+
 	public Normal[] getNormal() {
 		return normal;
 	}
