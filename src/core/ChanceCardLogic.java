@@ -4,38 +4,45 @@ package core;
 //evt bedre navne til værdier og objekter
 
 public class ChanceCardLogic {
-	private Property property;
 	private static int index;
 	private Entities entities;
 	private PropertiesIO config;
-	private Normal normal;
 	private int[] chanceCards;
 	private Player[] players;
 	private Field[] fields;
+	private Property property;
+	private Normal normal;
 	private String returnbesked;
 
 	public ChanceCardLogic () {
 		index = 0;
 		entities = Entities.getInstance();
 		config = entities.getConfig();
-		property = null;
-		normal = null;
 		chanceCards = entities.getChanceCardArr();
 		players = entities.getPlayers();
 		fields = entities.getFieldArr();
+		property = null;
+		normal = null;
 		returnbesked = null;
 	}
 
 	public void setIndex (int value) {
-	    value = index;
+	    this.index = value;
     }
 
 	public int getIndex () {
-		return index;
+		return this.index;
+	}
+
+	public int getChanceCardId () {
+		return this.chanceCards[getIndex()];
+	}
+
+	public String getCardTest (Player currentPlayer) {
+		return this.returnbesked;
 	}
 	
 	public String getCard(Player currentPlayer) {
-
 		switch (chanceCards[getIndex()]) {
 			case 0:
 				currentPlayer.addPrisonCard();
@@ -47,24 +54,24 @@ public class ChanceCardLogic {
 				returnbesked = config.getTranslation("chance2");
 				break;
 			case 2:
-				if (currentPlayer.getEndPosition() == 3) {
-					currentPlayer.setEndPosition(6);
+				if (currentPlayer.getEndPosition() == 2) {
+					currentPlayer.setEndPosition(5);
 				}
 
-				if (currentPlayer.getEndPosition() == 8) {
-					currentPlayer.setEndPosition(16);
+				if (currentPlayer.getEndPosition() == 7) {
+					currentPlayer.setEndPosition(15);
 				}
 
-				if (currentPlayer.getEndPosition() == 18 || currentPlayer.getEndPosition() == 22) {
-					currentPlayer.setEndPosition(26);
+				if (currentPlayer.getEndPosition() == 17 || currentPlayer.getEndPosition() == 21) {
+					currentPlayer.setEndPosition(25);
 				}
 
-				if (currentPlayer.getEndPosition() == 34) {
-					currentPlayer.setEndPosition(36);
+				if (currentPlayer.getEndPosition() == 33) {
+					currentPlayer.setEndPosition(35);
 				}
 
-				if (currentPlayer.getEndPosition() == 37) {
-					currentPlayer.setEndPosition(6);
+				if (currentPlayer.getEndPosition() == 36) {
+					currentPlayer.setEndPosition(5);
 					currentPlayer.getAccount().deposit(4000);
 				}
 
@@ -92,13 +99,14 @@ public class ChanceCardLogic {
 				int estateTax = 0;
 
 				for (int i = 0; i < fields.length; i++) {
-					normal = (Normal) fields[i];
-					if (normal.getOwner() == currentPlayer) {
-						if (normal.getHouseCounter() == 5) {
-							estateTax += 2300;
-						}
-						else {
-							estateTax += (800*(normal.getHouseCounter()));
+					if (fields[i].getClass().getSimpleName() == "Normal") {
+						normal = (Normal) fields[i];
+						if (normal.getOwner() == currentPlayer) {
+							if (normal.getHouseCounter() == 5) {
+								estateTax += 2300;
+							} else {
+								estateTax += (800 * (normal.getHouseCounter()));
+							}
 						}
 					}
 				}
@@ -169,13 +177,15 @@ public class ChanceCardLogic {
 				estateTax = 0;
 
 				for (int i = 0; i < fields.length; i++) {
-					normal = (Normal) fields[i];
-					if (normal.getOwner() == currentPlayer) {
-						if (normal.getHouseCounter() == 5) {
-							estateTax += 2000;
-						}
-						else {
-							estateTax += (500*(normal.getHouseCounter()));
+					if (fields[i].getClass().getSimpleName() == "Normal") {
+						normal = (Normal) fields[i];
+						if (normal.getOwner() == currentPlayer) {
+							if (normal.getHouseCounter() == 5) {
+								estateTax += 2000;
+							}
+							else {
+								estateTax += (500*(normal.getHouseCounter()));
+							}
 						}
 					}
 				}
@@ -246,10 +256,11 @@ public class ChanceCardLogic {
 				returnbesked = "fejl, kort er ude af rækkevidte";
 				break;
 		}
-		if (index <= 31)
-		    index += 1;
-		else
-            setIndex(0);
+
+		index += 1;
+		if (index > 31)
+		    setIndex(0);
+
 		return returnbesked;
 	}
 }
