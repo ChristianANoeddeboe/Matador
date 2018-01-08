@@ -126,26 +126,8 @@ public class GUIController {
 		fields_GUI[field_id].setSubText(text);
 	}
 
-	public void updatePlayerBalance(int id, int newValue, int oldValue) {
-		if(newValue >= oldValue) { // If we are updating gui balance in a positive way
-			for (int i = oldValue ; i <= newValue ; i++) {
-				players_GUI[id].setBalance(i);
-				try {
-					TimeUnit.NANOSECONDS.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}else {
-			for (int i = oldValue ; i >= newValue ; i--) { // if we are updating balance in a negative way
-				players_GUI[id].setBalance(i);
-				try {
-					TimeUnit.NANOSECONDS.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+	public void updatePlayerBalance(int id, int value) {
+        players_GUI[id].setBalance(value);
 	}
 
 	/**
