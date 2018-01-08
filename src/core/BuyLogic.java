@@ -12,6 +12,7 @@ public class BuyLogic {
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();
 	private int id;
+	Normal[] normal;
 
 	private Player player;
 	/**
@@ -20,15 +21,15 @@ public class BuyLogic {
 	 */
 	public BuyLogic() {
 	}
-	
+
 	protected void updatePlayer(Player currentPlayer) {
 		this.player = currentPlayer;
 		this.id = player.getEndPosition();
 		this.property = (Property) fields[id];
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Logic for buying a property
 	 * @param currentPlayer
@@ -45,7 +46,7 @@ public class BuyLogic {
 			this.shippingBuyLogic(currentPlayer);
 		}
 	}
-	
+
 	protected int getPropertyValue(Player currentPlayer) {
 		return property.getBaseValue();
 	}
@@ -57,28 +58,52 @@ public class BuyLogic {
 	 */
 	protected Boolean canBuyHouse(Player currentPlayer) {
 		boolean bool = true;
+		this.normal = new Normal[40];
+		int val = 0;
+		boolean exists = false;
 		Color colour;
-		outerloop:
-			for (int i = 0; i < fields.length; i++) { // We loop over all our fields
-				if(fields[i] instanceof Normal) { // We find the fields which are an instance of Normal
-					Normal normal = (Normal) entities.getFieldArr()[i]; // Casting
-					if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
-						colour = normal.getColour(); // Grab the colour
-						for (int j = 0; j < fields.length; j++) { // Start an inner loop
-							if(fields[j] instanceof Normal) { // Once again only want to look at the fields which are of the type normal
-								Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
-								if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
-									bool = false;
-									break;
-								}else {
-									bool = true;
-									break outerloop;
-								}
+		for (int i = 0; i < fields.length; i++) { // We loop over all our fields
+			if(fields[i] instanceof Normal) { // We find the fields which are an instance of Normal
+				Normal normal = (Normal) entities.getFieldArr()[i]; // Casting
+				if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
+					colour = normal.getColour(); // Grab the colour
+					for (int j = 0; j < fields.length; j++) { // Start an inner loop
+						if(fields[j] instanceof Normal) { // Once again only want to look at the fields which are of the type normal
+							Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+							if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
+								bool = false;
+								break;
+							}else {
+								bool = true;
+								break;
 							}
 						}
 					}
+					if(bool == true) {
+						for (int j = 0; j < fields.length; j++) {
+							if (fields[j] instanceof Normal) {
+								Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+								if(normal2.getColour() == colour) {
+									exists = false;
+									for (int k = 0; k < this.normal.length; k++) {
+										if(this.normal[k] == normal2)
+										{
+											exists = true;
+										}
+									}
+									if(!exists) {												
+										this.normal[val++] = normal2;
+									}
+
+								}
+							}
+
+						}
+						//break;
+					}
 				}
 			}
+		}
 		return bool;
 	}
 
@@ -86,34 +111,7 @@ public class BuyLogic {
 		String[] properties = new String[40];
 		int counter = 0;
 		Color colour;
-		for (int i = 0; i < fields.length; i++) {
-			if(fields[i] instanceof Normal) {
-				Normal normal = (Normal) entities.getFieldArr()[i];
-				if(normal.getOwner() == currentPlayer) {
-					for (int j = 0; j < fields.length; j++) {
-						if(fields[j] instanceof Normal) {
-							Normal normal2 = (Normal) entities.getFieldArr()[j];
-							if(normal2.getColour() == normal.getColour() && normal2.getOwner() != currentPlayer && j!= i) {
-								break;
-							}else {
-								for (int k = 0; k < properties.length; k++) {
-									if(properties[k] == normal.getName()) {
-										for (int k2 = 0; k2 < properties.length; k2++) {
-											if(properties[k2] == normal.getName() && k!=k2) {
 
-											}else {
-												properties[counter] = normal.getName();
-												counter++;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 		return properties;
 	}
 

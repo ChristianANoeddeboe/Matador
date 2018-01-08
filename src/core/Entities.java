@@ -11,6 +11,16 @@ public class Entities {
 	private Dice diceArr[];
 	private int chanceCardArr[]; 
 	private Player playerArr[];
+	private Normal[] NormalBlue = new Normal[2];
+	private Normal[] NormalRed = new Normal[3];
+	private Normal[] NormalPurple = new Normal[2];
+	private Normal[] NormalYellow = new Normal[3];
+	private Normal[] NormalWhite = new Normal[3];
+	private Normal[] NormalGrey = new Normal[3];
+	private Normal[] NormalGreen = new Normal[3];
+	private Normal[] NormalOrange = new Normal[3];
+	private int blue = 0, red = 0, purple = 0, yellow = 0, white = 0, grey = 0, green = 0, orange = 0;
+	
 
 	private Entities() {
 		//load config and translation
@@ -127,19 +137,21 @@ public class Entities {
 				// NORMAL FIELDS "id, name, owner, basevalue, houseprices, pawnvalue, buildprice, colour, description"
 				//if (i == 1 || i == 3 || i == 6 || i == 8 || i == 9 || i == 11 || i == 13 || i == 14 || i == 16 || i == 18 || i == 19 || i == 21 || i == 23 || i == 24 || i == 26 || i == 27 || i == 29 || i == 31 || i == 32 || i == 34 || i == 37 || i == 39) {
 				Color color;
-				switch(config.getTranslation("field"+(i+1)+"color")) { // Switch tot ranslate colour from config to gui colour.
-				default : color = Color.black; break;
-				case "gul" : color = Color.yellow; break;
-				case "blå" : color = Color.blue; break;
-				case "pink" : color = Color.pink; break;
-				case "brun"	: color = Color.orange; break;
-				case "hvid" : color = Color.white; break;
-				case "grøn" : color = Color.green; break;
-				case "lilla" : color = Color.magenta; break;
-				case "rød" : color = Color.red; break;
-				case "grå" : color = Color.gray; break;
-
+				String colorString = config.getTranslation("field"+(i+1)+"color");
+				switch(colorString) { // Switch tot ranslate colour from config to gui colour.
+					default : color = Color.black; break;
+					case "gul" : color = Color.yellow; break;
+					case "blå" : color = Color.blue; break;
+					case "pink" : color = Color.orange; break;
+					case "hvid" : color = Color.white; break;
+					case "grøn" : color = Color.green; break;
+					case "lilla" : color = Color.magenta; break;
+					case "rød" : color = Color.red; break;
+					case "grå" : color = Color.gray; break;
 				}
+				
+			
+				
 
 				int housePrices[] = { // Get all the house prices 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
@@ -177,7 +189,45 @@ public class Entities {
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"build")), 
 						color,
 						description);
+				
+	
+				switch (colorString) {
+				case "blå":
+					NormalBlue[blue] = (Normal) fieldArr[i];
+					blue++;
+					break;
+				case "gul":
+					NormalYellow[yellow] = (Normal) fieldArr[i];
+					yellow++;
+					break;
+				case "lilla":
+					NormalPurple[purple] = (Normal) fieldArr[i];
+					purple++;
+					break;
+				case "pink":
+					NormalOrange[orange] = (Normal) fieldArr[i];
+					orange++;
+					break;
+				case "hvid":
+					NormalWhite[white] = (Normal) fieldArr[i];
+					white++;
+					break;
+				case "grøn":
+					NormalGreen[green] = (Normal) fieldArr[i];
+					green++;
+					break;
+				case "grå":
+					NormalGrey[grey] = (Normal) fieldArr[i];
+					grey++;
+					break;
+				case "rød":
+					NormalRed[red] = (Normal) fieldArr[i];
+					red++;
+					break;
+				}
+				
 			}
+			
 		}
 	}
 
@@ -231,6 +281,31 @@ public class Entities {
 
 	public void setChanceCardArr(int[] chanceCardArr) {
 		this.chanceCardArr = chanceCardArr;
+	}
+	
+	public Normal[] getNormalBlue() {
+		return NormalBlue;
+	}
+	public Normal[] getNormalGreen() {
+		return NormalGreen;
+	}
+	public Normal[] getNormalGrey() {
+		return NormalGrey;
+	}
+	public Normal[] getNormalOrange() {
+		return NormalOrange;
+	}
+	public Normal[] getNormalPurple() {
+		return NormalPurple;
+	}
+	public Normal[] getNormalRed() {
+		return NormalRed;
+	}
+	public Normal[] getNormalWhite() {
+		return NormalWhite;
+	}
+	public Normal[] getNormalYellow() {
+		return NormalYellow;
 	}
 
 }
