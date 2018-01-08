@@ -16,9 +16,6 @@ public class BuyLogic {
 	 * @param id
 	 */
 	public BuyLogic() {
-		this.player = player;
-		this.id = id;
-		this.property = property;
 	}
 	
 	protected void updatePlayer(Player currentPlayer) {
