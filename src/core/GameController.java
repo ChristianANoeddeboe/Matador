@@ -1,7 +1,5 @@
 package core;
 
-import java.io.ObjectInputStream.GetField;
-
 public class GameController {
 	private Entities entities;
 	private GUIController guiController;
@@ -74,25 +72,7 @@ public class GameController {
 	}
 
 	public void startRound() {
-		buyLogic = new BuyLogic(currentPlayer);
-		boolean ownshouses = false;
-		String[] choices;
-		for (int i = 0; i <Entities.getInstance().getFieldArr().length; i++) {
-			if(Entities.getInstance().getFieldArr()[i] instanceof Property) {
-				Property property = (Property) entities.getFieldArr()[i];
-				if(property.getOwner() == currentPlayer) {
-					ownshouses = true;
-					break;
-				}
-			}
-		}
-		if(ownshouses) {
-			choices = new String[] {"Roll dice", "Buy houses"};
-		}else {
-			choices = new String[ ]{"Roll dice"};
-		}
-		
-		
+		String choices[] = {"Roll dice"};
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : 
 			playRound();
@@ -113,7 +93,6 @@ public class GameController {
 			String choices[] = {"Yes", "No"};
 			switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
 			case "Yes":
-				guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance()-buyLogic.getPropertyValue(currentPlayer), currentPlayer.getAccount().getBalance());
 				buyLogic.propertyBuyLogic(currentPlayer);
 				guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
 				break;
@@ -124,7 +103,6 @@ public class GameController {
 		}
 		case "StateTax":{
 			guiController.writeMessage("You were taxed 2000 in state tax");
-			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-2000);
 			break;
 		}
 
@@ -142,7 +120,6 @@ public class GameController {
 				//Call stuff here
 			}else {
 				guiController.writeMessage("You have paid your taxes which amounted to a total of: " + response);
-				guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-Integer.parseInt(response));
 			}
 			break;
 		}
@@ -158,8 +135,7 @@ public class GameController {
 		case "CanAfford" : {
 			Property property = (Property) entities.getFieldArr()[currentPlayer.getEndPosition()];
 			guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
-			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-property.getCurrentValue());
-			guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance(), property.getOwner().getAccount().getBalance()+property.getCurrentValue());
+			guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance());
 			break;
 		}
 		case "SaleLogic" : {
@@ -169,9 +145,9 @@ public class GameController {
 			break;
 		}
 		}
-		if(gameLogic.passedStart(currentPlayer)) { // Check if we passed start
-			guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance(), currentPlayer.getAccount().getBalance()-4000);
-		}
+		
+		guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance());
+
 		
 		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) { // Incase we throw pairs
 			playRound();
