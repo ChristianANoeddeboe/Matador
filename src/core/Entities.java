@@ -11,6 +11,15 @@ public class Entities {
 	private Dice diceArr[];
 	private int chanceCardArr[]; 
 	private Player playerArr[];
+	private Normal[] NormalBlue = new Normal[2];
+	private Normal[] NormalRed = new Normal[3];
+	private Normal[] NormalPurple = new Normal[2];
+	private Normal[] NormalYellow = new Normal[3];
+	private Normal[] NormalWhite = new Normal[3];
+	private Normal[] NormalGrey = new Normal[3];
+	private Normal[] NormalGreen = new Normal[3];
+	private Normal[] NormalOrange = new Normal[3];
+	
 
 	private Entities() {
 		//load config and translation
