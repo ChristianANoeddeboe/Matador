@@ -282,6 +282,31 @@ public class Entities {
 	public void setChanceCardArr(int[] chanceCardArr) {
 		this.chanceCardArr = chanceCardArr;
 	}
+	
+	public Field[] getNormalBlue() {
+		return NormalBlue;
+	}
+	public Field[] getNormalGreen() {
+		return NormalGreen;
+	}
+	public Field[] getNormalGrey() {
+		return NormalGrey;
+	}
+	public Field[] getNormalOrange() {
+		return NormalOrange;
+	}
+	public Field[] getNormalPurple() {
+		return NormalPurple;
+	}
+	public Field[] getNormalRed() {
+		return NormalRed;
+	}
+	public Field[] getNormalWhite() {
+		return NormalWhite;
+	}
+	public Field[] getNormalYellow() {
+		return NormalYellow;
+	}
 
 }
 
