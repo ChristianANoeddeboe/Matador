@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.Color;
+import java.lang.reflect.Array;
 
 /**
  * 
@@ -115,6 +116,14 @@ public class BuyLogic {
 		for (int counter = 0; counter < normal.length; counter++) {
 			switch (convertColor(normal[counter].getColour())) {
 			case "blue":
+				for(int i = 0 ; i < 6 ; i++) {
+					if(normal[1].getHouseCounter() == i)
+						addToArray(normal[1].getName());
+					if(normal[3].getHouseCounter() == i)
+						addToArray(normal[3].getName());
+					if(Array.getLength(arg0) > 0)
+						break;
+				}
 				if(normal[counter].getHouseCounter() < normal[counter+1].getHouseCounter() && normal[counter].getHouseCounter() != 5) {
 					properties[amount] = normal[counter].getName();
 					amount++;
