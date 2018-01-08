@@ -1,5 +1,7 @@
 package core;
 
+import java.awt.Color;
+
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -10,17 +12,23 @@ public class BuyLogic {
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();
 	private int id;
-	
+
+	private Player player;
 	/**
 	 * Constructor for the buy logic
 	 * @param id
-	 * @param currentPlayer
 	 */
-	public BuyLogic(Player currentPlayer) {
-		this.id = currentPlayer.getEndPosition();
+	public BuyLogic() {
+	}
+	
+	protected void updatePlayer(Player currentPlayer) {
+		this.player = currentPlayer;
+		this.id = player.getEndPosition();
 		this.property = (Property) fields[id];
 	}
-
+	
+	
+	
 	/**
 	 * Logic for buying a property
 	 * @param currentPlayer
@@ -40,6 +48,73 @@ public class BuyLogic {
 	
 	protected int getPropertyValue(Player currentPlayer) {
 		return property.getBaseValue();
+	}
+
+	/**
+	 * Checks if the player can buy a house by checking if the player owns a row of colours
+	 * @param currentPlayer
+	 * @return a boolean
+	 */
+	protected Boolean canBuyHouse(Player currentPlayer) {
+		boolean bool = true;
+		Color colour;
+		outerloop:
+			for (int i = 0; i < fields.length; i++) { // We loop over all our fields
+				if(fields[i] instanceof Normal) { // We find the fields which are an instance of Normal
+					Normal normal = (Normal) entities.getFieldArr()[i]; // Casting
+					if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
+						colour = normal.getColour(); // Grab the colour
+						for (int j = 0; j < fields.length; j++) { // Start an inner loop
+							if(fields[j] instanceof Normal) { // Once again only want to look at the fields which are of the type normal
+								Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+								if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
+									bool = false;
+									break;
+								}else {
+									bool = true;
+									break outerloop;
+								}
+							}
+						}
+					}
+				}
+			}
+		return bool;
+	}
+
+	protected String[] buyHouseList(Player currentPlayer) {
+		String[] properties = new String[40];
+		int counter = 0;
+		Color colour;
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i] instanceof Normal) {
+				Normal normal = (Normal) entities.getFieldArr()[i];
+				if(normal.getOwner() == currentPlayer) {
+					for (int j = 0; j < fields.length; j++) {
+						if(fields[j] instanceof Normal) {
+							Normal normal2 = (Normal) entities.getFieldArr()[j];
+							if(normal2.getColour() == normal.getColour() && normal2.getOwner() != currentPlayer && j!= i) {
+								break;
+							}else {
+								for (int k = 0; k < properties.length; k++) {
+									if(properties[k] == normal.getName()) {
+										for (int k2 = 0; k2 < properties.length; k2++) {
+											if(properties[k2] == normal.getName() && k!=k2) {
+
+											}else {
+												properties[counter] = normal.getName();
+												counter++;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return properties;
 	}
 
 	/**
