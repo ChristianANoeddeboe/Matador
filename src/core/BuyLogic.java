@@ -56,46 +56,38 @@ public class BuyLogic {
 	 * @return a boolean
 	 */
 	protected Boolean canBuyHouse(Player currentPlayer) {
-		boolean bool = false;
-		boolean bool[] = {false;false;false;false;false;false;false};
-		
-		
-		
-		for(Field field : entities.getFieldArr()) {
-			if(field instanceof Normal) {
-				//WE NOW HAVE ALL THE NORMALS YOU OWN
-				
-			}
+		for (int i = 0; i < entities.nor; i++) {
+			
 		}
 		
 		
-		
-		Color colour;
-
-		for (int i = 0; i < fields.length; i++) { // We loop over all our fields
-			if(fields[i] instanceof Normal) { // We find the fields which are an instance of Normal
-				Normal normal = (Normal) entities.getFieldArr()[i]; // Casting
-				if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
-					colour = normal.getColour(); // Grab the colour
-					for (int j = 0; j < fields.length; j++) { // Start an inner loop
-						if(fields[j] instanceof Normal) { // Once again only want to look at the fields which are of the type normal
-							Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
-							if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
-								bool = false;
-								break;
-							}else {
-								bool = true;
-								break;
-							}
-						}
-					}
-					if(bool == true) {
-						break;
-					}
-				}
-			}
-		}
-		return bool;
+		return null;
+//		boolean bool = false;		
+//		Color colour;
+//		for (int i = 0; i < fields.length; i++) { // We loop over all our fields
+//			if(fields[i] instanceof Normal) { // We find the fields which are an instance of Normal
+//				Normal normal = (Normal) entities.getFieldArr()[i]; // Casting
+//				if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
+//					colour = normal.getColour(); // Grab the colour
+//					for (int j = 0; j < fields.length; j++) { // Start an inner loop
+//						if(fields[j] instanceof Normal) { // Once again only want to look at the fields which are of the type normal
+//							Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+//							if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
+//								bool = false;
+//								break;
+//							}else {
+//								bool = true;
+//								break;
+//							}
+//						}
+//					}
+//					if(bool == true) {
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		return bool;
 	}
 
 	protected String[] buyHouseList(Player currentPlayer) {
