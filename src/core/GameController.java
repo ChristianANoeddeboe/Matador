@@ -73,7 +73,7 @@ public class GameController {
 	}
 
 	public void startRound() {
-		buyLogic.updatePlayer(currentPlayer);
+
 		String choices[] = {"Roll dice"};
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : 
@@ -94,6 +94,7 @@ public class GameController {
 		
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
+				buyLogic.updatePlayer(currentPlayer);
 				String choices[] = {"Yes", "No"};
 				switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
 					case "Yes": {
@@ -104,6 +105,7 @@ public class GameController {
 					case "No":
 						break;
 				}
+				break;
 			}
 			
 			case "StateTax":{
@@ -130,16 +132,19 @@ public class GameController {
 			}
 
 			case "CannotAfford" : {
+				buyLogic.updatePlayer(currentPlayer);
 				// Nothing should happen if we can't afford buying a property
 				break;
 			}
 			
 			case "OwnedByPlayer" : {
+				buyLogic.updatePlayer(currentPlayer);
 				// Nothing should happen when we land on our own property
 				break;
 			}
 			
 			case "CanAfford" : {
+				buyLogic.updatePlayer(currentPlayer);
 				Property property = (Property) entities.getFieldArr()[currentPlayer.getEndPosition()];
 				guiController.writeMessage("You landed on another players property and were charged with "+property.getCurrentValue());
 				guiController.updatePlayerBalance(property.getOwner().getId_GUI(), property.getOwner().getAccount().getBalance());
@@ -158,12 +163,11 @@ public class GameController {
 		guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance());
 
 		
-		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) { // Incase we throw pairs
-			playRound();
-			guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());			
-		}
-		
-		playerRoundHasEnded = true;
+		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) {
+			guiController.writeMessage("You rolled a pair and gets another turn");
+			playerRoundHasEnded = false;
+		} else
+			playerRoundHasEnded = true;
 	}
 
 
