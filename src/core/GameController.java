@@ -1,12 +1,14 @@
 package core;
 
+import java.util.Arrays;
+
 public class GameController {
 	private Entities entities;
 	private GUIController guiController;
 	private GameLogic gameLogic;
 	private Player currentPlayer;
 	private boolean playerRoundHasEnded = false;
-	BuyLogic buyLogic;
+	private BuyLogic buyLogic;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
@@ -80,7 +82,7 @@ public class GameController {
 
 	public void startRound() {
 		String choices[] = {"Roll dice"};
-		
+
 		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
 		if(buyLogic.canBuyHouse(currentPlayer)) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
@@ -98,9 +100,11 @@ public class GameController {
 	}
 	
 	public void playRound() {
-		rollDice();
-		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-		
+	    if (!currentPlayer.isPrison()) {
+            rollDice();
+            guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
+        }
+
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
 				buyLogic.updatePlayer(currentPlayer);
@@ -160,7 +164,56 @@ public class GameController {
 				break;
 			}
 			
-			case "SaleLogic" : {
+			case "Prison" : {
+			    if (currentPlayer.getEndPosition() == 10 && !currentPlayer.isPrison()) {
+			        guiController.writeMessage("You are visiting prison.");
+                } else if (currentPlayer.getEndPosition() == 10 && currentPlayer.isPrison()) {
+                    String stringinput = gameLogic.getPrisonLogic().logic(currentPlayer);
+                    if (stringinput.startsWith(",")) stringinput = stringinput.substring(1);
+                    String[] input = stringinput.split(",");
+                    String[] choices = Arrays.copyOfRange(input, 1, input.length);
+                    String choice = guiController.requestPlayerChoiceButtons(choices[0], choices);
+                    switch (choice) {
+                        case "Roll":
+                            rollDice();
+                            guiController.writeMessage("You have rolled "+currentPlayer.getPrisontries()+" times out of 3.");
+                            gameLogic.getPrisonLogic().prisonRollLogic(currentPlayer);
+                            break;
+                        case "Pay fine":
+                            gameLogic.getPrisonLogic().payPrisonLogic(currentPlayer);
+                            guiController.writeMessage("You paid your fine and is released immediately");
+                            break;
+                        case "Wait a turn":
+                            guiController.writeMessage("You do not have enough money and have to wait a turn.");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (currentPlayer.getEndPosition() == 30) {
+                    String stringinput = gameLogic.getPrisonLogic().logic(currentPlayer);
+                    if (stringinput.startsWith(",")) stringinput = stringinput.substring(1);
+                    String[] input = stringinput.split(",");
+                    String[] choices = Arrays.copyOfRange(input, 1, input.length);
+                    String choice = guiController.requestPlayerChoiceButtons(choices[0], choices);
+                    switch (choice) {
+                        case "Prison Card":
+                            gameLogic.getPrisonLogic().prisonCardLogic(currentPlayer);
+                            guiController.writeMessage("You used a prison card and do not go to jail.");
+                            break;
+                        case "Pay Fine":
+                            gameLogic.getPrisonLogic().payPrisonLogic(currentPlayer);
+                            guiController.writeMessage("You paid your fine and is released immediately");
+                            break;
+                        case "Go to jail":
+                            currentPlayer.setPrison(true);
+                            guiController.writeMessage("You go to jail.");
+                            guiController.jailPlayer(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), 10);
+                            break;
+                        default:
+                            break;
+                    }
+                }
 				break;
 			}
 			
@@ -172,7 +225,7 @@ public class GameController {
 		guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance());
 
 		
-		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue()) {
+		if(entities.getDiceArr()[0].getValue() == entities.getDiceArr()[1].getValue() && !currentPlayer.isPrison()) {
 			guiController.writeMessage("You rolled a pair and gets another turn");
 			playerRoundHasEnded = false;
 		} else
@@ -186,15 +239,15 @@ public class GameController {
 			totalValue += entities.getDiceArr()[i].roll();
 		
 		guiController.showDice();
-		
+
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-		
+
 		if(( currentPlayer.getEndPosition() + totalValue ) > 39)
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 40);
 		else
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
-		
+
 	}
 
 

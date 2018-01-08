@@ -27,29 +27,30 @@ public class PrisonLogic {
 	 * @return
 	 */
 	protected String logic(Player currentPlayer) {
-		String returnstr = ""; // Used to build a series of strings for the gui to display all options
+		String returnstr; // Used to build a series of strings for the gui to display all options
 		if(id == 30 && !currentPlayer.isPrison()){ // Checking if the player is not prisoned and if it is the right prison field
 			//If we landed on prison and we are not prisoned
+			returnstr = "You landed on prison field. What do you want to do?";
 			if(currentPlayer.getPrisonCard() > 0) { // check if we have a prison card
-				returnstr = returnstr + ",PrisonCard";
+				returnstr = returnstr + ",Prison card";
 			}
 			if(currentPlayer.getAccount().canAfford(1000)) { // Check if we can afford to pay the 1000 fine to get out
-				returnstr = returnstr + ",CanPayFine";
-			}else { // We can't pay the fine and we don't have a card, so we are prisoned
-				currentPlayer.setPrison(true);
-				returnstr =  returnstr + ",CanNotPayFine";
+				returnstr = returnstr + ",Pay fine";
 			}
+			returnstr =  returnstr + ",Go to jail";
 			return returnstr;
 		}else if(id == 30 && currentPlayer.isPrison()) { // We check if we are in prison
+			returnstr = "You're in prison. You have "+currentPlayer.getPrisontries()+" rolls left or you can pay the fine.";
 			if(currentPlayer.getPrisontries() < 3 ) { // If we are, then we check how many rounds/times we tried to get out
-				return "PlayerRoll";
-			}else {
+				returnstr = returnstr + ",Roll";
+			} else {
 				if(currentPlayer.getAccount().canAfford(1000)) {// If we tried too many times we just have to pay
-					return "PayFineMaxTries";
-				}else { // If we can't afford the 1000 fine
-					return "CantAfford";
+					returnstr = returnstr + ",Pay fine";
+				} else { // If we can't afford the 1000 fine
+					returnstr = returnstr + ",Wait a turn";
 				}
 			}
+			return returnstr;
 		}
 		return "Nothing";
 	}

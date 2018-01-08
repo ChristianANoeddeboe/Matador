@@ -224,21 +224,19 @@ public class GUIController {
 	public Color getVehicleColor(int id) {
 		switch (id) {
 		case 0:
-			return Color.BLUE;
+			return Color.BLACK;
 		case 1:
-			return Color.RED;
+			return Color.RED.darker();
 		case 2:
-			return Color.GREEN;
+			return Color.GREEN.darker();
 		case 3:
-			return Color.YELLOW;
+			return Color.YELLOW.darker();
 		case 4:
-			return Color.MAGENTA;
+			return Color.MAGENTA.darker();
 		case 5:
-			return Color.CYAN;
-		case 6:
-			return Color.WHITE;
+			return Color.CYAN.darker();
 		default:
-			return Color.BLUE;
+			return Color.BLUE.brighter();
 		}
 	}
 
