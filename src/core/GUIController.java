@@ -151,6 +151,20 @@ public class GUIController {
 	}
 
 	/**
+	 * Visually changes the amount of houses on the board.
+	 * @param field_id the id associated with the field.
+	 * @param amount amount of houses to set. 5 houses is a hotel.
+	 */
+	public void setHouse(int field_id, int amount) {
+		((GUI_Street)fields_GUI[field_id]).setHouses(amount);
+		if (amount >= 5) {
+			((GUI_Street)fields_GUI[field_id]).setHotel(true);
+		} else {
+			((GUI_Street)fields_GUI[field_id]).setHotel(false);
+		}
+	}
+
+	/**
 	 * Lets the user input an integer the system can interprit. A pre defined message will be displayed alongside the text field.
 	 * @return int
 	 */
