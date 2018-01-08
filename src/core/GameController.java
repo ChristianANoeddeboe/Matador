@@ -82,18 +82,22 @@ public class GameController {
 		String choices[] = {"Roll dice"};
 		
 		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
+		
 		if(buyLogic.canBuyHouse(currentPlayer)) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
 			choices = choices2;
 		}
 		
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
-		case "Roll dice" : 
-			playRound();
-			break;
-		case "Buy houses" :
-			String reponse = buyLogic.houseBuyLogic(currentPlayer);
-			break;
+			case "Roll dice" : {
+				playRound();
+				break;
+			}
+			case "Buy houses" : {
+				String reponse = buyLogic.houseBuyLogic(currentPlayer);
+				
+				break;
+			}
 		}
 	}
 	
@@ -111,8 +115,7 @@ public class GameController {
 						guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
 						break;
 					}
-					case "No":
-						break;
+					case "No": break;
 				}
 				break;
 			}
