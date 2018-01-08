@@ -20,15 +20,15 @@ public class BuyLogic {
 	 */
 	public BuyLogic() {
 	}
-	
+
 	protected void updatePlayer(Player currentPlayer) {
 		this.player = currentPlayer;
 		this.id = player.getEndPosition();
 		this.property = (Property) fields[id];
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Logic for buying a property
 	 * @param currentPlayer
@@ -45,7 +45,7 @@ public class BuyLogic {
 			this.shippingBuyLogic(currentPlayer);
 		}
 	}
-	
+
 	protected int getPropertyValue(Player currentPlayer) {
 		return property.getBaseValue();
 	}
@@ -176,16 +176,21 @@ public class BuyLogic {
 	 */
 	protected void shippingBuyLogic(Player currentPlayer) {
 		int counter = 0; // How many the player owns
-		currentPlayer.getAccount().withdraw(property.getBaseValue()); // Withdraw the basevalue from the player
+		currentPlayer.getAccount().withdraw(property.getCurrentValue()); // Withdraw the basevalue from the player
 		property.setOwner(currentPlayer); // Set the owner
 		for (int i = 0; i <fields.length; i++) { // First loop and find out how many we own
 			if(fields[i] instanceof Shipping) {
 				Shipping shipping = (Shipping) fields[i];
-				if (shipping.getOwner() == currentPlayer && fields[i].getClass().getSimpleName().equals("shipping")) {
+				if (shipping.getOwner() == currentPlayer) {
 					counter++; // Update how many we own
-					for (int j = 0; j < fields.length; j++) {
-						shipping.setCurrentValue(getShippingValue(counter)); // Set the value on them all
-					}
+				}
+			}
+		}
+		for (int j = 0; j < fields.length; j++) {
+			if(fields[j] instanceof Shipping) {
+				Shipping shipping = (Shipping) fields[j];
+				if(currentPlayer == shipping.getOwner()) {
+				shipping.setCurrentValue(getShippingValue(counter)); // Set the value on them all
 				}
 			}
 		}
