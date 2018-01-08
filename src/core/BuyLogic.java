@@ -58,110 +58,6 @@ public class BuyLogic {
 	 */
 	protected Boolean canBuyHouse(Player currentPlayer) {
 		boolean bool = true;
-//		int val = 1;
-//		Normal[] normal;
-//		switch (val) {
-//		case 1:
-//			normal = (Normal[]) entities.getNormalBlue();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		case 2:
-//			normal = (Normal[]) entities.getNormalGreen();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//
-//		case 3:
-//			normal = (Normal[]) entities.getNormalGrey();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		
-//		case 4:
-//			normal = (Normal[]) entities.getNormalPurple();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		case 5:
-//			normal = (Normal[]) entities.getNormalRed();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		
-//		case 6:
-//			normal = (Normal[]) entities.getNormalWhite();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		case 7:
-//			normal = (Normal[]) entities.getNormalYellow();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		case 8:
-//			normal = (Normal[]) entities.getNormalOrange();
-//			for (int i = 0; i < normal.length; i++) {
-//				if(normal[i].getOwner() != currentPlayer) {
-//					bool = false;
-//					break;
-//				}
-//			}
-//			if(bool == true) {
-//				break;
-//			}
-//			val++;
-//		}
-//		return bool;
 		this.normal = new Normal[40];
 		int val = 0;
 		boolean exists = false;
@@ -195,10 +91,8 @@ public class BuyLogic {
 													exists = true;
 												}
 											}
-											if(!exists) {
-												
+											if(!exists) {												
 												this.normal[val++] = normal2;
-												System.out.println(this.normal[val-1].getName());
 											}
 											
 										}
@@ -217,34 +111,7 @@ public class BuyLogic {
 		String[] properties = new String[40];
 		int counter = 0;
 		Color colour;
-		for (int i = 0; i < fields.length; i++) {
-			if(fields[i] instanceof Normal) {
-				Normal normal = (Normal) entities.getFieldArr()[i];
-				if(normal.getOwner() == currentPlayer) {
-					for (int j = 0; j < fields.length; j++) {
-						if(fields[j] instanceof Normal) {
-							Normal normal2 = (Normal) entities.getFieldArr()[j];
-							if(normal2.getColour() == normal.getColour() && normal2.getOwner() != currentPlayer && j!= i) {
-								break;
-							}else {
-								for (int k = 0; k < properties.length; k++) {
-									if(properties[k] == normal.getName()) {
-										for (int k2 = 0; k2 < properties.length; k2++) {
-											if(properties[k2] == normal.getName() && k!=k2) {
-
-											}else {
-												properties[counter] = normal.getName();
-												counter++;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		
 		return properties;
 	}
 
