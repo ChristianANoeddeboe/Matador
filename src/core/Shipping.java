@@ -17,9 +17,10 @@ public class Shipping extends Property {
 	 */
 	public Shipping(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
 		super(id, name, owner, baseValue, pawnValue, description);
-		this.currentValue = baseValue;
+		this.currentValue = 500;
 	}
 	
 	public int getCurrentValue() {return currentValue;}
+	public void setCurrentValue(int value) { this.currentValue = value; }
 }
 
