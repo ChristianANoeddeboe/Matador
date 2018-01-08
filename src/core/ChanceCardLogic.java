@@ -11,7 +11,7 @@ public class ChanceCardLogic {
 	private Player[] players;
 	private Field[] fields;
 	private Property property;
-	private Normal normal;
+	private Street normal;
 	private String chanceCardMessage;
 
 	public ChanceCardLogic () {
@@ -91,7 +91,7 @@ public class ChanceCardLogic {
 
 				for (int i = 0; i < fields.length; i++) {
 					if (fields[i].getClass().getSimpleName() == "Normal") {
-						normal = (Normal) fields[i];
+						normal = (Street) fields[i];
 						if (normal.getOwner() == currentPlayer) {
 							if (normal.getHouseCounter() == 5) {
 								estateTax += 2300;
@@ -136,7 +136,7 @@ public class ChanceCardLogic {
 					if (fields[i].getClass().getSimpleName() == "Normal") {
 						if (currentPlayer == property.getOwner()) {
 							property = (Property) fields[i];
-							normal = (Normal) fields[i];
+							normal = (Street) fields[i];
 							playerValue += (property.getBaseValue());
 							if (normal.getHouseCounter() > 0) {
 								int buildPrice = normal.getBuildPrice();
@@ -171,7 +171,7 @@ public class ChanceCardLogic {
 
 				for (int i = 0; i < fields.length; i++) {
 					if (fields[i].getClass().getSimpleName() == "Normal") {
-						normal = (Normal) fields[i];
+						normal = (Street) fields[i];
 						if (normal.getOwner() == currentPlayer) {
 							if (normal.getHouseCounter() == 5) {
 								estateTax += 2000;

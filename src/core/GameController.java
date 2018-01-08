@@ -3,9 +3,10 @@ package core;
 import java.util.Arrays;
 
 public class GameController {
-	private Entities entities;
 	private GUIController guiController;
 	private GameLogic gameLogic;
+	private FieldController fieldController;
+	private PlayerController playerController;
 	private Player currentPlayer;
 	private boolean playerRoundHasEnded = false;
 	private BuyLogic buyLogic;
@@ -19,33 +20,34 @@ public class GameController {
 	}
 
 	public GameController() {
-		entities = Entities.getInstance();
 		guiController = GUIController.getInstance();
 		gameLogic = new GameLogic();
 		buyLogic = new BuyLogic();
-
+		fieldController = new FieldController();
+		playerController = new PlayerController();
 	}
 
 	public void prepareGame() {
-		guiController.setupBoard(entities.getFieldArr());
+		guiController.setupBoard(fieldController);
 
 		int amountOfPlayers = guiController.requestNumberOfPlayers();
-		entities.initPlayers(amountOfPlayers);
+		playerController.initPlayers(amountOfPlayers);
 
 		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
 			String name = guiController.requestStringInput("Please write name.");
-			if (name.equals("")) { name = "player"+(i+1);}
+			if (name.equals(""))
+				name = "player"+(i+1);
 			Player player = new Player(name, i);
 			guiController.addPlayer(i, 30000, name);
-			entities.getPlayers()[i] = player;
+			playerController.getPlayers()[i] = player;
 		}
 
-		currentPlayer = entities.getPlayers()[0];
+		currentPlayer = playerController.getPlayers()[0];
 		
-		Field fields[] = entities.getFieldArr();
+		Field fields[] = fieldController.getFieldArr();
 		for( int i = 0 ; i < fields.length ; i++ ) {
-			if(fields[i].getClass().getSimpleName().equals("Normal")) {
-				((Normal) fields[i]).setOwner(currentPlayer);
+			if(fields[i].getClass().getSimpleName().equals("Street")) {
+				((Street) fields[i]).setOwner(currentPlayer);
 			}
 		}
 	}
@@ -65,7 +67,7 @@ public class GameController {
 		boolean choosePlayer = false;
 		if(playerRoundHasEnded) {
 			do {
-				for (Player player : entities.getPlayers()) {
+				for (Player player : playerController.getPlayers()) {
 					if(choosePlayer) {
 						currentPlayer = player;
 						choosePlayer = false;

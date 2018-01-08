@@ -5,15 +5,11 @@ package core;
  *
  */
 
-public class Parking extends Field {
-	/**
-	 * Constructor for parking field
-	 * @param id
-	 * @param name
-	 * @param description
-	 */
+public class Parking extends SpecialProperty {
+
 	public Parking(int id, String name, String description) {
 		super(id, name, description);
+		// TODO Auto-generated constructor stub
 	}
 
 }
