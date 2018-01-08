@@ -89,6 +89,7 @@ public class GameController {
 			guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());			
 		}
 		System.out.println(gameLogic.findLogic(currentPlayer));
+		
 		switch(gameLogic.findLogic(currentPlayer)) {
 		case "NotOwned" : {
 			String choices[] = {"Yes", "No"};
