@@ -3,18 +3,34 @@ package test;
 import core.ChanceCardLogic;
 import core.Entities;
 import core.Player;
+import core.PropertiesIO;
+import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Magnus Stjernborg Koch - s175189 og Zeth Benjamin ...
  * This class contains test functions for the object/class ChanceCardLogic
  */
-public class testChanceCardLogic{
-    private ChanceCardLogic chanceCardLogic = new ChanceCardLogic();
-    private Player testPlayer = new Player("Magnus", 1);
-    private Entities entities = Entities.getInstance();
+public class testChanceCardLogic {
+    private ChanceCardLogic chanceCardLogic;
+    private Player testPlayer;
+    private Player testPlayer2;
+    private Player testPlayer3;
+    private Player[] testPlayerArray;
+    private Entities entities;
+    private PropertiesIO config;
+
+    @Before
+    public void initializeTest () {
+        testPlayer = new Player("Magnus", 1);
+        testPlayer2 = new Player("Benjamin", 2);
+        testPlayer3 = new Player("Nicolai", 3);
+        testPlayerArray = new Player[]{testPlayer, testPlayer2, testPlayer3};
+        entities = Entities.getInstance();
+        entities.setPlayers(testPlayerArray);
+        chanceCardLogic = new ChanceCardLogic();
+        config = entities.getConfig();
+    }
 
     public int[] chanceCardDeck () {
         return entities.getChanceCardArr();
@@ -40,21 +56,17 @@ public class testChanceCardLogic{
 
     @Test
     public void testIndex () {
-        assertEquals(0, chanceCardLogic.getIndex());
-        //assertEquals(0, chanceCardLogic.getIndex());
 
     }
 
-    @Test
-    public void testRandomizerOfCardArray () {
-        goThrowCardDeck();
-    }
-
+    //Running through all chancecards and running each chance logic
     @Test
     public void testAllChances () {
-        for (int i = 0; i < 32; i++) {
+        testPlayer.setEndPosition(2);
+        for (int i = 0; i <= 31; i++) {
+            testPlayer.setEndPosition(2);
             chanceCardLogic.getCard(testPlayer);
-            System.out.print(i);
+            testPlayer.setEndPosition(2);
         }
     }
 
