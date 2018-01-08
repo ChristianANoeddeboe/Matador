@@ -1,9 +1,6 @@
 package core;
 
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-
 import java.awt.Color;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Entities {
