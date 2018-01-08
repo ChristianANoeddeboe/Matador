@@ -81,10 +81,6 @@ public class GameController {
 	public void startRound() {
 		String choices[] = {"Roll dice"};
 		
-		for (Normal normal : entities.getNormalBlue()) {
-			System.out.println(normal.getName());
-		}
-		
 		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
 		if(buyLogic.canBuyHouse(currentPlayer)) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
@@ -104,9 +100,6 @@ public class GameController {
 	public void playRound() {
 		rollDice();
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-		
-		//FOR FUNS
-		System.out.println(gameLogic.findLogic(currentPlayer));
 		
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
@@ -193,13 +186,15 @@ public class GameController {
 			totalValue += entities.getDiceArr()[i].roll();
 		
 		guiController.showDice();
+		
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-		if( ( currentPlayer.getEndPosition() + totalValue ) > 39) {
+		
+		if(( currentPlayer.getEndPosition() + totalValue ) > 39)
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 40);
-		}else {
+		else
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
-		}
+		
 	}
 
 
