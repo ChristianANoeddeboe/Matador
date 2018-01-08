@@ -40,6 +40,13 @@ public class GameController {
 		}
 
 		currentPlayer = entities.getPlayers()[0];
+		
+		Field fields[] = entities.getFieldArr();
+		for( int i = 0 ; i < fields.length ; i++ ) {
+			if(fields[i].getClass().getSimpleName().equals("Normal")) {
+				((Normal) fields[i]).setOwner(currentPlayer);
+			}
+		}
 	}
 
 	public void startGame() {
@@ -73,8 +80,13 @@ public class GameController {
 	}
 
 	public void startRound() {
-
 		String choices[] = {"Roll dice"};
+		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
+		if(buyLogic.canBuyHouse(currentPlayer)) {
+			String choices2[] = {"Roll dice","Buy house/hotel"};
+			choices = choices2;
+		}
+		
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : 
 			playRound();
