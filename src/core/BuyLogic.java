@@ -13,16 +13,22 @@ public class BuyLogic {
 	private Field[] fields = entities.getFieldArr();
 	private int id;
 
+	private Player player;
 	/**
 	 * Constructor for the buy logic
 	 * @param id
-	 * @param currentPlayer
 	 */
-	public BuyLogic(Player currentPlayer) {
-		this.id = currentPlayer.getEndPosition();
+	public BuyLogic() {
+	}
+	
+	protected void updatePlayer(Player currentPlayer) {
+		this.player = currentPlayer;
+		this.id = player.getEndPosition();
 		this.property = (Property) fields[id];
 	}
-
+	
+	
+	
 	/**
 	 * Logic for buying a property
 	 * @param currentPlayer
@@ -39,7 +45,7 @@ public class BuyLogic {
 			this.shippingBuyLogic(currentPlayer);
 		}
 	}
-
+	
 	protected int getPropertyValue(Player currentPlayer) {
 		return property.getBaseValue();
 	}
