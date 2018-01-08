@@ -22,7 +22,7 @@ public class SalesLogic {
 	 * @return
 	 */
 	protected String sellHouse(Player currentPlayer) {
-		Normal[] fields = (Normal[]) entities.getFieldArr();
+		Street[] fields = (Street[]) entities.getFieldArr();
 		currentPlayer.getAccount().deposit(fields[id].getHousePrices()[1]); // We get the current player and deposit the house price back into the players account
 		return "SoldHouse, "+ fields[id].getHousePrices()[1];
 	}
@@ -33,8 +33,8 @@ public class SalesLogic {
 	 */
 	protected String pawnProperty(Player currentPlayer) {
 		Property[] fields = (Property[]) entities.getFieldArr();
-		if(fields[id] instanceof Normal) {
-			Normal[] nfields = (Normal[]) entities.getFieldArr();
+		if(fields[id] instanceof Street) {
+			Street[] nfields = (Street[]) entities.getFieldArr();
 			if(nfields[id].getHouseCounter() == 0 && checkHouses(currentPlayer) && nfields[id].getHouseCounter() == 0) {
 				fields[id].setIsPawned(true); // We set the pawn bool to true
 				currentPlayer.getAccount().deposit(fields[id].getPawnValue()); // Weget the pawn value and deposit it into the owners account
@@ -50,12 +50,12 @@ public class SalesLogic {
 	}
 	
 	protected boolean checkHouses(Player currentPlayer) {
-		Normal[] fields = (Normal[]) entities.getFieldArr();
+		Street[] fields = (Street[]) entities.getFieldArr();
 		Color propertyColor = fields[id].getColour();
 		
 		switch (propertyColor.toString()) {
 		case "Color.blue":
-			Normal[] blueFields = (Normal[]) entities.getNormalBlue();
+			Street[] blueFields = (Street[]) entities.getNormalBlue();
 			for(int i = 0; i < blueFields.length; i++) {
 				if(blueFields[i].getOwner() == fields[id].getOwner()) {
 					if(blueFields[i].getHouseCounter() > fields[id].getHouseCounter() + 1) {
@@ -70,7 +70,7 @@ public class SalesLogic {
 				}
 			}
 		case "Color.pink":
-			Normal[] pinkFields = (Normal[]) entities.getNormalBlue();
+			Street[] pinkFields = (Street[]) entities.getNormalBlue();
 			for(int i = 0; i < pinkFields.length; i++) {
 				if(pinkFields[i].getOwner() == fields[id].getOwner()) {
 					if(pinkFields[i].getHouseCounter() > fields[id].getHouseCounter() + 1) {

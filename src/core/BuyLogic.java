@@ -10,10 +10,10 @@ import java.lang.reflect.Array;
  */
 public class BuyLogic {
 	private Property property;
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = entities.getFieldArr();
+	private Entities entities;
+	private Field[] fields;
 	private int id;
-	Normal[] normal;
+	Street[] normal;
 
 	private Player player;
 	/**
@@ -38,7 +38,7 @@ public class BuyLogic {
 	 */
 	protected void propertyBuyLogic(Player currentPlayer) {
 		Field field = Entities.getInstance().getFieldArr()[currentPlayer.getEndPosition()];
-		if(field instanceof Normal) {
+		if(field instanceof Street) {
 			currentPlayer.getAccount().withdraw((property.getBaseValue())); // Withdraw money form player based on the property base value
 			property.setOwner(currentPlayer); // Set the owner
 		}else if(field instanceof Brewery) {
@@ -59,18 +59,18 @@ public class BuyLogic {
 	 */
 	protected Boolean canBuyHouse(Player currentPlayer) {
 		boolean bool = true;
-		this.normal = new Normal[40];
+		this.normal = new Street[40];
 		int val = 0;
 		boolean exists = false;
 		Color colour;
 		for (int i = 0; i < fields.length; i++) { // We loop over all our fields
-			if(fields[i] instanceof Normal) { // We find the fields which are an instance of Normal
-				Normal normal = (Normal) entities.getFieldArr()[i]; // Casting
+			if(fields[i] instanceof Street) { // We find the fields which are an instance of Normal
+				Street normal = (Street) entities.getFieldArr()[i]; // Casting
 				if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
 					colour = normal.getColour(); // Grab the colour
 					for (int j = 0; j < fields.length; j++) { // Start an inner loop
-						if(fields[j] instanceof Normal) { // Once again only want to look at the fields which are of the type normal
-							Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+						if(fields[j] instanceof Street) { // Once again only want to look at the fields which are of the type normal
+							Street normal2 = (Street) entities.getFieldArr()[j]; // casting
 							if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
 								bool = false;
 								break;
@@ -82,8 +82,8 @@ public class BuyLogic {
 					}
 					if(bool == true) {
 						for (int j = 0; j < fields.length; j++) {
-							if (fields[j] instanceof Normal) {
-								Normal normal2 = (Normal) entities.getFieldArr()[j]; // casting
+							if (fields[j] instanceof Street) {
+								Street normal2 = (Street) entities.getFieldArr()[j]; // casting
 								if(normal2.getColour() == colour) {
 									exists = false;
 									for (int k = 0; k < this.normal.length; k++) {
@@ -112,7 +112,7 @@ public class BuyLogic {
 		String[] properties = new String[40];
 		int amount = 0;
 		Color colour;
-		Normal[] normal = this.normal;
+		Street[] normal = this.normal;
 		for (int counter = 0; counter < normal.length; counter++) {
 			switch (convertColor(normal[counter].getColour())) {
 			case "blue":
@@ -205,8 +205,8 @@ public class BuyLogic {
 	 */
 	protected String houseBuyLogic(Player currentPlayer) {
 		// Player can buy new house and there is no more than 4 buildings on the field
-		if(fields[id] instanceof Normal) { // We are only dealing with fields of the type normal, so only check for those
-			Normal normal = (Normal) fields[id]; // Instantiate a new Normal object casting fieldsid normal
+		if(fields[id] instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
+			Street normal = (Street) fields[id]; // Instantiate a new Normal object casting fieldsid normal
 			if (currentPlayer.getAccount().canAfford(normal.getBuildPrice()) && normal.getHouseCounter() <= 5) { // Check if player can afford house and making sure there is not already 5
 				currentPlayer.getAccount().withdraw(normal.getBuildPrice());
 				normal.setHouseCounter(normal.getHouseCounter() + 1);
@@ -230,8 +230,8 @@ public class BuyLogic {
 	 * @return the landing price
 	 */
 	private int calcHousePrice(int houses) {
-		if(fields[id] instanceof Normal) {
-			Normal normal = (Normal) fields[id];
+		if(fields[id] instanceof Street) {
+			Street normal = (Street) fields[id];
 			switch (houses) {
 			case 1:
 				return normal.getHousePrices()[1];
@@ -318,7 +318,7 @@ public class BuyLogic {
 	}
 
 
-	public Normal[] getNormal() {
+	public Street[] getNormal() {
 		return normal;
 	}
 }

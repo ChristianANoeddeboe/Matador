@@ -5,10 +5,9 @@ package core;
  *
  */
 public class GameLogic {
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = entities.getFieldArr();
-	private int dice1value = entities.getDiceArr()[0].getValue();
-	private int dice2value = entities.getDiceArr()[1].getValue();
+	private Field[] fields;
+	private int dice1value;
+	private int dice2value;
 	private int totalFaceValue = dice1value+dice2value;
 	private PrisonLogic prisonLogic;
 
@@ -29,7 +28,7 @@ public class GameLogic {
 		int id = currentPlayer.getEndPosition();
 		dice1value = entities.getDiceArr()[0].getValue();
 		dice2value = entities.getDiceArr()[1].getValue();
-		if (fields[id] instanceof Normal) { 
+		if (fields[id] instanceof Street) { 
 			NormalLogic normalLogic = new NormalLogic(id, currentPlayer);
 			return normalLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Brewery) {

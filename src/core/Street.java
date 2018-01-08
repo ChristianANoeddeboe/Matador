@@ -6,7 +6,7 @@ import java.awt.*;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class Normal extends Property {
+public class Street extends Property {
 	private int houseCounter;
 	private int[] housePrices = new int[6];
 	private int BuildPrice;
@@ -23,8 +23,8 @@ public class Normal extends Property {
 	 * @param colour
 	 * @param description
 	 */
-	public Normal(int id, String name, Player owner, int baseValue, int[] housePrices, int pawnValue, int buildPrice, Color colour, String description) {
-		super(id, name, owner, baseValue, pawnValue, description);
+	public Street(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue, int[] housePrices, int buildPrice, Color colour) {
+		super(id, name, description, owner, buyValue, pawnValue, rentValue);
 		this.houseCounter = 0;
 		for (int i = 0 ; i < housePrices.length ; i++) {
 			this.housePrices[i] = housePrices[i];

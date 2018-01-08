@@ -5,8 +5,10 @@ package core;
  *
  */
 public class Brewery extends Property {
-	public Brewery(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
-		super(id, name, owner, baseValue, pawnValue, description);
+	public Brewery(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue) {
+		super(id, name, description, owner, buyValue, pawnValue, rentValue);
 	}
+	
+	
 
 }

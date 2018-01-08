@@ -6,8 +6,8 @@ package core;
  */
 public abstract class Property extends Field {
 	private Player owner;
-	private int baseValue;
-	private int currentValue;
+	private int buyValue;
+	private int rentValue;
 	private int pawnValue;
 	private boolean isPawned;
 	/**
@@ -19,48 +19,43 @@ public abstract class Property extends Field {
 	 * @param pawnValue
 	 * @param description
 	 */
-	public Property(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
+	public Property(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue) {
 		super(id, name, description);
-		this.baseValue = baseValue;
+		this.buyValue = buyValue;
 		this.pawnValue = pawnValue;
 		this.owner = owner;
-		this.currentValue = 0;
 		this.isPawned = false;
-		this.currentValue = baseValue;
-	}
-
-	public int getBaseValue() {
-		return baseValue;
-	}
-	public void setBaseValue(int value) {
-		baseValue = value;
-	}
-	public int getCurrentValue() { 
-		return currentValue;
-	}
-	public void setCurrentValue(int value) {
-		currentValue = value;
-	}
-	public int getPawnValue() {
-		return pawnValue;
-	}
-	public void setPawnValue(int value) {
-		pawnValue = value;
-	}
-	public boolean isOwned () {
-		return !(this.owner == null);
+		this.rentValue = rentValue;
 	}
 	public Player getOwner() {
 		return owner;
 	}
-	public void setOwner(Player newOwner) {
-		owner = newOwner;
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
-	public boolean getIsPawned() {
+	public int getBuyValue() {
+		return buyValue;
+	}
+	public void setBuyValue(int buyValue) {
+		this.buyValue = buyValue;
+	}
+	public int getRentValue() {
+		return rentValue;
+	}
+	public void setRentValue(int rentValue) {
+		this.rentValue = rentValue;
+	}
+	public int getPawnValue() {
+		return pawnValue;
+	}
+	public void setPawnValue(int pawnValue) {
+		this.pawnValue = pawnValue;
+	}
+	public boolean isPawned() {
 		return isPawned;
 	}
-	public void setIsPawned(boolean b) {
-		isPawned = b;
+	public void setPawned(boolean isPawned) {
+		this.isPawned = isPawned;
 	}
 
 
