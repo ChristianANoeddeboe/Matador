@@ -14,7 +14,6 @@ public class GameController {
 		gameController.prepareGame();
 
 		gameController.startGame();
-
 	}
 
 	public GameController() {
@@ -40,6 +39,13 @@ public class GameController {
 		}
 
 		currentPlayer = entities.getPlayers()[0];
+		
+		Field fields[] = entities.getFieldArr();
+		for( int i = 0 ; i < fields.length ; i++ ) {
+			if(fields[i].getClass().getSimpleName().equals("Normal")) {
+				((Normal) fields[i]).setOwner(currentPlayer);
+			}
+		}
 	}
 
 	public void startGame() {
@@ -73,8 +79,14 @@ public class GameController {
 	}
 
 	public void startRound() {
-
 		String choices[] = {"Roll dice"};
+		
+		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
+		if(buyLogic.canBuyHouse(currentPlayer)) {
+			String choices2[] = {"Roll dice","Buy house/hotel"};
+			choices = choices2;
+		}
+		
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : 
 			playRound();
@@ -84,13 +96,10 @@ public class GameController {
 			break;
 		}
 	}
-
+	
 	public void playRound() {
 		rollDice();
 		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-		
-		//FOR FUNS
-		System.out.println(gameLogic.findLogic(currentPlayer));
 		
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
@@ -177,13 +186,15 @@ public class GameController {
 			totalValue += entities.getDiceArr()[i].roll();
 		
 		guiController.showDice();
+		
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-		if( ( currentPlayer.getEndPosition() + totalValue ) > 39) {
+		
+		if(( currentPlayer.getEndPosition() + totalValue ) > 39)
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 40);
-		}else {
+		else
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
-		}
+		
 	}
 
 
