@@ -111,8 +111,43 @@ public class BuyLogic {
 		String[] properties = new String[40];
 		int counter = 0;
 		Color colour;
+		Normal[] normal = this.normal;
+		
+		switch (convertColor(normal[counter].getColour())) {
+		case "black":
+			
+			break;
 
+		default:
+			break;
+		}
+		
+		
+		
+		
 		return properties;
+	}
+	
+	private String convertColor(Color color) {
+		if(color == Color.black) {
+			return "black";
+		}else if(color == Color.blue) {
+			return "blue";
+		}else if(color == Color.orange) {
+			return "orange";
+		}else if(color == Color.white) {
+			return "white";
+		}else if(color == Color.green) {
+			return "green";
+		}else if(color == Color.magenta) {
+			return "purple";
+		}else if(color == Color.red) {
+			return "red";
+		}else if(color == Color.gray) {
+			return "gray";
+		}else {
+			return "Error";
+		}
 	}
 
 	/**
@@ -234,4 +269,8 @@ public class BuyLogic {
 		}
 	}
 
+	
+	public Normal[] getNormal() {
+		return normal;
+	}
 }
