@@ -12,7 +12,7 @@ public class ChanceCardLogic {
 	private Field[] fields;
 	private Property property;
 	private Normal normal;
-	private String returnbesked;
+	private String chanceCardMessage;
 
 	public ChanceCardLogic () {
 		index = 0;
@@ -23,7 +23,7 @@ public class ChanceCardLogic {
 		fields = entities.getFieldArr();
 		property = null;
 		normal = null;
-		returnbesked = null;
+		chanceCardMessage = null;
 	}
 
 	public void setIndex (int value) {
@@ -33,25 +33,16 @@ public class ChanceCardLogic {
 	public int getIndex () {
 		return this.index;
 	}
-
-	public int getChanceCardId () {
-		return this.chanceCards[getIndex()];
-	}
-
-	public String getCardTest (Player currentPlayer) {
-		return this.returnbesked;
-	}
 	
 	public String getCard(Player currentPlayer) {
 		switch (chanceCards[getIndex()]) {
 			case 0:
 				currentPlayer.addPrisonCard();
-				returnbesked = config.getTranslation("chance1");
+				chanceCardMessage = config.getTranslation("chance1");
 				break;
 			case 1:
-				currentPlayer.setEndPosition(11);
-				currentPlayer.isPrison();
-				returnbesked = config.getTranslation("chance2");
+				currentPlayer.setEndPosition(10);
+				chanceCardMessage = config.getTranslation("chance2");
 				break;
 			case 2:
 				if (currentPlayer.getEndPosition() == 2) {
@@ -81,19 +72,19 @@ public class ChanceCardLogic {
                     currentPlayer.getAccount().withdraw(8000);
                     property.getOwner().getAccount().deposit(8000);
                 }
-				returnbesked = config.getTranslation("chance3");
+				chanceCardMessage = config.getTranslation("chance3");
 				break;
 			case 3:
 				currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance4");
+				chanceCardMessage = config.getTranslation("chance4");
 				break;
 			case 4:
 				currentPlayer.getAccount().withdraw(200);
-				returnbesked = config.getTranslation("chance5");
+				chanceCardMessage = config.getTranslation("chance5");
 				break;
 			case 5:
 				currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance6");
+				chanceCardMessage = config.getTranslation("chance6");
 				break;
 			case 6:
 				int estateTax = 0;
@@ -111,31 +102,33 @@ public class ChanceCardLogic {
 					}
 				}
 				currentPlayer.getAccount().withdraw(estateTax);
-				returnbesked = config.getTranslation("chance7");
+				chanceCardMessage = config.getTranslation("chance7");
 				break;
 			case 7:
-				currentPlayer.setEndPosition(1);
-				returnbesked = config.getTranslation("chance8");
+				currentPlayer.setEndPosition(0);
+				chanceCardMessage = config.getTranslation("chance8");
 				break;
 			case 8:
 				currentPlayer.getAccount().deposit(500);
-				returnbesked = config.getTranslation("chance9");
+				chanceCardMessage = config.getTranslation("chance9");
 				break;
 			case 9:
 				currentPlayer.getAccount().deposit(3000);
-				returnbesked = config.getTranslation("chance10");
+				chanceCardMessage = config.getTranslation("chance10");
 				break;
 			case 10:
-				currentPlayer.setEndPosition(40);
-				returnbesked = config.getTranslation("chance11");
+				currentPlayer.setEndPosition(39);
+				chanceCardMessage = config.getTranslation("chance11");
 				break;
 			case 11:
 				int amountOfStepsBack = currentPlayer.getEndPosition();
 				if (amountOfStepsBack == 0) {
-					currentPlayer.setEndPosition(40);
+					currentPlayer.setEndPosition(39);
 				}
-				currentPlayer.setEndPosition(amountOfStepsBack);
-				returnbesked = config.getTranslation("chance12");
+				else {
+					currentPlayer.setEndPosition(amountOfStepsBack - 3);
+				}
+				chanceCardMessage = config.getTranslation("chance12");
 				break;
 			case 12:
 				int playerValue = 0;
@@ -163,15 +156,15 @@ public class ChanceCardLogic {
 
 				if (playerValue <= 15000)
 					currentPlayer.getAccount().deposit(15000);
-				returnbesked = config.getTranslation("chance13");
+				chanceCardMessage = config.getTranslation("chance13");
 				break;
 			case 13:
 				currentPlayer.getAccount().deposit(200);
-				returnbesked = config.getTranslation("chance14");
+				chanceCardMessage = config.getTranslation("chance14");
 				break;
 			case 14:
 				currentPlayer.getAccount().withdraw(2000);
-				returnbesked = config.getTranslation("chance15");
+				chanceCardMessage = config.getTranslation("chance15");
 				break;
 			case 15:
 				estateTax = 0;
@@ -190,49 +183,49 @@ public class ChanceCardLogic {
 					}
 				}
 				currentPlayer.getAccount().withdraw(estateTax);
-				returnbesked = config.getTranslation("chance16");
+				chanceCardMessage = config.getTranslation("chance16");
 				break;
 			case 16:
 				if (3 == currentPlayer.getEndPosition() || 8 == currentPlayer.getEndPosition()) {
 					currentPlayer.getAccount().deposit(4000);
 				}
 				currentPlayer.setEndPosition(12);
-				returnbesked = config.getTranslation("chance17");
+				chanceCardMessage = config.getTranslation("chance17");
 				break;
 			case 17:
 				currentPlayer.getAccount().withdraw(1000);
-				returnbesked = config.getTranslation("chance18");
+				chanceCardMessage = config.getTranslation("chance18");
 				break;
 			case 18:
 				currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance19");
+				chanceCardMessage = config.getTranslation("chance19");
 				break;
 			case 19:
 				currentPlayer.getAccount().deposit(1000);
-				returnbesked = config.getTranslation("chance20");
+				chanceCardMessage = config.getTranslation("chance20");
 				break;
 			case 20:
 				currentPlayer.getAccount().withdraw(200);
-				returnbesked = config.getTranslation("chance21");
+				chanceCardMessage = config.getTranslation("chance21");
 				break;
 			case 21:
 				currentPlayer.getAccount().withdraw(3000);
-				returnbesked = config.getTranslation("chance22");
+				chanceCardMessage = config.getTranslation("chance22");
 				break;
 			case 22:
 				currentPlayer.getAccount().withdraw(3000);
-				returnbesked = config.getTranslation("chance23");
+				chanceCardMessage = config.getTranslation("chance23");
 				break;
 			case 23:
 				currentPlayer.getAccount().withdraw(1000);
-				returnbesked = config.getTranslation("chance24");
+				chanceCardMessage = config.getTranslation("chance24");
 				break;
 			case 24:
 				if (!(3 == currentPlayer.getEndPosition())) {
 					currentPlayer.getAccount().deposit(4000);
 				}
 				currentPlayer.setEndPosition(6);
-				returnbesked = config.getTranslation("chance25");
+				chanceCardMessage = config.getTranslation("chance25");
 				break;
 			case 25:
 				int	present = 0;
@@ -243,17 +236,14 @@ public class ChanceCardLogic {
 					}
 				}
 				currentPlayer.getAccount().deposit(present);
-				returnbesked = config.getTranslation("chance26");
+				chanceCardMessage = config.getTranslation("chance26");
 				break;
 			case 26:
 				if (34 == currentPlayer.getEndPosition() || 37 == currentPlayer.getEndPosition()) {
 					currentPlayer.getAccount().deposit(4000);
 				}
 				currentPlayer.setEndPosition(6);
-				returnbesked = config.getTranslation("chance27");
-				break;
-			default:
-				returnbesked = "fejl, kort er ude af rækkevidte";
+				chanceCardMessage = config.getTranslation("chance27");
 				break;
 		}
 
@@ -261,6 +251,6 @@ public class ChanceCardLogic {
 		if (index > 31)
 		    setIndex(0);
 
-		return returnbesked;
+		return chanceCardMessage;
 	}
 }
