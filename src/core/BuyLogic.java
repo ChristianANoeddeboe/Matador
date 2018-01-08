@@ -10,17 +10,25 @@ public class BuyLogic {
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();
 	private int id;
-	
+	private Player player;
 	/**
 	 * Constructor for the buy logic
 	 * @param id
-	 * @param currentPlayer
 	 */
-	public BuyLogic(Player currentPlayer) {
-		this.id = currentPlayer.getEndPosition();
+	public BuyLogic() {
+		this.player = player;
+		this.id = id;
+		this.property = property;
+	}
+	
+	protected void updatePlayer(Player currentPlayer) {
+		this.player = currentPlayer;
+		this.id = player.getEndPosition();
 		this.property = (Property) fields[id];
 	}
-
+	
+	
+	
 	/**
 	 * Logic for buying a property
 	 * @param currentPlayer
