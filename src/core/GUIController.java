@@ -126,26 +126,8 @@ public class GUIController {
 		fields_GUI[field_id].setSubText(text);
 	}
 
-	public void updatePlayerBalance(int id, int newValue, int oldValue) {
-		if(newValue >= oldValue) { // If we are updating gui balance in a positive way
-			for (int i = oldValue ; i <= newValue ; i++) {
-				players_GUI[id].setBalance(i);
-				try {
-					TimeUnit.NANOSECONDS.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}else {
-			for (int i = oldValue ; i >= newValue ; i--) { // if we are updating balance in a negative way
-				players_GUI[id].setBalance(i);
-				try {
-					TimeUnit.NANOSECONDS.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+	public void updatePlayerBalance(int id, int value) {
+        players_GUI[id].setBalance(value);
 	}
 
 	/**
@@ -166,6 +148,19 @@ public class GUIController {
 	 */
 	public void setOwner(int player_id, int field_id) {
 		((GUI_Ownable)fields_GUI[field_id]).setBorder(players_GUI[player_id].getPrimaryColor());
+	}
+
+	/**
+	 * Visually changes the amount of houses on the board.
+	 * @param field_id the id associated with the field.
+	 * @param amount amount of houses to set. 5 houses is a hotel.
+	 */
+	public void setHouse(int field_id, int amount) {
+		if (amount >= 5) {
+			((GUI_Street)fields_GUI[field_id]).setHotel(true);
+		} else {
+            ((GUI_Street)fields_GUI[field_id]).setHouses(amount);
+		}
 	}
 
 	/**
