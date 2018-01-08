@@ -104,9 +104,10 @@ public class GameController {
 	}
 	
 	public void playRound() {
-		rollDice();
-		guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-		
+	    if (!currentPlayer.isPrison()) {
+            rollDice();
+            guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
+        }
 		//FOR FUNS
 		System.out.println(gameLogic.findLogic(currentPlayer));
 
