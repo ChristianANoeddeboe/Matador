@@ -56,7 +56,19 @@ public class BuyLogic {
 	 * @return a boolean
 	 */
 	protected Boolean canBuyHouse(Player currentPlayer) {
-		boolean bool = true;
+		boolean bool[] = {false;false;false;false;false;false;false};
+		
+		
+		
+		for(Field field : entities.getFieldArr()) {
+			if(field instanceof Normal) {
+				//WE NOW HAVE ALL THE NORMALS YOU OWN
+				
+			}
+		}
+		
+		
+		
 		Color colour;
 		outerloop:
 			for (int i = 0; i < fields.length; i++) { // We loop over all our fields
