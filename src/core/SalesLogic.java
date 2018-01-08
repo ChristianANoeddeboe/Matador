@@ -20,7 +20,7 @@ public class SalesLogic {
 	 */
 	protected String sellHouse(Player currentPlayer) {
 		Normal[] fields = (Normal[]) entities.getFieldArr();
-		currentPlayer.getAccount().deposit(fields[id].getHousePrices()[1]); // We get the current player and deposit the house price bnack into the players acount
+		currentPlayer.getAccount().deposit(fields[id].getHousePrices()[1]); // We get the current player and deposit the house price back into the players account
 		return "SoldHouse, "+ fields[id].getHousePrices()[1];
 	}
 	/**
