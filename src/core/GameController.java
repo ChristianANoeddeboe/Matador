@@ -8,6 +8,7 @@ public class GameController {
 	private GameLogic gameLogic;
 	private Player currentPlayer;
 	private boolean playerRoundHasEnded = false;
+	BuyLogic buyLogic;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
@@ -73,6 +74,7 @@ public class GameController {
 	}
 
 	public void startRound() {
+		buyLogic = new BuyLogic(currentPlayer);
 		boolean ownshouses = false;
 		String[] choices;
 		for (int i = 0; i <Entities.getInstance().getFieldArr().length; i++) {
@@ -96,7 +98,7 @@ public class GameController {
 			playRound();
 			break;
 		case "Buy houses" :
-			//Call logic
+			String reponse = buyLogic.houseBuyLogic(currentPlayer);
 			break;
 		}
 	}
@@ -111,7 +113,6 @@ public class GameController {
 			String choices[] = {"Yes", "No"};
 			switch (guiController.requestPlayerChoiceButtons(entities.getFieldArr()[currentPlayer.getEndPosition()].getName() +" is not owned, would you like to purchase it?", choices)) {
 			case "Yes":
-				BuyLogic buyLogic = new BuyLogic(currentPlayer);
 				guiController.updatePlayerBalance(currentPlayer.getId_GUI(), currentPlayer.getAccount().getBalance()-buyLogic.getPropertyValue(currentPlayer), currentPlayer.getAccount().getBalance());
 				buyLogic.propertyBuyLogic(currentPlayer);
 				guiController.setOwner(currentPlayer.getId_GUI(), currentPlayer.getEndPosition());
