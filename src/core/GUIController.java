@@ -157,11 +157,9 @@ public class GUIController {
 	 */
 	public void setHouse(int field_id, int amount) {
 		if (amount >= 5) {
-            ((GUI_Street)fields_GUI[field_id]).setHouses(amount-1);
 			((GUI_Street)fields_GUI[field_id]).setHotel(true);
 		} else {
             ((GUI_Street)fields_GUI[field_id]).setHouses(amount);
-			((GUI_Street)fields_GUI[field_id]).setHotel(false);
 		}
 	}
 
