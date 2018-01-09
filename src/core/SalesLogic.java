@@ -32,12 +32,19 @@ public class SalesLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void pawnProperty(Field field) {
-		Property property = (Property) field;
-		property.setPawned(true); // We set the pawn bool to true
-		currentPlayer.getAccount().deposit(property.getPawnValue()); // Weget the pawn value and deposit it into the owners account
-		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-		GUIController.getInstance().writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
+	protected void pawnProperty() {
+		FieldController fieldcontroller = new FieldController();
+		String[] properties = fieldcontroller.fieldsNoHouses(currentPlayer);
+		String response = GUIController.getInstance().requestPlayerChoice("Please choose a property to pawn: ", properties);
+		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
+			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
+				Property property = (Property) fieldcontroller.getFieldArr()[i];
+				property.setPawned(true); // We set the pawn bool to true
+				currentPlayer.getAccount().deposit(property.getPawnValue()); // Weget the pawn value and deposit it into the owners account
+				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				GUIController.getInstance().writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
+			}
+		}
 	}
 }
 
