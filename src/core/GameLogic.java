@@ -82,7 +82,7 @@ public class GameLogic {
 			ShippingLogic shippingLogic = new ShippingLogic(id, diceCup.getTotalFaceValue(), currentPlayer);
 			return shippingLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Prison) {
-			prisonLogic = new PrisonLogic(id, diceCup);
+			prisonLogic = new PrisonLogic(id, currentPlayer, diceCup);
 			return "Prison";
 		} else if (fields[id] instanceof Parking) {
 			//TODO

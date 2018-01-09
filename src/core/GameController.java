@@ -38,14 +38,7 @@ public class GameController {
 			playerController.getPlayers()[i] = player;
 		}
 
-		/*
-		Field fields[] = fieldController.getFieldArr();
-		for( int i = 0 ; i < fields.length ; i++ ) {
-			if(fields[i].getClass().getSimpleName().equals("Street")) {
-				((Street) fields[i]).setOwner(currentPlayer);
-			}
-		}
-		*/
+
 	}
 	
 	public void playRound() {
@@ -60,6 +53,19 @@ public class GameController {
 		//Game Is Over
 	}
 }
+
+
+
+
+
+/*
+Field fields[] = fieldController.getFieldArr();
+for( int i = 0 ; i < fields.length ; i++ ) {
+	if(fields[i].getClass().getSimpleName().equals("Street")) {
+		((Street) fields[i]).setOwner(currentPlayer);
+	}
+}
+*/
 /*
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
@@ -186,25 +192,6 @@ public class GameController {
 		} else
 			playerRoundHasEnded = true;
 	}
-
-
-	public void rollDice() {
-		int totalValue = 0;
-		for ( int i = 0 ; i < entities.getDiceArr().length ; i++ )
-			totalValue += entities.getDiceArr()[i].roll();
-		
-		guiController.showDice();
-
-		//save start position and set new end position
-		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-
-		if(( currentPlayer.getEndPosition() + totalValue ) > 39)
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue - 40);
-		else
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + totalValue);
-
-	}
-
 
 
 	public void build() {
