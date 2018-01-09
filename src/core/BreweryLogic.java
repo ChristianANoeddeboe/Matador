@@ -6,15 +6,12 @@ package core;
  */
 public class BreweryLogic {
 	private int id, totalFaceValue;
-	private Player currentPlayer;
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = entities.getFieldArr();
 	private Brewery brewery;
-	public BreweryLogic(int id, int totalFaceValue, Player currentPlayer) {
-		this.id = id;
-		this.brewery = (Brewery) fields[id];
-		this.totalFaceValue = totalFaceValue;
+	private Player currentPlayer;
+	public BreweryLogic(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
+		this.brewery = (Brewery) fields[currentPlayer.getEndPosition()];
+		this.totalFaceValue = totalFaceValue;
 	}
 	
 	/**
@@ -24,9 +21,9 @@ public class BreweryLogic {
 	 * @param currentPlayer Current player
 	 * @return Dependent on outcome but a string
 	 */
-	protected String logic(Player currentPlayer) {
+	protected String logic() {
 		if(brewery.getOwner() == null) { // Field is not owned
-			if(currentPlayer.getAccount().canAfford(brewery.getCurrentValue())) {
+			if(currentPlayer.getAccount().canAfford(brewery.getBuyValue())) {
 				return "NotOwned";
 			}
 			else {
