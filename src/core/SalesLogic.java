@@ -8,12 +8,9 @@ import java.awt.Color;
  *
  */
 public class SalesLogic {
-	private int id;
 	private Player currentPlayer;
-	private Entities entities = Entities.getInstance();
 	
-	public SalesLogic(int id, Player currentPlayer) {
-		this.id = id;
+	public SalesLogic(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 	/**
@@ -21,73 +18,26 @@ public class SalesLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String sellHouse(Player currentPlayer) {
-		Street[] fields = (Street[]) entities.getFieldArr();
-		currentPlayer.getAccount().deposit(fields[id].getHousePrices()[1]); // We get the current player and deposit the house price back into the players account
-		return "SoldHouse, "+ fields[id].getHousePrices()[1];
+	protected void sellHouse(Field field) {
+		Street street = (Street) field;
+		currentPlayer.getAccount().deposit(street.getBuildPrice()); // We get the current player and deposit the house price back into the players account
+		street.setHouseCounter(street.getHouseCounter()-1);
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		GUIController.getInstance().setHouse(field.getId(), -1);
+		GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
 	}
+
 	/**
 	 * Logic for pawning a property
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String pawnProperty(Player currentPlayer) {
-		Property[] fields = (Property[]) entities.getFieldArr();
-		if(fields[id] instanceof Street) {
-			Street[] nfields = (Street[]) entities.getFieldArr();
-			if(nfields[id].getHouseCounter() == 0 && checkHouses(currentPlayer) && nfields[id].getHouseCounter() == 0) {
-				fields[id].setIsPawned(true); // We set the pawn bool to true
-				currentPlayer.getAccount().deposit(fields[id].getPawnValue()); // Weget the pawn value and deposit it into the owners account
-				return "Pawned, " + fields[id].getPawnValue();
-			}
-			else {
-				return "RemoveHouses";
-			}
-		}
-		fields[id].setIsPawned(true); // We set the pawn bool to true
-		currentPlayer.getAccount().deposit(fields[id].getPawnValue()); // Weget the pawn value and deposit it into the owners account
-		return "Pawned, " + fields[id].getPawnValue();
-	}
-	
-	protected boolean checkHouses(Player currentPlayer) {
-		Street[] fields = (Street[]) entities.getFieldArr();
-		Color propertyColor = fields[id].getColour();
-		
-		switch (propertyColor.toString()) {
-		case "Color.blue":
-			Street[] blueFields = (Street[]) entities.getNormalBlue();
-			for(int i = 0; i < blueFields.length; i++) {
-				if(blueFields[i].getOwner() == fields[id].getOwner()) {
-					if(blueFields[i].getHouseCounter() > fields[id].getHouseCounter() + 1) {
-						return false;
-					}
-					else {
-						return true;
-					}
-				}
-				else {
-					return true;
-				}
-			}
-		case "Color.pink":
-			Street[] pinkFields = (Street[]) entities.getNormalBlue();
-			for(int i = 0; i < pinkFields.length; i++) {
-				if(pinkFields[i].getOwner() == fields[id].getOwner()) {
-					if(pinkFields[i].getHouseCounter() > fields[id].getHouseCounter() + 1) {
-						return false;
-					}
-					else {
-						return true;
-					}
-				}
-				else {
-					return true;
-				}
-			}
-		default:
-			break;
-		}
-		
-		return true;
+	protected void pawnProperty(Field field) {
+		Property property = (Property) field;
+		property.setPawned(true); // We set the pawn bool to true
+		currentPlayer.getAccount().deposit(property.getPawnValue()); // Weget the pawn value and deposit it into the owners account
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		GUIController.getInstance().writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
 	}
 }
+

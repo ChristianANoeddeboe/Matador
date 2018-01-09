@@ -5,7 +5,6 @@ public class GameController {
 	private GUIController guiController;
 	private PlayerController playerController;
 	private GameLogic gameLogic;
-	public boolean gameIsOver = false;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
@@ -29,15 +28,29 @@ public class GameController {
 	}
 	
 	public void playRound() {
-		while(!gameIsOver) {
+		boolean gameIsLive = true;
+		boolean switchPlayer = true;
+		while(gameIsLive) {
 			for (Player player : playerController.getPlayers()) {
-				if(!player.isBanktrupt()) {
-					gameLogic.callLogic(playerController, player);
-				}
+				do {
+					//Check if game is still live
+					int amountBankrupt = 0;
+					for (Player otherPlayer : playerController.getPlayers())
+						if(otherPlayer.isBanktrupt())
+							amountBankrupt++;
+					
+					if(amountBankrupt >= playerController.getPlayers().length-1) {
+						gameIsLive = false;
+						break;
+					}
+						
+					if(!player.isBanktrupt())
+						switchPlayer = gameLogic.callLogic(playerController, player);
+				} while(!switchPlayer);
 			}
 		}
 		
-		//Game Is Over
+		//GAME IS OVER WRITE SOMETHING NICE TO THE WINNER
 	}
 }
 

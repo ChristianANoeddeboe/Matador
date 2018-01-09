@@ -84,10 +84,10 @@ public class Player{
 	}
 	
 	public void setPrison(boolean prison) {
-		this.prison = prison;
+		this.isPrisoned = prison;
 	}
 	public boolean isPrison() {
-		return this.prison;
+		return this.isPrisoned;
 	}
 	
 	public void setPrisontries(int prisontries) {
