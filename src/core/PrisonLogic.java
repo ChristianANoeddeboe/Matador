@@ -1,45 +1,77 @@
 package core;
 /**
- * 
- * @author Mathias Thejsen s175192 && Simon Hansen s175191 && Christian Stahl Andersen s164150
+ *
+ * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
 public class PrisonLogic {
-	private int id,totalFaceValue,dice1value,dice2value;
+	private int id;
 	private Player currentPlayer;
+	private DiceCup diceCup;
 	private GUIController guiController = GUIController.getInstance();
-	private Entities entities = Entities.getInstance();
-
 
 	/**
-	 * Constructor for prison logic
-	 * @param id
+	 *
 	 * @param currentPlayer
-	 * @param dice1value
-	 * @param dice2value
+	 * @param diceCup
 	 */
-	public PrisonLogic(int id, Player currentPlayer, int dice1value, int dice2value) {
+	public PrisonLogic(Player currentPlayer, DiceCup diceCup) {
 		this.id = id;
 		this.currentPlayer = currentPlayer;
-		this.dice1value = dice1value;
-		this.dice2value = dice2value;
-		this.totalFaceValue = dice1value + dice2value;
+		this.diceCup = diceCup;
 	}
 
-	public void landOnField(Player currentPlayer) {
-		if (id == 10 && currentPlayer.isPrison()) {
-			if (currentPlayer.getPrisontries() < 3) {
-				guiController.writeMessage("TODO Du har "+(3-currentPlayer.getPrisontries())+" kast tilbage.");
-
-				entities.getDiceArr()[0].roll();
-				entities.getDiceArr()[1].roll();
+	public void logic(Player currentPlayer) {
+		if (id == 10) {
+			if (currentPlayer.isPrison()) {
+				inPrisonLogic(currentPlayer);
+			} else {
+				guiController.writeMessage("TODO Du besøger fænglset. Se lige de undermålere bag tremmer. Ha Ha Ha Ha");
 			}
 
+		}
+
+	}
+
+	private void inPrisonLogic(Player currentPlayer) {
+		switch (getPlayerChoice(1)) {
 
 		}
-		if (id == 10) {
-			guiController.writeMessage("TODO Du besøger fænglset.");
+	}
+
+	public String getPlayerChoice(int state) {
+		String choices = "";
+		String[] choiceArr;
+		switch (state) {
+			case 0:
+				if (currentPlayer.getAccount().canAfford(1000)) {
+					choices = choices + ",Betal kr. 1000";
+				}
+				if (currentPlayer.getPrisonCard() > 0) {
+					choices = choices + ",Benyt fængselskort";
+				}
+				choices = choices + ",Benyt fængselskort";
+				if (choices.startsWith(",")) choices = choices.substring(1);
+				choiceArr = choices.split(",");
+				return guiController.requestPlayerChoiceButtons("TODO Du er i fængsel. Vælg hvad du vil.")
+				break;
+			case 1:
+				if (currentPlayer.getPrisontries() < 3) {
+					choices = choices + ",Rul terningerne";
+				}
+				if (currentPlayer.getAccount().canAfford(1000)) {
+					choices = choices + ",Betal kr. 1000";
+				}
+				if (currentPlayer.getPrisonCard() > 0) {
+					choices = choices + ",Benyt fængselskort";
+				}
+				if (choices.startsWith(",")) choices = choices.substring(1);
+				choiceArr = choices.split(",");
+				return guiController.requestPlayerChoiceButtons("TODO Du er i fængsel. Vælg hvad du vil.")
+				break;
 		}
+
+
 	}
 
 	/**
@@ -47,6 +79,7 @@ public class PrisonLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
+	/*
 	protected String logic(Player currentPlayer) {
 		String returnstr; // Used to build a series of strings for the gui to display all options
 		if(id == 30 && !currentPlayer.isPrison()){ // Checking if the player is not prisoned and if it is the right prison field
@@ -75,6 +108,8 @@ public class PrisonLogic {
 		}
 		return "Nothing";
 	}
+	*/
+
 	/**
 	 * Logic for when a player uses their prison card
 	 * @param currentPlayer
@@ -95,10 +130,10 @@ public class PrisonLogic {
 		currentPlayer.setPrison(false); // Put the prison state as fals
 	}
 
-	
+
 	/**
 	 * Logic for when a player wants to get out of jail
-	 * @param currentPlayer 
+	 * @param currentPlayer
 	 */
 	protected void prisonRollLogic(Player currentPlayer) {
 		if(currentPlayer.getPrisontries() < 3) { // Make sure the player has not tried too many times
