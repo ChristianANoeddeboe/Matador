@@ -28,31 +28,35 @@ public class GameLogic {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
 			choices = choices2;
 		}*/
+		do {
+			switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+			case "Roll dice" : {
+				diceCup.roll();
+				//save start position and set new end position
+				System.out.println(diceCup.getTotalFaceValue());
+				currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+				if(( currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() ) > 39) {
+					currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() - 40);
+				}else {
+					currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue());
 
-		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
-		case "Roll dice" : {
-			diceCup.roll();
-			//save start position and set new end position
-			
-			currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+				}
+				guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
 
-			if(( currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() ) > 39) {
-				currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() - 40);
-			}else {
-				currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue());
+				findLogic(currentPlayer, diceCup);
 
+				break;
 			}
-			guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
-			break;
-		}
-		case "Buy houses" : {
-			//String reponse = buyLogic.houseBuyLogic(currentPlayer);
+			case "Buy houses" : {
+				//String reponse = buyLogic.houseBuyLogic(currentPlayer);
 
-			break;
-		}
-		}
+				break;
+			}
+			
+			}
+		} while (diceCup.isPair());
+
 	}
-
 
 
 
@@ -63,24 +67,22 @@ public class GameLogic {
 	 * @param currentPlayer
 	 * @return A message to the gamecontroller
 	 */
-	protected String findLogic(Player currentPlayer) {
+	protected String findLogic(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
-		dice1value = entities.getDiceArr()[0].getValue();
-		dice2value = entities.getDiceArr()[1].getValue();
 		if (fields[id] instanceof Street) { 
 			StreetLogic streetLogic = new StreetLogic(id, currentPlayer);
 			return streetLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Brewery) {
-			BreweryLogic breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
+			BreweryLogic breweryLogic = new BreweryLogic(id, diceCup.getTotalFaceValue(), currentPlayer);
 			return breweryLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Chance) {
 			// Todo
 			return "Chance";
 		} else if (fields[id] instanceof Shipping) {
-			ShippingLogic shippingLogic = new ShippingLogic(id, totalFaceValue, currentPlayer);
+			ShippingLogic shippingLogic = new ShippingLogic(id, diceCup.getTotalFaceValue(), currentPlayer);
 			return shippingLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Prison) {
-			prisonLogic = new PrisonLogic(id, currentPlayer, dice1value, dice2value);
+			prisonLogic = new PrisonLogic(id, diceCup);
 			return "Prison";
 		} else if (fields[id] instanceof Parking) {
 			//TODO
