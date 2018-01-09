@@ -5,6 +5,7 @@ package core;
  *
  */
 public class GameLogic {
+	private DiceCup	diceCup;
 	private GUIController guiController;
 	private Field[] fields;
 	private int dice1value;
@@ -19,7 +20,7 @@ public class GameLogic {
 		guiController = guiController.getInstance();
 	}
 
-	protected void callLogic(FieldController fieldController, PlayerController playerController, DiceCup diceCup, Player currentPlayer) {
+	protected void callLogic(PlayerController playerController, Player currentPlayer) {
 		String choices[] = {"Roll dice"};
 
 		//System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
