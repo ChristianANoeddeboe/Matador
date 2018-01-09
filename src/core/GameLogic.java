@@ -1,4 +1,7 @@
 package core;
+
+import core.ChanceCardLogic.ChanceCardController;
+
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -11,9 +14,9 @@ public class GameLogic {
 	private int dice1value;
 	private int dice2value;
 	private int totalFaceValue = dice1value+dice2value;
-	private PrisonLogic prisonLogic;
+	private PrisonController prisonController;
 	private FieldController fieldController;
-
+	private ChanceCardController chanceCardController;
 	/**
 	 * Constructor for gamelogic
 	 */
@@ -32,7 +35,8 @@ public class GameLogic {
 			}
 		}
 		System.out.println("Blabla: "+fieldController.allFieldsToBuildOn(currentPlayer).length);
-		if(fieldController.allFieldsToBuildOn(currentPlayer).length > 0) {
+		Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
+		if(buildablestreets.length > 0) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
 			choices = choices2;
 		}
@@ -58,9 +62,10 @@ public class GameLogic {
 
 				break;
 			}
-			case "Buy houses" : {
-				//String reponse = buyLogic.houseBuyLogic(currentPlayer);
-
+			case "Buy house/hotel" : {
+				BuyLogic buyLogic = new BuyLogic();
+				String response = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
+				System.out.println(response);
 				break;
 			}
 			
@@ -88,9 +93,8 @@ public class GameLogic {
 		} else if (fields[id] instanceof Chance) {
 		} else if (fields[id] instanceof Shipping) {
 			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
-			
 		} else if (fields[id] instanceof Prison) {
-			prisonLogic = new PrisonLogic(diceCup, fields);
+			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
 		} else if (fields[id] instanceof Parking) {
 			//TODO
 		} else if (fields[id] instanceof Tax) {
@@ -117,8 +121,8 @@ public class GameLogic {
 		return false;
 	}
 
-	public PrisonLogic getPrisonLogic() {
-		return prisonLogic;
+	public PrisonController getPrisonLogic() {
+		return prisonController;
 	}
 }
 
