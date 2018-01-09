@@ -27,7 +27,12 @@ public class ShippingLogic {
 	public String logic() {
 		if(shipping.getOwner() == null) { // We check if the field is owned
 			if(currentPlayer.getAccount().canAfford(shipping.getBuyValue())) {// If it is not owned and the player can afford it
-				return "NotOwned"; 
+				String[] choices = {"Yes", "No"};
+				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
+				if(result.equals("Yes")) {
+					BuyLogic buyLogic = new BuyLogic();
+					buyLogic.propertyBuyLogic(currentPlayer, street);
+				}
 			}
 			else {
 				return "CannotAfford"; // Player cant afford the field
