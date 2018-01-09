@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 
 public class Dice {
-	private int value;
+	private int faceValue;
 	
 	/**
 	 * Constructor for dice
@@ -19,22 +19,22 @@ public class Dice {
 	 * @return, returns a random integer value between 1 and 6.
 	 */
 	public int roll() {
-		value = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-		return value;
+		faceValue = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		return faceValue;
 	}
 	
 	/**
 	 * @return returns the value of the dice
 	 */
-	public int getValue() {
-		return value;
+	public int getFaceValue() {
+		return faceValue;
 	}
 	
 	/**
 	 * @param The dice value to set
 	 */
-	public void setValue(int value) {
-		this.value = value;
+	public void setFaceValue(int faceValue) {
+		this.faceValue = faceValue;
 	}
 	
 	

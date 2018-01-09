@@ -7,7 +7,7 @@ package core;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class NormalLogic {
+public class StreetLogic {
 	private Street normal;
 	private Player currentPlayer;
 	private Entities entities = Entities.getInstance();
@@ -17,7 +17,7 @@ public class NormalLogic {
 	 * @param id
 	 * @param currentPlayer
 	 */
-	public NormalLogic(int id, Player currentPlayer) {
+	public StreetLogic(int id, Player currentPlayer) {
 		this.normal = (Street) fields[id];
 		this.currentPlayer = currentPlayer;
 	}
