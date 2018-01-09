@@ -5,10 +5,10 @@ package core;
  *
  */
 public class TaxLogic {
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = entities.getFieldArr();
 	private int id;
+	private Player currentPlayer;
 	private Tax tax;
+	private Field[] fields;
 
 
 	/**
@@ -17,9 +17,10 @@ public class TaxLogic {
 	 * @param id
 	 * @param currentPlayer
 	 */
-	public TaxLogic(Player currentPlayer) {
-		this.id = currentPlayer.getEndPosition();
-		this.tax = (Tax) fields[id];
+	public TaxLogic(Player currentPlayer, Field[] fields) {
+		this.currentPlayer = currentPlayer;
+		this.tax = (Tax) fields[currentPlayer.getEndPosition()];
+		this.fields = fields;
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class TaxLogic {
 				if (fields[i] instanceof Property) {
 					Property property = (Property) fields[i];
 					if (property.getOwner() == currentPlayer) {// find those that the player owns
-						propertyvalue = propertyvalue + property.getBaseValue(); // The property value is a sum of all the basevalues
+						propertyvalue = propertyvalue + property.getBuyValue(); // The property value is a sum of all the basevalues
 					}
 				}else if(fields[i] instanceof Street) {
 					Street normal = (Street) fields[i];
