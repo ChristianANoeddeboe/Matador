@@ -87,7 +87,7 @@ public class PrisonController {
 		String[] choiceArr;
 		switch (state) {
 			case 0:
-				if (currentPlayer.getAccount().canAfford(1000)) {
+				if (currentPlayer.getAccount().canAfford(1000) || currentPlayer.getPrisontries() == 3) {
 					choices = choices + ",Betal kr. 1000";
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
