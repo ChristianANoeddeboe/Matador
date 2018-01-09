@@ -45,7 +45,6 @@ public class GameLogic {
 		}
 		String choices[] = response.split(",");
 		
-		
 		do {
 			switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 			case "Roll dice" : {
