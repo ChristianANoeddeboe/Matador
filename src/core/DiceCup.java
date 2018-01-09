@@ -5,20 +5,23 @@ public class DiceCup {
 	
 	public DiceCup(int amoutOfDice) {
 		diceArr = new Dice[amoutOfDice];
+		for (int i = 0; i < diceArr.length; i++) {
+			diceArr[i] = new Dice();
+		}
 	}
 	
 	public void roll() {
-		for (Dice dice : diceArr)
-			dice.roll();
-		
+		for (int i = 0; i < diceArr.length; i++) {
+			diceArr[i].roll();
+		}
 	}
 	
 	public boolean isPair() {
 		int tempValue = 0;
 		for (Dice dice : diceArr) {
 			if(tempValue == 0)
-				tempValue = dice.getValue();
-			if(tempValue != dice.getValue())
+				tempValue = dice.getFaceValue();
+			if(tempValue != dice.getFaceValue())
 				return false;
 		}
 		return true;
@@ -27,7 +30,7 @@ public class DiceCup {
 	public int getTotalFaceValue() {
 		int total = 0;
 		for (Dice dice : diceArr)
-			total += dice.getValue();
+			total += dice.getFaceValue();
 		return total;
 	}
 	
