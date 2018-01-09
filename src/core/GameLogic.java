@@ -21,31 +21,42 @@ public class GameLogic {
 
 	protected void callLogic(FieldController fieldController, PlayerController playerController, DiceCup diceCup, Player currentPlayer) {
 		String choices[] = {"Roll dice"};
-		
+
 		//System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
-		
+
 		/*if(buyLogic.canBuyHouse(currentPlayer)) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
 			choices = choices2;
 		}*/
-		
+
 		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 		case "Roll dice" : {
-				// KALD LOGIK METODE HER
+			diceCup.roll();
+			//save start position and set new end position
+			
+			currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+
+			if(( currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() ) > 39) {
+				currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() - 40);
+			}else {
+				currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue());
+
+			}
+			guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
 			break;
 		}
 		case "Buy houses" : {
 			//String reponse = buyLogic.houseBuyLogic(currentPlayer);
-			
+
 			break;
 		}
+		}
 	}
-	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	/**
 	 * Called by the gamecontroller, this switch checks what kind of field we land on, and then calls a respective logic switch
