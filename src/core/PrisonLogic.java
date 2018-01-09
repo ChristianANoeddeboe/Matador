@@ -6,7 +6,6 @@ package core;
  */
 public class PrisonLogic {
 	private int id;
-	private Player currentPlayer;
 	private DiceCup diceCup;
 	private GUIController guiController = GUIController.getInstance();
 
@@ -15,9 +14,8 @@ public class PrisonLogic {
 	 * @param currentPlayer
 	 * @param diceCup
 	 */
-	public PrisonLogic(int id, Player currentPlayer, DiceCup diceCup) {
+	public PrisonLogic(DiceCup diceCup, Field[] fields) {
 		this.id = id;
-		this.currentPlayer = currentPlayer;
 		this.diceCup = diceCup;
 	}
 
