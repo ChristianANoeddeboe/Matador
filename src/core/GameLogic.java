@@ -26,20 +26,27 @@ public class GameLogic {
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
+		boolean rolled = false;
 		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
 		String choices[] = {"Roll dice"};
 		for (int i = 0; i < fields.length; i++) {
 			if(fields[i] instanceof Street && currentPlayer.getName().equals("player1")) {
-				((Street) fields[i]).setOwner(currentPlayer);
+				
 			}
 		}
 		System.out.println("Blabla: "+fieldController.allFieldsToBuildOn(currentPlayer).length);
+		
 		Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
-		if(buildablestreets.length > 0) {
-			String choices2[] = {"Roll dice","Buy house/hotel"};
+		if(buildablestreets.length > 0&& !rolled) {
+			String choices2[] = {"Roll dice","Buy house/hotel", "Afslut tur"};
+			choices = choices2;
+		}else if(buildablestreets.length > 0 && rolled) {
+			String choices2[] = {"Buy house/hotel", "Afslut tur"};
 			choices = choices2;
 		}
+		
+		
 		do {
 			switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 			case "Roll dice" : {
@@ -59,8 +66,8 @@ public class GameLogic {
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}
 				findLogic(currentPlayer, diceCup);
-
-				return true;
+				if(!diceCup.isPair()) {rolled = true;}
+				return false;
 			}
 			case "Buy house/hotel" : {
 				BuyLogic buyLogic = new BuyLogic();
@@ -74,6 +81,10 @@ public class GameLogic {
 				}
 				guiController.writeMessage("Du har købt et hus på..."+response);				
 				return false;
+			}
+			
+			case "Afslut tur":{
+				return true;
 			}
 			
 			}
@@ -98,9 +109,11 @@ public class GameLogic {
 			streetLogic.logic();
 		} else if (fields[id] instanceof Brewery) {
 			BreweryLogic breweryLogic = new BreweryLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			breweryLogic.logic();
 		} else if (fields[id] instanceof Chance) {
 		} else if (fields[id] instanceof Shipping) {
 			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			shippingLogic.logic();
 		} else if (fields[id] instanceof Prison) {
 			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
 		} else if (fields[id] instanceof Parking) {
