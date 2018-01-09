@@ -18,6 +18,7 @@ public class GameLogic {
 	 */
 	public GameLogic() {
 		guiController = guiController.getInstance();
+		diceCup = new DiceCup(2);
 	}
 
 	protected void callLogic(PlayerController playerController, Player currentPlayer) {
