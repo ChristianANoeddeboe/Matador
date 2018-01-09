@@ -5,6 +5,7 @@ package core;
  *
  */
 public class GameLogic {
+	private GUIController guiController;
 	private Field[] fields;
 	private int dice1value;
 	private int dice2value;
@@ -15,9 +16,36 @@ public class GameLogic {
 	 * Constructor for gamelogic
 	 */
 	public GameLogic() {
+		guiController = guiController.getInstance();
 	}
 
-
+	protected void callLogic(FieldController fieldController, PlayerController playerController, DiceCup diceCup, Player currentPlayer) {
+		String choices[] = {"Roll dice"};
+		
+		//System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
+		
+		/*if(buyLogic.canBuyHouse(currentPlayer)) {
+			String choices2[] = {"Roll dice","Buy house/hotel"};
+			choices = choices2;
+		}*/
+		
+		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+		case "Roll dice" : {
+				// KALD LOGIK METODE HER
+			break;
+		}
+		case "Buy houses" : {
+			//String reponse = buyLogic.houseBuyLogic(currentPlayer);
+			
+			break;
+		}
+	}
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Called by the gamecontroller, this switch checks what kind of field we land on, and then calls a respective logic switch
