@@ -26,25 +26,24 @@ public class GameLogic {
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
-		boolean rolled = false;
 		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
-		String choices[] = {"Roll dice"};
+		
 		for (int i = 0; i < fields.length; i++) {
 			if(fields[i] instanceof Street && currentPlayer.getName().equals("player1")) {
 				
 			}
 		}
 		System.out.println("Blabla: "+fieldController.allFieldsToBuildOn(currentPlayer).length);
-		
+		String response = "Afslut tur";
 		Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
-		if(buildablestreets.length > 0&& !rolled) {
-			String choices2[] = {"Roll dice","Buy house/hotel", "Afslut tur"};
-			choices = choices2;
-		}else if(buildablestreets.length > 0 && rolled) {
-			String choices2[] = {"Buy house/hotel", "Afslut tur"};
-			choices = choices2;
+		if(buildablestreets.length > 0) {
+			response = response + ",Buy house/hotel";
 		}
+		if(!currentPlayer.isRolled()) {
+				response = response + ",Roll dice";
+		}
+		String choices[] = response.split(",");
 		
 		
 		do {
@@ -66,20 +65,21 @@ public class GameLogic {
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}
 				findLogic(currentPlayer, diceCup);
-				if(!diceCup.isPair()) {rolled = true;}
+				if(!diceCup.isPair()) {
+					currentPlayer.setRolled(true);
+					}
 				return false;
 			}
 			case "Buy house/hotel" : {
 				BuyLogic buyLogic = new BuyLogic();
-				String response = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
-				System.out.println(response);
+				String houseList = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
 				for (int j = 0; j < fields.length; j++) {
-					if(fields[j].getName() == response) {
+					if(fields[j].getName() == houseList) {
 						buyLogic.buyHouse(fields[j], currentPlayer);
 						break;
 					}
 				}
-				guiController.writeMessage("Du har købt et hus på..."+response);				
+				guiController.writeMessage("Du har købt et hus på..."+houseList);				
 				return false;
 			}
 			
