@@ -34,6 +34,10 @@ public class DiceCup {
 		return total;
 	}
 	
+	public Dice[] getDiceArr() {
+		return diceArr;
+	}
+	
 	
 
 }

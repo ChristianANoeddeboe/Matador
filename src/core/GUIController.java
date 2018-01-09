@@ -184,7 +184,7 @@ public class GUIController {
 	 * @return int
 	 */
 	public int requestNumberOfPlayers() {
-		int input = gui.getUserInteger("Choose number of players.", 3, 6);
+		int input = gui.getUserInteger("    Choose number of players.", 3, 6);
 		players_GUI = new GUI_Player[input];
 		return input;
 	}
@@ -195,7 +195,7 @@ public class GUIController {
 	 * @return String
 	 */
 	public String requestStringInput(String message) {
-		return gui.getUserString(message);
+		return gui.getUserString("   "+message);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class GUIController {
 	 * @return a String with the players choice.
 	 */
 	public String requestPlayerChoice(String message, String[] options) {
-		return gui.getUserSelection(message, options);
+		return gui.getUserSelection("   "+message, options);
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class GUIController {
 	 * @return string
 	 */
 	public String requestPlayerChoiceButtons(String message, String... options) {
-		return gui.getUserButtonPressed(message, options);
+		return gui.getUserButtonPressed("   "+message, options);
 	}
 
 	/**
@@ -223,14 +223,14 @@ public class GUIController {
 	 * @param message the String which will be written.
 	 */
 	public void writeMessage(String message) {
-		gui.showMessage(message);
+		gui.showMessage("   "+message);
 	}
 
 	/**
 	 * Changes the dice on the board.
 	 */
-	public void showDice() {
-		gui.setDice(Entities.getInstance().getDiceArr()[0].getValue(), Entities.getInstance().getDiceArr()[1].getValue());
+	public void showDice(DiceCup diceCup) {
+		gui.setDice(diceCup.getDiceArr()[0].getFaceValue(), diceCup.getDiceArr()[1].getFaceValue());
 	}
 
 	/**
@@ -267,5 +267,10 @@ public class GUIController {
 			fields_GUI[0].setCar(player, true);
 			player.setBalance(startBalance);
 		}
+	}
+	
+	
+	public FieldController getFieldController() {
+		return fieldController;
 	}
 }

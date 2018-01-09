@@ -5,31 +5,28 @@ package core;
  *
  */
 public class ShippingLogic {
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = entities.getFieldArr();
-	private int id, totalFaceValue;
-	private Player currentPlayer;
+	private int totalFaceValue;
 	private Shipping shipping;
+	private Player currentPlayer;
 	/**
 	 * Constructor for shipping logic
 	 * @param id The field number
 	 * @param totalFaceValue The total dice value of both dices
 	 * @param currentPlayer The player that landed on the field
 	 */
-	public ShippingLogic(int id, int totalFaceValue, Player currentPlayer) {
-		this.shipping = (Shipping) fields[id];
-		this.id = id;
-		this.totalFaceValue = totalFaceValue;
+	public ShippingLogic(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
+		this.shipping = (Shipping) fields[currentPlayer.getEndPosition()];
+		this.totalFaceValue = totalFaceValue;
 	}
 	/**
 	 * Returns the outcome of landin gon the field
 	 * @param currentPlayer The current player
 	 * @return
 	 */
-	public String logic(Player currentPlayer) {
+	public String logic() {
 		if(shipping.getOwner() == null) { // We check if the field is owned
-			if(currentPlayer.getAccount().canAfford(shipping.getBaseValue())) {// If it is not owned and the player can afford it
+			if(currentPlayer.getAccount().canAfford(shipping.getBuyValue())) {// If it is not owned and the player can afford it
 				return "NotOwned"; 
 			}
 			else {
