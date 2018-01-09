@@ -229,8 +229,8 @@ public class GUIController {
 	/**
 	 * Changes the dice on the board.
 	 */
-	public void showDice() {
-		gui.setDice(Entities.getInstance().getDiceArr()[0].getValue(), Entities.getInstance().getDiceArr()[1].getValue());
+	public void showDice(DiceCup diceCup) {
+		gui.setDice(diceCup.getDiceArr()[0].getFaceValue(), diceCup.getDiceArr()[1].getFaceValue());
 	}
 
 	/**
