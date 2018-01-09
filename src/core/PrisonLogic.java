@@ -15,7 +15,7 @@ public class PrisonLogic {
 	 * @param currentPlayer
 	 * @param diceCup
 	 */
-	public PrisonLogic(Player currentPlayer, DiceCup diceCup) {
+	public PrisonLogic(int id, Player currentPlayer, DiceCup diceCup) {
 		this.id = id;
 		this.currentPlayer = currentPlayer;
 		this.diceCup = diceCup;
