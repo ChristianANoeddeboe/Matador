@@ -212,8 +212,8 @@ public class FieldController {
 		return propertyOwned;
 	}
 	
-	protected String[] fieldsNoHouses(Player currentPlayer) {
-		String[] temp = new String[22];
+	protected String[] propertiesToPawn(Player currentPlayer) {
+		String[] temp = new String[28];
 		int counter = 0;
 		for(int i = 0; i < fieldArr.length; i++) {
 			if(fieldArr[i] instanceof Street) {
@@ -238,7 +238,25 @@ public class FieldController {
 		}
 		return propertyOwned;
 	}
-
+	
+	protected String[] streetsWithHouses(Player currentPlayer) {
+		String[] temp = new String[22];
+		int counter = 0;
+		for(int i = 0; i < fieldArr.length; i++) {
+			if(fieldArr[i] instanceof Street) {
+				Street street = (Street) fieldArr[i];
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() <= 1) {
+					temp[counter] = fieldArr[i].getName();
+					counter++;
+				}
+			}
+		}
+		String[] propertyOwned = new String[counter];
+		for(int j = 0; j < counter; j++) {
+			propertyOwned[j] = temp[j];
+		}
+		return propertyOwned;
+	}
 }
 
 
