@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class GUIController {
 
 	private GUI_Field[] fields_GUI;
+	private FieldController fieldController;
 	private GUI gui;
 	private GUI_Player[] players_GUI;
 	private static final GUIController guiController = new GUIController();
@@ -23,7 +24,9 @@ public class GUIController {
 		return guiController;
 	}
 
-	public void setupBoard(Field[] fields) {
+	public void setupBoard(FieldController fieldController) {
+		this.fieldController = fieldController;
+		Field fields[] = fieldController.getFieldArr();
 		fields_GUI = new GUI_Field[fields.length];
 		createFields(fields);
 	}
@@ -33,15 +36,15 @@ public class GUIController {
 			if(fields[i] instanceof Start) {
 				Start start = (Start) fields[i];
 				fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
-			}else if(fields[i] instanceof Normal) {
-				Normal normal = (Normal)fields[i];
-				fields_GUI[i] = new GUI_Street(normal.getName(), "kr. "+normal.getBaseValue(), normal.getDescription(), ""+normal.getBaseValue(), normal.getColour(), Color.BLACK);
+			}else if(fields[i] instanceof Street) {
+				Street normal = (Street)fields[i];
+				fields_GUI[i] = new GUI_Street(normal.getName(), "kr. "+normal.getBuyValue(), normal.getDescription(), ""+normal.getBuyValue(), normal.getColour(), Color.BLACK);
 			}else if(fields[i] instanceof Brewery) {
 				Brewery brewery = (Brewery)fields[i];
-				fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "kr. "+brewery.getBaseValue(), brewery.getDescription(), ""+brewery.getBaseValue(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Brewery("default", brewery.getName(), "kr. "+brewery.getBuyValue(), brewery.getDescription(), ""+brewery.getBuyValue(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Shipping) {
 				Shipping shipping = (Shipping)fields[i];
-				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "kr. "+shipping.getBaseValue(), shipping.getDescription(), ""+shipping.getBaseValue(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "kr. "+shipping.getBuyValue(), shipping.getDescription(), ""+shipping.getBuyValue(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Chance) {
 				Chance chance = (Chance)fields[i];
 				fields_GUI[i] = new GUI_Chance(chance.getName(), "", chance.getDescription(), Color.WHITE, Color.BLACK);
@@ -53,7 +56,7 @@ public class GUIController {
 				fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "", parking.getDescription(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Tax) {
 				Tax tax = (Tax)fields[i];
-				fields_GUI[i] = new GUI_Tax(tax.getName(), "kr. "+tax.getTaxvalue(), tax.getDescription(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Tax(tax.getName(), "kr. 2000", tax.getDescription(), Color.WHITE, Color.BLACK);
 			}else {
 				fields_GUI[i] = new GUI_Empty();
 			}

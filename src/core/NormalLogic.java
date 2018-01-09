@@ -8,7 +8,7 @@ package core;
  *
  */
 public class NormalLogic {
-	private Normal normal;
+	private Street normal;
 	private Player currentPlayer;
 	private Entities entities = Entities.getInstance();
 	private Field[] fields = entities.getFieldArr();
@@ -18,7 +18,7 @@ public class NormalLogic {
 	 * @param currentPlayer
 	 */
 	public NormalLogic(int id, Player currentPlayer) {
-		this.normal = (Normal) fields[id];
+		this.normal = (Street) fields[id];
 		this.currentPlayer = currentPlayer;
 	}
 	/**

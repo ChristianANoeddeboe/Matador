@@ -1,114 +1,66 @@
 package core;
 
-import java.util.Arrays;
 
 public class GameController {
-	private Entities entities;
 	private GUIController guiController;
+	private FieldController fieldController;
+	private PlayerController playerController;
+	private DiceCup	diceCup;
 	private GameLogic gameLogic;
-	private Player currentPlayer;
-	private boolean playerRoundHasEnded = false;
-	private BuyLogic buyLogic;
+	public boolean gameIsOver = false;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
-
 		gameController.prepareGame();
-
-		gameController.startGame();
+		gameController.playRound();
 	}
 
 	public GameController() {
-		entities = Entities.getInstance();
 		guiController = GUIController.getInstance();
-		gameLogic = new GameLogic();
-		buyLogic = new BuyLogic();
-
+		fieldController = new FieldController();
+		playerController = new PlayerController();
+		diceCup = new DiceCup(2);
+		gameLogic = new GameLogic();		
 	}
 
 	public void prepareGame() {
-		guiController.setupBoard(entities.getFieldArr());
+		guiController.setupBoard(fieldController);
 
 		int amountOfPlayers = guiController.requestNumberOfPlayers();
-		entities.initPlayers(amountOfPlayers);
+		playerController.initPlayers(amountOfPlayers);
 
 		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
 			String name = guiController.requestStringInput("Please write name.");
-			if (name.equals("")) { name = "player"+(i+1);}
+			if (name.equals(""))
+				name = "player"+(i+1);
 			Player player = new Player(name, i);
 			guiController.addPlayer(i, 30000, name);
-			entities.getPlayers()[i] = player;
+			playerController.getPlayers()[i] = player;
 		}
 
-		currentPlayer = entities.getPlayers()[0];
-		
-		Field fields[] = entities.getFieldArr();
+		/*
+		Field fields[] = fieldController.getFieldArr();
 		for( int i = 0 ; i < fields.length ; i++ ) {
-			if(fields[i].getClass().getSimpleName().equals("Normal")) {
-				((Normal) fields[i]).setOwner(currentPlayer);
+			if(fields[i].getClass().getSimpleName().equals("Street")) {
+				((Street) fields[i]).setOwner(currentPlayer);
 			}
 		}
-	}
-
-	public void startGame() {
-		boolean gameIsLive = true;
-
-		while(gameIsLive) {
-			choosePlayer();
-			startRound();
-			//gameIsLive = gameLogic.isGameOver;
-
-		}
-	}
-
-	public void choosePlayer() {
-		boolean choosePlayer = false;
-		if(playerRoundHasEnded) {
-			do {
-				for (Player player : entities.getPlayers()) {
-					if(choosePlayer) {
-						currentPlayer = player;
-						choosePlayer = false;
-						break;
-					}
-
-					if(player == currentPlayer)
-						choosePlayer = true;
-				}
-			} while (choosePlayer);
-			playerRoundHasEnded = false;
-		}
-	}
-
-	public void startRound() {
-		String choices[] = {"Roll dice"};
-
-		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
-		
-		if(buyLogic.canBuyHouse(currentPlayer)) {
-			String choices2[] = {"Roll dice","Buy house/hotel"};
-			choices = choices2;
-		}
-		
-		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
-			case "Roll dice" : {
-				playRound();
-				break;
-			}
-			case "Buy houses" : {
-				String reponse = buyLogic.houseBuyLogic(currentPlayer);
-				
-				break;
-			}
-		}
+		*/
 	}
 	
 	public void playRound() {
-	    if (!currentPlayer.isPrison()) {
-            rollDice();
-            guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-        }
-
+		while(!gameIsOver) {
+			for (Player player : playerController.getPlayers()) {
+				if(!player.isBanktrupt()) {
+					gameLogic.callLogic(fieldController, playerController, diceCup, player);
+				}
+			}
+		}
+		
+		//Game Is Over
+	}
+}
+/*
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
 				buyLogic.updatePlayer(currentPlayer);
@@ -268,4 +220,4 @@ public class GameController {
 
 
 }
-
+*/

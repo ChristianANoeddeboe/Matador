@@ -54,8 +54,8 @@ public class TaxLogic {
 					if (property.getOwner() == currentPlayer) {// find those that the player owns
 						propertyvalue = propertyvalue + property.getBaseValue(); // The property value is a sum of all the basevalues
 					}
-				}else if(fields[i] instanceof Normal) {
-					Normal normal = (Normal) fields[i];
+				}else if(fields[i] instanceof Street) {
+					Street normal = (Street) fields[i];
 					for (int j = 0; j < normal.getHouseCounter(); j++) {
 						buildingvalue = buildingvalue + normal.getHousePrices()[i]; // Looping over all the houses and adding up all the house prices
 					}

@@ -5,10 +5,10 @@ package core;
  *
  */
 public class GameLogic {
-	private Entities entities = Entities.getInstance();
-	private Field[] fields = entities.getFieldArr();
-	private int dice1value = entities.getDiceArr()[0].getValue();
-	private int dice2value = entities.getDiceArr()[1].getValue();
+	private GUIController guiController;
+	private Field[] fields;
+	private int dice1value;
+	private int dice2value;
 	private int totalFaceValue = dice1value+dice2value;
 	private PrisonLogic prisonLogic;
 
@@ -16,9 +16,36 @@ public class GameLogic {
 	 * Constructor for gamelogic
 	 */
 	public GameLogic() {
+		guiController = guiController.getInstance();
 	}
 
-
+	protected void callLogic(FieldController fieldController, PlayerController playerController, DiceCup diceCup, Player currentPlayer) {
+		String choices[] = {"Roll dice"};
+		
+		//System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
+		
+		/*if(buyLogic.canBuyHouse(currentPlayer)) {
+			String choices2[] = {"Roll dice","Buy house/hotel"};
+			choices = choices2;
+		}*/
+		
+		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+		case "Roll dice" : {
+				// KALD LOGIK METODE HER
+			break;
+		}
+		case "Buy houses" : {
+			//String reponse = buyLogic.houseBuyLogic(currentPlayer);
+			
+			break;
+		}
+	}
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Called by the gamecontroller, this switch checks what kind of field we land on, and then calls a respective logic switch
@@ -29,7 +56,7 @@ public class GameLogic {
 		int id = currentPlayer.getEndPosition();
 		dice1value = entities.getDiceArr()[0].getValue();
 		dice2value = entities.getDiceArr()[1].getValue();
-		if (fields[id] instanceof Normal) { 
+		if (fields[id] instanceof Street) { 
 			NormalLogic normalLogic = new NormalLogic(id, currentPlayer);
 			return normalLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Brewery) {
