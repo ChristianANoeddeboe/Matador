@@ -24,11 +24,24 @@ public class GUIController {
 		return guiController;
 	}
 
-	public void setupBoard(FieldController fieldController) {
-		this.fieldController = fieldController;
+	public String[] setupBoard() {
+		fieldController = new FieldController();
 		Field fields[] = fieldController.getFieldArr();
 		fields_GUI = new GUI_Field[fields.length];
 		createFields(fields);
+		
+		int amountOfPlayers = guiController.requestNumberOfPlayers();
+		String playerNames[] = new String[amountOfPlayers];
+		
+		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
+			String name = guiController.requestStringInput("Please write name.");
+			if (name.equals(""))
+				name = "player"+(i+1);
+			addPlayer(i, 30000, name);
+			playerNames[i] = name;
+		}
+		
+		return playerNames;
 	}
 
 	public void createFields(Field[] fields) {

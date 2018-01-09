@@ -3,9 +3,7 @@ package core;
 
 public class GameController {
 	private GUIController guiController;
-	private FieldController fieldController;
 	private PlayerController playerController;
-	private DiceCup	diceCup;
 	private GameLogic gameLogic;
 	public boolean gameIsOver = false;
 
@@ -17,35 +15,24 @@ public class GameController {
 
 	public GameController() {
 		guiController = GUIController.getInstance();
-		fieldController = new FieldController();
 		playerController = new PlayerController();
-		diceCup = new DiceCup(2);
 		gameLogic = new GameLogic();		
 	}
 
 	public void prepareGame() {
-		guiController.setupBoard(fieldController);
-
-		int amountOfPlayers = guiController.requestNumberOfPlayers();
-		playerController.initPlayers(amountOfPlayers);
-
-		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
-			String name = guiController.requestStringInput("Please write name.");
-			if (name.equals(""))
-				name = "player"+(i+1);
-			Player player = new Player(name, i);
-			guiController.addPlayer(i, 30000, name);
+		String playerNames[] = guiController.setupBoard();
+		playerController.initPlayers(playerNames.length);
+		for(int i = 0 ; i < playerNames.length ; i++) {
+			Player player = new Player(playerNames[i], i);
 			playerController.getPlayers()[i] = player;
 		}
-
-
 	}
 	
 	public void playRound() {
 		while(!gameIsOver) {
 			for (Player player : playerController.getPlayers()) {
 				if(!player.isBanktrupt()) {
-					gameLogic.callLogic(fieldController, playerController, diceCup, player);
+					gameLogic.callLogic(playerController, player);
 				}
 			}
 		}
