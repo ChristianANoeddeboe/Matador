@@ -64,12 +64,13 @@ public class GameLogic {
 			}
 			case "Buy house/hotel" : {
 				BuyLogic buyLogic = new BuyLogic();
-				for(int i = 0 ; i < buyLogic.listOfFieldsYouCanBuildOn(buildablestreets).length ; i++) {
-					System.out.println(buyLogic.listOfFieldsYouCanBuildOn(buildablestreets)[i]);
-				}
-				
 				String response = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
-				System.out.println(response);
+				for (int j = 0; j < fields.length; j++) {
+					if(fields[j].getName() == response) {
+						buyLogic.buyHouse(fields[j], currentPlayer);
+					}
+				}
+				guiController.writeMessage("Du har købt et hus på..."+response);				
 				break;
 			}
 			
