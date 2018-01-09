@@ -343,26 +343,16 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String houseBuyLogic(Player currentPlayer) {
+	protected void houseBuyLogic(Player currentPlayer) {
 		// Player can buy new house and there is no more than 4 buildings on the field
 		if(fields[id] instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
 			Street normal = (Street) fields[id]; // Instantiate a new Normal object casting fieldsid normal
 			if (currentPlayer.getAccount().canAfford(normal.getBuildPrice()) && normal.getHouseCounter() <= 5) { // Check if player can afford house and making sure there is not already 5
 				currentPlayer.getAccount().withdraw(normal.getBuildPrice());
 				normal.setHouseCounter(normal.getHouseCounter() + 1);
-				normal.setCurrentValue(calcHousePrice(normal.getHouseCounter()));
-				return "HouseBought";
-			}
-			// There is already a hotel (5 houses) on the field
-			else if (normal.getHouseCounter() == 5) {
-				return "TooManyHouses";
-			}
-			// The Player cannot afford another house
-			else {
-				return "CannotAfford, " + normal.getBuildPrice();
+				normal.setRentValue(calcHousePrice(normal.getHouseCounter()));
 			}
 		}
-		return "ErrorHousebuyLogic";
 	}
 	/**
 	 * Calculates the new price of rent when a new house has been build
