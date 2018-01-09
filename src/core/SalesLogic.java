@@ -19,12 +19,20 @@ public class SalesLogic {
 	 * @return
 	 */
 	protected void sellHouse(Field field) {
-		Street street = (Street) field;
-		currentPlayer.getAccount().deposit(street.getBuildPrice()); // We get the current player and deposit the house price back into the players account
-		street.setHouseCounter(street.getHouseCounter()-1);
-		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-		GUIController.getInstance().setHouse(field.getId(), -1);
-		GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
+		FieldController fieldcontroller = new FieldController();
+		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
+		String response = GUIController.getInstance().requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
+		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
+			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
+				Street street = (Street) fieldcontroller.getFieldArr()[i];
+				currentPlayer.getAccount().deposit(street.getBuildPrice()); // We get the current player and deposit the house price back into the players account
+				street.setHouseCounter(street.getHouseCounter()-1);
+				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				GUIController.getInstance().setHouse(field.getId(), -1);
+				GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
+			}
+		}
+
 	}
 
 	/**
@@ -34,7 +42,7 @@ public class SalesLogic {
 	 */
 	protected void pawnProperty() {
 		FieldController fieldcontroller = new FieldController();
-		String[] properties = fieldcontroller.fieldsNoHouses(currentPlayer);
+		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
 		String response = GUIController.getInstance().requestPlayerChoice("Please choose a property to pawn: ", properties);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
