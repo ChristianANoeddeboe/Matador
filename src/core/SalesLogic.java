@@ -20,8 +20,10 @@ public class SalesLogic {
 	 */
 	protected void sellHouse(Field field) {
 		Street street = (Street) field;
-		currentPlayer.getAccount().deposit(street.getHousePrices()[1]); // We get the current player and deposit the house price back into the players account
+		currentPlayer.getAccount().deposit(street.getBuildPrice()); // We get the current player and deposit the house price back into the players account
 		street.setHouseCounter(street.getHouseCounter()-1);
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		GUIController.getInstance().setHouse(field.getId(), -1);
 		GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
 	}
 
@@ -34,6 +36,7 @@ public class SalesLogic {
 		Property property = (Property) field;
 		property.setPawned(true); // We set the pawn bool to true
 		currentPlayer.getAccount().deposit(property.getPawnValue()); // Weget the pawn value and deposit it into the owners account
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		GUIController.getInstance().writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
 	}
 }

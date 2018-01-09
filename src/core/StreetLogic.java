@@ -43,6 +43,7 @@ public class StreetLogic {
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { // Field is owned by someone else, we check if they can afford landing there
 					currentPlayer.getAccount().withdraw(street.getRentValue()); // They can, so we withdraw money and put it into the owners
 					street.getOwner().getAccount().deposit(street.getRentValue());
+					GUIController.getInstance().updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
 					GUIController.getInstance().writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 				}else {
 					//Saleslogic

@@ -25,7 +25,7 @@ public class GameLogic {
 		diceCup = new DiceCup(2);
 	}
 
-	protected void callLogic(PlayerController playerController, Player currentPlayer) {
+	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
 		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
 		String choices[] = {"Roll dice"};
@@ -60,17 +60,25 @@ public class GameLogic {
 				}
 				findLogic(currentPlayer, diceCup);
 
-				break;
+				return true;
 			}
 			case "Buy house/hotel" : {
 				BuyLogic buyLogic = new BuyLogic();
 				String response = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
 				System.out.println(response);
-				break;
+				for (int j = 0; j < fields.length; j++) {
+					if(fields[j].getName() == response) {
+						buyLogic.buyHouse(fields[j], currentPlayer);
+						break;
+					}
+				}
+				guiController.writeMessage("Du har købt et hus på..."+response);				
+				return false;
 			}
 			
 			}
 		} while (diceCup.isPair());
+		return true;
 
 	}
 
@@ -112,6 +120,7 @@ public class GameLogic {
 			System.out.println(currentPlayer.getName() + currentPlayer.getStartPosition() + currentPlayer.getEndPosition());
 			if(((diceCup.getTotalFaceValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
 				currentPlayer.getAccount().deposit(4000);
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				return true;
 			}
 		}else {
