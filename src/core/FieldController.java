@@ -149,7 +149,7 @@ public class FieldController {
 		for (int i = 0; i < fieldArr.length; i++) { // We loop over all our fields
 			if(fieldArr[i] instanceof Street) { // We find the fields which are an instance of Normal
 				Street normal = (Street) fieldArr[i]; // Casting
-				if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
+				if(normal.getOwner() == currentPlayer && currentPlayer.getAccount().canAfford(normal.getBuildPrice())) { // We check if the current field is owned by the player
 					colour = normal.getColour(); // Grab the colour
 					for (int j = 0; j < fieldArr.length; j++) { // Start an inner loop
 						if(fieldArr[j] instanceof Street) { // Once again only want to look at the fields which are of the type normal
