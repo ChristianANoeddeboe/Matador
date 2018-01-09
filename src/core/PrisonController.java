@@ -6,7 +6,7 @@ import core.ChanceCardLogic.ChanceCardController;
  * @author Christian Stahl Andersen s164150
  *
  */
-public class PrisonLogic {
+public class PrisonController {
 
 	private int id;
 	private Player currentPlayer;
@@ -19,7 +19,7 @@ public class PrisonLogic {
 	 * @param currentPlayer
 	 * @param diceCup
 	 */
-	PrisonLogic(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
+	PrisonController(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
 		this.id = id;
 		this.currentPlayer = currentPlayer;
 		this.diceCup = diceCup;
