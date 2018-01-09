@@ -9,8 +9,6 @@ import java.lang.reflect.Array;
  *
  */
 public class BuyLogic {
-	private Property property;
-	private Entities entities;
 	private Field[] fields;
 	private int id;
 	Street[] normal;
@@ -23,11 +21,11 @@ public class BuyLogic {
 	public BuyLogic() {
 	}
 
-	protected void updatePlayer(Player currentPlayer) {
-		this.player = currentPlayer;
-		this.id = player.getEndPosition();
-		this.property = (Property) fields[id];
-	}
+//	protected void updatePlayer(Player currentPlayer) {
+//		this.player = currentPlayer;
+//		this.id = player.getEndPosition();
+//		this.property = (Property) fields[id];
+//	}
 
 
 
@@ -36,11 +34,12 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void propertyBuyLogic(Player currentPlayer) {
-		Field field = Entities.getInstance().getFieldArr()[currentPlayer.getEndPosition()];
+	protected void propertyBuyLogic(Player currentPlayer, Field field) {
 		if(field instanceof Street) {
-			currentPlayer.getAccount().withdraw((property.getBaseValue())); // Withdraw money form player based on the property base value
-			property.setOwner(currentPlayer); // Set the owner
+			Street street = (Street) field;
+			currentPlayer.getAccount().withdraw(street.getBuyValue()); // Withdraw money form player based on the property base value
+			street.setOwner(currentPlayer); // Set the owner
+			GUIController.getInstance().setOwner(currentPlayer.getGuiId(), currentPlayer.getEndPosition());
 		}else if(field instanceof Brewery) {
 			this.breweryBuyLogic(currentPlayer);
 		}else if(field instanceof Shipping) {

@@ -186,7 +186,11 @@ public class FieldController {
 				}
 			}
 		}
-		return street;
+		Street[] sortedarray = new Street[val];
+		for (int i = 0; i < sortedarray.length; i++) {
+			sortedarray[i] = street[i];
+		}
+		return sortedarray;
 	}
 
 }
