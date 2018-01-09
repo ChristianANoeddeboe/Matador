@@ -37,6 +37,7 @@ public class GUIController {
 			String name = guiController.requestStringInput("Please write name.");
 			if (name.equals(""))
 				name = "player"+(i+1);
+			addPlayer(i, 30000, name);
 			playerNames[i] = name;
 		}
 		

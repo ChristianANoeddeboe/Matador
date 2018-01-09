@@ -3,7 +3,6 @@ package core;
 
 public class GameController {
 	private GUIController guiController;
-	private FieldController fieldController;
 	private PlayerController playerController;
 	private GameLogic gameLogic;
 	public boolean gameIsOver = false;
@@ -16,6 +15,7 @@ public class GameController {
 
 	public GameController() {
 		guiController = GUIController.getInstance();
+		playerController = new PlayerController();
 		gameLogic = new GameLogic();		
 	}
 
