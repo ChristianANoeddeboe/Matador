@@ -300,7 +300,12 @@ public class BuyLogic {
 					break;
 			}
 		}
-		return properties;
+		
+		String[] propertiesSorted = new String[index];
+		for (int i = 0; i < propertiesSorted.length; i++) {
+			propertiesSorted[i] = properties[i];
+		}
+		return propertiesSorted;
 	}
 	
 	public void buyHouse(String fieldName) {
