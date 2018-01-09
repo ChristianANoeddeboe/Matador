@@ -1,26 +1,10 @@
 package core;
-/**
- * 
- * @author Mathias Thejsen s175192 && Simon Hansen s175191
- *
- */
-public class Tax extends Field {
 
-	private int taxvalue;
+public class Tax extends SpecialProperty {
 
-	/**
-	 * Constructor for Tax field
-	 * @param id Field number
-	 * @param name Field name
-	 * @param taxvalue Taxvalue
-	 * @param description Description
-	 */
-	Tax(int id, String name, int taxvalue, String description) {
+	public Tax(int id, String name, String description) {
 		super(id, name, description);
-		this.taxvalue = taxvalue;
+		// TODO Auto-generated constructor stub
 	}
-
-	public int getTaxvalue() {
-		return taxvalue;
-	}
+	
 }

@@ -6,18 +6,19 @@ package core;
 public class Player{
 	private String name;
 	private Account account;
-	private boolean prison, bankrupt,startRound;
+	private boolean isPrisoned, bankrupt,startRound;
 	private int prisonCard;
-	private int id_GUI;
+	private int guiId;
 	private int startPosition;
 	private int endPosition;
 	private int prisontries;
+	
 	/**
 	 * Constructor
 	 */
 	public Player() {
-		
 	}
+	
 	/**
 	 * Constructor with params
 	 * @param name The players name
@@ -25,12 +26,12 @@ public class Player{
 	public Player(String name, int idGui) {
 		this.name = name;
 		this.account = new Account();
-		this.prison = false;
+		this.isPrisoned = false;
 		this.bankrupt = false;
 		this.startRound = true;
 		this.startPosition = 0;
 		this.prisonCard = 0;
-		this.id_GUI = idGui;
+		this.guiId = idGui;
 		this.prisontries = 0;
 		this.endPosition = this.startPosition;
 	}
@@ -47,11 +48,11 @@ public class Player{
 	public void removePrisonCard() {
 		this.prisonCard -= 1;
 	}
-	public int getId_GUI() {
-		return id_GUI;
+	public int getGuiId() {
+		return guiId;
 	}
-	public void setId_GUI(int id_GUI) {
-		this.id_GUI = id_GUI;
+	public void setGuiId(int id_GUI) {
+		this.guiId = id_GUI;
 	}
 	public int getEndPosition() {
 		return endPosition;

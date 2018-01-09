@@ -15,8 +15,8 @@ public class Shipping extends Property {
 	 * @param pawnValue Pawn value
 	 * @param description Description of the field
 	 */
-	public Shipping(int id, String name, Player owner, int baseValue, int pawnValue, String description) {
-		super(id, name, owner, baseValue, pawnValue, description);
+	public Shipping(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue) {
+		super(id, name, description, owner, buyValue, pawnValue, rentValue);
 		this.currentValue = 500;
 	}
 	
