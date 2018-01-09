@@ -28,7 +28,7 @@ public class TaxLogic {
 	 * @param currentPlayer
 	 * @return depends on outcome
 	 */
-	protected String taxLogic38(Player currentPlayer) {
+	protected String taxLogic38() {
 		if (currentPlayer.getAccount().canAfford(2000)) {
 			currentPlayer.getAccount().withdraw(2000);
 			return "StateTax";
@@ -43,7 +43,7 @@ public class TaxLogic {
 	 * @param choice
 	 * @return Depends on outcome
 	 */
-	protected String taxLogic4(Player currentPlayer, int choice) {
+	protected String taxLogic4(int choice) {
 		int buildingvalue = 0;
 		int playervalue = currentPlayer.getAccount().getBalance(); // The players current balance
 		int propertyvalue = 0;
@@ -78,9 +78,9 @@ public class TaxLogic {
 		}
 	}
 
-	protected String taxLogic(Player currentPlayer) {
+	protected String taxLogic() {
 		if(currentPlayer.getEndPosition() == 38) {
-			return this.taxLogic38(currentPlayer);
+			return this.taxLogic38();
 		}else {
 			return "TaxChoice";
 		}
