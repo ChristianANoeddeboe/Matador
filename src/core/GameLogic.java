@@ -18,10 +18,12 @@ public class GameLogic {
 	 */
 	public GameLogic() {
 		guiController = guiController.getInstance();
+
 		diceCup = new DiceCup(2);
 	}
 
 	protected void callLogic(PlayerController playerController, Player currentPlayer) {
+		fields = guiController.getFieldController().getFieldArr();
 		String choices[] = {"Roll dice"};
 
 		//System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
@@ -72,26 +74,26 @@ public class GameLogic {
 	protected String findLogic(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
 		if (fields[id] instanceof Street) { 
-			StreetLogic streetLogic = new StreetLogic(id, currentPlayer);
-			return streetLogic.logic(currentPlayer);
+			StreetLogic streetLogic = new StreetLogic(currentPlayer, fields);
+			return streetLogic.logic();
 		} else if (fields[id] instanceof Brewery) {
-			BreweryLogic breweryLogic = new BreweryLogic(id, diceCup.getTotalFaceValue(), currentPlayer);
-			return breweryLogic.logic(currentPlayer);
+			BreweryLogic breweryLogic = new BreweryLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			return breweryLogic.logic();
 		} else if (fields[id] instanceof Chance) {
 			// Todo
 			return "Chance";
 		} else if (fields[id] instanceof Shipping) {
-			ShippingLogic shippingLogic = new ShippingLogic(id, diceCup.getTotalFaceValue(), currentPlayer);
-			return shippingLogic.logic(currentPlayer);
+			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			return shippingLogic.logic();
 		} else if (fields[id] instanceof Prison) {
-			prisonLogic = new PrisonLogic(id, currentPlayer, diceCup);
+			prisonLogic = new PrisonLogic(diceCup, fields);
 			return "Prison";
 		} else if (fields[id] instanceof Parking) {
 			//TODO
 			return "Parking";
 		} else if (fields[id] instanceof Tax) {
-			TaxLogic taxLogic = new TaxLogic(currentPlayer);
-			return taxLogic.taxLogic(currentPlayer);
+			TaxLogic taxLogic = new TaxLogic(currentPlayer, fields);
+			return taxLogic.taxLogic();
 		}
 		return "Type not found";
 	}
