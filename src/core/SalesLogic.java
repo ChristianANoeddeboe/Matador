@@ -19,7 +19,7 @@ public class SalesLogic {
 	 * @return
 	 */
 	protected void sellHouse(Field field) {
-		FieldController fieldcontroller = new FieldController();
+		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
 		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
 		String response = GUIController.getInstance().requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
@@ -41,7 +41,7 @@ public class SalesLogic {
 	 * @return
 	 */
 	protected void pawnProperty() {
-		FieldController fieldcontroller = new FieldController();
+		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
 		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
 		String response = GUIController.getInstance().requestPlayerChoice("Please choose a property to pawn: ", properties);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
