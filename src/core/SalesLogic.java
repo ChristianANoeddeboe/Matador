@@ -18,10 +18,13 @@ public class SalesLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void sellHouse(Field field) {
+	protected boolean sellHouse(Field field) {
 		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
 		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
 		String response = GUIController.getInstance().requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
+		if(response.length() >= 0) {
+			return false;
+		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
 				Street street = (Street) fieldcontroller.getFieldArr()[i];
@@ -32,6 +35,7 @@ public class SalesLogic {
 				GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
 			}
 		}
+		return true;
 
 	}
 
