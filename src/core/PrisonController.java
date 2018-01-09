@@ -8,7 +8,6 @@ import core.ChanceCardLogic.ChanceCardController;
  */
 public class PrisonController {
 
-	private int id;
 	private Player currentPlayer;
 	private DiceCup diceCup;
 	private GUIController guiController = GUIController.getInstance();
@@ -20,69 +19,82 @@ public class PrisonController {
 	 * @param diceCup
 	 */
 	PrisonController(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
-		this.id = id;
 		this.currentPlayer = currentPlayer;
 		this.diceCup = diceCup;
 		this.chanceCardController = chanceCardController;
 	}
 
 	public void logic(Player currentPlayer) {
-		if (id == 10) {
+		int pos = currentPlayer.getEndPosition();
+		if (pos == 10) {
 			if (currentPlayer.isPrison()) {
 				inPrisonLogic(currentPlayer);
 			} else {
 				guiController.writeMessage("TODO Du besøger fænglset. Se lige de undermålere bag tremmer. Ha Ha Ha Ha");
 			}
 		}
-		if (id == 30) {
+		if (pos == 30) {
 			landGoToPrison(currentPlayer);
 		}
 	}
 
-	private void landGoToPrison(Player currentPlayer) {
+	public void landGoToPrison(Player currentPlayer) {
 		switch (getPlayerChoice(0)) {
 			case "Betal kr. 1000":
-				currentPlayer.getAccount().withdraw(1000);
-				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				payFine(currentPlayer);
 				break;
 			case "Benyt fængselskort":
-				chanceCardController.discardPrisonCard();
-				currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
-				guiController.writeMessage("Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
+				usePrisonCard(currentPlayer);
 				break;
 			case "Gå i fængsel":
-				guiController.jailPlayer(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), 10);
-				currentPlayer.setEndPosition(10);
-				currentPlayer.setPrison(true);
+				jailPlayer(currentPlayer);
 				break;
 			default:
 				break;
 		}
 	}
 
-	private void inPrisonLogic(Player currentPlayer) {
+	public void inPrisonLogic(Player currentPlayer) {
 		switch (getPlayerChoice(1)) {
 			case "Rul terningerne":
-				diceCup.roll();
-				if (diceCup.isPair()) {
-					currentPlayer.setPrison(false);
-				}
+				rollJailDice(currentPlayer);
 				break;
 			case "Betal kr. 1000":
-				currentPlayer.getAccount().withdraw(1000);
-				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				payFine(currentPlayer);
 				break;
 			case "Benyt fængselskort":
-				chanceCardController.discardPrisonCard();
-				currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
-				guiController.writeMessage("Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
+				usePrisonCard(currentPlayer);
 				break;
 			default:
 				break;
 		}
 	}
 
-	private String getPlayerChoice(int state) {
+	public void jailPlayer(Player currentPlayer) {
+		guiController.jailPlayer(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), 10);
+		currentPlayer.setEndPosition(10);
+		currentPlayer.setPrison(true);
+	}
+
+	public void payFine(Player currentPlayer) {
+		currentPlayer.getAccount().withdraw(1000);
+		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+	}
+
+	public void usePrisonCard(Player currentPlayer) {
+		chanceCardController.discardPrisonCard();
+		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
+		guiController.writeMessage("Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
+	}
+
+	public void rollJailDice(Player currentPlayer) {
+		diceCup.roll();
+		if (diceCup.isPair()) {
+			currentPlayer.setPrison(false);
+		}
+	}
+
+	public String getPlayerChoice(int state) {
 		String choices = "";
 		String[] choiceArr;
 		switch (state) {
