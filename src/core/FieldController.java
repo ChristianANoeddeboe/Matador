@@ -188,5 +188,45 @@ public class FieldController {
 		}
 		return street;
 	}
+	
+	protected String[] FieldsOwned(Player currentPlayer) {
+		String[] temp = new String[28];
+		int counter = 0;
+		for(int i = 0; i < fieldArr.length; i++) {
+			if(fieldArr[i] instanceof Property) {
+				Property property = (Property) fieldArr[i];
+				if(property.getOwner() == currentPlayer) {
+					temp[counter] = fieldArr[i].getName();
+					counter++;
+				}
+			}
+		}
+		String[] propertyOwned = new String[counter];
+		for(int j = 0; j < counter; j++) {
+			propertyOwned[j] = temp[j];
+		}
+		return propertyOwned;
+	}
+	
+	protected String[] fieldsNoHouses(Player currentPlayer) {
+		String[] temp = new String[22];
+		int counter = 0;
+		for(int i = 0; i < fieldArr.length; i++) {
+			if(fieldArr[i] instanceof Street) {
+				Street street = (Street) fieldArr[i];
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() == 0) {
+					temp[counter] = fieldArr[i].getName();
+					counter++;
+				}
+			}
+		}
+		String[] propertyOwned = new String[counter];
+		for(int j = 0; j < counter; j++) {
+			propertyOwned[j] = temp[j];
+		}
+		return propertyOwned;
+	}
 
 }
+
+
