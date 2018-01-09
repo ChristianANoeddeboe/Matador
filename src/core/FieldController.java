@@ -222,6 +222,14 @@ public class FieldController {
 					temp[counter] = fieldArr[i].getName();
 					counter++;
 				}
+			if(fieldArr[i] instanceof Shipping) {
+				temp[counter] = fieldArr[i].getName();
+				counter++;
+			}
+			if(fieldArr[i] instanceof Brewery) {
+				temp[counter] = fieldArr[i].getName();
+				counter++;
+			}
 			}
 		}
 		String[] propertyOwned = new String[counter];
