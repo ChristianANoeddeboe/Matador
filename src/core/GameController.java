@@ -29,21 +29,24 @@ public class GameController {
 	
 	public void playRound() {
 		boolean gameIsLive = true;
+		boolean switchPlayer = true;
 		while(gameIsLive) {
 			for (Player player : playerController.getPlayers()) {
-				//Check if game is still live
-				int amountBankrupt = 0;
-				for (Player otherPlayer : playerController.getPlayers())
-					if(otherPlayer.isBanktrupt())
-						amountBankrupt++;
-				
-				if(amountBankrupt >= playerController.getPlayers().length-1) {
-					gameIsLive = false;
-					break;
-				}
+				do {
+					//Check if game is still live
+					int amountBankrupt = 0;
+					for (Player otherPlayer : playerController.getPlayers())
+						if(otherPlayer.isBanktrupt())
+							amountBankrupt++;
 					
-				if(!player.isBanktrupt())
-					gameLogic.callLogic(playerController, player);
+					if(amountBankrupt >= playerController.getPlayers().length-1) {
+						gameIsLive = false;
+						break;
+					}
+						
+					if(!player.isBanktrupt())
+						switchPlayer = gameLogic.callLogic(playerController, player);
+				} while(!switchPlayer);
 			}
 		}
 		

@@ -5,9 +5,9 @@ package core.ChanceCardLogic;
  */
 public class GrantCard extends ChanceCard {
     private int grantAmount;
-    public GrantCard(int id, String description, int grantAmount) {
+    public GrantCard(int id, String description) {
         super(id, description);
-        this.grantAmount = grantAmount;
+        this.grantAmount = 40000;
     }
 
     public int getGrantAmount() {
