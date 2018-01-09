@@ -268,4 +268,9 @@ public class GUIController {
 			player.setBalance(startBalance);
 		}
 	}
+	
+	
+	public FieldController getFieldController() {
+		return fieldController;
+	}
 }
