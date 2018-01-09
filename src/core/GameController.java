@@ -1,30 +1,26 @@
 package core;
 
-import java.util.Arrays;
 
 public class GameController {
 	private GUIController guiController;
-	private GameLogic gameLogic;
 	private FieldController fieldController;
 	private PlayerController playerController;
-	private Player currentPlayer;
-	private boolean playerRoundHasEnded = false;
-	private BuyLogic buyLogic;
+	private DiceCup	diceCup;
+	private GameLogic gameLogic;
+	public boolean gameIsOver = false;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
-
 		gameController.prepareGame();
-
-		gameController.startGame();
+		gameController.playRound();
 	}
 
 	public GameController() {
 		guiController = GUIController.getInstance();
-		gameLogic = new GameLogic();
-		buyLogic = new BuyLogic();
 		fieldController = new FieldController();
 		playerController = new PlayerController();
+		diceCup = new DiceCup(2);
+		gameLogic = new GameLogic();		
 	}
 
 	public void prepareGame() {
@@ -42,75 +38,29 @@ public class GameController {
 			playerController.getPlayers()[i] = player;
 		}
 
-		currentPlayer = playerController.getPlayers()[0];
-		
+		/*
 		Field fields[] = fieldController.getFieldArr();
 		for( int i = 0 ; i < fields.length ; i++ ) {
 			if(fields[i].getClass().getSimpleName().equals("Street")) {
 				((Street) fields[i]).setOwner(currentPlayer);
 			}
 		}
-	}
-
-	public void startGame() {
-		boolean gameIsLive = true;
-
-		while(gameIsLive) {
-			choosePlayer();
-			startRound();
-			//gameIsLive = gameLogic.isGameOver;
-
-		}
-	}
-
-	public void choosePlayer() {
-		boolean choosePlayer = false;
-		if(playerRoundHasEnded) {
-			do {
-				for (Player player : playerController.getPlayers()) {
-					if(choosePlayer) {
-						currentPlayer = player;
-						choosePlayer = false;
-						break;
-					}
-
-					if(player == currentPlayer)
-						choosePlayer = true;
-				}
-			} while (choosePlayer);
-			playerRoundHasEnded = false;
-		}
-	}
-
-	public void startRound() {
-		String choices[] = {"Roll dice"};
-
-		System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
-		
-		if(buyLogic.canBuyHouse(currentPlayer)) {
-			String choices2[] = {"Roll dice","Buy house/hotel"};
-			choices = choices2;
-		}
-		
-		switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
-			case "Roll dice" : {
-				playRound();
-				break;
-			}
-			case "Buy houses" : {
-				String reponse = buyLogic.houseBuyLogic(currentPlayer);
-				
-				break;
-			}
-		}
+		*/
 	}
 	
 	public void playRound() {
-	    if (!currentPlayer.isPrison()) {
-            rollDice();
-            guiController.updatePlayerPosition(currentPlayer.getId_GUI(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-        }
-
+		while(!gameIsOver) {
+			for (Player player : playerController.getPlayers()) {
+				if(!player.isBanktrupt()) {
+					gameLogic.callLogic(fieldController, playerController, diceCup, player);
+				}
+			}
+		}
+		
+		//Game Is Over
+	}
+}
+/*
 		switch(gameLogic.findLogic(currentPlayer)) {
 			case "NotOwned" : {
 				buyLogic.updatePlayer(currentPlayer);
@@ -270,4 +220,4 @@ public class GameController {
 
 
 }
-
+*/
