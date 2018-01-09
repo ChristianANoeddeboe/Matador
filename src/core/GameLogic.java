@@ -92,8 +92,8 @@ public class GameLogic {
 			//TODO
 			return "Parking";
 		} else if (fields[id] instanceof Tax) {
-			TaxLogic taxLogic = new TaxLogic(currentPlayer);
-			return taxLogic.taxLogic(currentPlayer);
+			TaxLogic taxLogic = new TaxLogic(currentPlayer, fields);
+			return taxLogic.taxLogic();
 		}
 		return "Type not found";
 	}
