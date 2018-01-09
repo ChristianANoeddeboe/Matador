@@ -9,7 +9,6 @@ import java.lang.reflect.Array;
  *
  */
 public class BuyLogic {
-	private Field[] fields;
 	private int id;
 	Street[] normal;
 
@@ -41,14 +40,12 @@ public class BuyLogic {
 			street.setOwner(currentPlayer); // Set the owner
 			GUIController.getInstance().setOwner(currentPlayer.getGuiId(), currentPlayer.getEndPosition());
 		}else if(field instanceof Brewery) {
-			this.breweryBuyLogic(currentPlayer);
+			Brewery brewery = (Brewery) field;
+			this.breweryBuyLogic(currentPlayer, brewery);
 		}else if(field instanceof Shipping) {
-			this.shippingBuyLogic(currentPlayer);
+			Shipping shipping = (Shipping) field;
+			this.shippingBuyLogic(currentPlayer, shipping);
 		}
-	}
-
-	protected int getPropertyValue(Player currentPlayer) {
-		return property.getBaseValue();
 	}
 
 	/**
@@ -345,6 +342,7 @@ public class BuyLogic {
 	 */
 	protected void houseBuyLogic(Player currentPlayer) {
 		// Player can buy new house and there is no more than 4 buildings on the field
+		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
 		if(fields[id] instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
 			Street normal = (Street) fields[id]; // Instantiate a new Normal object casting fieldsid normal
 			if (currentPlayer.getAccount().canAfford(normal.getBuildPrice()) && normal.getHouseCounter() <= 5) { // Check if player can afford house and making sure there is not already 5
@@ -360,6 +358,7 @@ public class BuyLogic {
 	 * @return the landing price
 	 */
 	private int calcHousePrice(int houses) {
+		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
 		if(fields[id] instanceof Street) {
 			Street normal = (Street) fields[id];
 			switch (houses) {
@@ -385,17 +384,18 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void shippingBuyLogic(Player currentPlayer) {
+	protected void shippingBuyLogic(Player currentPlayer, Shipping shipping) {
+		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
 		int counter = 0; // How many the player owns
-		currentPlayer.getAccount().withdraw(property.getBaseValue()); // Withdraw the basevalue from the player
-		property.setOwner(currentPlayer); // Set the owner
-		for (int i = 0; i <fields.length; i++) { // First loop and find out how many we own
+		currentPlayer.getAccount().withdraw(shipping.getBuyValue()); // Withdraw the basevalue from the player
+		shipping.setOwner(currentPlayer); // Set the owner
+		for (int i = 0; i < fields.length; i++) { // First loop and find out how many we own
 			if(fields[i] instanceof Shipping) {
-				Shipping shipping = (Shipping) fields[i];
-				if (shipping.getOwner() == currentPlayer && fields[i].getClass().getSimpleName().equals("shipping")) {
+				Shipping shipping2 = (Shipping) fields[i];
+				if (shipping2.getOwner() == currentPlayer) {
 					counter++; // Update how many we own
 					for (int j = 0; j < fields.length; j++) {
-						shipping.setCurrentValue(getShippingValue(counter)); // Set the value on them all
+						shipping2.setCurrentValue(getShippingValue(counter)); // Set the value on them all
 					}
 				}
 			}
@@ -427,9 +427,9 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void breweryBuyLogic(Player currentPlayer) {
-		currentPlayer.getAccount().withdraw(property.getBaseValue());
-		property.setOwner(currentPlayer);
+	protected void breweryBuyLogic(Player currentPlayer, Brewery brewery) {
+		currentPlayer.getAccount().withdraw(brewery.getBuyValue());
+		brewery.setOwner(currentPlayer);
 	}
 
 	/**
@@ -437,10 +437,11 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String unPawnProperty(Player currentPlayer) {
+	protected String unPawnProperty(Player currentPlayer, Field field) {
+		Property property = (Property) field;
 		if (currentPlayer.getAccount().canAfford(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)))) { // We check if the player can afford the pawn value and 10% extra
 			currentPlayer.getAccount().withdraw(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
-			property.setIsPawned(false);
+			property.setPawned(false);
 			return "UnPawned, " + (property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
 		} else {
 			return "CannotAfford";

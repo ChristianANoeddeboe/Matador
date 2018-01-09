@@ -47,7 +47,7 @@ public class StreetLogic {
 					GUIController.getInstance().writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 				}else {
 					SalesLogic salesLogic = new SalesLogic(currentPlayer);
-					salesLogic.pawnProperty(street);
+					salesLogic.pawnProperty();
 				}
 
 			}
