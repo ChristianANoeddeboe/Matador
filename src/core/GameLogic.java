@@ -1,4 +1,7 @@
 package core;
+
+import core.ChanceCardLogic.ChanceCardController;
+
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -11,31 +14,37 @@ public class GameLogic {
 	private int dice1value;
 	private int dice2value;
 	private int totalFaceValue = dice1value+dice2value;
-	private PrisonLogic prisonLogic;
-
+	private PrisonController prisonController;
+	private FieldController fieldController;
+	private ChanceCardController chanceCardController;
 	/**
 	 * Constructor for gamelogic
 	 */
 	public GameLogic() {
 		guiController = guiController.getInstance();
-
 		diceCup = new DiceCup(2);
 	}
 
 	protected void callLogic(PlayerController playerController, Player currentPlayer) {
-		fields = guiController.getFieldController().getFieldArr();
+		fieldController = guiController.getFieldController();
+		fields =fieldController.getFieldArr();
 		String choices[] = {"Roll dice"};
-
-		//System.out.println("CAN I BUY HOUSES???: " + buyLogic.canBuyHouse(currentPlayer).toString());
-
-		/*if(buyLogic.canBuyHouse(currentPlayer)) {
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i] instanceof Street && currentPlayer.getName().equals("player1")) {
+				((Street) fields[i]).setOwner(currentPlayer);
+			}
+		}
+		System.out.println("Blabla: "+fieldController.allFieldsToBuildOn(currentPlayer).length);
+		Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
+		if(buildablestreets.length > 0) {
 			String choices2[] = {"Roll dice","Buy house/hotel"};
 			choices = choices2;
-		}*/
+		}
 		do {
 			switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 			case "Roll dice" : {
 				diceCup.roll();
+				guiController.getInstance().showDice(diceCup);
 				//save start position and set new end position
 				System.out.println(diceCup.getTotalFaceValue());
 				currentPlayer.setStartPosition(currentPlayer.getEndPosition());
@@ -46,14 +55,17 @@ public class GameLogic {
 
 				}
 				guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
-
+				if(passedStart(currentPlayer)) {
+					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				}
 				findLogic(currentPlayer, diceCup);
 
 				break;
 			}
-			case "Buy houses" : {
-				//String reponse = buyLogic.houseBuyLogic(currentPlayer);
-
+			case "Buy house/hotel" : {
+				BuyLogic buyLogic = new BuyLogic();
+				String response = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
+				System.out.println(response);
 				break;
 			}
 			
@@ -71,31 +83,23 @@ public class GameLogic {
 	 * @param currentPlayer
 	 * @return A message to the gamecontroller
 	 */
-	protected String findLogic(Player currentPlayer, DiceCup diceCup) {
+	protected void findLogic(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
 		if (fields[id] instanceof Street) { 
-			StreetLogic streetLogic = new StreetLogic(currentPlayer, fields);
-			return streetLogic.logic();
+			StreetLogic streetLogic = new StreetLogic(currentPlayer, fields[id]);
+			streetLogic.logic();
 		} else if (fields[id] instanceof Brewery) {
 			BreweryLogic breweryLogic = new BreweryLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
-			return breweryLogic.logic();
 		} else if (fields[id] instanceof Chance) {
-			// Todo
-			return "Chance";
 		} else if (fields[id] instanceof Shipping) {
 			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
-			return shippingLogic.logic();
 		} else if (fields[id] instanceof Prison) {
-			prisonLogic = new PrisonLogic(diceCup, fields);
-			return "Prison";
+			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
 		} else if (fields[id] instanceof Parking) {
 			//TODO
-			return "Parking";
 		} else if (fields[id] instanceof Tax) {
 			TaxLogic taxLogic = new TaxLogic(currentPlayer, fields);
-			return taxLogic.taxLogic();
 		}
-		return "Type not found";
 	}
 
 	/**
@@ -106,7 +110,7 @@ public class GameLogic {
 	protected boolean passedStart(Player currentPlayer) {
 		if(!currentPlayer.isStartRound()) {
 			System.out.println(currentPlayer.getName() + currentPlayer.getStartPosition() + currentPlayer.getEndPosition());
-			if(((entities.getDiceArr()[0].getValue() + entities.getDiceArr()[1].getValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
+			if(((diceCup.getTotalFaceValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
 				currentPlayer.getAccount().deposit(4000);
 				return true;
 			}
@@ -117,8 +121,8 @@ public class GameLogic {
 		return false;
 	}
 
-	public PrisonLogic getPrisonLogic() {
-		return prisonLogic;
+	public PrisonController getPrisonLogic() {
+		return prisonController;
 	}
 }
 
