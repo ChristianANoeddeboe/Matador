@@ -57,8 +57,8 @@ public class GameLogic {
 		dice1value = entities.getDiceArr()[0].getValue();
 		dice2value = entities.getDiceArr()[1].getValue();
 		if (fields[id] instanceof Street) { 
-			NormalLogic normalLogic = new NormalLogic(id, currentPlayer);
-			return normalLogic.logic(currentPlayer);
+			StreetLogic streetLogic = new StreetLogic(id, currentPlayer);
+			return streetLogic.logic(currentPlayer);
 		} else if (fields[id] instanceof Brewery) {
 			BreweryLogic breweryLogic = new BreweryLogic(id, totalFaceValue, currentPlayer);
 			return breweryLogic.logic(currentPlayer);
