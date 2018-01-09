@@ -141,56 +141,59 @@ public class FieldController {
 	}
 	
 	protected Street[] allFieldsToBuildOn(Player currentPlayer) {
-		boolean bool = true;
-		Street street[] = new Street[40];
+		Street streetArr[] = new Street[40];
 		int val = 0;
 		boolean exists = false;
 		Color colour;
-		for (int i = 0; i < fieldArr.length; i++) { // We loop over all our fields
-			if(fieldArr[i] instanceof Street) { // We find the fields which are an instance of Normal
-				Street normal = (Street) fieldArr[i]; // Casting
-				if(normal.getOwner() == currentPlayer && currentPlayer.getAccount().canAfford(normal.getBuildPrice())) { // We check if the current field is owned by the player
-					colour = normal.getColour(); // Grab the colour
-					for (int j = 0; j < fieldArr.length; j++) { // Start an inner loop
-						if(fieldArr[j] instanceof Street) { // Once again only want to look at the fields which are of the type normal
-							Street normal2 = (Street) fieldArr[j]; // casting
-							if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
-								bool = false;
-								break;
-							}else {
-								bool = true;
+		
+		// We loop over all our fields
+		for (int i = 0; i < fieldArr.length; i++) {
+			
+			//Bool to stay 
+			boolean canBeBuildOn = true;
+			
+			// We find the fields which are an instance of Normal
+			if(fieldArr[i] instanceof Street) { 
+				
+				// Casting
+				Street street = (Street) fieldArr[i];
+				
+				// We check if the current field is owned by the player
+				if(street.getOwner() == currentPlayer && currentPlayer.getAccount().canAfford(street.getBuildPrice())) {
+					
+					// Grab the colour
+					colour = street.getColour(); 
+					
+					// Start an inner loop
+					for (int j = 0; j < fieldArr.length; j++) {
+						
+						// Once again only want to look at the fields which are of the type normal
+						if(fieldArr[j] instanceof Street) {
+							
+							// casting
+							Street street2 = (Street) fieldArr[j];
+							
+							// Making sure that the fields of the same colour and the same owner, if not the same owner we return false
+							if(street2.getColour() == colour && street2.getOwner() != currentPlayer) { 
+								canBeBuildOn = false;
 								break;
 							}
 						}
-					}
-					if(bool == true) {
-						for (int j = 0; j < fieldArr.length; j++) {
-							if (fieldArr[j] instanceof Street) {
-								Street normal2 = (Street) fieldArr[j]; // casting
-								if(normal2.getColour() == colour) {
-									exists = false;
-									for (int k = 0; k < street.length; k++) {
-										if(street[k] == normal2)
-										{
-											exists = true;
-										}
-									}
-									if(!exists) {												
-										street[val++] = normal2;
-									}
-
-								}
-							}
-						}
+					}		
+					
+					//If property can be build on	
+					if(canBeBuildOn == true) {
+						streetArr[val++] = street;
 					}
 				}
 			}
 		}
-		Street[] sortedarray = new Street[val];
-		for (int i = 0; i < sortedarray.length; i++) {
-			sortedarray[i] = street[i];
+		
+		Street[] sortedStreetArr = new Street[val];
+		for (int i = 0; i < sortedStreetArr.length; i++) {
+			sortedStreetArr[i] = streetArr[i];
 		}
-		return sortedarray;
+		return sortedStreetArr;
 	}
 	
 	protected String[] FieldsOwned(Player currentPlayer) {
