@@ -21,10 +21,10 @@ public class SalesLogic {
 	protected boolean sellHouse(Field field) {
 		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
 		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
-		String response = GUIController.getInstance().requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
-		if(response.length() >= 0) {
+		if(streets.length >= 0) {
 			return false;
 		}
+		String response = GUIController.getInstance().requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
 				Street street = (Street) fieldcontroller.getFieldArr()[i];
@@ -44,9 +44,12 @@ public class SalesLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void pawnProperty() {
+	protected boolean pawnProperty() {
 		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
 		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
+		if(properties.length >= 0) {
+			return false;
+		}
 		String response = GUIController.getInstance().requestPlayerChoice("Please choose a property to pawn: ", properties);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
@@ -57,6 +60,7 @@ public class SalesLogic {
 				GUIController.getInstance().writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
 			}
 		}
+		return true;
 	}
 }
 
