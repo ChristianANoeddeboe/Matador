@@ -32,14 +32,7 @@ public class GameLogic {
 		SalesController salesController = new SalesController(currentPlayer);
 		this.playerController = playerController;
 		int counter = 0;
-		for (int i = 0; i < fields.length; i++) {
-			if(fields[i] instanceof Street) {
-				Street street = (Street) fields[i];
-				if(currentPlayer.getName().equals("player1")) {
-					street.setOwner(currentPlayer);
-				}
-			}
-		}
+		
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
 			prisonController.inPrisonLogic(currentPlayer);
