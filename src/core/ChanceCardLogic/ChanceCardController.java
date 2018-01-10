@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class ChanceCardController {
     private PropertiesIO propertiesIO;
+    private GUIController guiController;
 
     private static ChanceCard[] chanceCardArray;
     private static int[] randomArray;
@@ -141,7 +142,7 @@ public class ChanceCardController {
         }
     }
 
-    public String getCard (Player currentPlayer, Field[] fields, Player[] players) {
+    public void getCard (Player currentPlayer, Field[] fields, Player[] players) {
         drawnChanceCard = chanceCardArray[randomArray[index]];
         increaseIndex();
 
@@ -152,53 +153,52 @@ public class ChanceCardController {
                 if (prisonCard.isPrisonCard()) {
                     prisonCard(currentPlayer);
                     prisonCard.removePrisonCard();
-                    returnmessage = prisonCard.getDescription();
+                    guiController.displayChanceCard(prisonCard.getDescription());
                 }
                 else
-                    returnmessage = getCard(currentPlayer, fields, players);
+                    getCard(currentPlayer, fields, players);
                 break;
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
                 moveCard(currentPlayer, moveCard.getField());
-                returnmessage = moveCard.getDescription();
+                guiController.displayChanceCard(moveCard.getDescription());
                 break;
             case "MoveShipping":
                 moveShippingCard = (MoveShippingCard) drawnChanceCard;
                 moveShippingCard(currentPlayer,fields);
-                returnmessage = moveCard.getDescription();
+                guiController.displayChanceCard(moveShippingCard.getDescription());
                 break;
             case "GrantCard":
                 grantCard = (GrantCard) drawnChanceCard;
                 grantCard(currentPlayer, fields);
-                returnmessage = moveCard.getDescription();
+                guiController.displayChanceCard(grantCard.getDescription());
                 break;
             case "PresentDepositCard":
                 presentDepositCard = (PresentDepositCard) drawnChanceCard;
                 presentDepositCard(currentPlayer, players);
-                returnmessage = presentDepositCard.getDescription();
+                guiController.displayChanceCard(presentDepositCard.getDescription());
                 break;
             case "StepsBackCard":
                 stepsBackCard = (StepsBackCard) drawnChanceCard;
                 stepsBackCard(currentPlayer, stepsBackCard.getAmount());
-                returnmessage = stepsBackCard.getDescription();
+                guiController.displayChanceCard(stepsBackCard.getDescription());
                 break;
             case "WithdrawCard":
                 withdrawCard = (WithdrawCard) drawnChanceCard;
                 withDrawCard(currentPlayer, withdrawCard.getAmount());
-                returnmessage = withdrawCard.getDescription();
+                guiController.displayChanceCard(withdrawCard.getDescription());
                 break;
             case "DepositCard":
                 depositCard = (DepositCard) drawnChanceCard;
                 depositCard(currentPlayer, depositCard.getAmount());
-                returnmessage = depositCard.getDescription();
+                guiController.displayChanceCard(depositCard.getDescription());
                 break;
             case "EstateTaxCard":
                 estateTaxCard = (EstateTaxCard) drawnChanceCard;
                 estateTaxCard(currentPlayer, fields, estateTaxCard.getTaxHouse(), estateTaxCard.getTaxHotel());
-                returnmessage = estateTaxCard.getDescription();
+                guiController.displayChanceCard(estateTaxCard.getDescription());
                 break;
         }
-        return returnmessage;
     }
 
     private void prisonCard (Player currentPlayer) {
