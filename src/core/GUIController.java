@@ -190,6 +190,17 @@ public class GUIController {
 	}
 
 	/**
+	 * Takes input from the player between two integers.
+	 * @param message the String to write on the GUI.
+	 * @param min minimum amount the player can input.
+	 * @param max maximum amount the player can input.
+	 * @return returns the input from the user.
+	 */
+	public int requestIntegerInput(String message, int min, int max) {
+		return gui.getUserInteger(message, min, max);
+	}
+
+	/**
 	 * Lets the user input a String message the system can interpret.
 	 * @param message - Message the GUI will display along with the text field.
 	 * @return String
