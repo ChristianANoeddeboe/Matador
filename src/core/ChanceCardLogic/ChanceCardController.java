@@ -126,7 +126,6 @@ public class ChanceCardController {
     }
 
     private void initializeRandomArray (int[] randomArray) {
-        randomArray = new int[32];
         for (int i = 0 ; i < randomArray.length ; i++)
         {
             int rndNumber;
@@ -154,54 +153,55 @@ public class ChanceCardController {
             case "PrisonCard":
                 prisonCard = (PrisonCard) drawnChanceCard;
                 prisonCard(currentPlayer);
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(prisonCard.getDescription());
                 break;
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
                 moveCard(currentPlayer, moveCard.getField(), fields);
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(moveCard.getDescription());
                 break;
             case "MoveShipping":
                 moveShippingCard = (MoveShippingCard) drawnChanceCard;
                 moveShippingCard(currentPlayer,fields);
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(moveShippingCard.getDescription());
                 break;
             case "GrantCard":
                 grantCard = (GrantCard) drawnChanceCard;
                 grantCard(currentPlayer, fields);
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(grantCard.getDescription());
                 break;
             case "PresentDepositCard":
                 presentDepositCard = (PresentDepositCard) drawnChanceCard;
                 presentDepositCard(currentPlayer, players);
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(presentDepositCard.getDescription());
                 break;
             case "StepsBackCard":
                 stepsBackCard = (StepsBackCard) drawnChanceCard;
                 stepsBackCard(currentPlayer, stepsBackCard.getAmount());
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(stepsBackCard.getDescription());
                 break;
             case "WithdrawCard":
                 withdrawCard = (WithdrawCard) drawnChanceCard;
                 withdrawCard(currentPlayer, withdrawCard.getAmount());
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(withdrawCard.getDescription());
                 break;
             case "DepositCard":
                 depositCard = (DepositCard) drawnChanceCard;
                 depositCard(currentPlayer, depositCard.getAmount());
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(depositCard.getDescription());
                 break;
             case "EstateTaxCard":
                 estateTaxCard = (EstateTaxCard) drawnChanceCard;
                 estateTaxCard(currentPlayer, fields, estateTaxCard.getTaxHouse(), estateTaxCard.getTaxHotel());
-                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
+                System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(estateTaxCard.getDescription());
                 break;
         }
@@ -217,8 +217,8 @@ public class ChanceCardController {
 
     private void moveCard (Player currentPlayer, int field, Field[] fields) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-        int fieldBeforeChance = currentPlayer.getEndPosition();
         currentPlayer.setEndPosition(field);
+
         //if move to prisonfield
         if (moveCard.getId() == 2 && moveCard.getId() == 3) {
             guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getStartPosition());
@@ -276,25 +276,6 @@ public class ChanceCardController {
 
         }
 
-        Property property = (Property) fields[currentPlayer.getEndPosition()];
-
-        if (property.getOwner() == null) {
-            currentPlayer.getAccount().withdraw(8000);
-            property.getOwner().getAccount().deposit(8000);
-            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
-            guiController.updatePlayerBalance(property.getOwner().getGuiId(),property.getOwner().getAccount().getBalance());
-        }
-
-        else {
-            if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
-                String[] choices = {"Yes", "No"};
-                String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
-                if(result.equals("Yes")) {
-                    currentPlayer.getAccount().withdraw(4000);
-                    guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
-                }
-            }
-        }
     }
 
     private void grantCard (Player currentPlayer,Field[] fields) {
@@ -389,5 +370,26 @@ public class ChanceCardController {
 
     public void putPrisonCardInDeck () {
         chanceCardDeck.push(prisonCard);
+    }
+
+    private void landOnProperty (Field[] fields, Player currentPlayer) {
+        Property property = (Property) fields[currentPlayer.getEndPosition()];
+
+        if (!(property.getOwner() == null) && !(property.getOwner() == currentPlayer)) {
+
+            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+            guiController.updatePlayerBalance(property.getOwner().getGuiId(),property.getOwner().getAccount().getBalance());
+        }
+
+        else {
+            if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
+                String[] choices = {"Yes", "No"};
+                String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
+                if(result.equals("Yes")) {
+                    currentPlayer.getAccount().withdraw(4000);
+                    guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+                }
+            }
+        }
     }
 }
