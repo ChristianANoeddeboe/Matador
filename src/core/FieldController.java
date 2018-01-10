@@ -78,14 +78,14 @@ public class FieldController {
 				Color color;
 				switch(config.getTranslation("field"+(i+1)+"color")) { 
 					default : color = Color.black; break;
-					case "gul" : color = Color.yellow; break;
-					case "blå" : color = Color.blue; break;
+					case "yellow" : color = Color.yellow; break;
+					case "blue" : color = Color.blue; break;
 					case "pink" : color = Color.orange; break;
-					case "hvid" : color = Color.white; break;
-					case "grøn" : color = Color.green; break;
-					case "lilla" : color = Color.magenta; break;
-					case "rød" : color = Color.red; break;
-					case "grå" : color = Color.gray; break;
+					case "white" : color = Color.white; break;
+					case "green" : color = Color.green; break;
+					case "purple" : color = Color.magenta; break;
+					case "red" : color = Color.red; break;
+					case "grey" : color = Color.gray; break;
 				}
 
 				// Get house prices from config and save to array

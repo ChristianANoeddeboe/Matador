@@ -25,7 +25,7 @@ public class PrisonController {
 		this.chanceCardController = chanceCardController;
 	}
 
-	public void logic(Player currentPlayer) {
+	public void logic() {
 		int pos = currentPlayer.getEndPosition();
 		if (pos == 10) {
 			if (currentPlayer.isPrison()) {
