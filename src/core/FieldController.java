@@ -341,6 +341,31 @@ public class FieldController {
 		}
 		return propertyOwned;
 	}
+	
+	protected String[] pawnedFields(Player currentPlayer) {
+		String[] temp = new String[28];
+		
+		int counter = 0;
+		
+		for(int i = 0; i < fieldArr.length; i++) {
+			
+			
+			if(fieldArr[i] instanceof Property) {
+				Property property = (Property) fieldArr[i];
+				if(property.getOwner() == currentPlayer && currentPlayer.getAccount().canAfford(property.getPawnValue()*(int)(property.getPawnValue()*0.10))) {
+					temp[counter] = fieldArr[i].getName();
+					
+					counter++;
+				}
+			}
+		}
+		String[] propertyOwned = new String[counter];
+		
+		for(int j = 0; j < counter; j++) {
+			propertyOwned[j] = temp[j];
+		}
+		return propertyOwned;
+	}
 }
 
 

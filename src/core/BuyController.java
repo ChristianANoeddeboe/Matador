@@ -196,15 +196,18 @@ public class BuyController {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String unPawnProperty(Player currentPlayer, Field field) {
-		Property property = (Property) field;
-		if (currentPlayer.getAccount().canAfford(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)))) { // We check if the player can afford the pawn value and 10% extra
-			currentPlayer.getAccount().withdraw(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
-			property.setPawned(false);
-			return "UnPawned, " + (property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
-		} else {
-			return "CannotAfford";
+	protected void unPawnProperty(Player currentPlayer) {
+		Property property;
+		Field[] fieldArr = guiController.getFieldController().getFieldArr();
+		String[] pawnedProperty = guiController.getFieldController().pawnedFields(currentPlayer);
+		String result = guiController.requestPlayerChoice("Choose a property to unpawn", pawnedProperty);
+		for(int i = 0; i < fieldArr.length; i++) {
+			if(fieldArr[i].getName().equals(result)) {
+				property = (Property) fieldArr[i];
+			}
 		}
+		property.setPawned(false);
+
 	}
 
 
