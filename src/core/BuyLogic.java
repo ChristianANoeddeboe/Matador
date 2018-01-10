@@ -20,90 +20,56 @@ public class BuyLogic {
 	public BuyLogic() {
 	}
 
-	//	protected void updatePlayer(Player currentPlayer) {
-	//		this.player = currentPlayer;
-	//		this.id = player.getEndPosition();
-	//		this.property = (Property) fields[id];
-	//	}
-
-
-
 	/**
 	 * Logic for buying a property
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void propertyBuyLogic(Player currentPlayer, Field field) {
+	protected void buyLogic(Player currentPlayer, Field field) {
 		if(field instanceof Street) {
-			Street street = (Street) field;
-			currentPlayer.getAccount().withdraw(street.getBuyValue()); // Withdraw money form player based on the property base value
-			street.setOwner(currentPlayer); // Set the owner
-			GUIController.getInstance().setOwner(currentPlayer.getGuiId(), currentPlayer.getEndPosition());
+			this.propertyBuyLogic(currentPlayer, field);
 		}else if(field instanceof Brewery) {
-			Brewery brewery = (Brewery) field;
-			this.breweryBuyLogic(currentPlayer, brewery);
+			this.breweryBuyLogic(currentPlayer, field);
 		}else if(field instanceof Shipping) {
-			Shipping shipping = (Shipping) field;
-			this.shippingBuyLogic(currentPlayer, shipping);
+			this.shippingBuyLogic(currentPlayer, field);
 		}
 	}
-
+	
+	
+	protected void propertyBuyLogic(Player currentPlayer, Field field) {
+		Street street = (Street) field;
+		currentPlayer.getAccount().withdraw(street.getBuyValue()); // Withdraw money form player based on the property base value
+		street.setOwner(currentPlayer); // Set the owner
+		GUIController.getInstance().setOwner(currentPlayer.getGuiId(), currentPlayer.getEndPosition());
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+	}
+	
 	/**
-	 * Checks if the player can buy a house by checking if the player owns a row of colours
+	 * Logic for buying a shipping field
 	 * @param currentPlayer
-	 * @return a boolean
-
-	protected Boolean canBuyHouse(Player currentPlayer) {
-		boolean bool = true;
-		this.normal = new Street[40];
-		int val = 0;
-		boolean exists = false;
-		Color colour;
-		for (int i = 0; i < fields.length; i++) { // We loop over all our fields
-			if(fields[i] instanceof Street) { // We find the fields which are an instance of Normal
-				Street normal = (Street) entities.getFieldArr()[i]; // Casting
-				if(normal.getOwner() == currentPlayer) { // We check if the current field is owned by the player
-					colour = normal.getColour(); // Grab the colour
-					for (int j = 0; j < fields.length; j++) { // Start an inner loop
-						if(fields[j] instanceof Street) { // Once again only want to look at the fields which are of the type normal
-							Street normal2 = (Street) entities.getFieldArr()[j]; // casting
-							if(normal2.getColour() == colour && normal2.getOwner() != currentPlayer && j != i) { // Making sure that the fields of the same colour and the same owner, if not the same owner we return false
-								bool = false;
-								break;
-							}else {
-								bool = true;
-								break;
-							}
-						}
-					}
-					if(bool == true) {
-						for (int j = 0; j < fields.length; j++) {
-							if (fields[j] instanceof Street) {
-								Street normal2 = (Street) entities.getFieldArr()[j]; // casting
-								if(normal2.getColour() == colour) {
-									exists = false;
-									for (int k = 0; k < this.normal.length; k++) {
-										if(this.normal[k] == normal2)
-										{
-											exists = true;
-										}
-									}
-									if(!exists) {												
-										this.normal[val++] = normal2;
-									}
-
-								}
-							}
-
-						}
-						//break;
+	 * @return
+	 */
+	protected void shippingBuyLogic(Player currentPlayer, Field field) {
+		Shipping shipping = (Shipping) field;
+		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
+		int counter = 0; // How many the player owns
+		currentPlayer.getAccount().withdraw(shipping.getBuyValue()); // Withdraw the basevalue from the player
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		shipping.setOwner(currentPlayer); // Set the owner
+		for (int i = 0; i < fields.length; i++) { // First loop and find out how many we own
+			if(fields[i] instanceof Shipping) {
+				Shipping shipping2 = (Shipping) fields[i];
+				if (shipping2.getOwner() == currentPlayer) {
+					counter++; // Update how many we own
+					for (int j = 0; j < fields.length; j++) {
+						shipping2.setCurrentValue(getShippingValue(counter)); // Set the value on them all
 					}
 				}
 			}
 		}
-		return bool;
-	}*/
-
+	}
+	
+	
 	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {
 		String[] properties = new String[40];
 		Color colour;		
@@ -379,28 +345,7 @@ public class BuyLogic {
 		return id;
 	}
 
-	/**
-	 * Logic for buying a shipping field
-	 * @param currentPlayer
-	 * @return
-	 */
-	protected void shippingBuyLogic(Player currentPlayer, Shipping shipping) {
-		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
-		int counter = 0; // How many the player owns
-		currentPlayer.getAccount().withdraw(shipping.getBuyValue()); // Withdraw the basevalue from the player
-		shipping.setOwner(currentPlayer); // Set the owner
-		for (int i = 0; i < fields.length; i++) { // First loop and find out how many we own
-			if(fields[i] instanceof Shipping) {
-				Shipping shipping2 = (Shipping) fields[i];
-				if (shipping2.getOwner() == currentPlayer) {
-					counter++; // Update how many we own
-					for (int j = 0; j < fields.length; j++) {
-						shipping2.setCurrentValue(getShippingValue(counter)); // Set the value on them all
-					}
-				}
-			}
-		}
-	}
+	
 
 	/**
 	 * Calculates the price of the shipping fields
@@ -427,8 +372,10 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void breweryBuyLogic(Player currentPlayer, Brewery brewery) {
+	protected void breweryBuyLogic(Player currentPlayer, Field field) {
+		Brewery brewery = (Brewery) field;
 		currentPlayer.getAccount().withdraw(brewery.getBuyValue());
+		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		brewery.setOwner(currentPlayer);
 	}
 
