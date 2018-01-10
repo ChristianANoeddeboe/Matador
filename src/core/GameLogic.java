@@ -13,13 +13,14 @@ public class GameLogic {
 	private Field[] fields;
 	private PrisonController prisonController;
 	private FieldController fieldController;
-	private ChanceCardController chanceCardController;
+	private ChanceCardController cardController;
 	private PlayerController playerController;
 	/**
 	 * Constructor for gamelogic
 	 */
 	public GameLogic() {
 		guiController = guiController.getInstance();
+		cardController = new ChanceCardController();
 		diceCup = new DiceCup(2);
 
 	}
@@ -120,7 +121,6 @@ public class GameLogic {
 			BreweryController breweryController = new BreweryController(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			breweryController.logic();
 		} else if (fields[id] instanceof Chance) {
-			ChanceCardController cardController = new ChanceCardController();
 			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
 		} else if (fields[id] instanceof Shipping) {
 			ShippingController shippingController = new ShippingController(currentPlayer, diceCup.getTotalFaceValue(), fields);
@@ -157,7 +157,7 @@ public class GameLogic {
 			if (currentPlayer.getPairs() >= 3) {
 				currentPlayer.setPairs(0);
 				guiController.writeMessage("You rolled 3 pairs in a row and were jailed");
-				PrisonController prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
+				PrisonController prisonController = new PrisonController(currentPlayer, diceCup, cardController);
 				prisonController.jailPlayer(currentPlayer);
 			}
 		}
