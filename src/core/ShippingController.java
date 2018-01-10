@@ -4,7 +4,7 @@ package core;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class ShippingLogic {
+public class ShippingController {
 	private int totalFaceValue;
 	private GUIController guiController = GUIController.getInstance();
 	private Shipping shipping;
@@ -15,7 +15,7 @@ public class ShippingLogic {
 	 * @param totalFaceValue The total dice value of both dices
 	 * @param currentPlayer The player that landed on the field
 	 */
-	public ShippingLogic(Player currentPlayer, int totalFaceValue, Field[] fields) {
+	public ShippingController(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
 		this.shipping = (Shipping) fields[currentPlayer.getEndPosition()];
 		this.totalFaceValue = totalFaceValue;
