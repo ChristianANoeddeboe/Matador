@@ -17,7 +17,6 @@ public class ShippingController {
 	public ShippingController(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
 		this.shipping = (Shipping) fields[currentPlayer.getEndPosition()];
-		this.totalFaceValue = totalFaceValue;
 	}
 	/**
 	 * Returns the outcome of landin gon the field
