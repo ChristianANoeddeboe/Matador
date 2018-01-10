@@ -234,58 +234,22 @@ public class BuyController {
 			
 			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
-
-			//Handle streets by color
-			if(color.equals("blue")||color.equals("purple")) {
-				
-				//Loop which represents build order for houses
-				for(int i = 0 ; i < 6 ; i++) {
-					
-					//Loop over all grounds of the given color
-					for (int j = 0; j <= 1; j++) {
-						
-						//Check if ground may have another house
-						if(street[counter+j].getHouseCounter() == i) {
-							properties[index++] = street[counter+j].getName();
-							added = true;
-						}
-					}
-					
-					//If house may be build on one or more houses
-					if(added) {
-						added = false;
-						
-						//increment counter so that cards of same color is skipped
-						counter += 1;
-						break;
+			int amountOfHouses = street[counter].getHouseCounter();
+			boolean mayBuild = true;
+			
+			for (Street streetTemp : street) {
+				String color2 = convertColor(streetTemp.getColour());
+				if(color == color2) {
+					if(amountOfHouses > streetTemp.getHouseCounter()) {
+						mayBuild = false;
 					}
 				}
-			}else {	
-				//Loop which represents build order for houses
-				for(int i = 0 ; i < 6 ; i++) {
-					
-					//Loop over all grounds of the given color
-					for (int j = 0; j <= 2; j++) {
-						
-						//Check if ground may have another house
-						if(street[counter+j].getHouseCounter() == i) {
-							properties[index++] = street[counter+j].getName();
-							added = true;
-						}
-					}
-					
-					//break if house may be build on one or more house.
-					if(added) {
-						added = false;		
-						//increment counter so that cards of same color is skipped
-						counter += 2;
-						break;
-					}
-				}
-
 			}
+			
+			if(mayBuild)
+				properties[index++] = street[counter].getName();
 		}
-		
+
 		//add to return array.
 		propertiesSorted = new String[index];
 		for (int i = 0; i < propertiesSorted.length; i++) {
