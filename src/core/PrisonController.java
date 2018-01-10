@@ -93,9 +93,11 @@ public class PrisonController {
 		chanceCardController.putPrisonCardInDeck();
 		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
 		guiController.writeMessage("TODO Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
-		guiController.writeMessage("TODO Rul med terningerne for at flytte.");
-		diceCup.roll();
-		guiController.showDice(diceCup);
+		if (currentPlayer.isPrison()) {
+			guiController.writeMessage("TODO Rul med terningerne for at flytte.");
+			diceCup.roll();
+			guiController.showDice(diceCup);
+		}
 	}
 
 	public void rollJailDice(Player currentPlayer) {
