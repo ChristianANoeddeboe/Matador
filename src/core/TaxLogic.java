@@ -48,6 +48,8 @@ public class TaxLogic {
 		int buildingvalue = 0;
 		int playervalue = currentPlayer.getAccount().getBalance(); // The players current balance
 		int propertyvalue = 0;
+		SalesController salesController = new SalesController(currentPlayer);
+
 		// Player can either choose 10% of income tax or 4000
 		String[] choices = {"4000", "10%"};
 		String choice = guiController.requestPlayerChoiceButtons("Vil du betale 10% inkomst skat eller 4000", choices);
@@ -71,7 +73,7 @@ public class TaxLogic {
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage("10% income tax amounted to a total of.."+ value);
 			}else {
-				//Sales logic
+				salesController.cannotAfford(value);
 			}
 			
 		}else{
@@ -79,7 +81,7 @@ public class TaxLogic {
 				currentPlayer.getAccount().withdraw(4000);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
-			// Sales logic
+			salesController.cannotAfford(4000);
 		}
 	}
 
