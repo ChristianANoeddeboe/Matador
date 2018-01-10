@@ -111,12 +111,12 @@ public class SalesController {
 	 * @return
 	 */
 	protected boolean pawnProperty() {
-		
+		System.out.println("y");
 		// Holds a String array of all the properties owned by the current Player
 		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
 		
 		// Returns false if the player owns no properties to pawn
-		if(properties.length >= 0) {
+		if(properties.length == 0) {
 			return false;
 		}
 		

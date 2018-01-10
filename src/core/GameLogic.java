@@ -28,8 +28,18 @@ public class GameLogic {
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
 		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
+		BuyController buyController = new BuyController(currentPlayer);
+		SalesController salesController = new SalesController(currentPlayer);
 		this.playerController = playerController;
 		int counter = 0;
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i] instanceof Street) {
+				Street street = (Street) fields[i];
+				if(currentPlayer.getName().equals("player1")) {
+					street.setOwner(currentPlayer);
+				}
+			}
+		}
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
 			prisonController.inPrisonLogic(currentPlayer);
@@ -57,6 +67,12 @@ public class GameLogic {
 			//Add Roll dice if not already rolled
 			if(!currentPlayer.isRolled())
 				choicesArr[counter++] = "Roll dice";
+			if(fieldController.propertiesToPawn(currentPlayer).length > 0) {
+				choicesArr[counter++] = "Pawn property";	
+			}
+			if(fieldController.pawnedFields(currentPlayer).length > 0) {
+				choicesArr[counter++] = "Unpawn property";
+			}
 			
 			//Move to new array
 			String choices[] = new String[counter];
@@ -81,7 +97,7 @@ public class GameLogic {
 					return false;
 				}
 				case "Buy house/hotel" : {
-					BuyController buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]);
+					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]);
 					String houseList = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyController.listOfFieldsYouCanBuildOn(buildablestreets));
 					for (int j = 0; j < fields.length; j++) {
 						if(fields[j].getName() == houseList) {
@@ -92,9 +108,19 @@ public class GameLogic {
 					guiController.writeMessage("Du har købt et hus på..."+houseList);				
 					return false;
 				}
+				
+				case "Pawn property":{
+					salesController.pawnProperty();
+					return false;
+				}
 	
 				case "Afslut tur":{
 					return true;
+				}
+				
+				case "Unpawn property":{
+					buyController.unPawnProperty();
+					return false;
 				}
 	
 				}

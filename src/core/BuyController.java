@@ -11,6 +11,11 @@ public class BuyController {
 	private Field field;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
+	
+	
+	public BuyController(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
 	/**
 	 * Constructor for the buy logic
 	 * @param id
@@ -196,7 +201,7 @@ public class BuyController {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void unPawnProperty(Player currentPlayer) {
+	protected void unPawnProperty() {
 		Property property = null;
 		Field[] fieldArr = guiController.getFieldController().getFieldArr();
 		String[] pawnedProperty = guiController.getFieldController().pawnedFields(currentPlayer);
@@ -207,9 +212,9 @@ public class BuyController {
 			}
 		}
 		property.setPawned(false);
-		currentPlayer.getAccount().withdraw(property.getPawnValue()*(int)(property.getPawnValue()*0.10));
-		
-		guiController.updatePlayerBalance(currentPlayer.getGuiId(), (property.getPawnValue()*(int)(property.getPawnValue()*0.10)));
+		int value = property.getPawnValue()+(int)((property.getPawnValue()*0.10));
+		currentPlayer.getAccount().withdraw(value);
+		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 	}
 
 
