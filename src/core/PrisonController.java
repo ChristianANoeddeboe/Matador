@@ -90,7 +90,7 @@ public class PrisonController {
 	}
 
 	public void usePrisonCard(Player currentPlayer) {
-		chanceCardController.discardPrisonCard();
+		chanceCardController.putPrisonCardInDeck();
 		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
 		guiController.writeMessage("TODO Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
 		guiController.writeMessage("TODO Rul med terningerne for at flytte.");
