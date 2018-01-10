@@ -31,7 +31,6 @@ public class BuyController {
 	 * @return
 	 */
 	protected void buyLogic() {
-		System.out.println("hi");
 		if(field instanceof Street) {
 			this.streetBuyLogic();
 		}else if(field instanceof Brewery) {
@@ -230,12 +229,10 @@ public class BuyController {
 
 		//Loop over all streets in input array
 		for (int counter = 0; counter < street.length; counter++) {
-
 			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
 			int amountOfHouses = street[counter].getHouseCounter();
 			boolean mayBuild = true;
-
 			for (Street streetTemp : street) {
 				String color2 = convertColor(streetTemp.getColour());
 				if(color == color2) {

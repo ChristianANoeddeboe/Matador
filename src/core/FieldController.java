@@ -166,7 +166,6 @@ public class FieldController {
 				if(street.getOwner() == currentPlayer && street.getHouseCounter() <5) {
 					//If the player can afford the buildprice
 					if( currentPlayer.getAccount().canAfford(street.getBuildPrice())) {
-
 						// Grab the colour
 						colour = street.getColour(); 
 
@@ -186,10 +185,11 @@ public class FieldController {
 								}
 							}
 						}		
-					}
-					//If property can be build on	
-					if(canBeBuildOn == true) {
-						streetArr[val++] = street;
+
+						//If property can be build on	
+						if(canBeBuildOn == true) {
+							streetArr[val++] = street;
+						}
 					}
 				}
 			}
