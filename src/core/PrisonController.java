@@ -105,6 +105,8 @@ public class PrisonController {
 		if (diceCup.isPair()) {
 		    guiController.writeMessage("TODO Du slå et par! Du er en fri mand.");
 			currentPlayer.setPrison(false);
+		} else {
+			guiController.writeMessage("TODO Du slog ikke to ens...");
 		}
 	}
 
