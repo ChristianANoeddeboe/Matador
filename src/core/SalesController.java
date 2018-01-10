@@ -28,10 +28,24 @@ public class SalesController {
 		boolean propertyToPawn = true;
 		
 		// While loop until the player can afford the rent/pay
-		while(currentPlayer.getAccount().getBalance() < value) {
-			
-			// Prompts the user for a choiec
-			String[] options = {"Sell House", "Pawn Property"};
+		while(currentPlayer.getAccount().getBalance() < value && !currentPlayer.isBanktrupt()) {
+			String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
+			String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
+			if(streets.length <= 0 && properties.length <= 0) {
+				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
+				currentPlayer.setBanktrupt(true);
+				break;
+			}
+			// Prompts the user for a choice
+			String[] options = null;
+			int counter = 0;
+			if(streets.length > 0) {
+				options[counter] = "Sell Houses";
+				counter++;
+			}
+			if(properties.length > 0) {
+				options[counter] = "Pawn Property";
+			}
 			String result = guiController.requestPlayerChoice("Sell either houses or pawn property", options);
 			
 			// Runs the sellHouse method if chosen
@@ -47,6 +61,7 @@ public class SalesController {
 			// If the player has no houses to sell, properties to pawn and still cannot afford, the player is declared bankrupt and false is returned
 			if(!housesToSell && !propertyToPawn && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
+				break;
 			}
 		}
 	}
