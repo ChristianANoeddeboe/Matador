@@ -107,6 +107,12 @@ public class GUIController {
 		gui.displayChanceCard(message);
 	}
 
+	/**
+	 * Updates the player position on the GUI.
+	 * @param id the id associated with the player.
+	 * @param newPos the position to move the player to.
+	 * @param oldPos the position the player is currently on.
+	 */
 	public void updatePlayerPosition(int id, int newPos, int oldPos) {
 		if (oldPos > newPos) {
 			for (int i = oldPos ; i < fields_GUI.length-1 ; i++) {
@@ -229,6 +235,8 @@ public class GUIController {
 	public int requestIntegerInput(String message) {
 		return gui.getUserInteger(message);
 	}
+
+
 
 	/**
 	 * Lets the user input a String message the system can interpret.
