@@ -1,7 +1,6 @@
 package core;
 
 import java.awt.Color;
-import java.lang.reflect.Array;
 
 /**
  * 
@@ -9,15 +8,16 @@ import java.lang.reflect.Array;
  *
  */
 public class BuyLogic {
-	private int id;
-	Street[] normal;
-
-	private Player player;
+	private Field field;
+	private Player currentPlayer;
+	private GUIController guiController = GUIController.getInstance();
 	/**
 	 * Constructor for the buy logic
 	 * @param id
 	 */
-	public BuyLogic() {
+	public BuyLogic(Player currentPlayer, Field field) {
+		this.currentPlayer = currentPlayer;
+		this.field = field;
 	}
 
 	/**
@@ -25,36 +25,44 @@ public class BuyLogic {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void buyLogic(Player currentPlayer, Field field) {
+	protected void buyLogic() {
+		System.out.println("hi");
 		if(field instanceof Street) {
-			this.propertyBuyLogic(currentPlayer, field);
+			this.streetBuyLogic();
 		}else if(field instanceof Brewery) {
-			this.breweryBuyLogic(currentPlayer, field);
+			this.breweryBuyLogic();
 		}else if(field instanceof Shipping) {
-			this.shippingBuyLogic(currentPlayer, field);
+			this.shippingBuyLogic();
 		}
 	}
-	
-	
-	protected void propertyBuyLogic(Player currentPlayer, Field field) {
+
+
+	/**
+	 * Logic for buying a street
+	 * @param currentPlayer
+	 * @param field
+	 */
+
+	private void streetBuyLogic() {
 		Street street = (Street) field;
 		currentPlayer.getAccount().withdraw(street.getBuyValue()); // Withdraw money form player based on the property base value
 		street.setOwner(currentPlayer); // Set the owner
-		GUIController.getInstance().setOwner(currentPlayer.getGuiId(), currentPlayer.getEndPosition());
-		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		guiController.setOwner(currentPlayer.getGuiId(), currentPlayer.getEndPosition());
+		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 	}
-	
+
 	/**
 	 * Logic for buying a shipping field
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void shippingBuyLogic(Player currentPlayer, Field field) {
+	private void shippingBuyLogic() {
 		Shipping shipping = (Shipping) field;
-		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
+		Field[] fields = guiController.getFieldController().getFieldArr();
 		int counter = 0; // How many the player owns
 		currentPlayer.getAccount().withdraw(shipping.getBuyValue()); // Withdraw the basevalue from the player
-		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		guiController.setOwner(currentPlayer.getGuiId(), field.getId());
 		shipping.setOwner(currentPlayer); // Set the owner
 		for (int i = 0; i < fields.length; i++) { // First loop and find out how many we own
 			if(fields[i] instanceof Shipping) {
@@ -68,8 +76,143 @@ public class BuyLogic {
 			}
 		}
 	}
-	
-	
+
+
+	/**
+	 * Calculates the price of the shipping fields
+	 * @param i How many we own
+	 * @return The value
+	 */
+	private int getShippingValue(int i) {
+		switch (i) {
+		case 1:
+			return 500;
+		case 2:
+			return 1000;
+		case 3:
+			return 2000;
+		case 4:
+			return 4000;
+		default:
+			return 0;
+		}
+	}
+
+	/**
+	 * The logic for buying a brewery field
+	 * @param currentPlayer
+	 * @return
+	 */
+	private void breweryBuyLogic() {
+		Brewery brewery = (Brewery) field;
+		currentPlayer.getAccount().withdraw(brewery.getBuyValue());
+		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		guiController.setOwner(currentPlayer.getGuiId(), field.getId());
+		brewery.setOwner(currentPlayer);
+	}
+
+
+
+	/**
+	 * Converts a color to a string
+	 * @param color
+	 * @return a string color
+	 */
+	private String convertColor(Color color) {
+		if(color == Color.yellow) {
+			return "yellow";
+		}else if(color == Color.blue) {
+			return "blue";
+		}else if(color == Color.orange) {
+			return "orange";
+		}else if(color == Color.white) {
+			return "white";
+		}else if(color == Color.green) {
+			return "green";
+		}else if(color == Color.magenta) {
+			return "purple";
+		}else if(color == Color.red) {
+			return "red";
+		}else if(color == Color.gray) {
+			return "gray";
+		}else {
+			return "Error";
+		}
+	}
+
+	/**
+	 * Buying a house logic
+	 * @param currentPlayer
+	 * @return
+	 */
+	protected void houseBuyLogic(Field field) {
+		if(field instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
+			Street normal = (Street) field; // Instantiate a new Normal object casting fieldsid normal
+			//if (normal.getHouseCounter() <= 5) { // Check if player can afford house and making sure there is not already 5
+			currentPlayer.getAccount().withdraw(normal.getBuildPrice());
+			normal.setHouseCounter(normal.getHouseCounter() + 1);
+			normal.setRentValue(calcHousePrice(normal.getHouseCounter()));
+			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+			guiController.setHouse(normal.getId(),normal.getHouseCounter());
+			guiController.setOwner(currentPlayer.getGuiId(), normal.getId());
+			//}
+		}
+	}
+
+
+	/**
+	 * Calculates the new price of rent when a new house has been build
+	 * @param houses
+	 * @return the landing price
+	 */
+	private int calcHousePrice(int houses) {
+		if(field instanceof Street) {
+			Street normal = (Street) field;
+			switch (houses) {
+			case 1:
+				return normal.getHousePrices()[1];
+			case 2:
+				return normal.getHousePrices()[2];
+			case 3:
+				return normal.getHousePrices()[3];
+			case 4:
+				return normal.getHousePrices()[4];
+			case 5:
+				return normal.getHousePrices()[5];
+			default:
+				return field.getId();
+			}
+		}
+		return field.getId();
+	}
+
+
+
+
+
+
+	/**
+	 * Logic for unpawning a property
+	 * @param currentPlayer
+	 * @return
+	 */
+	protected String unPawnProperty(Player currentPlayer, Field field) {
+		Property property = (Property) field;
+		if (currentPlayer.getAccount().canAfford(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)))) { // We check if the player can afford the pawn value and 10% extra
+			currentPlayer.getAccount().withdraw(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
+			property.setPawned(false);
+			return "UnPawned, " + (property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
+		} else {
+			return "CannotAfford";
+		}
+	}
+
+
+	/**
+	 * Returns a string array containing all the fields a player can build on
+	 * @param street
+	 * @return
+	 */
 	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {
 		String[] properties = new String[40];
 		Color colour;		
@@ -269,134 +412,5 @@ public class BuyLogic {
 			propertiesSorted[i] = properties[i];
 		}
 		return propertiesSorted;
-	}
-
-	public void buyHouse(Field field, Player currentPlayer) {
-		Street street = (Street) field;
-		currentPlayer.getAccount().withdraw(street.getBuildPrice());
-		street.setHouseCounter(street.getHouseCounter() + 1);
-		GUIController.getInstance().setHouse(field.getId(),street.getHouseCounter());
-		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-	}
-
-	private String convertColor(Color color) {
-		if(color == Color.yellow) {
-			return "yellow";
-		}else if(color == Color.blue) {
-			return "blue";
-		}else if(color == Color.orange) {
-			return "orange";
-		}else if(color == Color.white) {
-			return "white";
-		}else if(color == Color.green) {
-			return "green";
-		}else if(color == Color.magenta) {
-			return "purple";
-		}else if(color == Color.red) {
-			return "red";
-		}else if(color == Color.gray) {
-			return "gray";
-		}else {
-			return "Error";
-		}
-	}
-
-	/**
-	 * Buying a house logic
-	 * @param currentPlayer
-	 * @return
-	 */
-	protected void houseBuyLogic(Player currentPlayer) {
-		// Player can buy new house and there is no more than 4 buildings on the field
-		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
-		if(fields[id] instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
-			Street normal = (Street) fields[id]; // Instantiate a new Normal object casting fieldsid normal
-			if (currentPlayer.getAccount().canAfford(normal.getBuildPrice()) && normal.getHouseCounter() <= 5) { // Check if player can afford house and making sure there is not already 5
-				currentPlayer.getAccount().withdraw(normal.getBuildPrice());
-				normal.setHouseCounter(normal.getHouseCounter() + 1);
-				normal.setRentValue(calcHousePrice(normal.getHouseCounter()));
-			}
-		}
-	}
-	/**
-	 * Calculates the new price of rent when a new house has been build
-	 * @param houses
-	 * @return the landing price
-	 */
-	private int calcHousePrice(int houses) {
-		Field[] fields = GUIController.getInstance().getFieldController().getFieldArr();
-		if(fields[id] instanceof Street) {
-			Street normal = (Street) fields[id];
-			switch (houses) {
-			case 1:
-				return normal.getHousePrices()[1];
-			case 2:
-				return normal.getHousePrices()[2];
-			case 3:
-				return normal.getHousePrices()[3];
-			case 4:
-				return normal.getHousePrices()[4];
-			case 5:
-				return normal.getHousePrices()[5];
-			default:
-				return id;
-			}
-		}
-		return id;
-	}
-
-	
-
-	/**
-	 * Calculates the price of the shipping fields
-	 * @param i How many we own
-	 * @return The value
-	 */
-	private int getShippingValue(int i) {
-		switch (i) {
-		case 1:
-			return 500;
-		case 2:
-			return 1000;
-		case 3:
-			return 2000;
-		case 4:
-			return 4000;
-		default:
-			return 0;
-		}
-	}
-
-	/**
-	 * The logic for buying a brewery field
-	 * @param currentPlayer
-	 * @return
-	 */
-	protected void breweryBuyLogic(Player currentPlayer, Field field) {
-		Brewery brewery = (Brewery) field;
-		currentPlayer.getAccount().withdraw(brewery.getBuyValue());
-		GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-		brewery.setOwner(currentPlayer);
-	}
-
-	/**
-	 * Logic for unpawning a property
-	 * @param currentPlayer
-	 * @return
-	 */
-	protected String unPawnProperty(Player currentPlayer, Field field) {
-		Property property = (Property) field;
-		if (currentPlayer.getAccount().canAfford(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)))) { // We check if the player can afford the pawn value and 10% extra
-			currentPlayer.getAccount().withdraw(property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
-			property.setPawned(false);
-			return "UnPawned, " + (property.getPawnValue() + ((int) (property.getPawnValue() * 0.10)));
-		} else {
-			return "CannotAfford";
-		}
-	}
-
-
-	public Street[] getNormal() {
-		return normal;
 	}
 }

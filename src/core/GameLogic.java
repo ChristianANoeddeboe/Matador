@@ -67,11 +67,11 @@ public class GameLogic {
 				return false;
 			}
 			case "Buy house/hotel" : {
-				BuyLogic buyLogic = new BuyLogic();
+				BuyLogic buyLogic = new BuyLogic(currentPlayer, fields[currentPlayer.getEndPosition()]);
 				String houseList = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyLogic.listOfFieldsYouCanBuildOn(buildablestreets));
 				for (int j = 0; j < fields.length; j++) {
 					if(fields[j].getName() == houseList) {
-						buyLogic.buyHouse(fields[j], currentPlayer);
+						buyLogic.houseBuyLogic(fields[j]);
 						break;
 					}
 				}
