@@ -9,26 +9,26 @@ import gui_fields.GUI_Jail;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class SalesLogic {
+public class SalesController {
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
-	public SalesLogic(Player currentPlayer) {
+	public SalesController(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 	
 	protected boolean cannotAfford(int value) {
-		boolean housestosell = true;
-		boolean propertytopawn = true;
+		boolean housesToSell = true;
+		boolean propertyToPawn = true;
 		while(currentPlayer.getAccount().getBalance() < value) {
 			String[] options = {"Sell House", "Pawn Property"};
 			String result = GUIController.getInstance().requestPlayerChoice("Sell either houses or pawn property", options);
 			if(result.equals("Sell House")) {
-				housestosell = sellHouse();
+				housesToSell = sellHouse();
 			}
 			if(result.equals("Pawn Property")) {
-				propertytopawn = pawnProperty();
+				propertyToPawn = pawnProperty();
 			}
-			if(housestosell == false && propertytopawn == false && currentPlayer.getAccount().getBalance() < value) {
+			if(housesToSell == false && propertyToPawn == false && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
 				return false;
 			}
@@ -78,7 +78,7 @@ public class SalesLogic {
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
 				Property property = (Property) fieldcontroller.getFieldArr()[i];
 				property.setPawned(true); // We set the pawn bool to true
-				currentPlayer.getAccount().deposit(property.getPawnValue()); // Weget the pawn value and deposit it into the owners account
+				currentPlayer.getAccount().deposit(property.getPawnValue()); // We get the pawn value and deposit it into the owners account
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
 			}

@@ -12,7 +12,7 @@ public class PrisonController {
 	private DiceCup diceCup;
 	private GUIController guiController = GUIController.getInstance();
 	private ChanceCardController chanceCardController;
-	private SalesLogic salesLogic;
+	private SalesController salesController;
 
 	/**
 	 *
@@ -123,7 +123,7 @@ public class PrisonController {
 					choices = choices + ",Benyt fængselskort";
 				}
 				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
-					if (!salesLogic.pawnProperty()) {
+					if (!salesController.pawnProperty()) {
 						currentPlayer.setBanktrupt(true);
 					}
 				}
