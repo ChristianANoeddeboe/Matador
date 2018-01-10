@@ -186,7 +186,7 @@ public class ChanceCardController {
                 break;
             case "WithdrawCard":
                 withdrawCard = (WithdrawCard) drawnChanceCard;
-                withDrawCard(currentPlayer, withdrawCard.getAmount());
+                withdrawCard(currentPlayer, withdrawCard.getAmount());
                 guiController.displayChanceCard(withdrawCard.getDescription());
                 break;
             case "DepositCard":
@@ -207,29 +207,39 @@ public class ChanceCardController {
     }
 
     private void moveCard (Player currentPlayer, int field) {
+        currentPlayer.setStartPosition(currentPlayer.getEndPosition());
         currentPlayer.setEndPosition(field);
+        guiController.updatePlayerPosition(currentPlayer.getGuiId(),field,currentPlayer.getStartPosition());
     }
 
     private void moveShippingCard (Player currentPlayer, Field[] fields) {
         if (currentPlayer.getEndPosition() == 2) {
+            currentPlayer.setStartPosition(currentPlayer.getEndPosition());
             currentPlayer.setEndPosition(5);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 7) {
             currentPlayer.setEndPosition(15);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 17 || currentPlayer.getEndPosition() == 21) {
             currentPlayer.setEndPosition(25);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 33) {
             currentPlayer.setEndPosition(35);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 36) {
             currentPlayer.setEndPosition(5);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
             currentPlayer.getAccount().deposit(4000);
+            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+
         }
 
         Property property = (Property) fields[currentPlayer.getEndPosition()];
@@ -237,6 +247,19 @@ public class ChanceCardController {
         if (property.getOwner() == null) {
             currentPlayer.getAccount().withdraw(8000);
             property.getOwner().getAccount().deposit(8000);
+            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+            guiController.updatePlayerBalance(property.getOwner().getGuiId(),property.getOwner().getAccount().getBalance());
+        }
+
+        else {
+            if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
+                String[] choices = {"Yes", "No"};
+                String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
+                if(result.equals("Yes")) {
+                    currentPlayer.getAccount().withdraw(4000);
+                    guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+                }
+            }
         }
     }
 
@@ -266,8 +289,10 @@ public class ChanceCardController {
             }
         }
 
-        if (playerValue <= 15000)
-            currentPlayer.getAccount().deposit(15000);
+        if (playerValue <= 15000) {
+            currentPlayer.getAccount().deposit(40000);
+            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+        }
     }
 
     private void presentDepositCard (Player currentPlayer, Player[] players) {
@@ -279,6 +304,7 @@ public class ChanceCardController {
             }
         }
         currentPlayer.getAccount().deposit(present);
+        guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
     private void stepsBackCard (Player currentPlayer, int amountOfSteps) {
@@ -289,12 +315,14 @@ public class ChanceCardController {
             currentPlayer.setEndPosition(currentPlayerEndPosition - amountOfSteps);
     }
 
-    private void withDrawCard (Player currentPlayer, int amount) {
+    private void withdrawCard(Player currentPlayer, int amount) {
         currentPlayer.getAccount().withdraw(amount);
+        guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
     private void depositCard (Player currentPlayer, int amount) {
         currentPlayer.getAccount().deposit(amount);
+        guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
     private void estateTaxCard (Player currentPlayer, Field[] fields, int housetax, int hoteltax) {
@@ -313,6 +341,7 @@ public class ChanceCardController {
             }
         }
         currentPlayer.getAccount().withdraw(estateTax);
+        guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
     public void discardPrisonCard () {
