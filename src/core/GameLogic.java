@@ -124,12 +124,14 @@ public class GameLogic {
 			BreweryController breweryController = new BreweryController(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			breweryController.logic();
 		} else if (fields[id] instanceof Chance) {
+			System.out.println("Chance");
 			ChanceCardController cardController = new ChanceCardController();
 			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
 		} else if (fields[id] instanceof Shipping) {
 			ShippingController shippingController = new ShippingController(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			shippingController.logic();
 		} else if (fields[id] instanceof Prison) {
+			ChanceCardController chanceCardController = new ChanceCardController();
 			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
 			prisonController.logic();
 		} else if (fields[id] instanceof Parking) {
