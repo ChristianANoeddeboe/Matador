@@ -48,7 +48,8 @@ public class BreweryController {
 					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
 					guiController.writeMessage("You landed on.."+brewery.getOwner().getName() + "..'s field and had to pay.."+brewery.getRentValue());
 				}else { //The player can't afford and has to sell something
-					//SALES LOGIC
+					SalesController salesController = new SalesController(currentPlayer);
+					salesController.cannotAfford(rentPrice);
 				}
 
 			}

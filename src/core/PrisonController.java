@@ -113,6 +113,8 @@ public class PrisonController {
 	}
 
 	public String getPlayerChoice(int state) {
+		SalesController salesController = new SalesController(currentPlayer);
+
 		String choices = "";
 		String[] choiceArr;
 		switch (state) {
@@ -134,14 +136,17 @@ public class PrisonController {
 				}
 				if (currentPlayer.getAccount().canAfford(1000)) {
 					choices = choices + ",Betal kr. 1000";
+				}else {
+					salesController.cannotAfford(1000);
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
 					choices = choices + ",Benyt fængselskort";
 				}
 				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
-					if (!salesController.pawnProperty()) {
-						currentPlayer.setBanktrupt(true);
-					}
+					salesController.cannotAfford(1000);
+				}
+				if(currentPlayer.getPrisontries() == 3) {
+					
 				}
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
