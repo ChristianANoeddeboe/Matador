@@ -43,7 +43,7 @@ public class SalesController {
 			}
 			
 			// If the player has no houses to sell, properties to pawn and still cannot afford, the player is declared bankrupt and false is returned
-			if(housesToSell == false && propertyToPawn == false && currentPlayer.getAccount().getBalance() < value) {
+			if(!housesToSell && !propertyToPawn && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
 				return false;
 			}
