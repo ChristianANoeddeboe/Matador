@@ -10,6 +10,7 @@ package core;
 public class StreetLogic {
 	private Street street;
 	private Player currentPlayer;
+	private GUIController guiController = GUIController.getInstance();
 	/**
 	 * Constructor for normal logic
 	 * @param id
@@ -28,7 +29,7 @@ public class StreetLogic {
 		if(street.getOwner() == null) { // Check if field is owned
 			if(currentPlayer.getAccount().canAfford(street.getRentValue())) { // If it is not owned and we can afford it
 				String[] choices = {"Yes", "No"};
-				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
 				if(result.equals("Yes")) {
 					BuyLogic buyLogic = new BuyLogic(currentPlayer, street);
 					buyLogic.buyLogic();
@@ -43,8 +44,8 @@ public class StreetLogic {
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { // Field is owned by someone else, we check if they can afford landing there
 					currentPlayer.getAccount().withdraw(street.getRentValue()); // They can, so we withdraw money and put it into the owners
 					street.getOwner().getAccount().deposit(street.getRentValue());
-					GUIController.getInstance().updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
-					GUIController.getInstance().writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
+					guiController.updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
+					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 				}else {
 					SalesLogic salesLogic = new SalesLogic(currentPlayer);
 					salesLogic.pawnProperty();

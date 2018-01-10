@@ -6,6 +6,7 @@ package core;
  */
 public class ShippingLogic {
 	private int totalFaceValue;
+	private GUIController guiController = GUIController.getInstance();
 	private Shipping shipping;
 	private Player currentPlayer;
 	/**
@@ -28,7 +29,7 @@ public class ShippingLogic {
 		if(shipping.getOwner() == null) { // We check if the field is owned
 			if(currentPlayer.getAccount().canAfford(shipping.getBuyValue())) {// If it is not owned and the player can afford it
 				String[] choices = {"Yes", "No"};
-				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+shipping.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+shipping.getName(), choices);
 				if(result.equals("Yes")) {
 					BuyLogic buyLogic = new BuyLogic(currentPlayer, shipping);
 					buyLogic.buyLogic();
@@ -44,8 +45,8 @@ public class ShippingLogic {
 				if(currentPlayer.getAccount().canAfford(rentPrice)) { // We check if the player can afford the rent
 					currentPlayer.getAccount().withdraw(rentPrice); // We withdraw
 					shipping.getOwner().getAccount().deposit(rentPrice); // and deposit back to the field owner
-					GUIController.getInstance().updatePlayerBalance(shipping.getOwner().getGuiId(), shipping.getOwner().getAccount().getBalance());
-					GUIController.getInstance().writeMessage("You landed on.."+shipping.getOwner().getName() + "..'s field and had to pay.."+shipping.getRentValue()); 
+					guiController.updatePlayerBalance(shipping.getOwner().getGuiId(), shipping.getOwner().getAccount().getBalance());
+					guiController.writeMessage("You landed on.."+shipping.getOwner().getName() + "..'s field and had to pay.."+shipping.getRentValue()); 
 				}else {
 					//Player can't afford to land on the field
 				}

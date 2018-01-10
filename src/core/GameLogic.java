@@ -108,6 +108,7 @@ public class GameLogic {
 			breweryLogic.logic();
 		} else if (fields[id] instanceof Chance) {
 			ChanceCardController cardController = new ChanceCardController();
+			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
 		} else if (fields[id] instanceof Shipping) {
 			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			shippingLogic.logic();

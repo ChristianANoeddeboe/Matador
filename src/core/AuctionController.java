@@ -1,5 +1,7 @@
 package core;
 
+import gui_fields.GUI_Ownable;
+
 /**
  * Created by magnus
  *
@@ -9,10 +11,9 @@ public class AuctionController {
     private boolean auctionStatus;
     private int highestBid;
     private Player whoHasTheHighestBid;
-    private GUIController guiController;
+    private GUIController guiController = GUIController.getInstance();
 
     public AuctionController() {
-        guiController = GUIController.getInstance();
     }
 
     public void startAuction (Player playerNotIncluded, Field field, Player[] players) {
