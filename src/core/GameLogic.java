@@ -108,12 +108,12 @@ public class GameLogic {
 			breweryLogic.logic();
 		} else if (fields[id] instanceof Chance) {
 			ChanceCardController cardController = new ChanceCardController();
-			guiController.writeMessage(cardController.getCard(currentPlayer, fields, this.playerController.getPlayers()));
 		} else if (fields[id] instanceof Shipping) {
 			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			shippingLogic.logic();
 		} else if (fields[id] instanceof Prison) {
 			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
+			prisonController.logic();
 		} else if (fields[id] instanceof Parking) {
 			guiController.writeMessage("You landed on parking");
 		} else if (fields[id] instanceof Tax) {
