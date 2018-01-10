@@ -26,9 +26,7 @@ public class Street extends Property {
 	public Street(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue, int[] housePrices, int buildPrice, Color colour) {
 		super(id, name, description, owner, buyValue, pawnValue, rentValue);
 		this.houseCounter = 0;
-		for (int i = 0 ; i < housePrices.length ; i++) {
-			this.housePrices[i] = housePrices[i];
-		}
+		this.housePrices = housePrices;
 		this.BuildPrice = buildPrice;
 		this.colour = colour;
 	}

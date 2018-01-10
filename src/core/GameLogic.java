@@ -32,7 +32,14 @@ public class GameLogic {
 		SalesController salesController = new SalesController(currentPlayer);
 		this.playerController = playerController;
 		int counter = 0;
-		
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i] instanceof Street) {
+				Street street = (Street) fields[i];
+				if(currentPlayer.getName().equals("player1")) {
+					street.setOwner(currentPlayer);
+				}
+			}
+		}
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
 			prisonController.inPrisonLogic(currentPlayer);
@@ -54,9 +61,9 @@ public class GameLogic {
 			
 			//Add buy house or hotel
 			Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
-			if(buildablestreets.length > 0)
+			if(buildablestreets.length > 0) {
 				choicesArr[counter++] = "Buy house/hotel";
-			
+			}
 			//Add Roll dice if not already rolled
 			if(!currentPlayer.isRolled())
 				choicesArr[counter++] = "Roll dice";
@@ -90,6 +97,7 @@ public class GameLogic {
 					return false;
 				}
 				case "Buy house/hotel" : {
+					buildablestreets = fieldController.allFieldsToBuildOn(currentPlayer);
 					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]);
 					String houseList = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyController.listOfFieldsYouCanBuildOn(buildablestreets));
 					for (int j = 0; j < fields.length; j++) {

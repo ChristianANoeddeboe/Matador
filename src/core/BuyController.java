@@ -230,12 +230,10 @@ public class BuyController {
 
 		//Loop over all streets in input array
 		for (int counter = 0; counter < street.length; counter++) {
-
 			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
 			int amountOfHouses = street[counter].getHouseCounter();
 			boolean mayBuild = true;
-
 			for (Street streetTemp : street) {
 				String color2 = convertColor(streetTemp.getColour());
 				if(color == color2) {
