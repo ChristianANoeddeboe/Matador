@@ -5,9 +5,7 @@ package core;
  *
  */
 public class TaxLogic {
-	private int id;
 	private Player currentPlayer;
-	private Tax tax;
 	private Field[] fields;
 
 
@@ -19,7 +17,6 @@ public class TaxLogic {
 	 */
 	public TaxLogic(Player currentPlayer, Field[] fields) {
 		this.currentPlayer = currentPlayer;
-		this.tax = (Tax) fields[currentPlayer.getEndPosition()];
 		this.fields = fields;
 	}
 
@@ -28,12 +25,12 @@ public class TaxLogic {
 	 * @param currentPlayer
 	 * @return depends on outcome
 	 */
-	protected String taxLogic38() {
+	protected void taxLogic38() {
 		if (currentPlayer.getAccount().canAfford(2000)) {
 			currentPlayer.getAccount().withdraw(2000);
-			return "StateTax";
+			GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		} else {
-			return "SaleLogic";
+			//Sales logic
 		}
 	}
 
@@ -43,12 +40,14 @@ public class TaxLogic {
 	 * @param choice
 	 * @return Depends on outcome
 	 */
-	protected String taxLogic4(int choice) {
+	protected void taxLogic4() {
 		int buildingvalue = 0;
 		int playervalue = currentPlayer.getAccount().getBalance(); // The players current balance
 		int propertyvalue = 0;
 		// Player can either choose 10% of income tax or 4000
-		if (choice == 0) { // we calulate 10% of income tax
+		String[] choices = {"4000", "10%"};
+		String choice = GUIController.getInstance().requestPlayerChoiceButtons("Vil du betale 10% inkomst skat eller 4000", choices);
+		if (choice.equals("10%")) { // we calulate 10% of income tax
 			for (int i = 0; i < fields.length; i++) { // looping over all fields
 				if (fields[i] instanceof Property) {
 					Property property = (Property) fields[i];
@@ -64,25 +63,27 @@ public class TaxLogic {
 			}
 			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10);
 			if(currentPlayer.getAccount().canAfford(value)) {
-				return Integer.toString(value); // Add the building value,player value and property value and take 10%, casting to a integer to avoid decimals
+				currentPlayer.getAccount().withdraw(value);
+				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				GUIController.getInstance().writeMessage("10% income tax amounted to a total of.."+ value);
 			}else {
-				return "SaleLogic";
+				//Sales logic
 			}
 			
 		}else{
 			if (currentPlayer.getAccount().canAfford(4000)) {
 				currentPlayer.getAccount().withdraw(4000);
-				return "4000";
+				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
-			return "SaleLogic";
+			// Sales logic
 		}
 	}
 
-	protected String taxLogic() {
+	protected void taxLogic() {
 		if(currentPlayer.getEndPosition() == 38) {
-			return this.taxLogic38();
+			taxLogic38();
 		}else {
-			return "TaxChoice";
+			taxLogic4();
 		}
 	}
 }
