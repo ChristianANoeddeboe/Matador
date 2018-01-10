@@ -121,8 +121,8 @@ public class GameLogic {
 			StreetController streetController = new StreetController(currentPlayer, fields[id]);
 			streetController.logic();
 		} else if (fields[id] instanceof Brewery) {
-			BreweryLogic breweryLogic = new BreweryLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
-			breweryLogic.logic();
+			BreweryController breweryController = new BreweryController(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			breweryController.logic();
 		} else if (fields[id] instanceof Chance) {
 			ChanceCardController cardController = new ChanceCardController();
 			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
