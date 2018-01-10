@@ -18,7 +18,8 @@ public class ChanceCardDeck {
 	public ChanceCard bottom() {
 		ChanceCard[] tempStackArray = new ChanceCard[maxSize];
 		ChanceCard returnCard = stackArray[0];
-		top--;
+		
+		--top;
 		for(int i = 0 ; i <= top ; i++) {
 			tempStackArray[i] = stackArray[i+1];
 		}
