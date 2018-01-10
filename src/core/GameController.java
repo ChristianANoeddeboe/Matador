@@ -51,8 +51,11 @@ public class GameController {
 				player.setPairs(0);
 			}
 		}
-		
-		//GAME IS OVER WRITE SOMETHING NICE TO THE WINNER
+		for (int i = 0; i < playerController.getPlayers().length; i++) {
+			if(!playerController.getPlayers()[i].isBanktrupt()) {
+				guiController.writeMessage(playerController.getPlayers()[i].getName()+" has won the game!");
+			}
+		}
 	}
 }
 
