@@ -7,7 +7,7 @@ import gui_main.GUI;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class TaxLogic {
+public class TaxController {
 	private Player currentPlayer;
 	private Field[] fields;
 	private GUIController guiController = GUIController.getInstance();
@@ -18,7 +18,7 @@ public class TaxLogic {
 	 * @param id
 	 * @param currentPlayer
 	 */
-	public TaxLogic(Player currentPlayer, Field[] fields) {
+	public TaxController(Player currentPlayer, Field[] fields) {
 		this.currentPlayer = currentPlayer;
 		this.fields = fields;
 	}

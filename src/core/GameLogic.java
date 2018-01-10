@@ -151,8 +151,8 @@ public class GameLogic {
 		} else if (fields[id] instanceof Parking) {
 			guiController.writeMessage("You landed on parking");
 		} else if (fields[id] instanceof Tax) {
-			TaxLogic taxLogic = new TaxLogic(currentPlayer, fields);
-			taxLogic.taxLogic();
+			TaxController taxController = new TaxController(currentPlayer, fields);
+			taxController.taxLogic();
 		}
 	}
 	private void updatePos(Player currentPlayer) {
