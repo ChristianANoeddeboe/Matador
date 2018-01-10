@@ -80,6 +80,8 @@ public class PrisonController {
 	public void payFine(Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(1000);
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		diceCup.roll();
+		currentPlayer.setPrison(false);
 	}
 
 	public void usePrisonCard(Player currentPlayer) {
