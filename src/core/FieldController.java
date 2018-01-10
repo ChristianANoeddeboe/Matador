@@ -199,18 +199,38 @@ public class FieldController {
 	}
 
 	protected String[] FieldsOwned(Player currentPlayer) {
+		
+		// Makes a temperary String array with the length of all properties
 		String[] temp = new String[28];
+		
+		// Counter
 		int counter = 0;
+		
+		// Loops over all the fields
 		for(int i = 0; i < fieldArr.length; i++) {
+			
+			// Checks if the field is an instance of the Property class
 			if(fieldArr[i] instanceof Property) {
+				
+				// Casts the field to Property
 				Property property = (Property) fieldArr[i];
+				
+				// Checks if the field is owned by the Player
 				if(property.getOwner() == currentPlayer) {
+					
+					// Adds the field to the temp array
 					temp[counter] = fieldArr[i].getName();
+					
+					// Adds one to the counter
 					counter++;
 				}
 			}
 		}
+		
+		// Makes new array with the length of counter
 		String[] propertyOwned = new String[counter];
+		
+		// Loops over the temp array and adds the filled spots to the propertyOwned array
 		for(int j = 0; j < counter; j++) {
 			propertyOwned[j] = temp[j];
 		}
@@ -218,26 +238,58 @@ public class FieldController {
 	}
 
 	protected String[] propertiesToPawn(Player currentPlayer) {
+		
+		// Make a temperary String array with the length of all properties
 		String[] temp = new String[28];
+		
+		// Counter
 		int counter = 0;
+		
+		// Loops over all fields
 		for(int i = 0; i < fieldArr.length; i++) {
+			
+			// Checks if the field is an instance of the Street class
 			if(fieldArr[i] instanceof Street) {
+				
+				// Casts the field to street
 				Street street = (Street) fieldArr[i];
+				
+				// Checks if the Street is owned by the player, checks if no houses are built on it and if it is already pawned
 				if(street.getOwner() == currentPlayer && street.getHouseCounter() == 0 && !street.isPawned()) {
+					
+					// Adds the field to the temp array
 					temp[counter] = fieldArr[i].getName();
+					
+					// Adds one to the counter
 					counter++;
 				}
+				
+				// Checks if the field is an instance of the Shipping Class
 				if(fieldArr[i] instanceof Shipping) {
+					
+					// Adds the field to the temp array
 					temp[counter] = fieldArr[i].getName();
+					
+					// Adds one to the counter
 					counter++;
 				}
+				
+				// Checks if the field is an instance of the Brewery Class
 				if(fieldArr[i] instanceof Brewery) {
+					
+					// Adds the field to the temp array
 					temp[counter] = fieldArr[i].getName();
+					
+					// Adds one to the counter
 					counter++;
 				}
 			}
 		}
+		
+		// Makes a new array with the length of counter
 		String[] propertyOwned = new String[counter];
+		
+		// Loops over the temp array and adds the filled spots to the propertyOwned array
 		for(int j = 0; j < counter; j++) {
 			propertyOwned[j] = temp[j];
 		}
@@ -245,18 +297,38 @@ public class FieldController {
 	}
 
 	protected String[] streetsWithHouses(Player currentPlayer) {
+		
+		// Makes a temperary array with the length of all Street fields
 		String[] temp = new String[22];
+		
+		// Counter
 		int counter = 0;
+		
+		// Loops over all fields
 		for(int i = 0; i < fieldArr.length; i++) {
+			
+			// Checks if the field is an instance of the Street class
 			if(fieldArr[i] instanceof Street) {
+				
+				// Casts the field to street
 				Street street = (Street) fieldArr[i];
+				
+				// Checks if the field is owned by the Player and if there is atleast one house on it
 				if(street.getOwner() == currentPlayer && street.getHouseCounter() <= 1) {
+					
+					// Add the field to the temp array
 					temp[counter] = fieldArr[i].getName();
+					
+					// Adds one to the counter
 					counter++;
 				}
 			}
 		}
+		
+		// Males a new array with the length of counter
 		String[] propertyOwned = new String[counter];
+		
+		// Loops over the temp array and adds the filled spots to the propertyOwned array
 		for(int j = 0; j < counter; j++) {
 			propertyOwned[j] = temp[j];
 		}
