@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChanceCardController {
     private PropertiesIO propertiesIO;
     private GUIController guiController;
+    private static final ChanceCardController chanceCardController = new ChanceCardController();
 
     private static ChanceCard[] chanceCardArray;
     private static int[] randomArray;
@@ -383,4 +384,6 @@ public class ChanceCardController {
     private void setIndex(int index) {
         this.index = index;
     }
+
+    public static ChanceCardController getInstance () { return chanceCardController;}
 }
