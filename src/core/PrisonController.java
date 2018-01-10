@@ -81,10 +81,12 @@ public class PrisonController {
 		currentPlayer.getAccount().withdraw(1000);
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		diceCup.roll();
-		currentPlayer.setPrison(false);
-        guiController.writeMessage("TODO Rul med terningerne for at flytte.");
-        diceCup.roll();
-        guiController.showDice(diceCup);
+		if (currentPlayer.isPrison()) {
+            currentPlayer.setPrison(false);
+            guiController.writeMessage("TODO Rul med terningerne for at flytte.");
+            diceCup.roll();
+            guiController.showDice(diceCup);
+        }
 	}
 
 	public void usePrisonCard(Player currentPlayer) {
@@ -99,6 +101,7 @@ public class PrisonController {
 	public void rollJailDice(Player currentPlayer) {
 		diceCup.roll();
 		guiController.showDice(diceCup);
+		currentPlayer.setPrisontries(currentPlayer.getPrisontries()+1);
 		if (diceCup.isPair()) {
 		    guiController.writeMessage("TODO Du slå et par! Du er en fri mand.");
 			currentPlayer.setPrison(false);
