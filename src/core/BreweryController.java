@@ -4,12 +4,12 @@ package core;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class BreweryLogic {
+public class BreweryController {
 	private int id, totalFaceValue;
 	private Brewery brewery;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
-	public BreweryLogic(Player currentPlayer, int totalFaceValue, Field[] fields) {
+	public BreweryController(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
 		this.brewery = (Brewery) fields[currentPlayer.getEndPosition()];
 		this.totalFaceValue = totalFaceValue;
