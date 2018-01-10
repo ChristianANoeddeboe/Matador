@@ -23,7 +23,7 @@ public class SalesController {
 	 * @param value
 	 * @return
 	 */
-	protected boolean cannotAfford(int value) {
+	protected void cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
 		
@@ -47,10 +47,8 @@ public class SalesController {
 			// If the player has no houses to sell, properties to pawn and still cannot afford, the player is declared bankrupt and false is returned
 			if(!housesToSell && !propertyToPawn && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
-				return false;
 			}
 		}
-		return true;
 	}
 	
 	/**

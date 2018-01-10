@@ -102,15 +102,19 @@ public class PrisonController {
 		diceCup.roll();
 		guiController.showDice(diceCup);
 		currentPlayer.setPrisontries(currentPlayer.getPrisontries()+1);
+		System.out.println(currentPlayer.getPrisontries());
 		if (diceCup.isPair()) {
 		    guiController.writeMessage("TODO Du slå et par! Du er en fri mand.");
 			currentPlayer.setPrison(false);
+			currentPlayer.setPrisontries(0);
 		} else {
 			guiController.writeMessage("TODO Du slog ikke to ens...");
 		}
 	}
 
 	public String getPlayerChoice(int state) {
+		SalesController salesController = new SalesController(currentPlayer);
+
 		String choices = "";
 		String[] choiceArr;
 		switch (state) {
@@ -131,14 +135,17 @@ public class PrisonController {
 				}
 				if (currentPlayer.getAccount().canAfford(1000)) {
 					choices = choices + ",Betal kr. 1000";
+				}else {
+					salesController.cannotAfford(1000);
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
 					choices = choices + ",Benyt fængselskort";
 				}
 				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
-					if (!salesController.pawnProperty()) {
-						currentPlayer.setBanktrupt(true);
-					}
+					salesController.cannotAfford(1000);
+				}
+				if(currentPlayer.getPrisontries() == 3) {
+					
 				}
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
