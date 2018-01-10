@@ -48,6 +48,7 @@ public class GameController {
 						switchPlayer = gameLogic.callLogic(playerController, player);
 				} while(!switchPlayer);
 				player.setRolled(false);
+				player.setPairs(0);
 			}
 		}
 		

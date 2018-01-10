@@ -12,6 +12,7 @@ public class Player{
 	private int startPosition;
 	private int endPosition;
 	private int prisontries;
+	private int pairs;
 	
 	/**
 	 * Constructor
@@ -35,6 +36,7 @@ public class Player{
 		this.guiId = idGui;
 		this.prisontries = 0;
 		this.endPosition = this.startPosition;
+		this.pairs = 0;
 	}
 
 	public int getPrisonCard() {
@@ -116,6 +118,14 @@ public class Player{
 	
 	public boolean isRolled() {
 		return rolled;
+	}
+	
+	public int getPairs() {
+		return pairs;
+	}
+	
+	public void setPairs(int pairs) {
+		this.pairs = pairs;
 	}
 	
 	public void setRolled(boolean rolled) {
