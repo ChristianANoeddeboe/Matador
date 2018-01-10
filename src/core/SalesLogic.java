@@ -13,12 +13,27 @@ public class SalesLogic {
 	public SalesLogic(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
+	
+	protected boolean cannotAfford(int value) {
+		while(currentPlayer.getAccount().getBalance() < value) {
+			String[] options = {"Sell House", "Pawn Property"};
+			String result = GUIController.getInstance().requestPlayerChoice("Sell either houses or pawn property", options);
+			if(result.equals("Sell House")) {
+				sellHouse();
+			}
+			else {
+				pawnProperty();
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Logic for selling a house
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected boolean sellHouse(Field field) {
+	protected boolean sellHouse() {
 		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
 		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
 		if(streets.length >= 0) {
@@ -31,7 +46,7 @@ public class SalesLogic {
 				currentPlayer.getAccount().deposit(street.getBuildPrice()); // We get the current player and deposit the house price back into the players account
 				street.setHouseCounter(street.getHouseCounter()-1);
 				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				GUIController.getInstance().setHouse(field.getId(), -1);
+				GUIController.getInstance().setHouse(street.getId(), -1);
 				GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
 			}
 		}
