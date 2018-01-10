@@ -4,7 +4,7 @@ package core;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class Start extends Field {
+public class Start extends SpecialProperty {
 	/**
 	 * Constructor for start field
 	 * @param id Field number
