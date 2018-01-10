@@ -28,7 +28,6 @@ public class GameLogic {
 		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
 		this.playerController = playerController;
-		
 		int counter = 0;
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
@@ -121,7 +120,6 @@ public class GameLogic {
 			BreweryController breweryController = new BreweryController(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			breweryController.logic();
 		} else if (fields[id] instanceof Chance) {
-			System.out.println("Chance");
 			ChanceCardController cardController = new ChanceCardController();
 			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
 		} else if (fields[id] instanceof Shipping) {
@@ -140,7 +138,6 @@ public class GameLogic {
 	}
 	private void updatePos(Player currentPlayer) {
 		//save start position and set new end position
-		System.out.println(diceCup.getTotalFaceValue());
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if(( currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() ) > 39) {
 			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() - 40);
@@ -174,7 +171,6 @@ public class GameLogic {
 	protected void passedStart(Player currentPlayer) {
 		boolean passed = false;
 		if(!currentPlayer.isStartRound()) {
-			System.out.println(currentPlayer.getName() + currentPlayer.getStartPosition() + currentPlayer.getEndPosition());
 			if(((diceCup.getTotalFaceValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
 				currentPlayer.getAccount().deposit(4000);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());

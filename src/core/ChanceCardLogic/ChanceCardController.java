@@ -164,7 +164,7 @@ public class ChanceCardController {
                 break;
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
-                moveCard(currentPlayer, moveCard.getField());
+                moveCard(currentPlayer, moveCard.getField(), fields);
                 System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(moveCard.getDescription());
                 break;
@@ -217,10 +217,37 @@ public class ChanceCardController {
         currentPlayer.addPrisonCard();
     }
 
-    private void moveCard (Player currentPlayer, int field) {
+    private void moveCard (Player currentPlayer, int field, Field[] fields) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+        int fieldBeforeChance = currentPlayer.getEndPosition();
         currentPlayer.setEndPosition(field);
-        guiController.updatePlayerPosition(currentPlayer.getGuiId(),field,currentPlayer.getStartPosition());
+        //if move to prisonfield
+        if (moveCard.getId() == 2 && moveCard.getId() == 3) {
+            guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getStartPosition());
+        }
+        else {
+
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),field,currentPlayer.getStartPosition());
+            //if player is going through start
+            /*if (fieldBeforeChance ) {
+
+            }*/
+
+            //Possible for player to buy if property
+            if (fields[currentPlayer.getEndPosition()].getClass().getSimpleName() == "Property") {
+                Property property = (Property) fields[currentPlayer.getEndPosition()];
+                if (!(property.getOwner() == null)) {
+                    if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
+                        String[] choices = {"Yes", "No"};
+                        String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
+                        if(result.equals("Yes")) {
+                            currentPlayer.getAccount().withdraw(4000);
+                            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void moveShippingCard (Player currentPlayer, Field[] fields) {
@@ -279,14 +306,14 @@ public class ChanceCardController {
 
         int playerValue = 0;
         for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getClass().getSimpleName() == "Normal") {
+            if (fields[i].getClass().getSimpleName() == "Street") {
                 if (currentPlayer == property.getOwner()) {
                     property = (Property) fields[i];
-                    Street normal = (Street) fields[i];
+                    Street street = (Street) fields[i];
                     playerValue += (property.getBuyValue());
-                    if (normal.getHouseCounter() > 0) {
-                        int buildPrice = normal.getBuildPrice();
-                        for (int j = 0; j < normal.getHouseCounter(); j++) {
+                    if (street.getHouseCounter() > 0) {
+                        int buildPrice = street.getBuildPrice();
+                        for (int j = 0; j < street.getHouseCounter(); j++) {
                             playerValue += buildPrice;
                         }
                     }
@@ -300,6 +327,8 @@ public class ChanceCardController {
             }
         }
 
+        playerValue += currentPlayer.getAccount().getBalance();
+
         if (playerValue <= 15000) {
             currentPlayer.getAccount().deposit(40000);
             guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
@@ -312,6 +341,7 @@ public class ChanceCardController {
             if (!(players[i] == currentPlayer)) {
                 players[i].getAccount().withdraw(200);
                 present += 200;
+                guiController.updatePlayerBalance(players[i].getGuiId(),players[i].getAccount().getBalance());
             }
         }
         currentPlayer.getAccount().deposit(present);
@@ -323,12 +353,12 @@ public class ChanceCardController {
         if (currentPlayerEndPosition == 0) {
             currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(39);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+            guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
         else
             currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(currentPlayerEndPosition - amountOfSteps);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+            guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
 
     }
 
@@ -346,7 +376,7 @@ public class ChanceCardController {
         int estateTax = 0;
 
         for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getClass().getSimpleName() == "Normal") {
+            if (fields[i].getClass().getSimpleName() == "Street") {
                 Street street= (Street) fields[i];
                 if (street.getOwner() == currentPlayer) {
                     if (street.getHouseCounter() == 5) {
