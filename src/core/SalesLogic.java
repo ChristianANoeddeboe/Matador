@@ -17,14 +17,20 @@ public class SalesLogic {
 	}
 	
 	protected boolean cannotAfford(int value) {
+		boolean housestosell = true;
+		boolean propertytopawn = true;
 		while(currentPlayer.getAccount().getBalance() < value) {
 			String[] options = {"Sell House", "Pawn Property"};
 			String result = GUIController.getInstance().requestPlayerChoice("Sell either houses or pawn property", options);
 			if(result.equals("Sell House")) {
-				sellHouse();
+				housestosell = sellHouse();
 			}
-			else {
-				pawnProperty();
+			if(result.equals("Pawn Property")) {
+				propertytopawn = pawnProperty();
+			}
+			if(housestosell == false && propertytopawn == false && currentPlayer.getAccount().getBalance() < value) {
+				currentPlayer.setBanktrupt(true);
+				return false;
 			}
 		}
 		return true;
