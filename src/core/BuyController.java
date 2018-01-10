@@ -31,7 +31,6 @@ public class BuyController {
 	 * @return
 	 */
 	protected void buyLogic() {
-		System.out.println("hi");
 		if(field instanceof Street) {
 			this.streetBuyLogic();
 		}else if(field instanceof Brewery) {
