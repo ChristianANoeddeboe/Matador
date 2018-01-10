@@ -32,14 +32,7 @@ public class GameLogic {
 		SalesController salesController = new SalesController(currentPlayer);
 		this.playerController = playerController;
 		int counter = 0;
-		for (int i = 0; i < fields.length; i++) {
-			if(fields[i] instanceof Street) {
-				Street street = (Street) fields[i];
-				if(currentPlayer.getName().equals("player1")) {
-					street.setOwner(currentPlayer);
-				}
-			}
-		}
+		
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
 			prisonController.inPrisonLogic(currentPlayer);
@@ -158,8 +151,8 @@ public class GameLogic {
 		} else if (fields[id] instanceof Parking) {
 			guiController.writeMessage("You landed on parking");
 		} else if (fields[id] instanceof Tax) {
-			TaxLogic taxLogic = new TaxLogic(currentPlayer, fields);
-			taxLogic.taxLogic();
+			TaxController taxController = new TaxController(currentPlayer, fields);
+			taxController.taxLogic();
 		}
 	}
 	private void updatePos(Player currentPlayer) {
