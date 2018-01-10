@@ -13,6 +13,7 @@ public class SalesController {
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
 	private FieldController fieldcontroller = guiController.getFieldController();
+	
 	public SalesController(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}

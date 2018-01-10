@@ -31,8 +31,8 @@ public class StreetController {
 				String[] choices = {"Yes", "No"};
 				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
 				if(result.equals("Yes")) {
-					BuyLogic buyLogic = new BuyLogic(currentPlayer, street);
-					buyLogic.buyLogic();
+					BuyController buyController = new BuyController(currentPlayer, street);
+					buyController.buyLogic();
 				}
 			}
 			else { 
