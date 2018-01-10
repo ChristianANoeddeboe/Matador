@@ -116,9 +116,10 @@ public class GameLogic {
 		} else if (fields[id] instanceof Prison) {
 			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
 		} else if (fields[id] instanceof Parking) {
-			//TODO
+			guiController.writeMessage("You landed on parking");
 		} else if (fields[id] instanceof Tax) {
 			TaxLogic taxLogic = new TaxLogic(currentPlayer, fields);
+			taxLogic.taxLogic();
 		}
 	}
 
