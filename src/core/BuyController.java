@@ -215,16 +215,23 @@ public class BuyController {
 	 */
 	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {
 		String[] properties = new String[40];
-		Color colour;		
-		boolean added = false;
-		int amount = 0;
-		int index = 0;
 		String[] propertiesSorted = null;
+		boolean added = false;
+		int index = 0;
+		
+		//Loop over all streets in input array
 		for (int counter = 0; counter < street.length; counter++) {
+			
+			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
 
+			//Handle streets by color
 			if(color.equals("blue")||color.equals("purple")) {
+				
+				//Loop which represents build order for houses
 				for(int i = 0 ; i < 6 ; i++) {
+					
+					//Loop over 
 					for (int j = 0; j <= 1; j++) {
 						if(street[counter+j].getHouseCounter() == i) {
 							properties[index++] = street[counter+j].getName();
