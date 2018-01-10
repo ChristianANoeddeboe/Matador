@@ -26,34 +26,60 @@ public class StreetController {
 	 * @return
 	 */
 	protected void logic() {
-		if(street.getOwner() == null) { // Check if field is owned
-			if(currentPlayer.getAccount().canAfford(street.getRentValue())) { // If it is not owned and we can afford it
+		
+		// Check if field is owned
+		if(street.getOwner() == null) { 
+			// Check if we can afford it
+			if(currentPlayer.getAccount().canAfford(street.getRentValue())) {
+				
+				// Prompt the player for a choice
 				String[] choices = {"Yes", "No"};
 				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
+				
+				// Check if choice is Yes
 				if(result.equals("Yes")) {
+					
+					// Initialize buyController
 					BuyController buyController = new BuyController(currentPlayer, street);
+					
+					// Run the buyLogic method
 					buyController.buyLogic();
 				}
 			}
 			else { 
 				
 			}
-		}else{
-			if(street.getOwner() == currentPlayer) { // Check if the player landing there is the owner itself
-			}else {
-				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { // Field is owned by someone else, we check if they can afford landing there
-					currentPlayer.getAccount().withdraw(street.getRentValue()); // They can, so we withdraw money and put it into the owners
+		}
+		else{
+			
+			// Check if the player landing there is the owner itself
+			if(street.getOwner() == currentPlayer) { 
+			}
+			else {
+				
+				// If field is owned by someone else, we check if they can afford landing there
+				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
+					
+					// Withdraw rentValue from the player
+					currentPlayer.getAccount().withdraw(street.getRentValue());
+					
+					// Deposit rentValue to the owner
 					street.getOwner().getAccount().deposit(street.getRentValue());
+					
+					// Sends updates to GUIController
 					guiController.updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
 					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
-				}else {
-					SalesController salesController = new SalesController(currentPlayer);
-					salesController.pawnProperty();
+					
 				}
-
+				else {
+					// Initialize the SalesController
+					SalesController salesController = new SalesController(currentPlayer);
+					
+					// Run cannotAfford method
+					salesController.cannotAfford(street.getRentValue());
+				}
 			}
 		}
-
 	}
 }
 
