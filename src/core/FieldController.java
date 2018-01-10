@@ -190,7 +190,9 @@ public class FieldController {
 				}
 			}
 		}
-
+		/**
+		 * We create a new array which only contains the streets we are allowed to build on with the right size
+		 */
 		Street[] sortedStreetArr = new Street[val];
 		for (int i = 0; i < sortedStreetArr.length; i++) {
 			sortedStreetArr[i] = streetArr[i];
@@ -236,7 +238,8 @@ public class FieldController {
 		}
 		return propertyOwned;
 	}
-
+	
+	
 	protected String[] propertiesToPawn(Player currentPlayer) {
 		
 		// Make a temporary String array with the length of all properties
