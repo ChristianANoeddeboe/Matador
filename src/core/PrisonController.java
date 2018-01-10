@@ -12,6 +12,7 @@ public class PrisonController {
 	private DiceCup diceCup;
 	private GUIController guiController = GUIController.getInstance();
 	private ChanceCardController chanceCardController;
+	private SalesLogic salesLogic;
 
 	/**
 	 *
@@ -118,6 +119,11 @@ public class PrisonController {
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
 					choices = choices + ",Benyt fængselskort";
+				}
+				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
+					if (!salesLogic.pawnProperty()) {
+						currentPlayer.setBanktrupt(true);
+					}
 				}
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
