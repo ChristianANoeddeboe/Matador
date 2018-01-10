@@ -200,7 +200,7 @@ public class FieldController {
 
 	protected String[] FieldsOwned(Player currentPlayer) {
 		
-		// Makes a temperary String array with the length of all properties
+		// Makes a temporary String array with the length of all properties
 		String[] temp = new String[28];
 		
 		// Counter
@@ -239,7 +239,7 @@ public class FieldController {
 
 	protected String[] propertiesToPawn(Player currentPlayer) {
 		
-		// Make a temperary String array with the length of all properties
+		// Make a temporary String array with the length of all properties
 		String[] temp = new String[28];
 		
 		// Counter
@@ -298,7 +298,7 @@ public class FieldController {
 
 	protected String[] streetsWithHouses(Player currentPlayer) {
 		
-		// Makes a temperary array with the length of all Street fields
+		// Makes a temporary array with the length of all Street fields
 		String[] temp = new String[22];
 		
 		// Counter
