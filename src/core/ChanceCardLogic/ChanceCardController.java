@@ -155,49 +155,59 @@ public class ChanceCardController {
                 if (prisonCard.isPrisonCard()) {
                     prisonCard(currentPlayer);
                     prisonCard.removePrisonCard();
+                    System.out.println("Chancecard: (if)"+drawnChanceCard.getClass().getSimpleName());
                     guiController.writeMessage(prisonCard.getDescription());
                 }
                 else
-                    getCard(currentPlayer, fields, players);
+                    System.out.println("Chancecard: prisoncard (else)");
+                System.out.println("Chancecard: (else)"+drawnChanceCard.getClass().getSimpleName());
                 break;
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
                 moveCard(currentPlayer, moveCard.getField());
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(moveCard.getDescription());
                 break;
             case "MoveShipping":
                 moveShippingCard = (MoveShippingCard) drawnChanceCard;
                 moveShippingCard(currentPlayer,fields);
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(moveShippingCard.getDescription());
                 break;
             case "GrantCard":
                 grantCard = (GrantCard) drawnChanceCard;
                 grantCard(currentPlayer, fields);
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(grantCard.getDescription());
                 break;
             case "PresentDepositCard":
                 presentDepositCard = (PresentDepositCard) drawnChanceCard;
                 presentDepositCard(currentPlayer, players);
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(presentDepositCard.getDescription());
                 break;
             case "StepsBackCard":
                 stepsBackCard = (StepsBackCard) drawnChanceCard;
                 stepsBackCard(currentPlayer, stepsBackCard.getAmount());
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(stepsBackCard.getDescription());
                 break;
             case "WithdrawCard":
                 withdrawCard = (WithdrawCard) drawnChanceCard;
                 withdrawCard(currentPlayer, withdrawCard.getAmount());
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(withdrawCard.getDescription());
                 break;
             case "DepositCard":
                 depositCard = (DepositCard) drawnChanceCard;
                 depositCard(currentPlayer, depositCard.getAmount());
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(depositCard.getDescription());
                 break;
             case "EstateTaxCard":
                 estateTaxCard = (EstateTaxCard) drawnChanceCard;
                 estateTaxCard(currentPlayer, fields, estateTaxCard.getTaxHouse(), estateTaxCard.getTaxHotel());
+                System.out.println("Chancecard: "+drawnChanceCard.getClass().getSimpleName());
                 guiController.writeMessage(estateTaxCard.getDescription());
                 break;
         }
