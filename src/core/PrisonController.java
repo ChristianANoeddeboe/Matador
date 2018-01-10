@@ -102,9 +102,11 @@ public class PrisonController {
 		diceCup.roll();
 		guiController.showDice(diceCup);
 		currentPlayer.setPrisontries(currentPlayer.getPrisontries()+1);
+		System.out.println(currentPlayer.getPrisontries());
 		if (diceCup.isPair()) {
 		    guiController.writeMessage("TODO Du slå et par! Du er en fri mand.");
 			currentPlayer.setPrison(false);
+			currentPlayer.setPrisontries(0);
 		} else {
 			guiController.writeMessage("TODO Du slog ikke to ens...");
 		}
