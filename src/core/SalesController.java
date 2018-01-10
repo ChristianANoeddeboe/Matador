@@ -73,15 +73,20 @@ public class SalesController {
 	protected boolean sellHouse() {
 
 		// Method returns a String array with all fields that the current player owns that haves houses built on them
-		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
-		
-		// Returns false if there is no fields with houses
-		if(streets.length >= 0) {
-			return false;
+		String[] temp = fieldcontroller.streetsWithHouses(currentPlayer);
+		String[] streets = new String[temp.length+1];
+		for(int i = 0; i<temp.length;i++) {
+			streets[i] = temp[i];
 		}
+		streets[streets.length-1] = "Return";
+		// Returns false if there is no fields with houses
+		
 		
 		// Prompts the user for a choice
 		String response = guiController.requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
+		if(response.equals("Return")) {
+			return true;
+		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			
 			// Finds the field that the player have chosen
@@ -111,17 +116,21 @@ public class SalesController {
 	 * @return
 	 */
 	protected boolean pawnProperty() {
-		System.out.println("y");
-		// Holds a String array of all the properties owned by the current Player
-		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
 		
-		// Returns false if the player owns no properties to pawn
-		if(properties.length == 0) {
-			return false;
+		// Holds a String array of all the properties owned by the current Player
+		String[] temp = fieldcontroller.propertiesToPawn(currentPlayer);
+		String[] properties = new String[temp.length+1];
+		for(int i = 0; i<temp.length;i++) {
+			properties[i] = temp[i];
 		}
+		properties[properties.length-1] = "Return";
+		// Returns false if the player owns no properties to pawn
 		
 		// Prompts the user for a choice
 		String response = guiController.requestPlayerChoice("Please choose a property to pawn: ", properties);
+		if(response.equals("Return")) {
+			return true;
+		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			
 			// Finds the field that the player have chosen
