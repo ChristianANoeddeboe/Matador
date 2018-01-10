@@ -1,7 +1,11 @@
 package core;
 
 import java.awt.Color;
-
+/**
+ * 
+ * @author Mathias && Simon && Nicolai
+ *
+ */
 public class FieldController {
 	private Field fieldArr[];
 	private PropertiesIO config;
