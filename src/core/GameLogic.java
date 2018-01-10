@@ -112,8 +112,8 @@ public class GameLogic {
 	protected void findLogic(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
 		if (fields[id] instanceof Street) { 
-			StreetLogic streetLogic = new StreetLogic(currentPlayer, fields[id]);
-			streetLogic.logic();
+			StreetController streetController = new StreetController(currentPlayer, fields[id]);
+			streetController.logic();
 		} else if (fields[id] instanceof Brewery) {
 			BreweryLogic breweryLogic = new BreweryLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			breweryLogic.logic();
@@ -121,8 +121,8 @@ public class GameLogic {
 			ChanceCardController cardController = new ChanceCardController();
 			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
 		} else if (fields[id] instanceof Shipping) {
-			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
-			shippingLogic.logic();
+			ShippingController shippingController = new ShippingController(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			shippingController.logic();
 		} else if (fields[id] instanceof Prison) {
 			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
 			prisonController.logic();
