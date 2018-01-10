@@ -28,8 +28,8 @@ public class BreweryController {
 				String[] choices = {"Yes", "No"};
 				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+brewery.getName(), choices);
 				if(result.equals("Yes")) {
-					BuyLogic buyLogic = new BuyLogic(currentPlayer, brewery);
-					buyLogic.buyLogic();
+					BuyController buyController = new BuyController(currentPlayer, brewery);
+					buyController.buyLogic();
 				}
 			}
 			else {

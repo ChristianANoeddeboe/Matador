@@ -12,23 +12,40 @@ import gui_fields.GUI_Jail;
 public class SalesController {
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
+	private FieldController fieldcontroller = guiController.getFieldController();
+	
 	public SalesController(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 	
+	/**
+	 * Logic when player cannot afford something
+	 * @param value
+	 * @return
+	 */
 	protected boolean cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
+		
+		// While loop until the player can afford the rent/pay
 		while(currentPlayer.getAccount().getBalance() < value) {
+			
+			// Prompts the user for a choiec
 			String[] options = {"Sell House", "Pawn Property"};
-			String result = GUIController.getInstance().requestPlayerChoice("Sell either houses or pawn property", options);
+			String result = guiController.requestPlayerChoice("Sell either houses or pawn property", options);
+			
+			// Runs the sellHouse method if chosen
 			if(result.equals("Sell House")) {
 				housesToSell = sellHouse();
 			}
+			
+			// Runs the pawnProperty method if chosen
 			if(result.equals("Pawn Property")) {
 				propertyToPawn = pawnProperty();
 			}
-			if(housesToSell == false && propertyToPawn == false && currentPlayer.getAccount().getBalance() < value) {
+			
+			// If the player has no houses to sell, properties to pawn and still cannot afford, the player is declared bankrupt and false is returned
+			if(!housesToSell && !propertyToPawn && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
 				return false;
 			}
@@ -38,12 +55,10 @@ public class SalesController {
 	
 	/**
 	 * Logic for selling a house
-	 * @param currentPlayer
 	 * @return
 	 */
 	protected boolean sellHouse() {
-		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
-		
+
 		// Method returns a String array with all fields that the current player owns that haves houses built on them
 		String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
 		
@@ -53,7 +68,7 @@ public class SalesController {
 		}
 		
 		// Prompts the user for a choice
-		String response = GUIController.getInstance().requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
+		String response = guiController.requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			
 			// Finds the field that the player have chosen
@@ -80,11 +95,9 @@ public class SalesController {
 
 	/**
 	 * Logic for pawning a property
-	 * @param currentPlayer
 	 * @return
 	 */
 	protected boolean pawnProperty() {
-		FieldController fieldcontroller = guiController.getFieldController();
 		
 		// Holds a String array of all the properties owned by the current Player
 		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
@@ -107,8 +120,10 @@ public class SalesController {
 				// We set the pawn bool to true
 				property.setPawned(true);
 				
+				// We get the pawn value and deposit it into the owners account
+				currentPlayer.getAccount().deposit(property.getPawnValue()); 
+				
 				// Send all updates to GUIController
-				currentPlayer.getAccount().deposit(property.getPawnValue()); // We get the pawn value and deposit it into the owners account
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
 			}
