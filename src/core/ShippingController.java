@@ -76,7 +76,11 @@ public class ShippingController {
 					
 				}
 				else {
+					
+					// Initialize SalesController
 					SalesController salesController = new SalesController(currentPlayer);
+					
+					// Run cannotAfford Method
 					salesController.cannotAfford(rentPrice);
 				}
 
