@@ -244,21 +244,30 @@ public class BuyController {
 					//If house may be build on one or more houses
 					if(added) {
 						added = false;
+						
+						//increment counter so that cards of same color is skipped
 						counter += 1;
 						break;
 					}
 				}
-			}else {
-				
+			}else {	
+				//Loop which represents build order for houses
 				for(int i = 0 ; i < 6 ; i++) {
+					
+					//Loop over all grounds of the given color
 					for (int j = 0; j <= 2; j++) {
+						
+						//Check if ground may have another house
 						if(street[counter+j].getHouseCounter() == i) {
 							properties[index++] = street[counter+j].getName();
 							added = true;
 						}
 					}
+					
+					//break if house may be build on one or more house.
 					if(added) {
-						added = false;
+						added = false;		
+						//increment counter so that cards of same color is skipped
 						counter += 2;
 						break;
 					}
@@ -266,7 +275,8 @@ public class BuyController {
 
 			}
 		}
-
+		
+		//add to return array.
 		propertiesSorted = new String[index];
 		for (int i = 0; i < propertiesSorted.length; i++) {
 			propertiesSorted[i] = properties[i];
