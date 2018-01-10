@@ -181,7 +181,7 @@ public class ChanceCardController {
         }
         
         //put card in deck again unless prisoncard.
-        if(!(drawnChanceCard.getClass().getSimpleName() == "PrisonCard"))
+        if(!(drawnChanceCard instanceof PrisonCard))
         	chanceCardDeck.push(drawnChanceCard);
     }
 
