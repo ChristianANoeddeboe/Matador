@@ -138,10 +138,20 @@ public class GUIController {
 		}
 	}
 
+	/**
+	 * Updates the subtext of a field.
+	 * @param text the text to change to.
+	 * @param field_id the number of the field to change.
+	 */
 	public void updateFieldSubtext(String text, int field_id) {
 		fields_GUI[field_id].setSubText(text);
 	}
 
+	/**
+	 * Changes the balance of the player onn the GUI.
+	 * @param id the id associated with the player.
+	 * @param value the value to update to.
+	 */
 	public void updatePlayerBalance(int id, int value) {
         players_GUI[id].setBalance(value);
 	}
@@ -155,6 +165,17 @@ public class GUIController {
 	public void jailPlayer(int id, int playerPos, int jailPos) {
 		fields_GUI[playerPos].setCar(players_GUI[id],false);
 		fields_GUI[jailPos].setCar(players_GUI[id],true);
+	}
+
+	/**
+	 * Instantly moves the player from his current field to a destination.
+	 * @param id the id of the player to move.
+	 * @param currentPos the position the player is standing on.
+	 * @param destination the destination for the player.
+	 */
+	public void teleport(int id, int currentPos, int destination) {
+		fields_GUI[currentPos].setCar(players_GUI[id], false);
+		fields_GUI[destination].setCar(players_GUI[id],true);
 	}
 
 	/**
@@ -198,6 +219,15 @@ public class GUIController {
 	 */
 	public int requestIntegerInput(String message, int min, int max) {
 		return gui.getUserInteger(message, min, max);
+	}
+
+	/**
+	 * Takes integer input from the player.
+	 * @param message message to write.
+	 * @return int value.
+	 */
+	public int requestIntegerInput(String message) {
+		return gui.getUserInteger(message);
 	}
 
 	/**
