@@ -11,9 +11,6 @@ public class GameLogic {
 	private DiceCup	diceCup;
 	private GUIController guiController;
 	private Field[] fields;
-	private int dice1value;
-	private int dice2value;
-	private int totalFaceValue = dice1value+dice2value;
 	private PrisonController prisonController;
 	private FieldController fieldController;
 	private ChanceCardController chanceCardController;
