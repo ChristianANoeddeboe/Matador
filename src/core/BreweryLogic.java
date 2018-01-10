@@ -27,8 +27,8 @@ public class BreweryLogic {
 				String[] choices = {"Yes", "No"};
 				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+brewery.getName(), choices);
 				if(result.equals("Yes")) {
-					BuyLogic buyLogic = new BuyLogic();
-					buyLogic.propertyBuyLogic(currentPlayer, brewery);
+					BuyLogic buyLogic = new BuyLogic(currentPlayer, brewery);
+					buyLogic.buyLogic();
 				}
 			}
 			else {

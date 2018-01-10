@@ -30,8 +30,8 @@ public class ShippingLogic {
 				String[] choices = {"Yes", "No"};
 				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+shipping.getName(), choices);
 				if(result.equals("Yes")) {
-					BuyLogic buyLogic = new BuyLogic();
-					buyLogic.propertyBuyLogic(currentPlayer, shipping);
+					BuyLogic buyLogic = new BuyLogic(currentPlayer, shipping);
+					buyLogic.buyLogic();
 				}
 			}
 			else {

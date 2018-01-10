@@ -30,8 +30,8 @@ public class StreetLogic {
 				String[] choices = {"Yes", "No"};
 				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
 				if(result.equals("Yes")) {
-					BuyLogic buyLogic = new BuyLogic();
-					buyLogic.propertyBuyLogic(currentPlayer, street);
+					BuyLogic buyLogic = new BuyLogic(currentPlayer, street);
+					buyLogic.buyLogic();
 				}
 			}
 			else { 
