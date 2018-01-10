@@ -320,8 +320,8 @@ public class FieldController {
 				// Casts the field to street
 				Street street = (Street) fieldArr[i];
 
-				// Checks if the field is owned by the Player and if there is atleast one house on it
-				if(street.getOwner() == currentPlayer && street.getHouseCounter() < 5) {
+				// Checks if the field is owned by the Player and there are not too many houses
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() < 5 && street.getHouseCounter() > 0) {
 
 					// Add the field to the temp array
 					temp[counter] = fieldArr[i].getName();
