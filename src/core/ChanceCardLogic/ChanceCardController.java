@@ -15,16 +15,6 @@ public class ChanceCardController {
     private ChanceCardDeck chanceCardDeck;
     private PrisonCard prisonCard;
 
-    //All types of cards
-    private DepositCard depositCard;
-    private EstateTaxCard estateTaxCard;
-    private MoveCard moveCard;
-    private MoveShippingCard moveShippingCard;
-    private WithdrawCard withdrawCard;
-    private GrantCard grantCard;
-    private PresentDepositCard presentDepositCard;
-    private StepsBackCard stepsBackCard;
-
     public ChanceCardController () {
         propertiesIO = new PropertiesIO("config.properties");
         guiController = GUIController.getInstance();
@@ -148,61 +138,45 @@ public class ChanceCardController {
 
     public void getCard (Player currentPlayer, Field[] fields, Player[] players) {
     	ChanceCard drawnChanceCard = chanceCardDeck.bottom();
-    	
+
+    	guiController.writeMessage(drawnChanceCard.getDescription());
+
         switch (drawnChanceCard.getClass().getSimpleName()) {
             case "PrisonCard":
-                prisonCard = (PrisonCard) drawnChanceCard;
                 prisonCard(currentPlayer);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(prisonCard.getDescription());
                 break;
             case "MoveCard":
-                moveCard = (MoveCard) drawnChanceCard;
-                moveCard(currentPlayer, moveCard.getField(), fields);
+                moveCard(currentPlayer, ((MoveCard) drawnChanceCard).getField(), fields, drawnChanceCard);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(moveCard.getDescription());
                 break;
             case "MoveShipping":
-                moveShippingCard = (MoveShippingCard) drawnChanceCard;
                 moveShippingCard(currentPlayer,fields);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(moveShippingCard.getDescription());
                 break;
             case "GrantCard":
-                grantCard = (GrantCard) drawnChanceCard;
                 grantCard(currentPlayer, fields);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(grantCard.getDescription());
                 break;
             case "PresentDepositCard":
-                presentDepositCard = (PresentDepositCard) drawnChanceCard;
                 presentDepositCard(currentPlayer, players);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(presentDepositCard.getDescription());
                 break;
             case "StepsBackCard":
-                stepsBackCard = (StepsBackCard) drawnChanceCard;
-                stepsBackCard(currentPlayer, stepsBackCard.getAmount(), fields);
+                stepsBackCard(currentPlayer, ((StepsBackCard) drawnChanceCard).getAmount(), fields);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(stepsBackCard.getDescription());
                 break;
             case "WithdrawCard":
-                withdrawCard = (WithdrawCard) drawnChanceCard;
-                withdrawCard(currentPlayer, withdrawCard.getAmount());
+                withdrawCard(currentPlayer, ((WithdrawCard) drawnChanceCard).getAmount());
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(withdrawCard.getDescription());
                 break;
             case "DepositCard":
-                depositCard = (DepositCard) drawnChanceCard;
-                depositCard(currentPlayer, depositCard.getAmount());
+                depositCard(currentPlayer, ((DepositCard) drawnChanceCard).getAmount());
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(depositCard.getDescription());
                 break;
             case "EstateTaxCard":
-                estateTaxCard = (EstateTaxCard) drawnChanceCard;
-                estateTaxCard(currentPlayer, fields, estateTaxCard.getTaxHouse(), estateTaxCard.getTaxHotel());
+                estateTaxCard(currentPlayer, fields, ((EstateTaxCard) drawnChanceCard).getTaxHouse(), ((EstateTaxCard) drawnChanceCard).getTaxHotel());
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
-                guiController.writeMessage(estateTaxCard.getDescription());
                 break;
         }
         
@@ -215,12 +189,12 @@ public class ChanceCardController {
         currentPlayer.addPrisonCard();
     }
 
-    private void moveCard (Player currentPlayer, int field, Field[] fields) {
+    private void moveCard (Player currentPlayer, int field, Field[] fields, ChanceCard drawnChanceCard) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
         currentPlayer.setEndPosition(field);
 
         //if move to prisonfield
-        if (moveCard.getId() == 2 && moveCard.getId() == 3) {
+        if (drawnChanceCard.getId() == 2 && drawnChanceCard.getId() == 3) {
             guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getStartPosition());
         } else {
             if (fields[field] instanceof Property)
@@ -302,20 +276,11 @@ public class ChanceCardController {
     }
 
     private void stepsBackCard (Player currentPlayer, int amountOfSteps, Field[] fields) {
-        int currentPlayerEndPosition = currentPlayer.getEndPosition();
-        if (currentPlayerEndPosition == 0) {
-            currentPlayer.setStartPosition(currentPlayerEndPosition);
-            currentPlayer.setEndPosition(39);
-            guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+        currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+        currentPlayer.setEndPosition(currentPlayer.getEndPosition() - amountOfSteps);
+        guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+        if (fields[currentPlayer.getEndPosition()] instanceof Property)
             landOnProperty(fields, currentPlayer);
-        }
-        else
-            currentPlayer.setStartPosition(currentPlayerEndPosition);
-            currentPlayer.setEndPosition(currentPlayerEndPosition - amountOfSteps);
-            guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
-            if (fields[currentPlayer.getEndPosition()] instanceof Property)
-                landOnProperty(fields, currentPlayer);
-
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
@@ -332,13 +297,13 @@ public class ChanceCardController {
         int estateTax = 0;
 
         for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getClass().getSimpleName() == "Street") {
+            if (fields[i] instanceof Street) {
                 Street street = (Street) fields[i];
                 if (street.getOwner() == currentPlayer) {
                     if (street.getHouseCounter() == 5) {
-                        estateTax += 2300;
+                        estateTax += hoteltax;
                     } else {
-                        estateTax += (800 * (street.getHouseCounter()));
+                        estateTax += (housetax * (street.getHouseCounter()));
                     }
                 }
             }
@@ -355,7 +320,6 @@ public class ChanceCardController {
         Property property = (Property) fields[currentPlayer.getEndPosition()];
 
         if (!(property.getOwner() == null) && !(property.getOwner() == currentPlayer)) {
-
             guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
             guiController.updatePlayerBalance(property.getOwner().getGuiId(),property.getOwner().getAccount().getBalance());
         }
