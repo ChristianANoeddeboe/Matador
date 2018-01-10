@@ -16,18 +16,33 @@ public class SalesController {
 		this.currentPlayer = currentPlayer;
 	}
 	
+	/**
+	 * Logic when player cannot afford something
+	 * @param value
+	 * @return
+	 */
 	protected boolean cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
+		
+		// While loop until the player can afford the rent/pay
 		while(currentPlayer.getAccount().getBalance() < value) {
+			
+			// Prompts the user for a choiec
 			String[] options = {"Sell House", "Pawn Property"};
 			String result = GUIController.getInstance().requestPlayerChoice("Sell either houses or pawn property", options);
+			
+			// Runs the sellHouse method if chosen
 			if(result.equals("Sell House")) {
 				housesToSell = sellHouse();
 			}
+			
+			// Runs the pawnProperty method if chosen
 			if(result.equals("Pawn Property")) {
 				propertyToPawn = pawnProperty();
 			}
+			
+			// If the player has no houses to sell, properties to pawn and still cannot afford, the player is declared bankrupt and false is returned
 			if(housesToSell == false && propertyToPawn == false && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
 				return false;
@@ -38,7 +53,6 @@ public class SalesController {
 	
 	/**
 	 * Logic for selling a house
-	 * @param currentPlayer
 	 * @return
 	 */
 	protected boolean sellHouse() {
@@ -80,7 +94,6 @@ public class SalesController {
 
 	/**
 	 * Logic for pawning a property
-	 * @param currentPlayer
 	 * @return
 	 */
 	protected boolean pawnProperty() {
