@@ -17,24 +17,21 @@ public class GameLogic {
 	private PrisonController prisonController;
 	private FieldController fieldController;
 	private ChanceCardController chanceCardController;
+	private PlayerController playerController;
 	/**
 	 * Constructor for gamelogic
 	 */
 	public GameLogic() {
 		guiController = guiController.getInstance();
 		diceCup = new DiceCup(2);
+		
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
 		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
-		
-		for (int i = 0; i < fields.length; i++) {
-			if(fields[i] instanceof Street && currentPlayer.getName().equals("player1")) {
-				
-			}
-		}
-		System.out.println("Blabla: "+fieldController.allFieldsToBuildOn(currentPlayer).length);
+		this.playerController = playerController;
+
 		String response = "Afslut tur";
 		Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
 		if(buildablestreets.length > 0) {
@@ -46,7 +43,7 @@ public class GameLogic {
 		String choices[] = response.split(",");
 		
 		do {
-			switch(guiController.requestPlayerChoice("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
+			switch(guiController.requestPlayerChoiceButtons("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 			case "Roll dice" : {
 				diceCup.roll();
 				guiController.getInstance().showDice(diceCup);
@@ -110,6 +107,8 @@ public class GameLogic {
 			BreweryLogic breweryLogic = new BreweryLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			breweryLogic.logic();
 		} else if (fields[id] instanceof Chance) {
+			ChanceCardController cardController = new ChanceCardController();
+			guiController.writeMessage(cardController.getCard(currentPlayer, fields, this.playerController.getPlayers()));
 		} else if (fields[id] instanceof Shipping) {
 			ShippingLogic shippingLogic = new ShippingLogic(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			shippingLogic.logic();

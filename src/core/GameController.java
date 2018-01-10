@@ -47,7 +47,7 @@ public class GameController {
 					if(!player.isBanktrupt())
 						switchPlayer = gameLogic.callLogic(playerController, player);
 				} while(!switchPlayer);
-				player.setRolled(true);
+				player.setRolled(false);
 			}
 		}
 		
