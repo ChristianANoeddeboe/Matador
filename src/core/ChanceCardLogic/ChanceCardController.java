@@ -309,10 +309,16 @@ public class ChanceCardController {
 
     private void stepsBackCard (Player currentPlayer, int amountOfSteps) {
         int currentPlayerEndPosition = currentPlayer.getEndPosition();
-        if (currentPlayerEndPosition == 0)
+        if (currentPlayerEndPosition == 0) {
+            currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(39);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+        }
         else
+            currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(currentPlayerEndPosition - amountOfSteps);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
