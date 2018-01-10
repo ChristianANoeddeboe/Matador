@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ChanceCardController {
     private PropertiesIO propertiesIO;
     private GUIController guiController;
+    private static final ChanceCardController chanceCardController = new ChanceCardController();
 
     private static ChanceCard[] chanceCardArray;
     private static int[] randomArray;
@@ -162,41 +163,49 @@ public class ChanceCardController {
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
                 moveCard(currentPlayer, moveCard.getField());
+                guiController.writeMessage(moveCard.getDescription());
                 guiController.displayChanceCard(moveCard.getDescription());
                 break;
             case "MoveShipping":
                 moveShippingCard = (MoveShippingCard) drawnChanceCard;
                 moveShippingCard(currentPlayer,fields);
+                guiController.writeMessage(moveShippingCard.getDescription());
                 guiController.displayChanceCard(moveShippingCard.getDescription());
                 break;
             case "GrantCard":
                 grantCard = (GrantCard) drawnChanceCard;
                 grantCard(currentPlayer, fields);
+                guiController.writeMessage(grantCard.getDescription());
                 guiController.displayChanceCard(grantCard.getDescription());
                 break;
             case "PresentDepositCard":
                 presentDepositCard = (PresentDepositCard) drawnChanceCard;
                 presentDepositCard(currentPlayer, players);
+                guiController.writeMessage(presentDepositCard.getDescription());
                 guiController.displayChanceCard(presentDepositCard.getDescription());
                 break;
             case "StepsBackCard":
                 stepsBackCard = (StepsBackCard) drawnChanceCard;
                 stepsBackCard(currentPlayer, stepsBackCard.getAmount());
+                guiController.writeMessage(stepsBackCard.getDescription());
                 guiController.displayChanceCard(stepsBackCard.getDescription());
                 break;
             case "WithdrawCard":
                 withdrawCard = (WithdrawCard) drawnChanceCard;
                 withdrawCard(currentPlayer, withdrawCard.getAmount());
+                guiController.writeMessage(withdrawCard.getDescription());
                 guiController.displayChanceCard(withdrawCard.getDescription());
                 break;
             case "DepositCard":
                 depositCard = (DepositCard) drawnChanceCard;
                 depositCard(currentPlayer, depositCard.getAmount());
+                guiController.writeMessage(depositCard.getDescription());
                 guiController.displayChanceCard(depositCard.getDescription());
                 break;
             case "EstateTaxCard":
                 estateTaxCard = (EstateTaxCard) drawnChanceCard;
                 estateTaxCard(currentPlayer, fields, estateTaxCard.getTaxHouse(), estateTaxCard.getTaxHotel());
+                guiController.writeMessage(estateTaxCard.getDescription());
                 guiController.displayChanceCard(estateTaxCard.getDescription());
                 break;
         }
@@ -309,10 +318,16 @@ public class ChanceCardController {
 
     private void stepsBackCard (Player currentPlayer, int amountOfSteps) {
         int currentPlayerEndPosition = currentPlayer.getEndPosition();
-        if (currentPlayerEndPosition == 0)
+        if (currentPlayerEndPosition == 0) {
+            currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(39);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+        }
         else
+            currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(currentPlayerEndPosition - amountOfSteps);
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
@@ -369,4 +384,6 @@ public class ChanceCardController {
     private void setIndex(int index) {
         this.index = index;
     }
+
+    public static ChanceCardController getInstance () { return chanceCardController;}
 }
