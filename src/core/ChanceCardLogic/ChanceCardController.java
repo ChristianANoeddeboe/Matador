@@ -30,6 +30,7 @@ public class ChanceCardController {
 
     public ChanceCardController () {
         propertiesIO = new PropertiesIO("config.properties");
+        guiController = GUIController.getInstance();
         initializeChanceCards();
         initializeRandomArray();
         index = 0;
