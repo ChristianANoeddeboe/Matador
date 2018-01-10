@@ -224,23 +224,24 @@ public class BuyController {
 			
 			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
-<<<<<<< HEAD
 
 			//Handle streets by color
-=======
->>>>>>> refs/remotes/origin/master
 			if(color.equals("blue")||color.equals("purple")) {
 				
 				//Loop which represents build order for houses
 				for(int i = 0 ; i < 6 ; i++) {
 					
-					//Loop over 
+					//Loop over all grounds of the given color
 					for (int j = 0; j <= 1; j++) {
+						
+						//Check if ground may have another house
 						if(street[counter+j].getHouseCounter() == i) {
 							properties[index++] = street[counter+j].getName();
 							added = true;
 						}
 					}
+					
+					//If house may be build on one or more houses
 					if(added) {
 						added = false;
 						counter += 1;
@@ -248,6 +249,7 @@ public class BuyController {
 					}
 				}
 			}else {
+				
 				for(int i = 0 ; i < 6 ; i++) {
 					for (int j = 0; j <= 2; j++) {
 						if(street[counter+j].getHouseCounter() == i) {
