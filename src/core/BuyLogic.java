@@ -219,197 +219,46 @@ public class BuyLogic {
 		boolean added = false;
 		int amount = 0;
 		int index = 0;
-
+		String[] propertiesSorted = null;
 		for (int counter = 0; counter < street.length; counter++) {
-			switch (convertColor(street[counter].getColour())) {
-			case "blue":
+			String color = convertColor(street[counter].getColour());
+
+			if(color.equals("blue")||color.equals("purple")) {
 				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
+					for (int j = 0; j <= 1; j++) {
+						if(street[counter+j].getHouseCounter() == i) {
+							properties[index++] = street[counter+j].getName();
+							added = true;
+						}
 					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
 					if(added) {
 						added = false;
 						counter += 1;
 						break;
 					}
 				}
-				break;
-			case "orange":
+			}else {
 				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
+					for (int j = 0; j <= 2; j++) {
+						if(street[counter+j].getHouseCounter() == i) {
+							properties[index++] = street[counter+j].getName();
+							added = true;
+						}
 					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(street[counter+2].getHouseCounter() == i) {
-						properties[index++] = street[counter+2].getName();
-						added = true;
-					}
-
 					if(added) {
 						added = false;
 						counter += 2;
 						break;
 					}
 				}
-				break;
-			case "green":
-				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
-					}
 
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(street[counter+2].getHouseCounter() == i) {
-						properties[index++] = street[counter+2].getName();
-						added = true;
-					}
-
-					if(added) {
-						added = false;
-						counter += 2;
-						break;
-					}
-				}
-				break;
-			case "gray":
-				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
-					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(street[counter+2].getHouseCounter() == i) {
-						properties[index++] = street[counter+2].getName();
-						added = true;
-					}
-
-					if(added) {
-						added = false;
-						counter += 2;
-						break;
-					}
-				}
-				break;
-			case "red":
-				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
-					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(street[counter+2].getHouseCounter() == i) {
-						properties[index++] = street[counter+2].getName();
-						added = true;
-					}
-
-					if(added) {
-						added = false;
-						counter += 2;
-						break;
-					}
-				}
-				break;
-			case "white":
-				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
-					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(street[counter+2].getHouseCounter() == i) {
-						properties[index++] = street[counter+2].getName();
-						added = true;
-					}
-
-					if(added) {
-						added = false;
-						counter += 2;
-						break;
-					}
-				}
-				break;
-			case "yellow":
-				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
-					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(street[counter+2].getHouseCounter() == i) {
-						properties[index++] = street[counter+2].getName();
-						added = true;
-					}
-
-					if(added) {
-						added = false;
-						counter += 2;
-						break;
-					}
-				}
-				break;
-			case "purple":
-				for(int i = 0 ; i < 6 ; i++) {
-					if(street[counter].getHouseCounter() == i) {
-						properties[index++] = street[counter].getName();
-						added = true;
-					}
-
-					if(street[counter+1].getHouseCounter() == i) {
-						properties[index++] = street[counter+1].getName();
-						added = true;
-					}
-
-					if(added) {
-						added = false;
-						counter += 2;
-						break;
-					}
-				}
-				break;
 			}
-		}
 
-		String[] propertiesSorted = new String[index];
-		for (int i = 0; i < propertiesSorted.length; i++) {
-			propertiesSorted[i] = properties[i];
+			 propertiesSorted = new String[index];
+			for (int i = 0; i < propertiesSorted.length; i++) {
+				propertiesSorted[i] = properties[i];
+			}
+			return propertiesSorted;
 		}
 		return propertiesSorted;
 	}
