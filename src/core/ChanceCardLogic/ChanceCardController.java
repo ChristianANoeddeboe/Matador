@@ -120,7 +120,7 @@ public class ChanceCardController {
         //SAVE VERSION OF PRISONCARD
         prisonCard = (PrisonCard) chanceCardArray[0];
         for (int i = 0 ; i < chanceCardArray.length ; i++) {
-        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
+        	chanceCardDeck.push(chanceCardArray[i]);
         }
         
     }
@@ -182,7 +182,7 @@ public class ChanceCardController {
                 break;
             case "StepsBackCard":
                 stepsBackCard = (StepsBackCard) drawnChanceCard;
-                stepsBackCard(currentPlayer, stepsBackCard.getAmount());
+                stepsBackCard(currentPlayer, stepsBackCard.getAmount(), fields);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 guiController.writeMessage(stepsBackCard.getDescription());
                 break;
@@ -223,26 +223,8 @@ public class ChanceCardController {
         if (moveCard.getId() == 2 && moveCard.getId() == 3) {
             guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getStartPosition());
         } else {
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),field,currentPlayer.getStartPosition());
-            if(currentPlayer.getEndPosition() < currentPlayer.getStartPosition() && currentPlayer.getEndPosition() > 0) {
-            	currentPlayer.getAccount().deposit(4000);
-    			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());	
-            }
-
-            //Possible for player to buy if property
-            if (fields[currentPlayer.getEndPosition()] instanceof Property) {
-                Property property = (Property) fields[currentPlayer.getEndPosition()];
-                if ((property.getOwner() == null)) {
-                    if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
-                        String[] choices = {"Yes", "No"};
-                        String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
-                        if(result.equals("Yes")) {
-                            currentPlayer.getAccount().withdraw(4000);
-                            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
-                        }
-                    }
-                }
-            }
+            if (fields[field] instanceof Property)
+                landOnProperty(fields, currentPlayer);
         }
     }
 
@@ -273,33 +255,27 @@ public class ChanceCardController {
             guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
             currentPlayer.getAccount().deposit(4000);
             guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
-
         }
+
+        landOnProperty(fields, currentPlayer);
 
     }
 
     private void grantCard (Player currentPlayer,Field[] fields) {
-        Property property = null;
-
         int playerValue = 0;
         for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getClass().getSimpleName() == "Street") {
-                if (currentPlayer == property.getOwner()) {
-                    property = (Property) fields[i];
-                    Street street = (Street) fields[i];
-                    playerValue += (property.getBuyValue());
-                    if (street.getHouseCounter() > 0) {
-                        int buildPrice = street.getBuildPrice();
-                        for (int j = 0; j < street.getHouseCounter(); j++) {
-                            playerValue += buildPrice;
+            if (fields[i] instanceof Property) {
+                Property property = (Property) fields[i];
+                if (property.getOwner() == currentPlayer) {
+                    playerValue += property.getBuyValue();
+                    if (property instanceof Street) {
+                        Street street = (Street) property;
+                        if (street.getHouseCounter() > 0) {
+                            for (int j = 0; j < street.getHouseCounter(); j++) {
+                                playerValue += street.getBuildPrice();
+                            }
                         }
                     }
-                }
-            }
-
-            else if (fields[i].getClass().getSimpleName() == "Shipping" || fields[i].getClass().getSimpleName() == "Brewery") {
-                if (currentPlayer == property.getOwner()) {
-                    playerValue += (property.getBuyValue());
                 }
             }
         }
@@ -325,17 +301,20 @@ public class ChanceCardController {
         guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
-    private void stepsBackCard (Player currentPlayer, int amountOfSteps) {
+    private void stepsBackCard (Player currentPlayer, int amountOfSteps, Field[] fields) {
         int currentPlayerEndPosition = currentPlayer.getEndPosition();
         if (currentPlayerEndPosition == 0) {
             currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(39);
             guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+            landOnProperty(fields, currentPlayer);
         }
         else
             currentPlayer.setStartPosition(currentPlayerEndPosition);
             currentPlayer.setEndPosition(currentPlayerEndPosition - amountOfSteps);
             guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+            if (fields[currentPlayer.getEndPosition()] instanceof Property)
+                landOnProperty(fields, currentPlayer);
 
     }
 
@@ -354,7 +333,7 @@ public class ChanceCardController {
 
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getClass().getSimpleName() == "Street") {
-                Street street= (Street) fields[i];
+                Street street = (Street) fields[i];
                 if (street.getOwner() == currentPlayer) {
                     if (street.getHouseCounter() == 5) {
                         estateTax += 2300;
@@ -386,7 +365,9 @@ public class ChanceCardController {
                 String[] choices = {"Yes", "No"};
                 String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
                 if(result.equals("Yes")) {
-                    currentPlayer.getAccount().withdraw(4000);
+                    currentPlayer.getAccount().withdraw(property.getBuyValue());
+                    property.setOwner(currentPlayer);
+                    guiController.setOwner(currentPlayer.getGuiId(), property.getId());
                     guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
                 }
             }
