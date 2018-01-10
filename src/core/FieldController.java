@@ -5,12 +5,12 @@ import java.awt.Color;
 public class FieldController {
 	private Field fieldArr[];
 	private PropertiesIO config;
-	
+
 	public FieldController() {
 		config = new PropertiesIO("config.properties");
 		initFields();
 	}
-	
+
 	private void initFields() {
 		fieldArr = new Field[40]; // We create an array of the lenght 40 of the type field
 		for (int i = 0; i < fieldArr.length ; i++) { // Loop through all our fields
@@ -77,15 +77,15 @@ public class FieldController {
 				// Switch tot ranslate colour from config to gui colour.
 				Color color;
 				switch(config.getTranslation("field"+(i+1)+"color")) { 
-					default : color = Color.black; break;
-					case "yellow" : color = Color.yellow; break;
-					case "blue" : color = Color.blue; break;
-					case "pink" : color = Color.orange; break;
-					case "white" : color = Color.white; break;
-					case "green" : color = Color.green; break;
-					case "purple" : color = Color.magenta; break;
-					case "red" : color = Color.red; break;
-					case "grey" : color = Color.gray; break;
+				default : color = Color.black; break;
+				case "yellow" : color = Color.yellow; break;
+				case "blue" : color = Color.blue; break;
+				case "pink" : color = Color.orange; break;
+				case "white" : color = Color.white; break;
+				case "green" : color = Color.green; break;
+				case "purple" : color = Color.magenta; break;
+				case "red" : color = Color.red; break;
+				case "grey" : color = Color.gray; break;
 				}
 
 				// Get house prices from config and save to array
@@ -105,17 +105,17 @@ public class FieldController {
 				}
 
 				description = ( // put everything in the right order
-					descriptionSplit[0]+config.getTranslation("field"+(i+1)+"leje")+"\n"+
-					descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
-					descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
-					descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
-					descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
-					descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
-					descriptionSplit[6]+"\n"+
-					descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
-					descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+"\n"+
-					descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
-				);
+						descriptionSplit[0]+config.getTranslation("field"+(i+1)+"leje")+"\n"+
+						descriptionSplit[1]+config.getTranslation("field"+(i+1)+"hus1")+"\n"+
+						descriptionSplit[2]+config.getTranslation("field"+(i+1)+"hus2")+"\n"+
+						descriptionSplit[3]+config.getTranslation("field"+(i+1)+"hus3")+"\n"+
+						descriptionSplit[4]+config.getTranslation("field"+(i+1)+"hus4")+"\n"+
+						descriptionSplit[5]+config.getTranslation("field"+(i+1)+"hotel")+"\n"+
+						descriptionSplit[6]+"\n"+
+						descriptionSplit[7]+config.getTranslation("field"+(i+1)+"build")+"\n"+
+						descriptionSplit[8]+config.getTranslation("field"+(i+1)+"build")+"\n"+
+						descriptionSplit[9]+config.getTranslation("field"+(i+1)+"pant")+"\n"
+						);
 
 				// STREET (int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue, int[] housePrices, int buildPrice, Color colour)
 				fieldArr[i] = new Street(i, 
@@ -139,48 +139,50 @@ public class FieldController {
 	public void setFieldArr(Field[] fieldArr) {
 		this.fieldArr = fieldArr;
 	}
-	
+
 	protected Street[] allFieldsToBuildOn(Player currentPlayer) {
 		Street streetArr[] = new Street[40];
 		int val = 0;
 		boolean exists = false;
 		Color colour;
-		
+
 		// We loop over all our fields
 		for (int i = 0; i < fieldArr.length; i++) {
-			
+
 			//Bool to stay 
 			boolean canBeBuildOn = true;
-			
+
 			// We find the fields which are an instance of Normal
 			if(fieldArr[i] instanceof Street) { 
-				
+
 				// Casting
 				Street street = (Street) fieldArr[i];
-				
-				// We check if the current field is owned by the player
-				if(street.getOwner() == currentPlayer && currentPlayer.getAccount().canAfford(street.getBuildPrice())) {
-					
-					// Grab the colour
-					colour = street.getColour(); 
-					
-					// Start an inner loop
-					for (int j = 0; j < fieldArr.length; j++) {
-						
-						// Once again only want to look at the fields which are of the type normal
-						if(fieldArr[j] instanceof Street) {
-							
-							// casting
-							Street street2 = (Street) fieldArr[j];
-							
-							// Making sure that the fields of the same colour and the same owner, if not the same owner we return false
-							if(street2.getColour() == colour && street2.getOwner() != currentPlayer) { 
-								canBeBuildOn = false;
-								break;
+
+				// We check if the current field is owned by the player and if there are too many houses already
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() <5) {
+					//If the player can afford the buildprice
+					if( currentPlayer.getAccount().canAfford(street.getBuildPrice())) {
+
+						// Grab the colour
+						colour = street.getColour(); 
+
+						// Start an inner loop
+						for (int j = 0; j < fieldArr.length; j++) {
+
+							// Once again only want to look at the fields which are of the type normal
+							if(fieldArr[j] instanceof Street) {
+
+								// casting
+								Street street2 = (Street) fieldArr[j];
+
+								// Making sure that the fields of the same colour and the same owner, if not the same owner we return false
+								if(street2.getColour() == colour && street2.getOwner() != currentPlayer) { 
+									canBeBuildOn = false;
+									break;
+								}
 							}
-						}
-					}		
-					
+						}		
+					}
 					//If property can be build on	
 					if(canBeBuildOn == true) {
 						streetArr[val++] = street;
@@ -188,14 +190,14 @@ public class FieldController {
 				}
 			}
 		}
-		
+
 		Street[] sortedStreetArr = new Street[val];
 		for (int i = 0; i < sortedStreetArr.length; i++) {
 			sortedStreetArr[i] = streetArr[i];
 		}
 		return sortedStreetArr;
 	}
-	
+
 	protected String[] FieldsOwned(Player currentPlayer) {
 		String[] temp = new String[28];
 		int counter = 0;
@@ -214,25 +216,25 @@ public class FieldController {
 		}
 		return propertyOwned;
 	}
-	
+
 	protected String[] propertiesToPawn(Player currentPlayer) {
 		String[] temp = new String[28];
 		int counter = 0;
 		for(int i = 0; i < fieldArr.length; i++) {
 			if(fieldArr[i] instanceof Street) {
 				Street street = (Street) fieldArr[i];
-				if(street.getOwner() == currentPlayer && street.getHouseCounter() == 0) {
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() == 0 && !street.isPawned()) {
 					temp[counter] = fieldArr[i].getName();
 					counter++;
 				}
-			if(fieldArr[i] instanceof Shipping) {
-				temp[counter] = fieldArr[i].getName();
-				counter++;
-			}
-			if(fieldArr[i] instanceof Brewery) {
-				temp[counter] = fieldArr[i].getName();
-				counter++;
-			}
+				if(fieldArr[i] instanceof Shipping) {
+					temp[counter] = fieldArr[i].getName();
+					counter++;
+				}
+				if(fieldArr[i] instanceof Brewery) {
+					temp[counter] = fieldArr[i].getName();
+					counter++;
+				}
 			}
 		}
 		String[] propertyOwned = new String[counter];
@@ -241,7 +243,7 @@ public class FieldController {
 		}
 		return propertyOwned;
 	}
-	
+
 	protected String[] streetsWithHouses(Player currentPlayer) {
 		String[] temp = new String[22];
 		int counter = 0;
