@@ -162,41 +162,49 @@ public class ChanceCardController {
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
                 moveCard(currentPlayer, moveCard.getField());
+                guiController.writeMessage(moveCard.getDescription());
                 guiController.displayChanceCard(moveCard.getDescription());
                 break;
             case "MoveShipping":
                 moveShippingCard = (MoveShippingCard) drawnChanceCard;
                 moveShippingCard(currentPlayer,fields);
+                guiController.writeMessage(moveShippingCard.getDescription());
                 guiController.displayChanceCard(moveShippingCard.getDescription());
                 break;
             case "GrantCard":
                 grantCard = (GrantCard) drawnChanceCard;
                 grantCard(currentPlayer, fields);
+                guiController.writeMessage(grantCard.getDescription());
                 guiController.displayChanceCard(grantCard.getDescription());
                 break;
             case "PresentDepositCard":
                 presentDepositCard = (PresentDepositCard) drawnChanceCard;
                 presentDepositCard(currentPlayer, players);
+                guiController.writeMessage(presentDepositCard.getDescription());
                 guiController.displayChanceCard(presentDepositCard.getDescription());
                 break;
             case "StepsBackCard":
                 stepsBackCard = (StepsBackCard) drawnChanceCard;
                 stepsBackCard(currentPlayer, stepsBackCard.getAmount());
+                guiController.writeMessage(stepsBackCard.getDescription());
                 guiController.displayChanceCard(stepsBackCard.getDescription());
                 break;
             case "WithdrawCard":
                 withdrawCard = (WithdrawCard) drawnChanceCard;
                 withdrawCard(currentPlayer, withdrawCard.getAmount());
+                guiController.writeMessage(withdrawCard.getDescription());
                 guiController.displayChanceCard(withdrawCard.getDescription());
                 break;
             case "DepositCard":
                 depositCard = (DepositCard) drawnChanceCard;
                 depositCard(currentPlayer, depositCard.getAmount());
+                guiController.writeMessage(depositCard.getDescription());
                 guiController.displayChanceCard(depositCard.getDescription());
                 break;
             case "EstateTaxCard":
                 estateTaxCard = (EstateTaxCard) drawnChanceCard;
                 estateTaxCard(currentPlayer, fields, estateTaxCard.getTaxHouse(), estateTaxCard.getTaxHotel());
+                guiController.writeMessage(estateTaxCard.getDescription());
                 guiController.displayChanceCard(estateTaxCard.getDescription());
                 break;
         }
