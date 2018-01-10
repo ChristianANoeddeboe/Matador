@@ -223,7 +223,7 @@ public class BuyController {
 	 * @param street
 	 * @return
 	 */
-	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {
+	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {           
 		String[] properties = new String[40];
 		String[] propertiesSorted = null;
 		boolean added = false;
@@ -234,6 +234,7 @@ public class BuyController {
 			
 			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
+<<<<<<< HEAD
 			int amountOfHouses = street[counter].getHouseCounter();
 			boolean mayBuild = true;
 			
@@ -242,6 +243,31 @@ public class BuyController {
 				if(color == color2) {
 					if(amountOfHouses > streetTemp.getHouseCounter()) {
 						mayBuild = false;
+=======
+
+			//Handle streets by color
+			if(color.equals("blue")||color.equals("purple")) {
+				//Loop which represents build order for houses
+				for(int i = 0 ; i < 6 ; i++) {
+					
+					//Loop over all grounds of the given color
+					for (int j = 0; j <= 1; j++) {
+						
+						//Check if ground may have another house
+						if(street[counter+j].getHouseCounter() == i) {
+							properties[index++] = street[counter+j].getName();
+							added = true;
+						}
+					}
+					
+					//If house may be build on one or more houses
+					if(added) {
+						added = false;
+						
+						//increment counter so that cards of same color is skipped
+						counter += 1;
+						break;
+>>>>>>> refs/remotes/origin/master
 					}
 				}
 			}
