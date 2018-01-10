@@ -236,8 +236,6 @@ public class GUIController {
 		return gui.getUserInteger(message);
 	}
 
-
-
 	/**
 	 * Lets the user input a String message the system can interpret.
 	 * @param message - Message the GUI will display along with the text field.
