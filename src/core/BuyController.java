@@ -224,8 +224,11 @@ public class BuyController {
 			
 			//Get color from street in string format
 			String color = convertColor(street[counter].getColour());
+<<<<<<< HEAD
 
 			//Handle streets by color
+=======
+>>>>>>> refs/remotes/origin/master
 			if(color.equals("blue")||color.equals("purple")) {
 				
 				//Loop which represents build order for houses
@@ -260,12 +263,11 @@ public class BuyController {
 				}
 
 			}
+		}
 
-			 propertiesSorted = new String[index];
-			for (int i = 0; i < propertiesSorted.length; i++) {
-				propertiesSorted[i] = properties[i];
-			}
-			return propertiesSorted;
+		propertiesSorted = new String[index];
+		for (int i = 0; i < propertiesSorted.length; i++) {
+			propertiesSorted[i] = properties[i];
 		}
 		return propertiesSorted;
 	}
