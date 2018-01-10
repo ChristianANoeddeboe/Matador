@@ -24,7 +24,7 @@ public class GameLogic {
 	public GameLogic() {
 		guiController = guiController.getInstance();
 		diceCup = new DiceCup(2);
-		
+
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
@@ -38,10 +38,10 @@ public class GameLogic {
 			response = response + ",Buy house/hotel";
 		}
 		if(!currentPlayer.isRolled()) {
-				response = response + ",Roll dice";
+			response = response + ",Roll dice";
 		}
 		String choices[] = response.split(",");
-		
+
 		do {
 			switch(guiController.requestPlayerChoiceButtons("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
 			case "Roll dice" : {
@@ -60,10 +60,21 @@ public class GameLogic {
 				if(passedStart(currentPlayer)) {
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}
-				findLogic(currentPlayer, diceCup);
 				if(!diceCup.isPair()) {
 					currentPlayer.setRolled(true);
+				}else {
+					currentPlayer.setPairs(currentPlayer.getPairs()+1);
+					if (currentPlayer.getPairs() >= 3) {
+						currentPlayer.setPairs(0);
+						guiController.writeMessage("You rolled 3 pairs in a row and were jailed");
+						PrisonController prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
+						prisonController.jailPlayer(currentPlayer);
 					}
+				}
+				findLogic(currentPlayer, diceCup);
+
+
+
 				return false;
 			}
 			case "Buy house/hotel" : {
@@ -78,11 +89,11 @@ public class GameLogic {
 				guiController.writeMessage("Du har købt et hus på..."+houseList);				
 				return false;
 			}
-			
+
 			case "Afslut tur":{
 				return true;
 			}
-			
+
 			}
 		} while (diceCup.isPair());
 		return true;
