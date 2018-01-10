@@ -222,7 +222,6 @@ public class BuyController {
 		String[] propertiesSorted = null;
 		for (int counter = 0; counter < street.length; counter++) {
 			String color = convertColor(street[counter].getColour());
-
 			if(color.equals("blue")||color.equals("purple")) {
 				for(int i = 0 ; i < 6 ; i++) {
 					for (int j = 0; j <= 1; j++) {
@@ -253,12 +252,11 @@ public class BuyController {
 				}
 
 			}
+		}
 
-			 propertiesSorted = new String[index];
-			for (int i = 0; i < propertiesSorted.length; i++) {
-				propertiesSorted[i] = properties[i];
-			}
-			return propertiesSorted;
+		propertiesSorted = new String[index];
+		for (int i = 0; i < propertiesSorted.length; i++) {
+			propertiesSorted[i] = properties[i];
 		}
 		return propertiesSorted;
 	}
