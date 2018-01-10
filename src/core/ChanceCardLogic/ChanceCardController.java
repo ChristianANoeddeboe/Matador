@@ -126,7 +126,6 @@ public class ChanceCardController {
     }
 
     private void initializeRandomArray (int[] randomArray) {
-        randomArray = new int[32];
         for (int i = 0 ; i < randomArray.length ; i++)
         {
             int rndNumber;
@@ -217,8 +216,8 @@ public class ChanceCardController {
 
     private void moveCard (Player currentPlayer, int field, Field[] fields) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
-        int fieldBeforeChance = currentPlayer.getEndPosition();
         currentPlayer.setEndPosition(field);
+
         //if move to prisonfield
         if (moveCard.getId() == 2 && moveCard.getId() == 3) {
             guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getStartPosition());
