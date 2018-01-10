@@ -36,8 +36,18 @@ public class GameLogic {
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
 			prisonController.inPrisonLogic(currentPlayer);
-		}
-		if(!currentPlayer.isPrison()) {
+			if(!currentPlayer.isPrison()) {
+				updatePos(currentPlayer);
+				
+				passedStart(currentPlayer);
+				
+				checkIfExtraRound(currentPlayer);
+				
+				findLogic(currentPlayer, diceCup);
+
+				return false;
+			}
+		} else {
 			//Add end turn if player has rolled
 			if(currentPlayer.isRolled())
 				choicesArr[counter++] = "Afslut tur";
@@ -45,11 +55,11 @@ public class GameLogic {
 			//Add buy house or hotel
 			Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
 			if(buildablestreets.length > 0)
-				choicesArr[counter] = "Buy house/hotel";
+				choicesArr[counter++] = "Buy house/hotel";
 			
 			//Add Roll dice if not already rolled
 			if(!currentPlayer.isRolled())
-				choicesArr[counter] = "Roll dice";
+				choicesArr[counter++] = "Roll dice";
 			
 			//Move to new array
 			String choices[] = new String[counter];
@@ -92,11 +102,8 @@ public class GameLogic {
 	
 				}
 			} while (diceCup.isPair());
-			return true;
-		} else {
-			prisonController.inPrisonLogic(currentPlayer);
 		}
-
+		return true;
 	}
 
 
