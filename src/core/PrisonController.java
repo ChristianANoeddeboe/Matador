@@ -82,17 +82,22 @@ public class PrisonController {
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		diceCup.roll();
 		currentPlayer.setPrison(false);
+        guiController.writeMessage("TODO Rul med terningerne for at flytte.");
+        diceCup.roll();
 	}
 
 	public void usePrisonCard(Player currentPlayer) {
 		chanceCardController.discardPrisonCard();
 		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
-		guiController.writeMessage("Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
+		guiController.writeMessage("TODO Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
+		guiController.writeMessage("TODO Rul med terningerne for at flytte.");
+		diceCup.roll();
 	}
 
 	public void rollJailDice(Player currentPlayer) {
 		diceCup.roll();
 		if (diceCup.isPair()) {
+		    guiController.writeMessage("TODO Du slå et par! Du er en fri mand.");
 			currentPlayer.setPrison(false);
 		}
 	}
