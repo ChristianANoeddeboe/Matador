@@ -1,4 +1,7 @@
 package core;
+
+import gui_main.GUI;
+
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -7,7 +10,7 @@ package core;
 public class TaxLogic {
 	private Player currentPlayer;
 	private Field[] fields;
-
+	private GUIController guiController = GUIController.getInstance();
 
 	/**
 	 * Constructor for tax logic
@@ -28,7 +31,8 @@ public class TaxLogic {
 	protected void taxLogic38() {
 		if (currentPlayer.getAccount().canAfford(2000)) {
 			currentPlayer.getAccount().withdraw(2000);
-			GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+			guiController.writeMessage("Du betalte 2000 i statsskat");
 		} else {
 			//Sales logic
 		}
@@ -46,7 +50,7 @@ public class TaxLogic {
 		int propertyvalue = 0;
 		// Player can either choose 10% of income tax or 4000
 		String[] choices = {"4000", "10%"};
-		String choice = GUIController.getInstance().requestPlayerChoiceButtons("Vil du betale 10% inkomst skat eller 4000", choices);
+		String choice = guiController.requestPlayerChoiceButtons("Vil du betale 10% inkomst skat eller 4000", choices);
 		if (choice.equals("10%")) { // we calulate 10% of income tax
 			for (int i = 0; i < fields.length; i++) { // looping over all fields
 				if (fields[i] instanceof Property) {
@@ -64,8 +68,8 @@ public class TaxLogic {
 			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10);
 			if(currentPlayer.getAccount().canAfford(value)) {
 				currentPlayer.getAccount().withdraw(value);
-				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				GUIController.getInstance().writeMessage("10% income tax amounted to a total of.."+ value);
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				guiController.writeMessage("10% income tax amounted to a total of.."+ value);
 			}else {
 				//Sales logic
 			}
@@ -73,7 +77,7 @@ public class TaxLogic {
 		}else{
 			if (currentPlayer.getAccount().canAfford(4000)) {
 				currentPlayer.getAccount().withdraw(4000);
-				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
 			// Sales logic
 		}

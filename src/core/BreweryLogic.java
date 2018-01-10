@@ -8,6 +8,7 @@ public class BreweryLogic {
 	private int id, totalFaceValue;
 	private Brewery brewery;
 	private Player currentPlayer;
+	private GUIController guiController = GUIController.getInstance();
 	public BreweryLogic(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
 		this.brewery = (Brewery) fields[currentPlayer.getEndPosition()];
@@ -25,7 +26,7 @@ public class BreweryLogic {
 		if(brewery.getOwner() == null) { // Field is not owned
 			if(currentPlayer.getAccount().canAfford(brewery.getBuyValue())) {
 				String[] choices = {"Yes", "No"};
-				String result = GUIController.getInstance().requestPlayerChoiceButtons("Vil du købe..."+brewery.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+brewery.getName(), choices);
 				if(result.equals("Yes")) {
 					BuyLogic buyLogic = new BuyLogic(currentPlayer, brewery);
 					buyLogic.buyLogic();
@@ -48,8 +49,8 @@ public class BreweryLogic {
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					currentPlayer.getAccount().withdraw(rentPrice);
 					brewery.getOwner().getAccount().deposit(rentPrice);
-					GUIController.getInstance().updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
-					GUIController.getInstance().writeMessage("You landed on.."+brewery.getOwner().getName() + "..'s field and had to pay.."+brewery.getRentValue());
+					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
+					guiController.writeMessage("You landed on.."+brewery.getOwner().getName() + "..'s field and had to pay.."+brewery.getRentValue());
 				}else { //The player can't afford and has to sell something
 					//SALES LOGIC
 				}

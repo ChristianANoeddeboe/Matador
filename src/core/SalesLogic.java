@@ -2,6 +2,8 @@ package core;
 
 import java.awt.Color;
 
+import gui_fields.GUI_Jail;
+
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -9,7 +11,7 @@ import java.awt.Color;
  */
 public class SalesLogic {
 	private Player currentPlayer;
-	
+	private GUIController guiController = GUIController.getInstance();
 	public SalesLogic(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
@@ -45,9 +47,9 @@ public class SalesLogic {
 				Street street = (Street) fieldcontroller.getFieldArr()[i];
 				currentPlayer.getAccount().deposit(street.getBuildPrice()); // We get the current player and deposit the house price back into the players account
 				street.setHouseCounter(street.getHouseCounter()-1);
-				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				GUIController.getInstance().setHouse(street.getId(), -1);
-				GUIController.getInstance().writeMessage("You have sold a house for: "+street.getBuildPrice());
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				guiController.setHouse(street.getId(), -1);
+				guiController.writeMessage("You have sold a house for: "+street.getBuildPrice());
 			}
 		}
 		return true;
@@ -60,19 +62,19 @@ public class SalesLogic {
 	 * @return
 	 */
 	protected boolean pawnProperty() {
-		FieldController fieldcontroller = GUIController.getInstance().getFieldController();
+		FieldController fieldcontroller = guiController.getFieldController();
 		String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
 		if(properties.length >= 0) {
 			return false;
 		}
-		String response = GUIController.getInstance().requestPlayerChoice("Please choose a property to pawn: ", properties);
+		String response = guiController.requestPlayerChoice("Please choose a property to pawn: ", properties);
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
 				Property property = (Property) fieldcontroller.getFieldArr()[i];
 				property.setPawned(true); // We set the pawn bool to true
 				currentPlayer.getAccount().deposit(property.getPawnValue()); // Weget the pawn value and deposit it into the owners account
-				GUIController.getInstance().updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				GUIController.getInstance().writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				guiController.writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
 			}
 		}
 		return true;
