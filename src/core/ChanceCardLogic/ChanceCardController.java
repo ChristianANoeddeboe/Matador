@@ -11,13 +11,11 @@ public class ChanceCardController {
     private PropertiesIO propertiesIO;
     private GUIController guiController;
 
-    private ChanceCard[] chanceCardArray;
-    private int[] randomArray;
-    private int index;
+    //Deck to hold cards in randomized order
+    private ChanceCardDeck chanceCardDeck;
+    private PrisonCard prisonCard;
 
     //All types of cards
-    private ChanceCard drawnChanceCard;
-    private PrisonCard prisonCard;
     private DepositCard depositCard;
     private EstateTaxCard estateTaxCard;
     private MoveCard moveCard;
@@ -30,13 +28,15 @@ public class ChanceCardController {
     public ChanceCardController () {
         propertiesIO = new PropertiesIO("config.properties");
         guiController = GUIController.getInstance();
+        chanceCardDeck = new ChanceCardDeck(32);
         initializeChanceCards();
-        initializeRandomArray();
-        index = 0;
     }
 
     private void initializeChanceCards () {
-        chanceCardArray = new ChanceCard[32];
+        ChanceCard[] chanceCardArray = new ChanceCard[32];
+        int[] randomArray = new int[32];
+        initializeRandomArray(randomArray);
+        
         for (int i = 0; i < chanceCardArray.length; i++) {
             switch (i) {
                 case 0:
@@ -116,11 +116,16 @@ public class ChanceCardController {
                     chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)),24);
                     break;
             }
-
         }
+        //SAVE VERSION OF PRISONCARD
+        prisonCard = (PrisonCard) chanceCardArray[0];
+        for (int i = 0 ; i < chanceCardArray.length ; i++) {
+        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
+        }
+        
     }
 
-    private void initializeRandomArray () {
+    private void initializeRandomArray (int[] randomArray) {
         randomArray = new int[32];
         for (int i = 0 ; i < randomArray.length ; i++)
         {
@@ -143,22 +148,13 @@ public class ChanceCardController {
     }
 
     public void getCard (Player currentPlayer, Field[] fields, Player[] players) {
-        drawnChanceCard = chanceCardArray[randomArray[index]];
-        increaseIndex();
-
+    	ChanceCard drawnChanceCard = chanceCardDeck.bottom();
+    	
         switch (drawnChanceCard.getClass().getSimpleName()) {
             case "PrisonCard":
                 prisonCard = (PrisonCard) drawnChanceCard;
-
-                if (prisonCard.isPrisonCard()) {
-                    prisonCard(currentPlayer);
-                    prisonCard.removePrisonCard();
-                    System.out.println("Chancecard: (if)"+drawnChanceCard.getClass().getSimpleName());
-                    guiController.writeMessage(prisonCard.getDescription());
-                }
-                else
-                    System.out.println("Chancecard: prisoncard (else)");
-                System.out.println("Chancecard: (else)"+drawnChanceCard.getClass().getSimpleName());
+                prisonCard(currentPlayer);
+                guiController.writeMessage(prisonCard.getDescription());
                 break;
             case "MoveCard":
                 moveCard = (MoveCard) drawnChanceCard;
@@ -209,6 +205,10 @@ public class ChanceCardController {
                 guiController.writeMessage(estateTaxCard.getDescription());
                 break;
         }
+        
+        //put card in deck again unless prisoncard.
+        if(!(drawnChanceCard.getClass().getSimpleName() == "PrisonCard"))
+        	chanceCardDeck.push(drawnChanceCard);
     }
 
     private void prisonCard (Player currentPlayer) {
@@ -222,19 +222,17 @@ public class ChanceCardController {
         //if move to prisonfield
         if (moveCard.getId() == 2 && moveCard.getId() == 3) {
             guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getStartPosition());
-        }
-        else {
-
+        } else {
             guiController.updatePlayerPosition(currentPlayer.getGuiId(),field,currentPlayer.getStartPosition());
-            //if player is going through start
-            /*if (fieldBeforeChance ) {
-
-            }*/
+            if(currentPlayer.getEndPosition() < currentPlayer.getStartPosition() && currentPlayer.getEndPosition() > 0) {
+            	currentPlayer.getAccount().deposit(4000);
+    			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());	
+            }
 
             //Possible for player to buy if property
-            if (fields[currentPlayer.getEndPosition()].getClass().getSimpleName() == "Property") {
+            if (fields[currentPlayer.getEndPosition()] instanceof Property) {
                 Property property = (Property) fields[currentPlayer.getEndPosition()];
-                if (!(property.getOwner() == null)) {
+                if ((property.getOwner() == null)) {
                     if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
                         String[] choices = {"Yes", "No"};
                         String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
@@ -389,29 +387,7 @@ public class ChanceCardController {
         guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
-    public void discardPrisonCard () {
-        prisonCard.addPrisonCard();
-    }
-
-    private ChanceCard[] getChanceCardArray () {
-        return this.chanceCardArray;
-    }
-
-    private void setChanceCardArray(ChanceCard[] chanceCardArray) {
-        this.chanceCardArray = chanceCardArray;
-    }
-
-    private void increaseIndex () {
-        index += 1;
-        if (index > 31)
-            setIndex(0);
-    }
-
-    private int getIndex() {
-        return index;
-    }
-
-    private void setIndex(int index) {
-        this.index = index;
+    public void putPrisonCardInDeck () {
+        chanceCardDeck.push(prisonCard);
     }
 }
