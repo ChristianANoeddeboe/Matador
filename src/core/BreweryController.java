@@ -17,10 +17,6 @@ public class BreweryController {
 	
 	/**
 	 * Logic method for brewery
-	 * @param id The current field -1
-	 * @param totalFaceValue The total face value of the dices, as landing on the field is dependent on it
-	 * @param currentPlayer Current player
-	 * @return Dependent on outcome but a string
 	 */
 	protected void logic() {
 		if(brewery.getOwner() == null) { // Field is not owned
@@ -61,7 +57,6 @@ public class BreweryController {
 	}
 	/**
 	 * A method to check how many brewery a player owns
-	 * @param id The current brewery
 	 * @return 1 or 2 depending on how many brewery are owned by the same player
 	 */
 	private int getOwnedBrewery() {
