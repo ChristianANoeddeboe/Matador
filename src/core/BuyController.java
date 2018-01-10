@@ -223,7 +223,7 @@ public class BuyController {
 	 * @param street
 	 * @return
 	 */
-	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {
+	protected String[] listOfFieldsYouCanBuildOn(Street[] street) {           
 		String[] properties = new String[40];
 		String[] propertiesSorted = null;
 		boolean added = false;
@@ -237,7 +237,6 @@ public class BuyController {
 
 			//Handle streets by color
 			if(color.equals("blue")||color.equals("purple")) {
-				
 				//Loop which represents build order for houses
 				for(int i = 0 ; i < 6 ; i++) {
 					
