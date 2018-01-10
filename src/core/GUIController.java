@@ -222,6 +222,15 @@ public class GUIController {
 	}
 
 	/**
+	 * Takes integer input from the player.
+	 * @param message message to write.
+	 * @return int value.
+	 */
+	public int requestIntegerInput(String message) {
+		return gui.getUserInteger(message);
+	}
+
+	/**
 	 * Lets the user input a String message the system can interpret.
 	 * @param message - Message the GUI will display along with the text field.
 	 * @return String
