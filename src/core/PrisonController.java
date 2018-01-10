@@ -15,9 +15,9 @@ public class PrisonController {
 	private SalesController salesController;
 
 	/**
-	 *
-	 * @param currentPlayer
-	 * @param diceCup
+	 * Constructor for the prisonController.
+	 * @param currentPlayer the player who is to be handled at the moment.
+	 * @param diceCup the diceCup for the project.
 	 */
 	PrisonController(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
 		this.currentPlayer = currentPlayer;
@@ -129,6 +129,7 @@ public class PrisonController {
 				return guiController.requestPlayerChoiceButtons("TODO Du landede på 'Gå i fængsel'. Vælg hvad du vil.", choiceArr);
 			case 1:
 				if (currentPlayer.getPrisontries() < 3) {
+					System.out.println(currentPlayer.getPrisontries());
 					choices = choices + ",Rul terningerne";
 				}
 				if (currentPlayer.getAccount().canAfford(1000)) {
