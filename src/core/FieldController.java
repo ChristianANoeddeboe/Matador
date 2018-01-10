@@ -221,7 +221,7 @@ public class FieldController {
 		for(int i = 0; i < fieldArr.length; i++) {
 			if(fieldArr[i] instanceof Street) {
 				Street street = (Street) fieldArr[i];
-				if(street.getOwner() == currentPlayer && street.getHouseCounter() == 0) {
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() == 0 && !street.isPawned()) {
 					temp[counter] = fieldArr[i].getName();
 					counter++;
 				}
