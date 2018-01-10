@@ -7,7 +7,7 @@ import java.awt.Color;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class BuyLogic {
+public class BuyController {
 	private Field field;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
@@ -15,7 +15,7 @@ public class BuyLogic {
 	 * Constructor for the buy logic
 	 * @param id
 	 */
-	public BuyLogic(Player currentPlayer, Field field) {
+	public BuyController(Player currentPlayer, Field field) {
 		this.currentPlayer = currentPlayer;
 		this.field = field;
 	}
