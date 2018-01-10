@@ -7,7 +7,7 @@ package core;
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
  */
-public class StreetLogic {
+public class StreetController {
 	private Street street;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
@@ -16,7 +16,7 @@ public class StreetLogic {
 	 * @param id
 	 * @param currentPlayer
 	 */
-	public StreetLogic(Player currentPlayer, Field field) {
+	public StreetController(Player currentPlayer, Field field) {
 		this.currentPlayer = currentPlayer;
 		this.street = (Street) field;
 	}
@@ -47,8 +47,8 @@ public class StreetLogic {
 					guiController.updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
 					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 				}else {
-					SalesLogic salesLogic = new SalesLogic(currentPlayer);
-					salesLogic.pawnProperty();
+					SalesController salesController = new SalesController(currentPlayer);
+					salesController.pawnProperty();
 				}
 
 			}
