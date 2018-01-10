@@ -197,7 +197,7 @@ public class BuyController {
 	 * @return
 	 */
 	protected void unPawnProperty(Player currentPlayer) {
-		Property property;
+		Property property = null;
 		Field[] fieldArr = guiController.getFieldController().getFieldArr();
 		String[] pawnedProperty = guiController.getFieldController().pawnedFields(currentPlayer);
 		String result = guiController.requestPlayerChoice("Choose a property to unpawn", pawnedProperty);
@@ -207,7 +207,9 @@ public class BuyController {
 			}
 		}
 		property.setPawned(false);
-
+		currentPlayer.getAccount().withdraw(property.getPawnValue()*(int)(property.getPawnValue()*0.10));
+		
+		guiController.updatePlayerBalance(currentPlayer.getGuiId(), (property.getPawnValue()*(int)(property.getPawnValue()*0.10)));
 	}
 
 
