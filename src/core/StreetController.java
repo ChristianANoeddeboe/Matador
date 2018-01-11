@@ -31,11 +31,11 @@ public class StreetController {
 			if(currentPlayer.getAccount().canAfford(street.getBuyValue())) {
 
 				// Prompt the player for a choice
-				String[] choices = {"Yes", "No"};
-				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
+				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+street.getName(), choices);
 				
 				// Check if choice is Yes
-				if(result.equals("Yes")) {
+				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
 					
 					// Initialize buyController
 					BuyController buyController = new BuyController(currentPlayer, street);
@@ -55,7 +55,7 @@ public class StreetController {
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
 					// Show information to player
-					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
+					guiController.writeMessage(PropertiesIO.getTranslation("streetlandedon")+street.getOwner().getName() + PropertiesIO.getTranslation("streetlandedon2")+street.getRentValue());
 					// Withdraw rentValue from the player
 					currentPlayer.getAccount().withdraw(street.getRentValue());
 					
@@ -69,14 +69,14 @@ public class StreetController {
 					
 				}
 				else { // Can't afford
-					guiController.writeMessage("You cannot afford the rent, you have to pawn or sell something");
+					guiController.writeMessage(PropertiesIO.getTranslation("streetcantafford"));
 					// Initialize the SalesController
 					SalesController salesController = new SalesController(currentPlayer);
 					
 					// Run cannotAfford method
 					boolean response = salesController.cannotAfford(street.getRentValue());
 					if(response) {
-						guiController.writeMessage("You can now pay the rent of "+street.getRentValue());
+						guiController.writeMessage(PropertiesIO.getTranslation("streetcanpayrent")+ " "+street.getRentValue());
 						
 						// Withdraw rentValue from the player
 						currentPlayer.getAccount().withdraw(street.getRentValue());
