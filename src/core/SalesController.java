@@ -38,16 +38,20 @@ public class SalesController {
 			}
 			
 			// Make array to hold options
-			String[] options = new String[2];
+			String[] temp = new String[2];
 			int counter = 0;
 			// Check if the streets array is empty (There will always be one due to the Return Option)
 			if(streets.length > 1) { 
-				options[counter] = "Sell Houses";
+				temp[counter] = "Sell Houses";
 				counter++;
 			}
 			// Check if the properties array is empty (There will always be one due to the Return Option)
 			if(properties.length > 1) {
-				options[counter] = "Pawn Property";
+				temp[counter] = "Pawn Property";
+			}
+			String[] options = new String[counter];
+			for(int i = 0; i < options.length; i++) {
+				options[i] = temp[i];
 			}
 			
 			// Ask user for choice
