@@ -5,14 +5,16 @@ package core;
  *
  */
 public class BreweryController {
-	private int id, totalFaceValue;
+	private int totalFaceValue;
 	private Brewery brewery;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
+	private Field[] fields;
 	public BreweryController(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
 		this.brewery = (Brewery) fields[currentPlayer.getEndPosition()];
 		this.totalFaceValue = totalFaceValue;
+		this.fields = fields;
 	}
 	
 	/**
@@ -35,12 +37,7 @@ public class BreweryController {
 			if(brewery.getOwner() == currentPlayer) { // Field is owned by the same player
 				
 			}else {
-				int rentPrice = 0;
-				if(getOwnedBrewery() == 2) {
-					rentPrice = 200*totalFaceValue;
-				}else {
-					rentPrice = 100*totalFaceValue;
-				}
+				int rentPrice = brewery.getRentValue()*totalFaceValue;
 				//We check if the landing player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					guiController.writeMessage("You landed on.."+brewery.getName() + "..'s field and have to pay.."+brewery.getRentValue()+" to "+brewery.getOwner().getName());
@@ -56,26 +53,6 @@ public class BreweryController {
 			}
 
 		}
-	}
-	/**
-	 * A method to check how many brewery a player owns
-	 * @return 1 or 2 depending on how many brewery are owned by the same player
-	 */
-	private int getOwnedBrewery() {
-		if(id == 12) {
-			if(brewery.getOwner() == brewery.getOwner()) {
-				return 2;
-			}else {
-				return 1;
-			}
-		}else if(id == 28) {
-			if(brewery.getOwner() == brewery.getOwner()) {
-				return 2;
-			}else {
-				return 1;
-			}
-		}
-		return 1;
 	}
 }
 
