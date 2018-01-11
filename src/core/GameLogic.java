@@ -90,7 +90,10 @@ public class GameLogic {
 						findLogic(currentPlayer, diceCup);
 						currentPlayer.setMoved(false);
 					}
-
+					if(currentPlayer.isBanktrupt()) {
+						return true;
+					}
+					
 					return false;
 				}
 				case "Buy house/hotel" : {

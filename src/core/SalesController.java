@@ -31,7 +31,7 @@ public class SalesController {
 			String[] properties = fieldcontroller.propertiesToPawn(currentPlayer); // Get an array of properties we can pawn
 			
 			 // Check if the Player has anything to sell, if not they go bankrupt.
-			if(streets.length == 1 && properties.length == 1 && currentPlayer.getAccount().getBalance() < value) {
+			if(streets.length == 0 && properties.length == 0 && currentPlayer.getAccount().getBalance() < value) {
 				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
 				currentPlayer.setBanktrupt(true);
 				return false;
@@ -41,19 +41,22 @@ public class SalesController {
 			String[] temp = new String[2];
 			int counter = 0;
 			// Check if the streets array is empty (There will always be one due to the Return Option)
-			if(streets.length > 1) { 
+			if(streets.length > 0) { 
 				temp[counter] = "Sell Houses";
 				counter++;
 			}
 			// Check if the properties array is empty (There will always be one due to the Return Option)
-			if(properties.length > 1) {
+			if(properties.length > 0) {
 				temp[counter] = "Pawn Property";
 			}
+			System.out.println(streets.length+" street length");
+			System.out.println(properties.length+" properties length");
 			String[] options = new String[counter];
-			for(int i = 0; i < options.length; i++) {
+			for(int i = 0; i <= options.length; i++) {
 				options[i] = temp[i];
 			}
-			
+			System.out.println(options.length+ "len");
+			System.out.println(counter + "counter");
 			// Ask user for choice
 			String result = guiController.requestPlayerChoice("What do you wish to do?", options);
 			
