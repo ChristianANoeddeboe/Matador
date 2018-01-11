@@ -27,7 +27,7 @@ public class TaxController {
 		if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")))) {
 			currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-			guiController.writeMessage(PropertiesIO.getTranslation("statetaxpaymentstr"));
+			guiController.writeMessage(PropertiesIO.getTranslation("statetatxpaymentstr"));
 		} 
 		else {
 			guiController.writeMessage(PropertiesIO.getTranslation("statetaxnotpaidstr"));
