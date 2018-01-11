@@ -40,6 +40,10 @@ public class BreweryController {
 					BuyController buyController = new BuyController(currentPlayer, brewery);
 					buyController.buyLogic();
 				}
+
+				else {
+					auctionController.startAuction(currentPlayer, brewery, players);
+				}
 			}
 			else {
 				auctionController.startAuction(currentPlayer, brewery, players);

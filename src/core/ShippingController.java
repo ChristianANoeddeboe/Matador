@@ -51,6 +51,9 @@ public class ShippingController {
 					// Run buyLogic method
 					buyController.buyLogic();
 				}
+				else {
+					auctionController.startAuction(currentPlayer, shipping, players);
+				}
 			}
 			else {
 				// Player cant afford the field, so nothing happens
