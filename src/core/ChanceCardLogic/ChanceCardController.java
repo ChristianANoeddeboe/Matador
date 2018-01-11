@@ -199,6 +199,9 @@ public class ChanceCardController {
         } else {
             guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
             currentPlayer.setMoved(true);
+            if(currentPlayer.getEndPosition() < currentPlayer.getStartPosition() && currentPlayer.getEndPosition() != 0) {
+            	currentPlayer.getAccount().deposit(4000);
+            }
             /*
             if (fields[field] instanceof Property)
                 landOnProperty(fields, currentPlayer);*/
