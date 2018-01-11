@@ -38,7 +38,7 @@ public class GUIController {
 		String playerNames[] = new String[amountOfPlayers];
 		
 		for ( int i = 0 ; i < amountOfPlayers ; i++ ) {
-			String name = guiController.requestStringInput(PropertiesIO.getTranslation("playernames"+i));
+			String name = guiController.requestStringInput(PropertiesIO.getTranslation("playernames")+(i+1));
 			if (name.equals(""))
 				name = "player"+(i+1);
 			addPlayer(i, 30000, name);
@@ -232,7 +232,7 @@ public class GUIController {
 	 * @return int
 	 */
 	public int requestNumberOfPlayers() {
-		int input = gui.getUserInteger(PropertiesIO.getTranslation("amountofplayers"), 3, 6);
+		int input = gui.getUserInteger("    "+PropertiesIO.getTranslation("amountofplayers"), 3, 6);
 		players_GUI = new GUI_Player[input];
 		return input;
 	}
