@@ -239,10 +239,7 @@ public class BuyController {
 		pawnedProperties[pawnedProperties.length-1] = "Return";
 		
 		String result = guiController.requestPlayerChoice("Choose a property to unpawn", pawnedProperties);
-		if(result.equals("Return")) {
-			
-		}
-		else {
+		if(!result.equals("Return")) {
 			for(int i = 0; i < guiController.getFieldController().getFieldArr().length; i++) {
 				if(fieldArr[i].getName().equals(result)) {
 					property = (Property) fieldArr[i];

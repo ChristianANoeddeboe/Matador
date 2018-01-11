@@ -48,6 +48,7 @@ public class SalesController {
 			// Check if the properties array is empty (There will always be one due to the Return Option)
 			if(properties.length > 0) {
 				temp[counter] = "Pawn Property";
+				counter++;
 			}
 			System.out.println(streets.length+" street length");
 			System.out.println(properties.length+" properties length");
