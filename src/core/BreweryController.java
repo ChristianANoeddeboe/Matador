@@ -9,12 +9,16 @@ public class BreweryController {
 	private Brewery brewery;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
+	private AuctionController auctionController;
 	private Field[] fields;
-	public BreweryController(Player currentPlayer, int totalFaceValue, Field[] fields) {
+	private Player[] players;
+	public BreweryController(Player currentPlayer, int totalFaceValue, Field[] fields, Player[] players) {
 		this.currentPlayer = currentPlayer;
 		this.brewery = (Brewery) fields[currentPlayer.getEndPosition()];
 		this.totalFaceValue = totalFaceValue;
 		this.fields = fields;
+		this.players = players;
+		auctionController = new AuctionController();
 	}
 	
 	/**
@@ -38,7 +42,7 @@ public class BreweryController {
 				}
 			}
 			else {
-				//Player cannot afford field
+				auctionController.startAuction(currentPlayer, brewery, players);
 			}
 		}
 		else{
