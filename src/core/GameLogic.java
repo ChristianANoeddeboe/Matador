@@ -91,7 +91,7 @@ public class GameLogic {
 						resolveField(currentPlayer, diceCup);
 						currentPlayer.setMoved(false);
 					}
-					if(currentPlayer.isBanktrupt()) {
+					if(currentPlayer.isBanktrupt() || currentPlayer.isPrison()) {
 						return true;
 					}
 					
