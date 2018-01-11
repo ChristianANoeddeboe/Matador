@@ -134,12 +134,12 @@ public class SalesController {
 		for(int i = 0; i<temp.length;i++) {
 			properties[i] = temp[i];
 		}
-		properties[properties.length-1] = "Return";
+		properties[properties.length-1] = PropertiesIO.getTranslation("returnbutton");
 		// Returns false if the player owns no properties to pawn
 		
 		// Prompts the user for a choice
-		String response = guiController.requestPlayerChoice("Please choose a property to pawn: ", properties);
-		if(response.equals("Return")) {
+		String response = guiController.requestPlayerChoice(PropertiesIO.getTranslation("pawnpick"), properties);
+		if(response.equals(PropertiesIO.getTranslation("returnbutton"))) {
 			return true;
 		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
@@ -158,7 +158,7 @@ public class SalesController {
 				
 				// Send all updates to GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				guiController.writeMessage("You have pawned "+property.getName()+" for "+property.getPawnValue());
+				guiController.writeMessage(PropertiesIO.getTranslation("pawnstr")+property.getName()+" for "+property.getPawnValue());
 			}
 		}
 		return true;
