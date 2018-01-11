@@ -11,14 +11,18 @@ public class StreetController {
 	private Street street;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
+	private AuctionController auctionController;
+	private Player[] players;
 	/**
 	 * Constructor for normal logic
 	 * @param currentPlayer
 	 * @param field
 	 */
-	public StreetController(Player currentPlayer, Field field) {
+	public StreetController(Player currentPlayer, Field field, Player[] players) {
 		this.currentPlayer = currentPlayer;
 		this.street = (Street) field;
+		this.players = players;
+		auctionController = new AuctionController();
 	}
 	/**
 	 * The logic when landing on a normal/property field( a field where you can put houses on)
@@ -43,9 +47,12 @@ public class StreetController {
 					// Run the buyLogic method
 					buyController.buyLogic();
 				}
+				else {
+					auctionController.startAuction(currentPlayer, street, players);
+				}
 			}
-			else {//TODO: Auction?
-				
+			else {
+				auctionController.startAuction(currentPlayer, street, players);
 			}
 		}
 		else{ // The field is owned
@@ -55,7 +62,7 @@ public class StreetController {
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
 					// Show information to player
-					guiController.writeMessage(PropertiesIO.getTranslation("streetlandedon")+street.getOwner().getName() + PropertiesIO.getTranslation("streetlandedon2")+street.getRentValue());
+					guiController.writeMessage(PropertiesIO.getTranslation("streetlandonbuy")+street.getOwner().getName() + PropertiesIO.getTranslation("streetlanddon2")+street.getRentValue());
 					// Withdraw rentValue from the player
 					currentPlayer.getAccount().withdraw(street.getRentValue());
 					

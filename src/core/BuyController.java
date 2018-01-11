@@ -236,13 +236,10 @@ public class BuyController {
 		for(int i = 0; i<temp.length;i++) {
 			pawnedProperties[i] = temp[i];
 		}
-		pawnedProperties[pawnedProperties.length-1] = "Return";
+		pawnedProperties[pawnedProperties.length-1] = PropertiesIO.getTranslation("returnbutton");
 		
-		String result = guiController.requestPlayerChoice("Choose a property to unpawn", pawnedProperties);
-		if(result.equals("Return")) {
-			
-		}
-		else {
+		String result = guiController.requestPlayerChoice(PropertiesIO.getTranslation("unpawnpick"), pawnedProperties);
+		if(!result.equals(PropertiesIO.getTranslation("returnbutton"))) {
 			for(int i = 0; i < guiController.getFieldController().getFieldArr().length; i++) {
 				if(fieldArr[i].getName().equals(result)) {
 					property = (Property) fieldArr[i];
