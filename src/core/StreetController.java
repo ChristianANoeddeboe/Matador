@@ -13,8 +13,8 @@ public class StreetController {
 	private GUIController guiController = GUIController.getInstance();
 	/**
 	 * Constructor for normal logic
-	 * @param id
 	 * @param currentPlayer
+	 * @param field
 	 */
 	public StreetController(Player currentPlayer, Field field) {
 		this.currentPlayer = currentPlayer;
@@ -22,13 +22,10 @@ public class StreetController {
 	}
 	/**
 	 * The logic when landing on a normal/property field( a field where you can put houses on)
-	 * @param currentPlayer
-	 * @return
 	 */
 	protected void logic() {
-		
 		// Check if field is owned
-		if(street.getOwner() == null) { 
+		if(street.getOwner() == null) {  
 			// Check if we can afford it
 			if(currentPlayer.getAccount().canAfford(street.getRentValue())) {
 				
@@ -50,7 +47,7 @@ public class StreetController {
 				
 			}
 		}
-		else{
+		else{ // The field is owned
 			
 			// Check if the player landing there is the owner itself
 			if(street.getOwner() == currentPlayer) { 
@@ -71,7 +68,7 @@ public class StreetController {
 					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 					
 				}
-				else {
+				else { // Can't afford
 					// Initialize the SalesController
 					SalesController salesController = new SalesController(currentPlayer);
 					
