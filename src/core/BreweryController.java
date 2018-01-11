@@ -43,10 +43,9 @@ public class BreweryController {
 		}
 		else{
 			// Field is owned by the player
-			if(brewery.getOwner() == currentPlayer) { 
+			if(brewery.getOwner() == currentPlayer || brewery.isPawned()) { 
 				
-			}
-			else {
+			}else {
 				// Set the rentPrice
 				int rentPrice = brewery.getRentValue()*totalFaceValue;
 				
@@ -65,8 +64,7 @@ public class BreweryController {
 					// Send updates to the GUI
 					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				}
-				else { 
+				}else { 
 					guiController.writeMessage("You cannot afford the rent, you have to pawn or sell something");
 					// Initialize the SalesController
 					SalesController salesController = new SalesController(currentPlayer);
@@ -85,8 +83,8 @@ public class BreweryController {
 						// Sends updates to GUIController
 						guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
 						guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-					}
-					else {
+					}else {
+						
 					}
 				}
 			}

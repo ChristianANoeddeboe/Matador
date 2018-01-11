@@ -25,6 +25,9 @@ public class PrisonController {
 		this.chanceCardController = chanceCardController;
 	}
 
+	/**
+	 * Determines if the player is visiting prison, in prison or about to be sent to prison.
+	 */
 	public void logic() {
 		int pos = currentPlayer.getEndPosition();
 		if (pos == 10 && !currentPlayer.isPrison()) {
@@ -34,13 +37,13 @@ public class PrisonController {
 		}
 	}
 
+	/**
+	 * basic logic for the player, gets an input, and selects the method to use.
+	 * @param currentPlayer the player who will choose an action.
+	 */
 	public void prison(Player currentPlayer) {
-		int state = 0;
-		if (currentPlayer.isPrison()) {
-			state = 1;
-		}
-		String choice = getPlayerChoice(state);
-		if (choice.equals(PropertiesIO.getTranslation("prisonchoiceinprison"))) {
+		String choice = getPlayerChoice();
+		if (choice.equals(PropertiesIO.getTranslation("throwdice"))) {
 			rollJailDice(currentPlayer);
 		} else if (choice.equals(PropertiesIO.getTranslation("prisonchoice1"))) {
 			payFine(currentPlayer);
@@ -51,12 +54,20 @@ public class PrisonController {
 		}
 	}
 
+	/**
+	 * Jails the player.
+	 * @param currentPlayer the player to be moved and jailed.
+	 */
 	public void jailPlayer(Player currentPlayer) {
 		guiController.jailPlayer(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), 10);
 		currentPlayer.setEndPosition(10);
 		currentPlayer.setPrison(true);
 	}
 
+	/**
+	 * Pays 1000 to release the player from prison.
+	 * @param currentPlayer the playere to be released
+	 */
 	public void payFine(Player currentPlayer) {
 		currentPlayer.getAccount().withdraw(1000);
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
@@ -66,6 +77,10 @@ public class PrisonController {
 		}
 	}
 
+	/**
+	 * Uses a prison card for the player.
+	 * @param currentPlayer the player to be released from prison.
+	 */
 	public void usePrisonCard(Player currentPlayer) {
 		chanceCardController.putPrisonCardInDeck();
 		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
@@ -86,6 +101,10 @@ public class PrisonController {
 		guiController.showDice(diceCup);
 	}
 
+	/**
+	 * Rolls the dice in the jail and releases him, if he gets a pair.
+	 * @param currentPlayer the player to roll for.
+	 */
 	public void rollJailDice(Player currentPlayer) {
 		diceCup.roll();
 		guiController.showDice(diceCup);
@@ -100,41 +119,41 @@ public class PrisonController {
 		}
 	}
 
-	public String getPlayerChoice(int state) {
+	/**
+	 * Creates a menu with valid choices for the player.
+	 * @return String with the text the player choose.
+	 */
+	public String getPlayerChoice() {
 		SalesController salesController = new SalesController(currentPlayer);
 		String choices = "";
 		String[] choiceArr;
-		switch (state) {
-			case 0:
-				if (currentPlayer.getAccount().canAfford(1000) || currentPlayer.getPrisontries() == 3) {
-					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
-				}
-				if (currentPlayer.getPrisonCard() > 0) {
-					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice2");
-				}
-				choices = choices + "," + PropertiesIO.getTranslation("prisongoto");
-				if (choices.startsWith(",")) choices = choices.substring(1);
-				choiceArr = choices.split(",");
-				choices = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisonlandgotomessage"), choiceArr);
-			case 1:
-				if (currentPlayer.getPrisontries() < 3) {
-					System.out.println(currentPlayer.getPrisontries());
-					choices = choices + "," + PropertiesIO.getTranslation("throwdice");
-				}
-				if (currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() > 0) {
-					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
-				}
-				if (currentPlayer.getPrisonCard() > 0) {
-					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice2");
-				}
-				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
-					salesController.cannotAfford(1000);
-				}
-				if (choices.startsWith(",")) choices = choices.substring(1);
-				choiceArr = choices.split(",");
-				return guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisongenericmessage"), choiceArr);
-			default:
-				return null;
+		if (currentPlayer.isPrison()) {
+			if (currentPlayer.getPrisontries() < 3) {
+				choices = choices + "," + PropertiesIO.getTranslation("throwdice");
+			}
+			if (currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 0 || currentPlayer.getPrisontries() == 3) {
+				choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
+			}
+			if (currentPlayer.getPrisonCard() > 0) {
+				choices = choices + "," + PropertiesIO.getTranslation("prisonchoice2");
+			}
+			while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
+				salesController.cannotAfford(1000);
+			}
+			if (choices.startsWith(",")) choices = choices.substring(1);
+			choiceArr = choices.split(",");
+			return guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisongenericmessage"), choiceArr);
+		} else {
+			if (currentPlayer.getAccount().canAfford(1000) || currentPlayer.getPrisontries() == 3) {
+				choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
+			}
+			if (currentPlayer.getPrisonCard() > 0) {
+				choices = choices + "," + PropertiesIO.getTranslation("prisonchoice2");
+			}
+			choices = choices + "," + PropertiesIO.getTranslation("prisongoto");
+			if (choices.startsWith(",")) choices = choices.substring(1);
+			choiceArr = choices.split(",");
+			return guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisonlandgotomessage"), choiceArr);
 		}
 	}
 }
