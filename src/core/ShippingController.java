@@ -73,6 +73,7 @@ public class ShippingController {
 					
 					// Send updates to GUIController
 					guiController.updatePlayerBalance(shipping.getOwner().getGuiId(), shipping.getOwner().getAccount().getBalance());
+					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 					
 				}
 				else { // We can't afford landing here
