@@ -27,8 +27,9 @@ public class StreetController {
 		// Check if field is owned
 		if(street.getOwner() == null) {  
 			// Check if we can afford it
-			if(currentPlayer.getAccount().canAfford(street.getRentValue())) {
-				
+
+			if(currentPlayer.getAccount().canAfford(street.getBuyValue())) {
+
 				// Prompt the player for a choice
 				String[] choices = {"Yes", "No"};
 				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+street.getName(), choices);
@@ -53,14 +54,12 @@ public class StreetController {
 			if(street.getOwner() == currentPlayer) { 
 			}
 			else {
-				System.out.println(currentPlayer.getAccount().getBalance() + currentPlayer.getName());
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
 					// Show information to player
 					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 					// Withdraw rentValue from the player
 					currentPlayer.getAccount().withdraw(street.getRentValue());
-					System.out.println(currentPlayer.getAccount().getBalance() + currentPlayer.getName() + street.getRentValue() + street.getBuyValue());
 					
 					// Deposit rentValue to the owner
 					street.getOwner().getAccount().deposit(street.getRentValue());
