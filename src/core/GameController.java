@@ -1,10 +1,10 @@
 package core;
 
-
 public class GameController {
 	private GUIController guiController;
 	private PlayerController playerController;
 	private GameLogic gameLogic;
+	private PropertiesIO properties;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
@@ -15,7 +15,7 @@ public class GameController {
 	public GameController() {
 		guiController = GUIController.getInstance();
 		playerController = new PlayerController();
-		gameLogic = new GameLogic();		
+		gameLogic = new GameLogic();
 	}
 
 	public void prepareGame() {
