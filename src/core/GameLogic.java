@@ -15,6 +15,7 @@ public class GameLogic {
 	private FieldController fieldController;
 	private ChanceCardController cardController;
 	private PlayerController playerController;
+	private TradeController tradeController;
 	/**
 	 * Constructor for gamelogic
 	 */
@@ -22,7 +23,7 @@ public class GameLogic {
 		guiController = guiController.getInstance();
 		cardController = new ChanceCardController();
 		diceCup = new DiceCup(2);
-
+		tradeController = new TradeController();
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
@@ -66,6 +67,7 @@ public class GameLogic {
 			if(fieldController.pawnedFields(currentPlayer).length > 0) {
 				choicesArr[counter++] = "Unpawn property";
 			}
+			choicesArr[counter++] = "Trade";
 			
 			//Move to new array
 			String choices[] = new String[counter];
@@ -123,6 +125,10 @@ public class GameLogic {
 				case "Unpawn property":{
 					buyController.unPawnProperty();
 					return false;
+				}
+
+				case "Trade": {
+					tradeController.startTrade(currentPlayer, fieldController, playerController.getPlayers());
 				}
 	
 				}
