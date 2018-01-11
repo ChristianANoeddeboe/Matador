@@ -6,7 +6,7 @@ package core;
 public class Player{
 	private String name;
 	private Account account;
-	private boolean isPrisoned, bankrupt,startRound, rolled;
+	private boolean isPrisoned, bankrupt,startRound, rolled, isMoved;
 	private int prisonCard;
 	private int guiId;
 	private int startPosition;
@@ -28,6 +28,7 @@ public class Player{
 		this.name = name;
 		this.account = new Account();
 		this.isPrisoned = false;
+		this.isMoved = false;
 		this.bankrupt = false;
 		this.rolled = false;
 		this.startRound = true;
@@ -130,5 +131,13 @@ public class Player{
 	
 	public void setRolled(boolean rolled) {
 		this.rolled = rolled;
+	}
+	
+	public boolean isMoved() {
+		return isMoved;
+	}
+	
+	public void setMoved(boolean isMoved) {
+		this.isMoved = isMoved;
 	}
 }

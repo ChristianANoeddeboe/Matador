@@ -86,8 +86,10 @@ public class GameLogic {
 					
 					findLogic(currentPlayer, diceCup);
 					
-					if(currentPlayer.isBanktrupt())
-						return true;
+					if(currentPlayer.isMoved()) {
+						findLogic(currentPlayer, diceCup);
+						currentPlayer.setMoved(false);
+					}
 					
 					return false;
 				}
