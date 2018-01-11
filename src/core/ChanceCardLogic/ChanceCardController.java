@@ -198,8 +198,10 @@ public class ChanceCardController {
             guiController.teleport(currentPlayer.getGuiId(), currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         } else {
             guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+            currentPlayer.setMoved(true);
+            /*
             if (fields[field] instanceof Property)
-                landOnProperty(fields, currentPlayer);
+                landOnProperty(fields, currentPlayer);*/
         }
     }
 
@@ -227,7 +229,10 @@ public class ChanceCardController {
         }
         guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+        currentPlayer.setMoved(true);
+        /*
         landOnProperty(fields, currentPlayer);
+        */
     }
 
     private void grantCard (Player currentPlayer,Field[] fields) {
@@ -274,8 +279,10 @@ public class ChanceCardController {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
         currentPlayer.setEndPosition(currentPlayer.getEndPosition() - amountOfSteps);
         guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
+        currentPlayer.setMoved(true);
+        /*
         if (fields[currentPlayer.getEndPosition()] instanceof Property)
-            landOnProperty(fields, currentPlayer);
+            landOnProperty(fields, currentPlayer);*/
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
