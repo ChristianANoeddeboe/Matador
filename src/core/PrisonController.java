@@ -115,7 +115,7 @@ public class PrisonController {
 			currentPlayer.setPrison(false);
 			currentPlayer.setPrisontries(0);
 		} else {
-			guiController.writeMessage(PropertiesIO.getTranslation("prisonpairrollnegative"+(3-currentPlayer.getPrisontries())));
+			guiController.writeMessage(PropertiesIO.getTranslation("prisonroll")+(3-currentPlayer.getPrisontries()));
 		}
 	}
 
