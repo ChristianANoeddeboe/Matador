@@ -110,7 +110,7 @@ public class ChanceCardController {
         //SAVE VERSION OF PRISONCARD
         prisonCard = (PrisonCard) chanceCardArray[0];
         for (int i = 0 ; i < chanceCardArray.length ; i++) {
-        	chanceCardDeck.push(chanceCardArray[i]);
+        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
         }
         
     }

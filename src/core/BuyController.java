@@ -109,14 +109,41 @@ public class BuyController {
 	 */
 	private void breweryBuyLogic() {
 		Brewery brewery = (Brewery) field;
+		Field[] fields = guiController.getFieldController().getFieldArr();
+		int counter = 0;
 		currentPlayer.getAccount().withdraw(brewery.getBuyValue());
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		guiController.setOwner(currentPlayer.getGuiId(), field.getId());
 		brewery.setOwner(currentPlayer);
+		for (int i = 0; i < fields.length; i++) { // First loop and find out how many we own
+			if(fields[i] instanceof Brewery) {
+				Brewery brewery2 = (Brewery) fields[i];
+				if (brewery2.getOwner() == currentPlayer) {
+					counter++; // Update how many we own
+					for (int j = 0; j < fields.length; j++) {
+						brewery.setRentValue(getBreweryValue(counter)); // Set the value on them all
+					}
+				}
+			}
+		}
 	}
 
 
-
+	/**
+	 * Calculates the price of the brewery fields
+	 * @param i How many we own
+	 * @return The value
+	 */
+	private int getBreweryValue(int i) {
+		switch (i) {
+		case 1:
+			return 100;
+		case 2:
+			return 200;
+		default:
+			return 0;
+		}
+	}
 	/**
 	 * Converts a color to a string
 	 * @param color
