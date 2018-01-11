@@ -1,9 +1,5 @@
 package core;
 
-import java.awt.Color;
-
-import gui_fields.GUI_Jail;
-
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -13,15 +9,17 @@ public class SalesController {
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
 	private FieldController fieldcontroller = guiController.getFieldController();
-	
+	/**
+	 * Constructor for salescontroller
+	 * @param currentPlayer
+	 */
 	public SalesController(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 	
 	/**
 	 * Logic when player cannot afford something
-	 * @param value
-	 * @return
+	 * @param value The value we can't afford
 	 */
 	protected void cannotAfford(int value) {
 		boolean housesToSell = true;
@@ -29,27 +27,28 @@ public class SalesController {
 		
 		// While loop until the player can afford the rent/pay
 		while(currentPlayer.getAccount().getBalance() < value && !currentPlayer.isBanktrupt()) {
-			String[] streets = fieldcontroller.streetsWithHouses(currentPlayer);
-			String[] properties = fieldcontroller.propertiesToPawn(currentPlayer);
-			if(streets.length <= 0 && properties.length <= 0) {
+			String[] streets = fieldcontroller.streetsWithHouses(currentPlayer); // Get an array of streets with houses
+			String[] properties = fieldcontroller.propertiesToPawn(currentPlayer); // Get an array of properties we can pawn
+			if(streets.length <= 0 && properties.length <= 0) { // We have nothing to pawn, and we can't still afford
 				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
 				currentPlayer.setBanktrupt(true);
 				break;
 			}
+			
 			// Prompts the user for a choice
 			String[] options = null;
 			int counter = 0;
-			if(streets.length > 0) {
+			if(streets.length > 0) { // Check if the streets array is empty
 				options[counter] = "Sell Houses";
 				counter++;
 			}
-			if(properties.length > 0) {
+			if(properties.length > 0) { // Check if property array is empty
 				options[counter] = "Pawn Property";
 			}
 			String result = guiController.requestPlayerChoice("Sell either houses or pawn property", options);
 			
 			// Runs the sellHouse method if chosen
-			if(result.equals("Sell House")) {
+			if(result.equals("Sell Houses")) {
 				housesToSell = sellHouse();
 			}
 			
@@ -68,15 +67,14 @@ public class SalesController {
 	
 	/**
 	 * Logic for selling a house
-	 * @return
+	 * @return a boolean that indicates if we have any houses to sell or not
 	 */
 	protected boolean sellHouse() {
-
 		// Method returns a String array with all fields that the current player owns that haves houses built on them
-		String[] temp = fieldcontroller.streetsWithHouses(currentPlayer);
-		String[] streets = new String[temp.length+1];
+		String[] temp = fieldcontroller.streetsWithHouses(currentPlayer); // A temporary array 
+		String[] streets = new String[temp.length+1]; // A street array that is one size bigger than the previous, because we need the return option
 		for(int i = 0; i<temp.length;i++) {
-			streets[i] = temp[i];
+			streets[i] = temp[i]; // Fill the streets array
 		}
 		streets[streets.length-1] = "Return";
 		// Returns false if there is no fields with houses
@@ -84,11 +82,10 @@ public class SalesController {
 		
 		// Prompts the user for a choice
 		String response = guiController.requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
-		if(response.equals("Return")) {
+		if(response.equals("Return")) { // We can go a menu back
 			return true;
 		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
-			
 			// Finds the field that the player have chosen
 			if(response.equals(fieldcontroller.getFieldArr()[i].getName())) {
 				
@@ -113,7 +110,7 @@ public class SalesController {
 
 	/**
 	 * Logic for pawning a property
-	 * @return
+	 * @return Returns true if we have anything at all to pawn, and false if not
 	 */
 	protected boolean pawnProperty() {
 		
