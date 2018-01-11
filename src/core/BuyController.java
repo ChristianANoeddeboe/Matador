@@ -74,7 +74,7 @@ public class BuyController {
 				if (shipping2.getOwner() == currentPlayer) {
 					counter++; // Update how many we own
 					for (int j = 0; j < fields.length; j++) {
-						shipping2.setCurrentValue(getShippingValue(counter)); // Set the value on them all
+						shipping2.setRentValue(getShippingValue(counter)); // Set the value on them all
 					}
 				}
 			}
