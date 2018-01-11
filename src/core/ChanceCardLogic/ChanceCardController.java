@@ -105,11 +105,9 @@ public class ChanceCardController {
                     break;
             }
         }
-        MoveCard stepsbackcard = (MoveCard) chanceCardArray[29];
-        
         prisonCard = (PrisonCard) chanceCardArray[0];
         for (int i = 0 ; i < chanceCardArray.length ; i++) {
-        	chanceCardDeck.push(stepsbackcard);
+        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
         }
         
     }
