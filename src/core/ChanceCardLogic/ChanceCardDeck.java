@@ -12,7 +12,7 @@ public class ChanceCardDeck {
 	}
 	
 	public void push(ChanceCard j) {
-		stackArray[++top] = j; array out of bounds exception, når fængselskort skal lægges tilbage
+		stackArray[++top] = j;
 	}
 	
 	public ChanceCard bottom() {
