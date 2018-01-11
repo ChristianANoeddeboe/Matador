@@ -315,6 +315,7 @@ public class ChanceCardController {
 
     public void putPrisonCardInDeck () {
         chanceCardDeck.push(prisonCard);
+        System.out.println("YAAAAAY");
     }
 
     private void landOnProperty (Field[] fields, Player currentPlayer) {
