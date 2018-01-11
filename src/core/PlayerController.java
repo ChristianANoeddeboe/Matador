@@ -1,7 +1,7 @@
 package core;
 
 public class PlayerController {
-	Player playerArr[];
+	private Player playerArr[];
 	
 	public PlayerController() {
 		
