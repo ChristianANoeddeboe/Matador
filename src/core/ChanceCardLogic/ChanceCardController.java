@@ -107,10 +107,11 @@ public class ChanceCardController {
                     break;
             }
         }
-        //SAVE VERSION OF PRISONCARD
+        MoveCard stepsbackcard = (MoveCard) chanceCardArray[29];
+        
         prisonCard = (PrisonCard) chanceCardArray[0];
         for (int i = 0 ; i < chanceCardArray.length ; i++) {
-        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
+        	chanceCardDeck.push(stepsbackcard);
         }
         
     }
@@ -201,6 +202,7 @@ public class ChanceCardController {
             currentPlayer.setMoved(true);
             if(currentPlayer.getEndPosition() < currentPlayer.getStartPosition() && currentPlayer.getEndPosition() != 0) {
             	currentPlayer.getAccount().deposit(4000);
+            	guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
             }
             /*
             if (fields[field] instanceof Property)
