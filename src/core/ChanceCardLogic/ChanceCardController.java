@@ -195,7 +195,7 @@ public class ChanceCardController {
 
         //if move to prisonfield
         if (drawnChanceCard.getId() == 2 && drawnChanceCard.getId() == 3) {
-            guiController.teleport(currentPlayer.getGuiId(), field, currentPlayer.getEndPosition());
+            guiController.teleport(currentPlayer.getGuiId(), currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         } else {
             if (fields[field] instanceof Property)
                 landOnProperty(fields, currentPlayer);
