@@ -110,7 +110,7 @@ public class ChanceCardController {
         //SAVE VERSION OF PRISONCARD
         prisonCard = (PrisonCard) chanceCardArray[0];
         for (int i = 0 ; i < chanceCardArray.length ; i++) {
-        	chanceCardDeck.push(chanceCardArray[i]);
+        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
         }
         
     }
@@ -198,14 +198,19 @@ public class ChanceCardController {
             guiController.teleport(currentPlayer.getGuiId(), currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         } else {
             guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+            currentPlayer.setMoved(true);
+            if(currentPlayer.getEndPosition() < currentPlayer.getStartPosition() && currentPlayer.getEndPosition() != 0) {
+            	currentPlayer.getAccount().deposit(4000);
+            }
+            /*
             if (fields[field] instanceof Property)
-                landOnProperty(fields, currentPlayer);
+                landOnProperty(fields, currentPlayer);*/
         }
     }
 
     private void moveShippingCard (Player currentPlayer, Field[] fields) {
+        currentPlayer.setStartPosition(currentPlayer.getEndPosition());
         if (currentPlayer.getEndPosition() == 2) {
-            currentPlayer.setStartPosition(currentPlayer.getEndPosition());
             currentPlayer.setEndPosition(5);
         }
 
@@ -227,7 +232,10 @@ public class ChanceCardController {
         }
         guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+        currentPlayer.setMoved(true);
+        /*
         landOnProperty(fields, currentPlayer);
+        */
     }
 
     private void grantCard (Player currentPlayer,Field[] fields) {
@@ -272,10 +280,14 @@ public class ChanceCardController {
 
     private void stepsBackCard (Player currentPlayer, int amountOfSteps, Field[] fields) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+        if((currentPlayer.getEndPosition() - amountOfSteps) < 0)
+        	currentPlayer.setEndPosition(39);
         currentPlayer.setEndPosition(currentPlayer.getEndPosition() - amountOfSteps);
         guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
+        currentPlayer.setMoved(true);
+        /*
         if (fields[currentPlayer.getEndPosition()] instanceof Property)
-            landOnProperty(fields, currentPlayer);
+            landOnProperty(fields, currentPlayer);*/
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
