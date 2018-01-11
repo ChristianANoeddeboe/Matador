@@ -30,7 +30,7 @@ public class TaxController {
 		if (currentPlayer.getAccount().canAfford(2000)) {
 			currentPlayer.getAccount().withdraw(2000);
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-			guiController.writeMessage("Du betalte 2000 i statsskat");
+			guiController.writeMessage(PropertiesIO.getTranslation("statetaxpaymentstr"));
 		} 
 		else {
 			guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
