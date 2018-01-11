@@ -1,7 +1,4 @@
 package core;
-
-import gui_main.GUI;
-
 /**
  * 
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -27,19 +24,19 @@ public class TaxController {
 	 * @return depends on outcome
 	 */
 	protected void taxLogic38() {
-		if (currentPlayer.getAccount().canAfford(2000)) {
-			currentPlayer.getAccount().withdraw(2000);
+		if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")))) {
+			currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			guiController.writeMessage(PropertiesIO.getTranslation("statetaxpaymentstr"));
 		} 
 		else {
-			guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
+			guiController.writeMessage(PropertiesIO.getTranslation("statetaxnotpaidstr"));
 			SalesController salesController = new SalesController(currentPlayer);
-			boolean response = salesController.cannotAfford(2000); // We can't afford it
+			boolean response = salesController.cannotAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue"))); // We can't afford it
 			if(response) {
-				currentPlayer.getAccount().withdraw(2000);
+				currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				guiController.writeMessage("Du betalte 2000 i statsskat");
+				guiController.writeMessage(PropertiesIO.getTranslation("statetatxpaymentstr"));
 			}
 			else {
 				
@@ -57,7 +54,7 @@ public class TaxController {
 		int propertyvalue = 0;
 		SalesController salesController = new SalesController(currentPlayer);
 		String[] choices = {"4000", "10%"};
-		String choice = guiController.requestPlayerChoiceButtons("Vil du betale 10% inkomst skat eller 4000", choices);
+		String choice = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("taxoptions"), choices);
 		if (choice.equals("10%")) { // we calulate 10% of income tax
 			for (int i = 0; i < fields.length; i++) { // looping over all fields
 				if (fields[i] instanceof Property) { // Only dealing with fields that are property -> can be owned
@@ -76,31 +73,30 @@ public class TaxController {
 			if(currentPlayer.getAccount().canAfford(value)) { // Check if we can afford
 				currentPlayer.getAccount().withdraw(value);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				guiController.writeMessage("10% income tax amounted to a total of.."+ value);
+				guiController.writeMessage(PropertiesIO.getTranslation("statetaxtotal")+ value);
 			}else {
-				guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
+				guiController.writeMessage(PropertiesIO.getTranslation("incometaxcantafford"));
 				boolean response = salesController.cannotAfford(value); // We can't afford it
 				if(response) {
 					currentPlayer.getAccount().withdraw(value);
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-					guiController.writeMessage("10% income tax amounted to a total of.."+ value);
+					guiController.writeMessage(PropertiesIO.getTranslation("statetaxtotal")+ value);
 				}
 				else {
 				}
 			}
 			
 		}else{ // 4000
-			if (currentPlayer.getAccount().canAfford(4000)) { // check if player can afford 4000
-				currentPlayer.getAccount().withdraw(4000);
+			if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")))) { // check if player can afford 4000
+				currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")));
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
 			else {
-				guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
-				boolean response = salesController.cannotAfford(4000); // We can't afford it
-				System.out.println("KIG HER:"+response);
+				guiController.writeMessage(PropertiesIO.getTranslation("incometaxcantafford"));
+				boolean response = salesController.cannotAfford(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue"))); // We can't afford it
 				if(response) {
-					guiController.writeMessage("You can now afford the tax");
-					currentPlayer.getAccount().withdraw(4000);
+					guiController.writeMessage(PropertiesIO.getTranslation("incometaxnowavailable"));
+					currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")));
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}
 				else {
