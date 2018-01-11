@@ -24,6 +24,10 @@ public class GUIController {
 		return guiController;
 	}
 
+	/**
+	 * Prepares the board. Lets the players choose amount of players and player names.
+	 * @return String array of the players names.
+	 */
 	public String[] setupBoard() {
 		fieldController = new FieldController();
 		Field fields[] = fieldController.getFieldArr();
@@ -44,8 +48,12 @@ public class GUIController {
 		return playerNames;
 	}
 
+	/**
+	 * Creates the GUI_Field objects necessary information to create the board.
+	 * @param fields the array of fields objects, with the necessary information.
+	 */
 	public void createFields(Field[] fields) {
-		for (int i = 0 ; i < fields_GUI.length ; i++) {
+		for (int i = 0 ; i < fields_GUI.length ; i++) { //Iterates over every field, and creates the GUI_Field objects, corrosponding to their Field part.
 			if(fields[i] instanceof Start) {
 				Start start = (Start) fields[i];
 				fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
@@ -124,16 +132,18 @@ public class GUIController {
 	 * @param oldPos the position the player is currently on.
 	 */
 	public void updatePlayerPosition(int id, int newPos, int oldPos) {
-		if (oldPos > newPos) {
+		if (oldPos > newPos) { //Handles if the player moves past start, where his old position will be bigger than the new one.
 			for (int i = oldPos ; i < fields_GUI.length-1 ; i++) {
 				fields_GUI[i].setCar(players_GUI[id], false);
 				fields_GUI[i+1].setCar(players_GUI[id], true);
 				try {
+					//Waits between every step, to simulate player movement.
 					TimeUnit.MILLISECONDS.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
+			//When the player is at the end of the  board, move his position to the start position.
 			fields_GUI[fields_GUI.length-1].setCar(players_GUI[id], false);
 			fields_GUI[0].setCar(players_GUI[id], true);
 			oldPos = 0;
@@ -143,6 +153,7 @@ public class GUIController {
 				e.printStackTrace();
 			}
 		}
+		//Iterates over every field between the players current position and his destination. Moves the player to the every field between them to animate the player walking.
 		for (int i = oldPos ; i < newPos ; i++) {
 			fields_GUI[i].setCar(players_GUI[id], false);
 			fields_GUI[i+1].setCar(players_GUI[id], true);
@@ -325,8 +336,7 @@ public class GUIController {
 			player.setBalance(startBalance);
 		}
 	}
-	
-	
+
 	public FieldController getFieldController() {
 		return fieldController;
 	}
