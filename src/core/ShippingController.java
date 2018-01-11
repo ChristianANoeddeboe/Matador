@@ -60,7 +60,7 @@ public class ShippingController {
 			else { 
 				
 				// We get the field rent/price
-				int rentPrice = shipping.getCurrentValue();
+				int rentPrice = shipping.getBuyValue();
 				
 				// Check if the player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
