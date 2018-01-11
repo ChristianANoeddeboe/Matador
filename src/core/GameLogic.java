@@ -34,7 +34,7 @@ public class GameLogic {
 		int counter = 0;
 		String choicesArr[] = new String[5];
 		if(currentPlayer.isPrison()) {
-			prisonController.inPrisonLogic(currentPlayer);
+			prisonController.prison(currentPlayer);
 			if(!currentPlayer.isPrison()) {
 				updatePos(currentPlayer);
 				
