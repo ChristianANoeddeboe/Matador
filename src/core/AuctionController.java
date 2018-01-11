@@ -1,7 +1,5 @@
 package core;
 
-import gui_fields.GUI_Ownable;
-
 /**
  * Created by magnus
  *
@@ -14,52 +12,63 @@ public class AuctionController {
     private GUIController guiController = GUIController.getInstance();
 
     public AuctionController() {
+        whoHasTheHighestBid = null;
     }
 
     public void startAuction (Player playerNotIncluded, Field field, Player[] players) {
         auctionStatus = true;
         int playersInAuction = 0;
+        Property propertyOnAuction = (Property) field;
+        bidders = new Player[players.length-1];
+        highestBid = propertyOnAuction.getBuyValue();
+
         for (int i = 0; i < players.length; i++) {
             if (!(players[i] == playerNotIncluded))
-                playersInAuction++;
-        }
-        bidders = new Player[playersInAuction];
-        for (int j = 0; j < players.length; j++) {
-            if (!(players[j] == playerNotIncluded))
-                bidders[j] = players[j];
+                if (players[i].getAccount().canAfford(highestBid)) {
+                    playersInAuction++;
+                    bidders[i] = players[i];
+                }
         }
 
-        Street streetOnAuction = (Street) field;
-        highestBid = streetOnAuction.getBuyValue()-1;
+        if (!(playersInAuction == 0)) {
+            guiController.writeMessage("Auction on card: " + field.getName());
 
-        while (auctionStatus == true) {
-            guiController.writeMessage("Auktion på kortet: "+field.getName());
-            //skal måske laves om, måske til en seperat funktion.. I forhold til at spilleren skal havde mulighden for at
-            //tilbage til dont bid
-            for (int i = 0; i < bidders.length; i++) {
-                if (bidders[i].getAccount().canAfford(highestBid+1)) {
-                    switch (guiController.requestPlayerChoiceButtons("It is " + bidders[i].getName() + "'s turn to choose between:",
-                            new String[]{"Bid", "Dont bid"})) {
-                        case "Bid":
-                            int bid = 0;
-                            do {
-                                bid = Integer.parseInt(guiController.requestStringInput("Amount of money to bid:"));
+            while (auctionStatus) {
+                boolean noMoreRounds = true;
+                for (Player bidder : bidders) {
+                    if (!(bidder == whoHasTheHighestBid)) {
+                        if (bidder.getAccount().canAfford(highestBid + 1)) {
+                            switch (guiController.requestPlayerChoiceButtons("Do " + bidder.getName() + " wants to bid?", "yes", "no")) {
+                                case "yes":
+                                    int bid = guiController.requestIntegerInput(bidder.getName() + "Top bid: " + highestBid + " by " + whoHasTheHighestBid.getName() + ", your bid: ");
+                                    if (bid > highestBid) {
+                                        highestBid = bid;
+                                        whoHasTheHighestBid = bidder;
+                                        noMoreRounds = false;
+                                    }
+                                    break;
+                                case "no":
+                                    break;
                             }
-
-                            while (bid > highestBid);
-                            highestBid = bid;
-                            whoHasTheHighestBid = bidders[i];
-                            break;
-                        case "Dont bid":
-                            break;
-                    }
+                        }
+                    } else
+                        guiController.writeMessage("You already have the highest bid XD");
                 }
 
-                else {
-                    guiController.requestPlayerChoiceButtons(bidders[i].getName()+" do not have enough money to bid", "ok");
-                }
+                if (noMoreRounds)
+                    auctionStatus = false;
             }
-        }
 
+            if (!(whoHasTheHighestBid == null)) {
+                wonAuction(propertyOnAuction);
+                guiController.writeMessage(whoHasTheHighestBid.getName() + " had the highest bid on " + propertyOnAuction.getName());
+            } else
+                guiController.writeMessage("No one made a bet. The auction is now closed");
+        }
+    }
+
+    private void wonAuction(Property propertyOnAuction) {
+        whoHasTheHighestBid.getAccount().withdraw(highestBid);
+        propertyOnAuction.setOwner(whoHasTheHighestBid);
     }
 }

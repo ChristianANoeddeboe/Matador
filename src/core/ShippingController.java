@@ -52,7 +52,7 @@ public class ShippingController {
 		else{
 			
 			// Field owned by the player landing on it
-			if(shipping.getOwner() == currentPlayer) { 
+			if(shipping.getOwner() == currentPlayer || shipping.isPawned()) { 
 				// Nothing should happen
 			}
 			
