@@ -94,7 +94,7 @@ public class GUIController {
 	 * @param id id associated with the player.
 	 * @param pos position of the playere.
 	 */
-	public void removePayer(int id, int pos) {
+	public void removePlayer(int id, int pos) {
 		fields_GUI[pos].setCar(players_GUI[id], false);
 		players_GUI[id].setName("TODO Fallit");
 	}
