@@ -56,7 +56,7 @@ public class StreetController {
 				
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
-					
+					// Show information to player
 					guiController.writeMessage("You landed on.."+street.getOwner().getName() + "..'s field and had to pay.."+street.getRentValue());
 					// Withdraw rentValue from the player
 					currentPlayer.getAccount().withdraw(street.getRentValue());
