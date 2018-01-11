@@ -41,7 +41,7 @@ public class AuctionController {
                             if (bidder.getAccount().canAfford(highestBid + 1)) {
                                 switch (guiController.requestPlayerChoiceButtons("Do " + bidder.getName() + " wants to bid?", "yes", "no")) {
                                     case "yes":
-                                        int bid = guiController.requestIntegerInput(bidder.getName() + "Top bid: " + highestBid + ", your bid: ");
+                                        int bid = guiController.requestIntegerInput(bidder.getName() + "'s turn, Top bid: " + highestBid + ", your bid: ");
                                         if (bidder.getAccount().canAfford(bid)) {
                                             if (bid > highestBid) {
                                                 highestBid = bid;
@@ -50,7 +50,7 @@ public class AuctionController {
                                             }
                                         }
                                         else {
-                                            bid = guiController.requestIntegerInput(bidder.getName() + "Too high bid try again, highest bid " + highestBid + ", your bid: ");
+                                            bid = guiController.requestIntegerInput(bidder.getName() + " bet were too high try again, highest bid " + highestBid + ", your bid: ");
                                             if (bid > highestBid) {
                                                 highestBid = bid;
                                                 whoHasTheHighestBid = bidder;
