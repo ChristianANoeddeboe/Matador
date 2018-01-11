@@ -90,6 +90,16 @@ public class GUIController {
 	}
 
 	/**
+	 * Removes a player from the board, and changes his name.
+	 * @param id id associated with the player.
+	 * @param pos position of the playere.
+	 */
+	public void removePayer(int id, int pos) {
+		fields_GUI[pos].setCar(players_GUI[id], false);
+		players_GUI[id].setName("TODO Fallit");
+	}
+
+	/**
 	 * Creates the GUI vehicle for a player.
 	 * @param id the id associated with the player.
 	 * @return object type GUI_Car.
