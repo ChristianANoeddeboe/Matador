@@ -29,9 +29,10 @@ public class GameController {
 	
 	public void playRound() {
 		boolean gameIsLive = true;
-		boolean switchPlayer = true;
+		
 		while(gameIsLive) {
 			for (Player player : playerController.getPlayers()) {
+				boolean switchPlayer = true;
 				do {
 					//Check if game is still live
 					int amountBankrupt = 0;
@@ -56,6 +57,7 @@ public class GameController {
 				guiController.writeMessage(playerController.getPlayers()[i].getName()+" has won the game!");
 			}
 		}
+		System.exit(0);
 	}
 }
 
