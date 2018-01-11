@@ -46,10 +46,10 @@ public class Player{
 		this.prisonCard = prisonCard;
 	}
 	public void addPrisonCard() {
-		this.prisonCard += 1;
+		this.prisonCard++;
 	}
 	public void removePrisonCard() {
-		this.prisonCard -= 1;
+		this.prisonCard--;
 	}
 	public int getGuiId() {
 		return guiId;
