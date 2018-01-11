@@ -197,9 +197,9 @@ public class ChanceCardController {
         if (drawnChanceCard.getId() == 2 && drawnChanceCard.getId() == 3) {
             guiController.teleport(currentPlayer.getGuiId(), currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         } else {
+            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
             if (fields[field] instanceof Property)
                 landOnProperty(fields, currentPlayer);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
     }
 
@@ -207,33 +207,27 @@ public class ChanceCardController {
         if (currentPlayer.getEndPosition() == 2) {
             currentPlayer.setStartPosition(currentPlayer.getEndPosition());
             currentPlayer.setEndPosition(5);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 7) {
             currentPlayer.setEndPosition(15);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
-        if (currentPlayer.getEndPosition() == 17 || currentPlayer.getEndPosition() == 21) {
+        if (currentPlayer.getEndPosition() == 17 || currentPlayer.getEndPosition() == 22) {
             currentPlayer.setEndPosition(25);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 33) {
             currentPlayer.setEndPosition(35);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         }
 
         if (currentPlayer.getEndPosition() == 36) {
             currentPlayer.setEndPosition(5);
-            guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
             currentPlayer.getAccount().deposit(4000);
-            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
         }
-
+        guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+        guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
         landOnProperty(fields, currentPlayer);
-
     }
 
     private void grantCard (Player currentPlayer,Field[] fields) {
@@ -279,7 +273,7 @@ public class ChanceCardController {
     private void stepsBackCard (Player currentPlayer, int amountOfSteps, Field[] fields) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
         currentPlayer.setEndPosition(currentPlayer.getEndPosition() - amountOfSteps);
-        guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
+        guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         if (fields[currentPlayer.getEndPosition()] instanceof Property)
             landOnProperty(fields, currentPlayer);
     }
@@ -322,6 +316,15 @@ public class ChanceCardController {
 
         if (!(property.getOwner() == currentPlayer)) {
             if (!(property.getOwner() == null)) {
+                int currentPlayerBalance = currentPlayer.getAccount().getBalance();
+                if (checkIfAfford(currentPlayer, property.getRentValue())) {
+                    currentPlayer.getAccount().withdraw(property.getRentValue());
+                    property.getOwner().getAccount().deposit(property.getRentValue());
+                } else {
+                    currentPlayer.getAccount().withdraw(currentPlayerBalance);
+                    currentPlayer.setBanktrupt(true);
+                    property.getOwner().getAccount().deposit(currentPlayerBalance);
+                }
                 guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
                 guiController.updatePlayerBalance(property.getOwner().getGuiId(), property.getOwner().getAccount().getBalance());
             } else {
@@ -339,8 +342,8 @@ public class ChanceCardController {
         }
     }
 
-    private void checkIfPlayerCanAfford (Player currentPlayer, int value) {
+    private boolean checkIfAfford (Player currentPlayer, int value) {
         SalesController salesController = new SalesController(currentPlayer);
-        salesController.cannotAfford(value);
+        return salesController.cannotAfford(value);
     }
 }
