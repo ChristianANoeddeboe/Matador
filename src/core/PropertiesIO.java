@@ -11,7 +11,6 @@ import java.util.Properties;
 public class PropertiesIO {
 
     private static Properties translations = new Properties();
-    private static Properties config = new Properties();
 
     /**
      * Translator constructor
@@ -19,8 +18,7 @@ public class PropertiesIO {
      */
     private PropertiesIO () {
         try {
-            translations.load(ClassLoader.getSystemResourceAsStream("translations.properties"));
-            config.load(ClassLoader.getSystemResourceAsStream("config.properties"));
+            translations.load(ClassLoader.getSystemResourceAsStream("config.properties"));
         } catch (FileNotFoundException e) {
             System.out.println("File not found: "+e);
         } catch (IOException e) {
@@ -34,10 +32,6 @@ public class PropertiesIO {
      */
     public static String getTranslation (String toTranslate) {
         return translations.getProperty(toTranslate);
-    }
-
-    public static String getConfig (String toTranslate) {
-        return config.getProperty(toTranslate);
     }
 
 }
