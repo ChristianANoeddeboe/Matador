@@ -47,6 +47,7 @@ public class BreweryController {
 					currentPlayer.getAccount().withdraw(rentPrice);
 					brewery.getOwner().getAccount().deposit(rentPrice);
 					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
+					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}else { //The player can't afford and has to sell something
 					SalesController salesController = new SalesController(currentPlayer);
 					salesController.cannotAfford(rentPrice);
