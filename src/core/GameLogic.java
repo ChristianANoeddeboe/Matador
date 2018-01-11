@@ -26,7 +26,7 @@ public class GameLogic {
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
-		fieldController = guiController.getFieldController();
+		fieldController = guiController.getFieldController(); // TODO:
 		fields =fieldController.getFieldArr();
 		BuyController buyController = new BuyController(currentPlayer);
 		SalesController salesController = new SalesController(currentPlayer);
@@ -42,23 +42,24 @@ public class GameLogic {
 				
 				checkIfExtraRound(currentPlayer);
 				
-				findLogic(currentPlayer, diceCup);
+				resolveField(currentPlayer, diceCup);
 
 				return false;
 			}
 		} else {
 			//Add end turn if player has rolled
-			if(currentPlayer.isRolled())
+			if(currentPlayer.isRolled()) {
 				choicesArr[counter++] = "Afslut tur";
-			
+			}
 			//Add buy house or hotel
 			Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
 			if(buildablestreets.length > 0) {
 				choicesArr[counter++] = "Buy house/hotel";
 			}
 			//Add Roll dice if not already rolled
-			if(!currentPlayer.isRolled())
+			if(!currentPlayer.isRolled()) {
 				choicesArr[counter++] = "Roll dice";
+			}
 			if(fieldController.propertiesToPawn(currentPlayer).length > 0) {
 				choicesArr[counter++] = "Pawn property";	
 			}
@@ -84,10 +85,10 @@ public class GameLogic {
 					
 					checkIfExtraRound(currentPlayer);
 					
-					findLogic(currentPlayer, diceCup);
+					resolveField(currentPlayer, diceCup);
 					
 					if(currentPlayer.isMoved()) {
-						findLogic(currentPlayer, diceCup);
+						resolveField(currentPlayer, diceCup);
 						currentPlayer.setMoved(false);
 					}
 					if(currentPlayer.isBanktrupt()) {
@@ -139,7 +140,7 @@ public class GameLogic {
 	 * @param currentPlayer
 	 * @return A message to the gamecontroller
 	 */
-	protected void findLogic(Player currentPlayer, DiceCup diceCup) {
+	protected void resolveField(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
 		if (fields[id] instanceof Street) { 
 			StreetController streetController = new StreetController(currentPlayer, fields[id]);

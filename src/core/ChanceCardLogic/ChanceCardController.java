@@ -137,8 +137,8 @@ public class ChanceCardController {
     	ChanceCard drawnChanceCard = chanceCardDeck.bottom();
 
     	guiController.writeMessage(drawnChanceCard.getDescription());
-
-        switch (drawnChanceCard.getClass().getSimpleName()) {
+    	//TODO clean up - instanceof
+        switch (drawnChanceCard.getClass().getSimpleName()) { //Aldrig getSimpleName!
             case "PrisonCard":
                 prisonCard(currentPlayer);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
@@ -177,9 +177,9 @@ public class ChanceCardController {
                 break;
         }
         
-        //put card in deck again unless prisoncard.
-        if(!(drawnChanceCard instanceof PrisonCard))
+        if(!(drawnChanceCard instanceof PrisonCard)) {
         	chanceCardDeck.push(drawnChanceCard);
+        }
     }
 
     private void prisonCard (Player currentPlayer) {
@@ -200,9 +200,7 @@ public class ChanceCardController {
             	currentPlayer.getAccount().deposit(4000);
             	guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
             }
-            /*
-            if (fields[field] instanceof Property)
-                landOnProperty(fields, currentPlayer);*/
+           
         }
     }
 
@@ -231,9 +229,7 @@ public class ChanceCardController {
         guiController.updatePlayerPosition(currentPlayer.getGuiId(),currentPlayer.getEndPosition(),currentPlayer.getStartPosition());
         guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
         currentPlayer.setMoved(true);
-        /*
-        landOnProperty(fields, currentPlayer);
-        */
+       
     }
 
     private void grantCard (Player currentPlayer,Field[] fields) {
@@ -283,9 +279,7 @@ public class ChanceCardController {
         currentPlayer.setEndPosition(currentPlayer.getEndPosition() - amountOfSteps);
         guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         currentPlayer.setMoved(true);
-        /*
-        if (fields[currentPlayer.getEndPosition()] instanceof Property)
-            landOnProperty(fields, currentPlayer);*/
+      
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
@@ -325,37 +319,6 @@ public class ChanceCardController {
 
     public void putPrisonCardInDeck () {
         chanceCardDeck.push(prisonCard);
-    }
-
-    private void landOnProperty (Field[] fields, Player currentPlayer) {
-        Property property = (Property) fields[currentPlayer.getEndPosition()];
-
-        if (!(property.getOwner() == currentPlayer)) {
-            if (!(property.getOwner() == null)) {
-                int currentPlayerBalance = currentPlayer.getAccount().getBalance();
-                if (checkIfAfford(currentPlayer, property.getRentValue())) {
-                    currentPlayer.getAccount().withdraw(property.getRentValue());
-                    property.getOwner().getAccount().deposit(property.getRentValue());
-                } else {
-                    currentPlayer.getAccount().withdraw(currentPlayerBalance);
-                    currentPlayer.setBanktrupt(true);
-                    property.getOwner().getAccount().deposit(currentPlayerBalance);
-                }
-                guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-                guiController.updatePlayerBalance(property.getOwner().getGuiId(), property.getOwner().getAccount().getBalance());
-            } else {
-                if (currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
-                    String[] choices = {"Yes", "No"};
-                    String result = guiController.requestPlayerChoiceButtons("Vil du købe..." + property.getName(), choices);
-                    if (result.equals("Yes")) {
-                        currentPlayer.getAccount().withdraw(property.getBuyValue());
-                        property.setOwner(currentPlayer);
-                        guiController.setOwner(currentPlayer.getGuiId(), property.getId());
-                        guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-                    }
-                }
-            }
-        }
     }
 
     private boolean checkIfAfford (Player currentPlayer, int value) {
