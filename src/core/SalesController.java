@@ -16,12 +16,12 @@ public class SalesController {
 	public SalesController(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
-	
-	/**
+
+    /**
 	 * Logic when player cannot afford something
 	 * @param value The value we can't afford
 	 */
-	protected void cannotAfford(int value) {
+	public boolean cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
 		
@@ -32,7 +32,7 @@ public class SalesController {
 			if(streets.length <= 0 && properties.length <= 0) { // We have nothing to pawn, and we can't still afford
 				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
 				currentPlayer.setBanktrupt(true);
-				break;
+				return false;
 			}
 			
 			// Prompts the user for a choice
@@ -61,9 +61,10 @@ public class SalesController {
 			// If the player has no houses to sell, properties to pawn and still cannot afford, the player is declared bankrupt and false is returned
 			if(!housesToSell && !propertyToPawn && currentPlayer.getAccount().getBalance() < value) {
 				currentPlayer.setBanktrupt(true);
-				break;
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	/**
