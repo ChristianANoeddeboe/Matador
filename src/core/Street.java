@@ -12,16 +12,17 @@ public class Street extends Property {
 	private int BuildPrice;
 	private Color colour;
 	/**
-	 * Constructor for normal field logic
+	 * Constructor for street
 	 * @param id
 	 * @param name
+	 * @param description
 	 * @param owner
-	 * @param baseValue
-	 * @param housePrices
+	 * @param buyValue
 	 * @param pawnValue
+	 * @param rentValue
+	 * @param housePrices
 	 * @param buildPrice
 	 * @param colour
-	 * @param description
 	 */
 	public Street(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue, int[] housePrices, int buildPrice, Color colour) {
 		super(id, name, description, owner, buyValue, pawnValue, rentValue);
