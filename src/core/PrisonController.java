@@ -18,6 +18,7 @@ public class PrisonController {
 	 * Constructor for the prisonController.
 	 * @param currentPlayer the player who is to be handled at the moment.
 	 * @param diceCup the diceCup for the project.
+	 * @param chanceCardController
 	 */
 	PrisonController(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
 		this.currentPlayer = currentPlayer;
