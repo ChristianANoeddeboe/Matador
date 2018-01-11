@@ -32,8 +32,16 @@ public class TradeController {
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getName() == response) {
                 Property property = (Property) fields[i];
-                int amountOffered = guiController.requestIntegerInput("Hvor mange penge tilbyder du: ");
-                response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+" accpetere du tilbuddet på "+amountOffered+" for "+property.getName()+"?");
+                int amountOffered = 0;
+                boolean cannotAfford = true;
+                do {
+                	amountOffered = guiController.requestIntegerInput("Hvor mange penge tilbyder du: ");
+                	if(currentPlayer.getAccount().canAfford(amountOffered)) {
+                		cannotAfford = false;
+                	}	
+                } while(cannotAfford);
+                
+                response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+" accpetere du tilbuddet på "+amountOffered+" for "+property.getName()+"?","yes","no");
                 if (response == "yes") {
                     currentPlayer.getAccount().withdraw(amountOffered);
                     property.getOwner().getAccount().deposit(amountOffered);
