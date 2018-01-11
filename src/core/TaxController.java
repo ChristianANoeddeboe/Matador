@@ -32,8 +32,17 @@ public class TaxController {
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			guiController.writeMessage("Du betalte 2000 i statsskat");
 		} else {
+			guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
 			SalesController salesController = new SalesController(currentPlayer);
-			salesController.cannotAfford(2000); // We can't afford it
+			boolean response = salesController.cannotAfford(2000); // We can't afford it
+			if(response) {
+				currentPlayer.getAccount().withdraw(2000);
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+				guiController.writeMessage("Du betalte 2000 i statsskat");
+			}
+			else {
+				
+			}
 		}
 	}
 
@@ -68,7 +77,15 @@ public class TaxController {
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage("10% income tax amounted to a total of.."+ value);
 			}else {
-				salesController.cannotAfford(value); // We can't afford it
+				guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
+				boolean response = salesController.cannotAfford(value); // We can't afford it
+				if(response) {
+					currentPlayer.getAccount().withdraw(value);
+					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+					guiController.writeMessage("10% income tax amounted to a total of.."+ value);
+				}
+				else {
+				}
 			}
 			
 		}else{ // 4000
@@ -76,7 +93,16 @@ public class TaxController {
 				currentPlayer.getAccount().withdraw(4000);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
-			salesController.cannotAfford(4000); // We can't afford it
+			guiController.writeMessage("You cannot afford the tax, you have to sell or pawn something");
+			boolean response = salesController.cannotAfford(4000); // We can't afford it
+			System.out.println("KIG HER:"+response);
+			if(response) {
+				guiController.writeMessage("You can now afford the tax");
+				currentPlayer.getAccount().withdraw(4000);
+				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+			}
+			else {
+			}
 		}
 	}
 
