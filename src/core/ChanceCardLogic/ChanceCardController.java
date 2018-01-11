@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by magnus
  */
 public class ChanceCardController {
-    private PropertiesIO propertiesIO;
     private GUIController guiController;
 
     //Deck to hold cards in randomized order
@@ -16,7 +15,6 @@ public class ChanceCardController {
     private PrisonCard prisonCard;
 
     public ChanceCardController () {
-        propertiesIO = new PropertiesIO("config.properties");
         guiController = GUIController.getInstance();
         chanceCardDeck = new ChanceCardDeck(32);
         initializeChanceCards();
@@ -31,15 +29,15 @@ public class ChanceCardController {
             switch (i) {
                 case 0:
                 case 1:
-                    chanceCardArray[i] = new PrisonCard(i, propertiesIO.getTranslation("chance"+(i+1)));
+                    chanceCardArray[i] = new PrisonCard(i, PropertiesIO.getTranslation("chance"+(i+1)));
                     break;
                 case 2:
                 case 3:
-                    chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)), 10);
+                    chanceCardArray[i] = new MoveCard(i, PropertiesIO.getTranslation("chance"+(i+1)), 10);
                     break;
                 case 4:
                 case 5:
-                    chanceCardArray[i] = new MoveShippingCard(i, propertiesIO.getTranslation("chance"+(i+1)));
+                    chanceCardArray[i] = new MoveShippingCard(i, PropertiesIO.getTranslation("chance"+(i+1)));
                     break;
                 case 6:
                 case 7:
@@ -47,70 +45,71 @@ public class ChanceCardController {
                 case 9:
                 case 10:
                 case 11:
-                    chanceCardArray[i] = new DepositCard(i, propertiesIO.getTranslation("chance"+(i+1)),1000);
+                    chanceCardArray[i] = new DepositCard(i, PropertiesIO.getTranslation("chance"+(i+1)),1000);
                     break;
                 case 12:
-                    chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)),0);
+                    chanceCardArray[i] = new MoveCard(i, PropertiesIO.getTranslation("chance"+(i+1)),0);
                     break;
                 case 13:
-                    chanceCardArray[i] = new DepositCard(i, propertiesIO.getTranslation("chance"+(i+1)),500);
+                    chanceCardArray[i] = new DepositCard(i, PropertiesIO.getTranslation("chance"+(i+1)),500);
                     break;
                 case 14:
-                    chanceCardArray[i] = new DepositCard(i, propertiesIO.getTranslation("chance"+(i+1)),3000);
+                    chanceCardArray[i] = new DepositCard(i, PropertiesIO.getTranslation("chance"+(i+1)),3000);
                     break;
                 case 15:
-                    chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)), 39);
+                    chanceCardArray[i] = new MoveCard(i, PropertiesIO.getTranslation("chance"+(i+1)), 39);
                     break;
                 case 16:
-                    chanceCardArray[i] = new StepsBackCard(i, propertiesIO.getTranslation("chance"+(i+1)),3);
+                    chanceCardArray[i] = new StepsBackCard(i, PropertiesIO.getTranslation("chance"+(i+1)),3);
                     break;
                 case 17:
-                    chanceCardArray[i] = new GrantCard(i, propertiesIO.getTranslation("chance"+(i+1)));
+                    chanceCardArray[i] = new GrantCard(i, PropertiesIO.getTranslation("chance"+(i+1)));
                     break;
                 case 18:
-                    chanceCardArray[i] = new DepositCard(i, propertiesIO.getTranslation("chance"+(i+1)),200);
+                    chanceCardArray[i] = new DepositCard(i, PropertiesIO.getTranslation("chance"+(i+1)),200);
                     break;
                 case 19:
-                    chanceCardArray[i] = new WithdrawCard(i, propertiesIO.getTranslation("chance"+(i+1)),2000);
+                    chanceCardArray[i] = new WithdrawCard(i, PropertiesIO.getTranslation("chance"+(i+1)),2000);
                     break;
                 case 20:
-                    chanceCardArray[i] = new EstateTaxCard(i, propertiesIO.getTranslation("chance"+(i+1)),500,2000);
+                    chanceCardArray[i] = new EstateTaxCard(i, PropertiesIO.getTranslation("chance"+(i+1)),500,2000);
                     break;
                 case 21:
-                    chanceCardArray[i] = new EstateTaxCard(i, propertiesIO.getTranslation("chance"+(i+1)),800,2300);
+                    chanceCardArray[i] = new EstateTaxCard(i, PropertiesIO.getTranslation("chance"+(i+1)),800,2300);
                     break;
                 case 22:
-                    chanceCardArray[i] = new WithdrawCard(i, propertiesIO.getTranslation("chance"+(i+1)),1000);
+                    chanceCardArray[i] = new WithdrawCard(i, PropertiesIO.getTranslation("chance"+(i+1)),1000);
                     break;
                 case 23:
                 case 24:
-                    chanceCardArray[i] = new WithdrawCard(i, propertiesIO.getTranslation("chance"+(i+1)),200);
+                    chanceCardArray[i] = new WithdrawCard(i, PropertiesIO.getTranslation("chance"+(i+1)),200);
                     break;
                 case 25:
-                    chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)),11);
+                    chanceCardArray[i] = new MoveCard(i, PropertiesIO.getTranslation("chance"+(i+1)),11);
                     break;
                 case 26:
                 case 27:
-                    chanceCardArray[i] = new WithdrawCard(i, propertiesIO.getTranslation("chance"+(i+1)),3000);
+                    chanceCardArray[i] = new WithdrawCard(i, PropertiesIO.getTranslation("chance"+(i+1)),3000);
                     break;
                 case 28:
-                    chanceCardArray[i] = new WithdrawCard(i, propertiesIO.getTranslation("chance"+(i+1)),1000);
+                    chanceCardArray[i] = new WithdrawCard(i, PropertiesIO.getTranslation("chance"+(i+1)),1000);
                     break;
                 case 29:
-                    chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)),5);
+                    chanceCardArray[i] = new MoveCard(i, PropertiesIO.getTranslation("chance"+(i+1)),5);
                     break;
                 case 30:
-                    chanceCardArray[i] = new PresentDepositCard(i, propertiesIO.getTranslation("chance"+(i+1)));
+                    chanceCardArray[i] = new PresentDepositCard(i, PropertiesIO.getTranslation("chance"+(i+1)));
                     break;
                 case 31:
-                    chanceCardArray[i] = new MoveCard(i, propertiesIO.getTranslation("chance"+(i+1)),24);
+                    chanceCardArray[i] = new MoveCard(i, PropertiesIO.getTranslation("chance"+(i+1)),24);
                     break;
             }
         }
-        //SAVE VERSION OF PRISONCARD
+        MoveCard stepsbackcard = (MoveCard) chanceCardArray[29];
+        
         prisonCard = (PrisonCard) chanceCardArray[0];
         for (int i = 0 ; i < chanceCardArray.length ; i++) {
-        	chanceCardDeck.push(chanceCardArray[randomArray[i]]);
+        	chanceCardDeck.push(stepsbackcard);
         }
         
     }
@@ -201,6 +200,7 @@ public class ChanceCardController {
             currentPlayer.setMoved(true);
             if(currentPlayer.getEndPosition() < currentPlayer.getStartPosition() && currentPlayer.getEndPosition() != 0) {
             	currentPlayer.getAccount().deposit(4000);
+            	guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
             }
             /*
             if (fields[field] instanceof Property)
