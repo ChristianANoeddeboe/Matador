@@ -280,6 +280,8 @@ public class ChanceCardController {
 
     private void stepsBackCard (Player currentPlayer, int amountOfSteps, Field[] fields) {
         currentPlayer.setStartPosition(currentPlayer.getEndPosition());
+        if((currentPlayer.getEndPosition() - amountOfSteps) < 0)
+        	currentPlayer.setEndPosition(39);
         currentPlayer.setEndPosition(currentPlayer.getEndPosition() - amountOfSteps);
         guiController.teleport(currentPlayer.getGuiId(),currentPlayer.getStartPosition(), currentPlayer.getEndPosition());
         currentPlayer.setMoved(true);
