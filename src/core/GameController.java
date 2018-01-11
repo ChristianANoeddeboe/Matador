@@ -54,7 +54,7 @@ public class GameController {
 		}
 		for (int i = 0; i < playerController.getPlayers().length; i++) {
 			if(!playerController.getPlayers()[i].isBanktrupt()) {
-				guiController.writeMessage(playerController.getPlayers()[i].getName()+" has won the game!");
+				guiController.writeMessage(playerController.getPlayers()[i].getName()+PropertiesIO.getTranslation("winnerstr"));
 			}
 		}
 		System.exit(0);

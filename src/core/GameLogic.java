@@ -15,6 +15,7 @@ public class GameLogic {
 	private FieldController fieldController;
 	private ChanceCardController cardController;
 	private PlayerController playerController;
+	private TradeController tradeController;
 	/**
 	 * Constructor for gamelogic
 	 */
@@ -22,7 +23,7 @@ public class GameLogic {
 		guiController = guiController.getInstance();
 		cardController = new ChanceCardController();
 		diceCup = new DiceCup(2);
-
+		tradeController = new TradeController();
 	}
 
 	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
@@ -66,6 +67,7 @@ public class GameLogic {
 			if(fieldController.pawnedFields(currentPlayer).length > 0) {
 				choicesArr[counter++] = "Unpawn property";
 			}
+			choicesArr[counter++] = "Trade";
 			
 			//Move to new array
 			String choices[] = new String[counter];
@@ -124,6 +126,10 @@ public class GameLogic {
 					buyController.unPawnProperty();
 					return false;
 				}
+
+				case "Trade": {
+					tradeController.startTrade(currentPlayer, fieldController, playerController.getPlayers());
+				}
 	
 				}
 			} while (diceCup.isPair());
@@ -143,15 +149,15 @@ public class GameLogic {
 	protected void resolveField(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
 		if (fields[id] instanceof Street) { 
-			StreetController streetController = new StreetController(currentPlayer, fields[id]);
+			StreetController streetController = new StreetController(currentPlayer, fields[id], playerController.getPlayers());
 			streetController.logic();
 		} else if (fields[id] instanceof Brewery) {
-			BreweryController breweryController = new BreweryController(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			BreweryController breweryController = new BreweryController(currentPlayer, diceCup.getTotalFaceValue(), fields, playerController.getPlayers());
 			breweryController.logic();
 		} else if (fields[id] instanceof Chance) {
 			cardController.getCard(currentPlayer, fields, playerController.getPlayers());
 		} else if (fields[id] instanceof Shipping) {
-			ShippingController shippingController = new ShippingController(currentPlayer, diceCup.getTotalFaceValue(), fields);
+			ShippingController shippingController = new ShippingController(currentPlayer, diceCup.getTotalFaceValue(), fields, playerController.getPlayers());
 			shippingController.logic();
 		} else if (fields[id] instanceof Prison) {
 			prisonController = new PrisonController(currentPlayer, diceCup, cardController);
