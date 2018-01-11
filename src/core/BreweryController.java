@@ -21,10 +21,17 @@ public class BreweryController {
 	 * Logic method for brewery
 	 */
 	protected void logic() {
-		if(brewery.getOwner() == null) { // Field is not owned
+		// Field is not owned
+		if(brewery.getOwner() == null) { 
+			
+			// Check if the player can afford
 			if(currentPlayer.getAccount().canAfford(brewery.getBuyValue())) {
+				
+				// Give the player choices
 				String[] choices = {"Yes", "No"};
 				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+brewery.getName(), choices);
+				
+				// If they choose Yes run buyLogic method
 				if(result.equals("Yes")) {
 					BuyController buyController = new BuyController(currentPlayer, brewery);
 					buyController.buyLogic();
@@ -33,19 +40,34 @@ public class BreweryController {
 			else {
 				//Player cannot afford field
 			}
-		}else{
-			if(brewery.getOwner() == currentPlayer) { // Field is owned by the same player
+		}
+		else{
+			// Field is owned by the player
+			if(brewery.getOwner() == currentPlayer) { 
 				
-			}else {
+			}
+			else {
+				// Set the rentPrice
 				int rentPrice = brewery.getRentValue()*totalFaceValue;
+				
 				//We check if the landing player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
+					
+					// Notify the user
 					guiController.writeMessage("You landed on.."+brewery.getName() + "..'s field and have to pay.."+brewery.getRentValue()+" to "+brewery.getOwner().getName());
+					
+					// Withdraw the rentPrice from the player
 					currentPlayer.getAccount().withdraw(rentPrice);
+					
+					// Deposit the rentPrice to the owner
 					brewery.getOwner().getAccount().deposit(rentPrice);
+					
+					// Send updates to the GUI
 					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				}else { //The player can't afford and has to sell something
+				}
+				else { 
+					//The player can't afford and has to sell something
 					SalesController salesController = new SalesController(currentPlayer);
 					salesController.cannotAfford(rentPrice);
 				}
