@@ -19,8 +19,8 @@ public class AuctionController {
         auctionStatus = true;
         int playersInAuction = 0;
         Property propertyOnAuction = (Property) field;
-        bidders = new Player[players.length-1];
-        highestBid = propertyOnAuction.getBuyValue();
+        bidders = new Player[players.length];
+        highestBid = propertyOnAuction.getBuyValue()-1;
 
         for (int i = 0; i < players.length; i++) {
             if (!(players[i] == playerNotIncluded))
@@ -36,23 +36,26 @@ public class AuctionController {
             while (auctionStatus) {
                 boolean noMoreRounds = true;
                 for (Player bidder : bidders) {
-                    if (!(bidder == whoHasTheHighestBid)) {
-                        if (bidder.getAccount().canAfford(highestBid + 1)) {
-                            switch (guiController.requestPlayerChoiceButtons("Do " + bidder.getName() + " wants to bid?", "yes", "no")) {
-                                case "yes":
-                                    int bid = guiController.requestIntegerInput(bidder.getName() + "Top bid: " + highestBid + " by " + whoHasTheHighestBid.getName() + ", your bid: ");
-                                    if (bid > highestBid) {
-                                        highestBid = bid;
-                                        whoHasTheHighestBid = bidder;
-                                        noMoreRounds = false;
-                                    }
-                                    break;
-                                case "no":
-                                    break;
+                    if (!(bidder == null)) {
+                        if (!(bidder == whoHasTheHighestBid)) {
+                            if (bidder.getAccount().canAfford(highestBid + 1)) {
+                                switch (guiController.requestPlayerChoiceButtons("Do " + bidder.getName() + " wants to bid?", "yes", "no")) {
+                                    case "yes":
+                                        int bid = guiController.requestIntegerInput(bidder.getName() + "Top bid: " + highestBid + ", your bid: ");
+                                        if (bid > highestBid) {
+                                            highestBid = bid;
+                                            whoHasTheHighestBid = bidder;
+                                            noMoreRounds = false;
+                                        }
+                                        break;
+                                    case "no":
+                                        break;
+                                }
                             }
+                        } else {
+                            guiController.writeMessage("You already have the highest bid XD");
                         }
-                    } else
-                        guiController.writeMessage("You already have the highest bid XD");
+                    }
                 }
 
                 if (noMoreRounds)
