@@ -11,14 +11,18 @@ public class StreetController {
 	private Street street;
 	private Player currentPlayer;
 	private GUIController guiController = GUIController.getInstance();
+	private AuctionController auctionController;
+	private Player[] players;
 	/**
 	 * Constructor for normal logic
 	 * @param currentPlayer
 	 * @param field
 	 */
-	public StreetController(Player currentPlayer, Field field) {
+	public StreetController(Player currentPlayer, Field field, Player[] players) {
 		this.currentPlayer = currentPlayer;
 		this.street = (Street) field;
+		this.players = players;
+		auctionController = new AuctionController();
 	}
 	/**
 	 * The logic when landing on a normal/property field( a field where you can put houses on)
@@ -44,8 +48,8 @@ public class StreetController {
 					buyController.buyLogic();
 				}
 			}
-			else {//TODO: Auction?
-				
+			else {
+				auctionController.startAuction(currentPlayer, street, players);
 			}
 		}
 		else{ // The field is owned

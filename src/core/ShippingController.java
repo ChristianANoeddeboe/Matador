@@ -11,15 +11,19 @@ public class ShippingController {
 	private GUIController guiController = GUIController.getInstance();
 	private Shipping shipping;
 	private Player currentPlayer;
+	private Player[] players;
+	private AuctionController auctionController;
 	/**
 	 * Constructor for shipping logic
 	 * @param currentPlayer The player that landed on the field
 	 * @param totalFaceValue The total dice value of both dices
 	 * @param fields The fields array
 	 */
-	public ShippingController(Player currentPlayer, int totalFaceValue, Field[] fields) {
+	public ShippingController(Player currentPlayer, int totalFaceValue, Field[] fields, Player[] players) {
 		this.currentPlayer = currentPlayer;
 		this.shipping = (Shipping) fields[currentPlayer.getEndPosition()];
+		this.players = players;
+		auctionController = new AuctionController();
 	}
 	/**
 	 * Returns the outcome of landin gon the field
@@ -50,6 +54,7 @@ public class ShippingController {
 			}
 			else {
 				// Player cant afford the field, so nothing happens
+				auctionController.startAuction(currentPlayer, shipping, players);
 			}
 		}
 		else{
