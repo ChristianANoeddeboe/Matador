@@ -145,8 +145,7 @@ public class GameLogic {
 			ShippingController shippingController = new ShippingController(currentPlayer, diceCup.getTotalFaceValue(), fields);
 			shippingController.logic();
 		} else if (fields[id] instanceof Prison) {
-			ChanceCardController chanceCardController = new ChanceCardController();
-			prisonController = new PrisonController(currentPlayer, diceCup, chanceCardController);
+			prisonController = new PrisonController(currentPlayer, diceCup, cardController);
 			prisonController.logic();
 		} else if (fields[id] instanceof Parking) {
 			guiController.writeMessage("You landed on parking");
