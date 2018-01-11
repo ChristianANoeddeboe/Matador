@@ -94,7 +94,7 @@ public class FieldController {
 
 				// Get house prices from config and save to array
 				int housePrices[] = { // Get all the house prices 
-						Integer.parseInt(config.getTranslation("field"+(i+1)+"value")),
+						Integer.parseInt(config.getTranslation("field"+(i+1)+"leje")),
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus1")), 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus2")), 
 						Integer.parseInt(config.getTranslation("field"+(i+1)+"hus3")), 
