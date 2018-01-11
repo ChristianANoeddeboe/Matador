@@ -28,47 +28,27 @@ public class PrisonController {
 
 	public void logic() {
 		int pos = currentPlayer.getEndPosition();
-		if (pos == 10) {
-			if (currentPlayer.isPrison()) {
-				inPrisonLogic(currentPlayer);
-			} else {
-				guiController.writeMessage("TODO Du besøger fænglset. Se lige de undermålere bag tremmer. Ha Ha Ha Ha");
-			}
-		}
-		if (pos == 30) {
-			landGoToPrison(currentPlayer);
+		if (pos == 10 && !currentPlayer.isPrison()) {
+			guiController.writeMessage(PropertiesIO.getTranslation("prisonvisit"));
+		} else {
+			prison(currentPlayer);
 		}
 	}
 
-	public void landGoToPrison(Player currentPlayer) {
-		switch (getPlayerChoice(0)) {
-			case "Betal kr. 1000":
-				payFine(currentPlayer);
-				break;
-			case "Benyt fængselskort":
-				usePrisonCard(currentPlayer);
-				break;
-			case "Gå i fængsel":
-				jailPlayer(currentPlayer);
-				break;
-			default:
-				break;
+	public void prison(Player currentPlayer) {
+		int state = 0;
+		if (currentPlayer.isPrison()) {
+			state = 1;
 		}
-	}
-
-	public void inPrisonLogic(Player currentPlayer) {
-		switch (getPlayerChoice(1)) {
-			case "Rul terningerne":
-				rollJailDice(currentPlayer);
-				break;
-			case "Betal kr. 1000":
-				payFine(currentPlayer);
-				break;
-			case "Benyt fængselskort":
-				usePrisonCard(currentPlayer);
-				break;
-			default:
-				break;
+		String choice = getPlayerChoice(state);
+		if (choice.equals(PropertiesIO.getTranslation("prisonchoiceinprison"))) {
+			rollJailDice(currentPlayer);
+		} else if (choice.equals(PropertiesIO.getTranslation("prisonchoice1"))) {
+			payFine(currentPlayer);
+		} else if (choice.equals(PropertiesIO.getTranslation("prisonchoice2"))) {
+			payFine(currentPlayer);
+		} else if (choice.equals(PropertiesIO.getTranslation("prisongoto"))) {
+			jailPlayer(currentPlayer);
 		}
 	}
 
@@ -90,7 +70,7 @@ public class PrisonController {
 	public void usePrisonCard(Player currentPlayer) {
 		chanceCardController.putPrisonCardInDeck();
 		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
-		guiController.writeMessage("TODO Du brugte et fængselskort og har "+currentPlayer.getPrisonCard()+" kort tilbage.");
+		guiController.writeMessage(PropertiesIO.getTranslation("prisoncarduse")+currentPlayer.getPrisonCard());
 		if (currentPlayer.isPrison()) {
 			releasePrison(currentPlayer);
 		}
@@ -102,7 +82,7 @@ public class PrisonController {
 	 */
 	private void releasePrison(Player currentPlayer) {
 		currentPlayer.setPrison(false);
-		guiController.writeMessage("TODO Rul med terningerne for at flytte.");
+		guiController.writeMessage(PropertiesIO.getTranslation("prisonrollmessage"));
 		diceCup.roll();
 		guiController.showDice(diceCup);
 	}
@@ -113,11 +93,11 @@ public class PrisonController {
 		currentPlayer.setPrisontries(currentPlayer.getPrisontries()+1);
 		System.out.println(currentPlayer.getPrisontries());
 		if (diceCup.isPair()) {
-		    guiController.writeMessage("TODO Du slå et par! Du er en fri mand.");
+		    guiController.writeMessage(PropertiesIO.getTranslation("prisonpairroll"));
 			currentPlayer.setPrison(false);
 			currentPlayer.setPrisontries(0);
 		} else {
-			guiController.writeMessage("TODO Du slog ikke to ens...");
+			guiController.writeMessage(PropertiesIO.getTranslation("prisonpairrollnegative"+(3-currentPlayer.getPrisontries())));
 		}
 	}
 
@@ -129,7 +109,7 @@ public class PrisonController {
 		switch (state) {
 			case 0:
 				if (currentPlayer.getAccount().canAfford(1000) || currentPlayer.getPrisontries() == 3) {
-					choices = choices + ",Betal kr. 1000";
+					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
 					choices = choices + ",Benyt fængselskort";
@@ -137,7 +117,7 @@ public class PrisonController {
 				choices = choices + ",Gå i fængsel";
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
-				return guiController.requestPlayerChoiceButtons("TODO Du landede på 'Gå i fængsel'. Vælg hvad du vil.", choiceArr);
+				choices = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisonlandgotomessage"), choiceArr);
 			case 1:
 				if (currentPlayer.getPrisontries() < 3) {
 					System.out.println(currentPlayer.getPrisontries());
@@ -154,7 +134,7 @@ public class PrisonController {
 				}
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
-				return guiController.requestPlayerChoiceButtons("TODO Du er i fængsel. Vælg hvad du vil.", choiceArr);
+				return guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisongenericmessage"), choiceArr);
 			default:
 				return null;
 		}
