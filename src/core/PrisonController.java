@@ -143,19 +143,14 @@ public class PrisonController {
 					System.out.println(currentPlayer.getPrisontries());
 					choices = choices + ",Rul terningerne";
 				}
-				if (currentPlayer.getAccount().canAfford(1000)) {
+				if (currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() > 0) {
 					choices = choices + ",Betal kr. 1000";
-				}else {
-					salesController.cannotAfford(1000);
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
 					choices = choices + ",Benyt fængselskort";
 				}
 				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
 					salesController.cannotAfford(1000);
-				}
-				if(currentPlayer.getPrisontries() == 3) {
-					
 				}
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
