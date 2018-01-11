@@ -44,16 +44,14 @@ public class StreetController {
 					buyController.buyLogic();
 				}
 			}
-			else { 
+			else {//TODO: Auction?
 				
 			}
 		}
 		else{ // The field is owned
 			
 			// Check if the player landing there is the owner itself
-			if(street.getOwner() == currentPlayer) { 
-			}
-			else {
+			if(street.getOwner() != currentPlayer){
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
 					// Show information to player
