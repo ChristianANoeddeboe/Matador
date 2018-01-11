@@ -204,8 +204,8 @@ public class ChanceCardController {
     }
 
     private void moveShippingCard (Player currentPlayer, Field[] fields) {
+        currentPlayer.setStartPosition(currentPlayer.getEndPosition());
         if (currentPlayer.getEndPosition() == 2) {
-            currentPlayer.setStartPosition(currentPlayer.getEndPosition());
             currentPlayer.setEndPosition(5);
         }
 
