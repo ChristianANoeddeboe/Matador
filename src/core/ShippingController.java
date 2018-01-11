@@ -64,7 +64,9 @@ public class ShippingController {
 				
 				// Check if the player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
+					// Send update to player
 					guiController.writeMessage("You landed on.."+shipping.getName() + "..'s field and have to pay.."+shipping.getRentValue()+" to "+shipping.getOwner().getName());
+					
 					// Withdraw rentPrice from player
 					currentPlayer.getAccount().withdraw(rentPrice);
 					
