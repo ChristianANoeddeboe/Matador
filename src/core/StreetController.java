@@ -72,11 +72,27 @@ public class StreetController {
 					
 				}
 				else { // Can't afford
+					guiController.writeMessage("You cannot afford the rent, you have to pawn or sell something");
 					// Initialize the SalesController
 					SalesController salesController = new SalesController(currentPlayer);
 					
 					// Run cannotAfford method
-					salesController.cannotAfford(street.getRentValue());
+					boolean response = salesController.cannotAfford(street.getRentValue());
+					if(response) {
+						guiController.writeMessage("You can now pay the rent of "+street.getRentValue());
+						
+						// Withdraw rentValue from the player
+						currentPlayer.getAccount().withdraw(street.getRentValue());
+						
+						// Deposit rentValue to the owner
+						street.getOwner().getAccount().deposit(street.getRentValue());
+						
+						// Sends updates to GUIController
+						guiController.updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
+						guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+					}
+					else {
+					}
 				}
 			}
 		}

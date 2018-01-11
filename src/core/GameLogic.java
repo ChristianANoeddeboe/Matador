@@ -85,7 +85,10 @@ public class GameLogic {
 					checkIfExtraRound(currentPlayer);
 					
 					findLogic(currentPlayer, diceCup);
-
+					
+					if(currentPlayer.isBanktrupt())
+						return true;
+					
 					return false;
 				}
 				case "Buy house/hotel" : {

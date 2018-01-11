@@ -79,12 +79,27 @@ public class ShippingController {
 					
 				}
 				else { // We can't afford landing here
-					
-					// Initialize SalesController
+					guiController.writeMessage("You cannot afford the rent, you have to pawn or sell something");
+					// Initialize the SalesController
 					SalesController salesController = new SalesController(currentPlayer);
 					
-					// Run cannotAfford Method
-					salesController.cannotAfford(rentPrice);
+					// Run cannotAfford method
+					boolean response = salesController.cannotAfford(rentPrice);
+					if(response) {
+						guiController.writeMessage("You can now pay the rent of "+rentPrice);
+						
+						// Withdraw rentValue from the player
+						currentPlayer.getAccount().withdraw(rentPrice);
+						
+						// Deposit rentValue to the owner
+						shipping.getOwner().getAccount().deposit(rentPrice);
+						
+						// Sends updates to GUIController
+						guiController.updatePlayerBalance(shipping.getOwner().getGuiId(), shipping.getOwner().getAccount().getBalance());
+						guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+					}
+					else {
+					}
 				}
 
 			}
