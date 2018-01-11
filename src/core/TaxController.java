@@ -14,9 +14,8 @@ public class TaxController {
 
 	/**
 	 * Constructor for tax logic
-	 * 
-	 * @param id
 	 * @param currentPlayer
+	 * @param fields a field array
 	 */
 	public TaxController(Player currentPlayer, Field[] fields) {
 		this.currentPlayer = currentPlayer;
@@ -25,7 +24,6 @@ public class TaxController {
 
 	/**
 	 * If we land on field 39, we have to pay 2000
-	 * @param currentPlayer
 	 * @return depends on outcome
 	 */
 	protected void taxLogic38() {
@@ -34,14 +32,13 @@ public class TaxController {
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			guiController.writeMessage("Du betalte 2000 i statsskat");
 		} else {
-			//Sales logic
+			SalesController salesController = new SalesController(currentPlayer);
+			salesController.cannotAfford(2000); // We can't afford it
 		}
 	}
 
 	/**
 	 * If we land on field 5, you can either pay 10% of income tax or 4000
-	 * @param currentPlayer
-	 * @param choice
 	 * @return Depends on outcome
 	 */
 	protected void taxLogic4() {
@@ -49,39 +46,37 @@ public class TaxController {
 		int playervalue = currentPlayer.getAccount().getBalance(); // The players current balance
 		int propertyvalue = 0;
 		SalesController salesController = new SalesController(currentPlayer);
-
-		// Player can either choose 10% of income tax or 4000
 		String[] choices = {"4000", "10%"};
 		String choice = guiController.requestPlayerChoiceButtons("Vil du betale 10% inkomst skat eller 4000", choices);
 		if (choice.equals("10%")) { // we calulate 10% of income tax
 			for (int i = 0; i < fields.length; i++) { // looping over all fields
-				if (fields[i] instanceof Property) {
-					Property property = (Property) fields[i];
+				if (fields[i] instanceof Property) { // Only dealing with fields that are property -> can be owned
+					Property property = (Property) fields[i]; // Casting& initializing a new property as we know fields[i] represents a property
 					if (property.getOwner() == currentPlayer) {// find those that the player owns
 						propertyvalue = propertyvalue + property.getBuyValue(); // The property value is a sum of all the basevalues
 					}
-				}else if(fields[i] instanceof Street) {
-					Street normal = (Street) fields[i];
-					for (int j = 0; j < normal.getHouseCounter(); j++) {
-						buildingvalue = buildingvalue + normal.getHousePrices()[i]; // Looping over all the houses and adding up all the house prices
+				}else if(fields[i] instanceof Street) { // If we are dealing with streets->Properties that can have houses
+					Street street = (Street) fields[i];
+					for (int j = 0; j < street.getHouseCounter(); j++) { // loop over all the houses
+						buildingvalue = buildingvalue + street.getHousePrices()[i]; // adding up all the house prices
 					}
 				}
 			}
-			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10);
-			if(currentPlayer.getAccount().canAfford(value)) {
+			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10); // Take 10% of it
+			if(currentPlayer.getAccount().canAfford(value)) { // Check if we can afford
 				currentPlayer.getAccount().withdraw(value);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage("10% income tax amounted to a total of.."+ value);
 			}else {
-				salesController.cannotAfford(value);
+				salesController.cannotAfford(value); // We can't afford it
 			}
 			
-		}else{
-			if (currentPlayer.getAccount().canAfford(4000)) {
+		}else{ // 4000
+			if (currentPlayer.getAccount().canAfford(4000)) { // check if player can afford 4000
 				currentPlayer.getAccount().withdraw(4000);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
-			salesController.cannotAfford(4000);
+			salesController.cannotAfford(4000); // We can't afford it
 		}
 	}
 
