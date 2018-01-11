@@ -53,7 +53,7 @@ public class SalesController {
 			System.out.println(streets.length+" street length");
 			System.out.println(properties.length+" properties length");
 			String[] options = new String[counter];
-			for(int i = 0; i <= options.length; i++) {
+			for(int i = 0; i < options.length; i++) {
 				options[i] = temp[i];
 			}
 			System.out.println(options.length+ "len");
