@@ -228,19 +228,31 @@ public class BuyController {
 	 * @return
 	 */
 	protected void unPawnProperty() {
-		Property property = null;
 		Field[] fieldArr = guiController.getFieldController().getFieldArr();
-		String[] pawnedProperty = guiController.getFieldController().pawnedFields(currentPlayer);
-		String result = guiController.requestPlayerChoice("Choose a property to unpawn", pawnedProperty);
-		for(int i = 0; i < fieldArr.length; i++) {
-			if(fieldArr[i].getName().equals(result)) {
-				property = (Property) fieldArr[i];
-			}
+		Property property = null;
+		String[] temp = guiController.getFieldController().pawnedFields(currentPlayer);
+		String[] pawnedProperties = new String[temp.length+1];
+		
+		for(int i = 0; i<temp.length;i++) {
+			pawnedProperties[i] = temp[i];
 		}
-		property.setPawned(false);
-		int value = property.getPawnValue()+(int)((property.getPawnValue()*0.10));
-		currentPlayer.getAccount().withdraw(value);
-		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		pawnedProperties[pawnedProperties.length-1] = "Return";
+		
+		String result = guiController.requestPlayerChoice("Choose a property to unpawn", pawnedProperties);
+		if(result.equals("Return")) {
+			
+		}
+		else {
+			for(int i = 0; i < guiController.getFieldController().getFieldArr().length; i++) {
+				if(fieldArr[i].getName().equals(result)) {
+					property = (Property) fieldArr[i];
+				}
+			}
+			property.setPawned(false);
+			int value = property.getPawnValue()+(int)((property.getPawnValue()*0.10));
+			currentPlayer.getAccount().withdraw(value);
+			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+		}
 	}
 
 
