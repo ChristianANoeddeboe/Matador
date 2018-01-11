@@ -150,7 +150,7 @@ public class ChanceCardController {
                 moveCard(currentPlayer, ((MoveCard) drawnChanceCard).getField(), fields, drawnChanceCard);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 break;
-            case "MoveShipping":
+            case "MoveShippingCard":
                 moveShippingCard(currentPlayer,fields);
                 System.out.println("Spiller: "+currentPlayer.getName()+", chancecard:"+drawnChanceCard.getClass().getSimpleName()+" og id:"+drawnChanceCard.getId());
                 break;
@@ -279,7 +279,13 @@ public class ChanceCardController {
     }
 
     private void withdrawCard(Player currentPlayer, int amount) {
-        currentPlayer.getAccount().withdraw(amount);
+        int currentPlayerBalance = currentPlayer.getAccount().getBalance();
+        if (checkIfAfford(currentPlayer, amount))
+            currentPlayer.getAccount().withdraw(amount);
+        else {
+            currentPlayer.getAccount().withdraw(currentPlayerBalance);
+            currentPlayer.setBanktrupt(true);
+        }
         guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
     }
 
