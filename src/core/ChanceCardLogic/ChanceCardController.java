@@ -136,7 +136,7 @@ public class ChanceCardController {
 	public void getCard (Player currentPlayer, Field[] fields, Player[] players) {
 		ChanceCard drawnChanceCard = chanceCardDeck.bottom();
 
-		guiController.writeMessage(drawnChanceCard.getDescription());
+		guiController.displayChanceCard(drawnChanceCard.getDescription());
 		if(drawnChanceCard instanceof PrisonCard) {
 			prisonCard(currentPlayer);
 		}else if(drawnChanceCard instanceof MoveCard) {
