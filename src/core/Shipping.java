@@ -19,8 +19,5 @@ public class Shipping extends Property {
 		super(id, name, description, owner, buyValue, pawnValue, rentValue);
 		this.currentValue = 500;
 	}
-	
-	public int getCurrentValue() {return currentValue;}
-	public void setCurrentValue(int value) { this.currentValue = value; }
 }
 

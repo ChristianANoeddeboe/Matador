@@ -43,10 +43,11 @@ public class BreweryController {
 				}
 				//We check if the landing player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
+					guiController.writeMessage("You landed on.."+brewery.getName() + "..'s field and have to pay.."+brewery.getRentValue()+" to "+brewery.getOwner().getName());
 					currentPlayer.getAccount().withdraw(rentPrice);
 					brewery.getOwner().getAccount().deposit(rentPrice);
 					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
-					guiController.writeMessage("You landed on.."+brewery.getOwner().getName() + "..'s field and had to pay.."+brewery.getRentValue());
+					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}else { //The player can't afford and has to sell something
 					SalesController salesController = new SalesController(currentPlayer);
 					salesController.cannotAfford(rentPrice);
