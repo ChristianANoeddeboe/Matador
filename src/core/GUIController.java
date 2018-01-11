@@ -221,7 +221,7 @@ public class GUIController {
 	 * @return int
 	 */
 	public int requestNumberOfPlayers() {
-		int input = gui.getUserInteger("    Choose number of players.", 3, 6);
+		int input = gui.getUserInteger(PropertiesIO.getTranslation("numberofplayersstr"), 3, 6);
 		players_GUI = new GUI_Player[input];
 		return input;
 	}
