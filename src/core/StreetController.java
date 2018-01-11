@@ -47,6 +47,9 @@ public class StreetController {
 					// Run the buyLogic method
 					buyController.buyLogic();
 				}
+				else {
+					auctionController.startAuction(currentPlayer, street, players);
+				}
 			}
 			else {
 				auctionController.startAuction(currentPlayer, street, players);
