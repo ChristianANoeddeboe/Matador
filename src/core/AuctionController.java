@@ -42,10 +42,20 @@ public class AuctionController {
                                 switch (guiController.requestPlayerChoiceButtons("Do " + bidder.getName() + " wants to bid?", "yes", "no")) {
                                     case "yes":
                                         int bid = guiController.requestIntegerInput(bidder.getName() + "Top bid: " + highestBid + ", your bid: ");
-                                        if (bid > highestBid) {
-                                            highestBid = bid;
-                                            whoHasTheHighestBid = bidder;
-                                            noMoreRounds = false;
+                                        if (bidder.getAccount().canAfford(bid)) {
+                                            if (bid > highestBid) {
+                                                highestBid = bid;
+                                                whoHasTheHighestBid = bidder;
+                                                noMoreRounds = false;
+                                            }
+                                        }
+                                        else {
+                                            bid = guiController.requestIntegerInput(bidder.getName() + "Too high bid try again, highest bid " + highestBid + ", your bid: ");
+                                            if (bid > highestBid) {
+                                                highestBid = bid;
+                                                whoHasTheHighestBid = bidder;
+                                                noMoreRounds = false;
+                                            }
                                         }
                                         break;
                                     case "no":
@@ -73,5 +83,6 @@ public class AuctionController {
     private void wonAuction(Property propertyOnAuction) {
         whoHasTheHighestBid.getAccount().withdraw(highestBid);
         propertyOnAuction.setOwner(whoHasTheHighestBid);
+        guiController.setOwner(whoHasTheHighestBid.getGuiId(),propertyOnAuction.getId());
     }
 }
