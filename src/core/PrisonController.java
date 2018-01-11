@@ -18,6 +18,7 @@ public class PrisonController {
 	 * Constructor for the prisonController.
 	 * @param currentPlayer the player who is to be handled at the moment.
 	 * @param diceCup the diceCup for the project.
+	 * @param chanceCardController
 	 */
 	PrisonController(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
 		this.currentPlayer = currentPlayer;
@@ -115,7 +116,7 @@ public class PrisonController {
 	}
 
 	public String getPlayerChoice(int state) {
-		SalesController salesController = new SalesController(currentPlayer);
+		salesController = new SalesController(currentPlayer);
 
 		String choices = "";
 		String[] choiceArr;

@@ -36,7 +36,7 @@ public class SalesController {
 			}
 			
 			// Prompts the user for a choice
-			String[] options = null;
+			String[] options = new String[2];
 			int counter = 0;
 			if(streets.length > 0) { // Check if the streets array is empty
 				options[counter] = "Sell Houses";
@@ -45,6 +45,7 @@ public class SalesController {
 			if(properties.length > 0) { // Check if property array is empty
 				options[counter] = "Pawn Property";
 			}
+			
 			String result = guiController.requestPlayerChoice("Sell either houses or pawn property", options);
 			
 			// Runs the sellHouse method if chosen
