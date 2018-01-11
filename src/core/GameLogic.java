@@ -129,6 +129,7 @@ public class GameLogic {
 
 				case "Trade": {
 					tradeController.startTrade(currentPlayer, fieldController, playerController.getPlayers());
+					return false;
 				}
 	
 				}
