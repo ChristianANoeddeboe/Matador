@@ -315,28 +315,32 @@ public class ChanceCardController {
 
     public void putPrisonCardInDeck () {
         chanceCardDeck.push(prisonCard);
-        System.out.println("YAAAAAY");
     }
 
     private void landOnProperty (Field[] fields, Player currentPlayer) {
         Property property = (Property) fields[currentPlayer.getEndPosition()];
 
-        if (!(property.getOwner() == null) && !(property.getOwner() == currentPlayer)) {
-            guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
-            guiController.updatePlayerBalance(property.getOwner().getGuiId(),property.getOwner().getAccount().getBalance());
-        }
-
-        else {
-            if(currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
-                String[] choices = {"Yes", "No"};
-                String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+property.getName(), choices);
-                if(result.equals("Yes")) {
-                    currentPlayer.getAccount().withdraw(property.getBuyValue());
-                    property.setOwner(currentPlayer);
-                    guiController.setOwner(currentPlayer.getGuiId(), property.getId());
-                    guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
+        if (!(property.getOwner() == currentPlayer)) {
+            if (!(property.getOwner() == null)) {
+                guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+                guiController.updatePlayerBalance(property.getOwner().getGuiId(), property.getOwner().getAccount().getBalance());
+            } else {
+                if (currentPlayer.getAccount().canAfford(property.getRentValue())) { // If it is not owned and we can afford it
+                    String[] choices = {"Yes", "No"};
+                    String result = guiController.requestPlayerChoiceButtons("Vil du købe..." + property.getName(), choices);
+                    if (result.equals("Yes")) {
+                        currentPlayer.getAccount().withdraw(property.getBuyValue());
+                        property.setOwner(currentPlayer);
+                        guiController.setOwner(currentPlayer.getGuiId(), property.getId());
+                        guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
+                    }
                 }
             }
         }
+    }
+
+    private void checkIfPlayerCanAfford (Player currentPlayer, int value) {
+        SalesController salesController = new SalesController(currentPlayer);
+        salesController.cannotAfford(value);
     }
 }
