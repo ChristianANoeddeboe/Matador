@@ -12,13 +12,12 @@ public class PrisonController {
 	private DiceCup diceCup;
 	private GUIController guiController = GUIController.getInstance();
 	private ChanceCardController chanceCardController;
-	private SalesController salesController;
 
 	/**
 	 * Constructor for the prisonController.
 	 * @param currentPlayer the player who is to be handled at the moment.
 	 * @param diceCup the diceCup for the project.
-	 * @param chanceCardController
+	 * @param chanceCardController the controller for the chance cards, to add support for prison cards.
 	 */
 	PrisonController(Player currentPlayer, DiceCup diceCup, ChanceCardController chanceCardController) {
 		this.currentPlayer = currentPlayer;
@@ -46,7 +45,7 @@ public class PrisonController {
 		} else if (choice.equals(PropertiesIO.getTranslation("prisonchoice1"))) {
 			payFine(currentPlayer);
 		} else if (choice.equals(PropertiesIO.getTranslation("prisonchoice2"))) {
-			payFine(currentPlayer);
+			usePrisonCard(currentPlayer);
 		} else if (choice.equals(PropertiesIO.getTranslation("prisongoto"))) {
 			jailPlayer(currentPlayer);
 		}
@@ -78,7 +77,7 @@ public class PrisonController {
 
 	/**
 	 * If the player is in prison, he will be released properly.
-	 * @param currentPlayer
+	 * @param currentPlayer the active player.
 	 */
 	private void releasePrison(Player currentPlayer) {
 		currentPlayer.setPrison(false);
@@ -102,8 +101,7 @@ public class PrisonController {
 	}
 
 	public String getPlayerChoice(int state) {
-		salesController = new SalesController(currentPlayer);
-
+		SalesController salesController = new SalesController(currentPlayer);
 		String choices = "";
 		String[] choiceArr;
 		switch (state) {
@@ -112,22 +110,22 @@ public class PrisonController {
 					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
-					choices = choices + ",Benyt fængselskort";
+					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice2");
 				}
-				choices = choices + ",Gå i fængsel";
+				choices = choices + "," + PropertiesIO.getTranslation("prisongoto");
 				if (choices.startsWith(",")) choices = choices.substring(1);
 				choiceArr = choices.split(",");
 				choices = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("prisonlandgotomessage"), choiceArr);
 			case 1:
 				if (currentPlayer.getPrisontries() < 3) {
 					System.out.println(currentPlayer.getPrisontries());
-					choices = choices + ",Rul terningerne";
+					choices = choices + "," + PropertiesIO.getTranslation("throwdice");
 				}
 				if (currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() > 0) {
-					choices = choices + ",Betal kr. 1000";
+					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice1");
 				}
 				if (currentPlayer.getPrisonCard() > 0) {
-					choices = choices + ",Benyt fængselskort";
+					choices = choices + "," + PropertiesIO.getTranslation("prisonchoice2");
 				}
 				while (!currentPlayer.getAccount().canAfford(1000) && currentPlayer.getPrisontries() == 3) {
 					salesController.cannotAfford(1000);
