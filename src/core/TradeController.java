@@ -11,16 +11,19 @@ public class TradeController {
     }
 
     public void startTrade (Player currentPlayer, FieldController fieldController, Player[] players) {
-        String[] choices = new String[players.length];
+        String[] choices = new String[players.length-1];
+        int counter = 0;
         for (int i = 0; i < players.length; i++) {
             if (!(players[i] == currentPlayer)) {
-                choices[i] = players[i].getName();
+                choices[counter++] = players[i].getName();
             }
         }
         String response = guiController.requestPlayerChoiceButtons("Hvem vil du gerne trade med: ",choices);
         for (int i = 0; i < players.length; i++) {
             if (players[i].getName() == response) {
-                response = guiController.requestPlayerChoiceButtons("Hvem vil du gerne trade med: ", fieldController.FieldsOwned(currentPlayer));
+            	if (fieldController.FieldsOwned(players[i]).length > 0) {
+            		response = guiController.requestPlayerChoiceButtons("Hvem vil du gerne trade med: ", fieldController.FieldsOwned(players[i]));
+            	}
             }
         }
 
