@@ -11,6 +11,7 @@ import java.util.Properties;
 public class PropertiesIO {
 
     private static Properties translations = new Properties();
+    private static PropertiesIO propertiesIO;
 
     /**
      * Translator constructor
@@ -31,6 +32,7 @@ public class PropertiesIO {
      * @return The attached string to the key
      */
     public static String getTranslation (String toTranslate) {
+        if (propertiesIO == null) propertiesIO = new PropertiesIO();
         return translations.getProperty(toTranslate);
     }
 
