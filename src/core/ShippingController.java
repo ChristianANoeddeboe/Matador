@@ -10,9 +10,9 @@ public class ShippingController {
 	private Player currentPlayer;
 	/**
 	 * Constructor for shipping logic
-	 * @param id The field number
-	 * @param totalFaceValue The total dice value of both dices
 	 * @param currentPlayer The player that landed on the field
+	 * @param totalFaceValue The total dice value of both dices
+	 * @param fields The fields array
 	 */
 	public ShippingController(Player currentPlayer, int totalFaceValue, Field[] fields) {
 		this.currentPlayer = currentPlayer;
@@ -46,13 +46,14 @@ public class ShippingController {
 				}
 			}
 			else {
-				// Player cant afford the field
+				// Player cant afford the field, so nothing happens
 			}
 		}
 		else{
 			
 			// Field owned by the player landing on it
 			if(shipping.getOwner() == currentPlayer) { 
+				// Nothing should happen
 			}
 			
 			//If it is owned by another player
@@ -75,7 +76,7 @@ public class ShippingController {
 					guiController.writeMessage("You landed on.."+shipping.getOwner().getName() + "..'s field and had to pay.."+shipping.getRentValue()); 
 					
 				}
-				else {
+				else { // We can't afford landing here
 					
 					// Initialize SalesController
 					SalesController salesController = new SalesController(currentPlayer);
