@@ -88,7 +88,7 @@ public class GameLogic {
 					
 					if(currentPlayer.isMoved()) {
 						findLogic(currentPlayer, diceCup);
-						currentPlayer.setMoved(true);
+						currentPlayer.setMoved(false);
 					}
 
 					return false;
