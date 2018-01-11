@@ -85,6 +85,11 @@ public class GameLogic {
 					checkIfExtraRound(currentPlayer);
 					
 					findLogic(currentPlayer, diceCup);
+					
+					if(currentPlayer.isMoved()) {
+						findLogic(currentPlayer, diceCup);
+						currentPlayer.setMoved(false);
+					}
 
 					return false;
 				}
