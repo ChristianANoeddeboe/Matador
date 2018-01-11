@@ -29,7 +29,7 @@ public class SalesController {
 		while(currentPlayer.getAccount().getBalance() < value && !currentPlayer.isBanktrupt()) {
 			String[] streets = fieldcontroller.streetsWithHouses(currentPlayer); // Get an array of streets with houses
 			String[] properties = fieldcontroller.propertiesToPawn(currentPlayer); // Get an array of properties we can pawn
-			if(streets.length <= 0 && properties.length <= 0) { // We have nothing to pawn, and we can't still afford
+			if(streets.length == 1 && properties.length == 1) { // We have nothing to pawn, and we can't still afford
 				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
 				currentPlayer.setBanktrupt(true);
 				return false;
