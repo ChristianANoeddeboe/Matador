@@ -16,12 +16,12 @@ public class SalesController {
 	public SalesController(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
-	
-	/**
+
+    /**
 	 * Logic when player cannot afford something
 	 * @param value The value we can't afford
 	 */
-	protected void cannotAfford(int value) {
+	public void cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
 		
