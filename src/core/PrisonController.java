@@ -115,7 +115,7 @@ public class PrisonController {
 	}
 
 	public String getPlayerChoice(int state) {
-		SalesController salesController = new SalesController(currentPlayer);
+		salesController = new SalesController(currentPlayer);
 
 		String choices = "";
 		String[] choiceArr;
