@@ -17,7 +17,7 @@ import core.Street;
 import core.StreetController;
 
 /**
- * @author s175192
+ * @author Mathias Thejsen
  *
  */
 public class testStreetController {

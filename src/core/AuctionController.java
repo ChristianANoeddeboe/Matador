@@ -31,7 +31,7 @@ public class AuctionController {
         }
 
         if (!(playersInAuction == 0)) {
-            guiController.writeMessage("Auction on card: " + field.getName());
+            guiController.writeMessage("Auktion på "+ field.getName());
 
             while (auctionStatus) {
                 boolean noMoreRounds = true;
@@ -41,7 +41,7 @@ public class AuctionController {
                             if (bidder.getAccount().canAfford(highestBid + 1)) {
                                 switch (guiController.requestPlayerChoiceButtons("Vil spilleren: " + bidder.getName() + " byde?", PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton"))) {
                                     case "Ja":
-                                        int bid = guiController.requestIntegerInput(bidder.getName() + "'s turn, Top bid: " + highestBid + ", your bid: ",0,200000);
+                                        int bid = guiController.requestIntegerInput(bidder.getName() + "'s turn, Top bid: " + highestBid + ", Dit bud: ",0,200000);
                                         if (bidder.getAccount().canAfford(bid)) {
                                             if (bid > highestBid) {
                                                 highestBid = bid;
@@ -50,7 +50,7 @@ public class AuctionController {
                                             }
                                         }
                                         else {
-                                            bid = guiController.requestIntegerInput(bidder.getName() + " bet were too high try again, highest bid " + highestBid + ", your bid: ",0,200000);
+                                            bid = guiController.requestIntegerInput(bidder.getName() + " bet were too high try again, highest bid " + highestBid + ", Dit bud: ",0,200000);
                                             if (bid > highestBid) {
                                                 highestBid = bid;
                                                 whoHasTheHighestBid = bidder;
@@ -63,7 +63,7 @@ public class AuctionController {
                                 }
                             }
                         } else {
-                            guiController.writeMessage("You already have the highest bid XD");
+                            guiController.writeMessage("Du har allerede de højeste bud");
                         }
                     }
                 }
@@ -74,9 +74,9 @@ public class AuctionController {
 
             if (!(whoHasTheHighestBid == null)) {
                 wonAuction(propertyOnAuction);
-                guiController.writeMessage(whoHasTheHighestBid.getName() + " had the highest bid on " + propertyOnAuction.getName());
+                guiController.writeMessage(whoHasTheHighestBid.getName() + " havde det højste bud på " + propertyOnAuction.getName());
             } else
-                guiController.writeMessage("No one made a bet. The auction is now closed");
+                guiController.writeMessage("Ingen har budt, auktionen slutter.");
         }
     }
 
