@@ -24,6 +24,7 @@ public class SalesController {
 	public boolean cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
+		Field[] fields = fieldcontroller.getFieldArr();
 		
 		// While loop until the player can afford the rent/pay
 		while(currentPlayer.getAccount().getBalance() < value && !currentPlayer.isBanktrupt()) {
@@ -32,32 +33,82 @@ public class SalesController {
 			
 			 // Check if the Player has anything to sell, if not they go bankrupt.
 			if(streets.length == 0 && properties.length == 0 && currentPlayer.getAccount().getBalance() < value) {
+				
+				// Notify player
 				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
+				
+				// Set the player to bankrupt
 				currentPlayer.setBanktrupt(true);
+				
+				// Need to reset fields owned and house counter
+				// Loop over the field array
+				for(int i = 0; i < fields.length; i++) {
+					// If the field is an instance of Property
+					if(fields[i] instanceof Property) {
+						// Cast
+						Property property = (Property) fields[i];
+						// Check if the property is owned by currentPlayer
+						if(property.getOwner() == currentPlayer) {
+							// Set owner to null
+							property.setOwner(null);
+							// Check if field is an instance of Shipping
+							if(property instanceof Shipping) {
+								// Cast
+								Shipping shipping = (Shipping) property;
+								// Set rentValue to 500 -> Start rent value
+								shipping.setRentValue(500);
+							}
+							// Check if field is an instance of Brewery
+							if(property instanceof Brewery) {
+								// Cast
+								Brewery brewery = (Brewery) property;
+								brewery.setRentValue(100);
+							}
+							// Check if the field is an instance of Street
+							if(property instanceof Street) {
+								// Cast
+								Street street = (Street) property;
+								// Set the house counter to 0
+								street.setHouseCounter(0);
+								// Set the rentValue to no houses
+								street.setRentValue(street.getHousePrices()[0]);
+							}
+						}
+					}
+				}
 				return false;
 			}
 			
 			// Make array to hold options
 			String[] temp = new String[2];
 			int counter = 0;
-			// Check if the streets array is empty (There will always be one due to the Return Option)
+			
+			// Check if the streets array is empty
 			if(streets.length > 0) { 
+				
+				// if not empty, add the Sell Houses string to temp
 				temp[counter] = "Sell Houses";
+				
+				// Increase counter by one
 				counter++;
 			}
-			// Check if the properties array is empty (There will always be one due to the Return Option)
+			// Check if the properties array is empty
 			if(properties.length > 0) {
+				
+				// if not empty, add the Pawn Property to temp
 				temp[counter] = "Pawn Property";
+				
+				// Increase counter by one
 				counter++;
 			}
-			System.out.println(streets.length+" street length");
-			System.out.println(properties.length+" properties length");
+			// Make the options array
 			String[] options = new String[counter];
+			
+			// Parse the temp array into the options array
 			for(int i = 0; i < options.length; i++) {
 				options[i] = temp[i];
 			}
-			System.out.println(options.length+ "len");
-			System.out.println(counter + "counter");
+			
 			// Ask user for choice
 			String result = guiController.requestPlayerChoiceDropdown("What do you wish to do?", options);
 			
