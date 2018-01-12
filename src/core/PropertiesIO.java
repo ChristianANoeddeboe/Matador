@@ -35,9 +35,6 @@ public class PropertiesIO {
 		if (propertiesIO == null){ 
 			propertiesIO = new PropertiesIO();
 			}
-		if(translations.getProperty(toTranslate).equals("null")) {
-			System.out.println("error in io: " + toTranslate);
-		}
 		return translations.getProperty(toTranslate);
 	}
 }
