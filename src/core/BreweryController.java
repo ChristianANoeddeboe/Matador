@@ -41,11 +41,11 @@ public class BreweryController {
 					buyController.buyLogic();
 				}
 
-				else {
+				else { // If the player does not wish to buy the field
 					auctionController.startAuction(currentPlayer, brewery, players);
 				}
 			}
-			else {
+			else { // If the player cannot afford the field
 				auctionController.startAuction(currentPlayer, brewery, players);
 			}
 		}
@@ -91,8 +91,6 @@ public class BreweryController {
 						// Sends updates to GUIController
 						guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
 						guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-					}else {
-						
 					}
 				}
 			}
