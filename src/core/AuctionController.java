@@ -11,7 +11,7 @@ public class AuctionController {
     private Player whoHasTheHighestBid;
     private GUIController guiController = GUIController.getInstance();
 
-    public AuctionController() {
+    AuctionController() {
         whoHasTheHighestBid = null;
     }
 
