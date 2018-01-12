@@ -113,22 +113,18 @@ public class ChanceCardController {
 	}
 
 	private void initializeRandomArray (int[] randomArray) {
-		for (int i = 0 ; i < randomArray.length ; i++)
-		{
+		for (int i = 0 ; i < randomArray.length ; i++) {
 			int rndNumber;
 			boolean newCard;
-
 			do {
 				newCard = true;
 				rndNumber = ThreadLocalRandom.current().nextInt(0, randomArray.length);
-
 				for (int j = 0 ; j < i ; j++)
 					if(randomArray[j] == rndNumber) {
 						newCard = false;
 						break;
 					}
 			} while (!newCard);
-
 			randomArray[i] = rndNumber;
 		}
 	}
@@ -141,15 +137,15 @@ public class ChanceCardController {
 		if(drawnChanceCard instanceof PrisonCard) {
 			prisonCard(currentPlayer);
 		}else if(drawnChanceCard instanceof MoveCard) {
-			moveCard(currentPlayer, ((MoveCard) drawnChanceCard).getField(), fields, drawnChanceCard);
+			moveCard(currentPlayer, ((MoveCard) drawnChanceCard).getField(), drawnChanceCard);
 		}else if(drawnChanceCard instanceof MoveShippingCard) {
-			moveShippingCard(currentPlayer,fields);
+			moveShippingCard(currentPlayer);
 		}else if(drawnChanceCard instanceof GrantCard) {
 			grantCard(currentPlayer, fields);
 		}else if(drawnChanceCard instanceof PresentDepositCard) {
 			presentDepositCard(currentPlayer, players);
 		}else if(drawnChanceCard instanceof StepsBackCard) {
-			stepsBackCard(currentPlayer, ((StepsBackCard) drawnChanceCard).getAmount(), fields);
+			stepsBackCard(currentPlayer, ((StepsBackCard) drawnChanceCard).getAmount());
 		}else if(drawnChanceCard instanceof WithdrawCard) {
 			withdrawCard(currentPlayer, ((WithdrawCard) drawnChanceCard).getAmount());
 		}else if(drawnChanceCard instanceof DepositCard) {
@@ -166,7 +162,7 @@ public class ChanceCardController {
 		currentPlayer.addPrisonCard();
 	}
 
-	private void moveCard (Player currentPlayer, int field, Field[] fields, ChanceCard drawnChanceCard) {
+	private void moveCard (Player currentPlayer, int field, ChanceCard drawnChanceCard) {
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		currentPlayer.setEndPosition(field);
 
@@ -184,7 +180,7 @@ public class ChanceCardController {
 		}
 	}
 
-	private void moveShippingCard (Player currentPlayer, Field[] fields) {
+	private void moveShippingCard (Player currentPlayer) {
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if (currentPlayer.getEndPosition() == 2) {
 			currentPlayer.setEndPosition(5);
@@ -252,7 +248,7 @@ public class ChanceCardController {
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
 	}
 
-	private void stepsBackCard (Player currentPlayer, int amountOfSteps, Field[] fields) {
+	private void stepsBackCard (Player currentPlayer, int amountOfSteps) {
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if((currentPlayer.getEndPosition() - amountOfSteps) < 0)
 			currentPlayer.setEndPosition(39);

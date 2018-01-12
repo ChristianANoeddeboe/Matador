@@ -51,12 +51,12 @@ public class ShippingController {
 					// Run buyLogic method
 					buyController.buyLogic();
 				}
-				else {
+				else { // If the player does not wish to buy the field
 					auctionController.startAuction(currentPlayer, shipping, players);
 				}
 			}
 			else {
-				// Player cant afford the field, so nothing happens
+				// If the player cannot afford the field
 				auctionController.startAuction(currentPlayer, shipping, players);
 			}
 		}
@@ -109,12 +109,8 @@ public class ShippingController {
 						guiController.updatePlayerBalance(shipping.getOwner().getGuiId(), shipping.getOwner().getAccount().getBalance());
 						guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 					}
-					else {
-					}
 				}
-
 			}
-
 		}
 	}
 }
