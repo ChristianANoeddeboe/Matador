@@ -59,7 +59,7 @@ public class SalesController {
 			System.out.println(options.length+ "len");
 			System.out.println(counter + "counter");
 			// Ask user for choice
-			String result = guiController.requestPlayerChoice("What do you wish to do?", options);
+			String result = guiController.requestPlayerChoiceDropdown("What do you wish to do?", options);
 			
 			// Runs the sellHouse method if chosen
 			if(result.equals("Sell Houses")) {
@@ -96,7 +96,7 @@ public class SalesController {
 		
 		
 		// Prompts the user for a choice
-		String response = guiController.requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
+		String response = guiController.requestPlayerChoiceDropdown("Please choose a street to sell your houses from: ", streets);
 		if(response.equals("Return")) { // We can go a menu back
 			return true;
 		}
@@ -139,7 +139,7 @@ public class SalesController {
 		// Returns false if the player owns no properties to pawn
 		
 		// Prompts the user for a choice
-		String response = guiController.requestPlayerChoice(PropertiesIO.getTranslation("pawnpick"), properties);
+		String response = guiController.requestPlayerChoiceDropdown(PropertiesIO.getTranslation("pawnpick"), properties);
 		if(response.equals(PropertiesIO.getTranslation("returnbutton"))) {
 			return true;
 		}
