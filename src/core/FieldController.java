@@ -12,7 +12,10 @@ public class FieldController {
 	public FieldController() {
 		initFields();
 	}
-
+	
+	/**
+	 * Fills out the fields array
+	 */
 	private void initFields() {
 		fieldArr = new Field[40]; // We create an array of the lenght 40 of the type field
 		for (int i = 0; i < fieldArr.length ; i++) { // Loop through all our fields
@@ -141,7 +144,11 @@ public class FieldController {
 	public void setFieldArr(Field[] fieldArr) {
 		this.fieldArr = fieldArr;
 	}
-
+	/**
+	 * Generates a street array with all the fields that houses can be built on
+	 * @param currentPlayer
+	 * @return
+	 */
 	protected Street[] allFieldsToBuildOn(Player currentPlayer) {
 		Street streetArr[] = new Street[40];
 		int val = 0;
@@ -201,7 +208,11 @@ public class FieldController {
 		}
 		return sortedStreetArr;
 	}
-
+	/**
+	 * Generate an array of strings which contains that field title of the fields that the player calling owns
+	 * @param currentPlayer
+	 * @return
+	 */
 	protected String[] FieldsOwned(Player currentPlayer) {
 
 		// Makes a temporary String array with the length of all properties
@@ -319,7 +330,7 @@ public class FieldController {
 				Street street = (Street) fieldArr[i];
 
 				// Checks if the field is owned by the Player and there are not too many houses
-				if(street.getOwner() == currentPlayer && street.getHouseCounter() < 5 && street.getHouseCounter() > 0) {
+				if(street.getOwner() == currentPlayer && street.getHouseCounter() <= 5 && street.getHouseCounter() > 0) {
 
 					// Add the field to the temp array
 					temp[counter] = fieldArr[i].getName();

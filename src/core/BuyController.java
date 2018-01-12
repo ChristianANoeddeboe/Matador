@@ -227,27 +227,53 @@ public class BuyController {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected void unPawnProperty() {
+	protected void unPawnProperty() { // This is only called when the player can afford to unpawn a field
+		
+		// Gets the field array from the GUIController
 		Field[] fieldArr = guiController.getFieldController().getFieldArr();
+		
+		// Initializes the property variable
 		Property property = null;
+		
+		// Calls and hold the String array of all the fields that the player owns and can afford to unpawn
 		String[] temp = guiController.getFieldController().pawnedFields(currentPlayer);
+		
+		// Makes the String array to hold all the fields and a return option
 		String[] pawnedProperties = new String[temp.length+1];
 		
+		// Parses all the fields from the temp array into the pawnedProperties array
 		for(int i = 0; i<temp.length;i++) {
 			pawnedProperties[i] = temp[i];
 		}
+		
+		// Adds the return option to the array
 		pawnedProperties[pawnedProperties.length-1] = PropertiesIO.getTranslation("returnbutton");
 		
+		// Prompts the user to choose a field to unpawn or return
 		String result = guiController.requestPlayerChoice(PropertiesIO.getTranslation("unpawnpick"), pawnedProperties);
+		
+		// If the choice is not the return option
 		if(!result.equals(PropertiesIO.getTranslation("returnbutton"))) {
+			
+			// Loops over the field array to get the field information 
 			for(int i = 0; i < guiController.getFieldController().getFieldArr().length; i++) {
+				
+				// Checks if the field name matches the choice of the player
 				if(fieldArr[i].getName().equals(result)) {
 					property = (Property) fieldArr[i];
 				}
 			}
+			
+			// Sets the property to not pawned
 			property.setPawned(false);
+			
+			// Saves the price of unpawning which is the pawnValue + 10% of the pawnValue
 			int value = property.getPawnValue()+(int)((property.getPawnValue()*0.10));
+			
+			// Withdraws from the Players account
 			currentPlayer.getAccount().withdraw(value);
+			
+			// Sends an update to the GUIController
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		}
 	}
