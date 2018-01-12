@@ -31,13 +31,9 @@ public class PropertiesIO {
 	 * @return The attached string to the key
 	 */
 	public static String getTranslation (String toTranslate) {
-		System.out.println("Got translation: " + toTranslate);
 		if (propertiesIO == null){ 
 			propertiesIO = new PropertiesIO();
 			}
-		if(translations.getProperty(toTranslate).equals("null")) {
-			System.out.println("error in io: " + toTranslate);
-		}
 		return translations.getProperty(toTranslate);
 	}
 }

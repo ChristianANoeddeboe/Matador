@@ -222,8 +222,6 @@ public class BuyController {
 
 	/**
 	 * Logic for unpawning a property
-	 * @param currentPlayer
-	 * @return
 	 */
 	protected void unPawnProperty() { // This is only called when the player can afford to unpawn a field
 		
