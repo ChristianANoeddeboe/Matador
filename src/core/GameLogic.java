@@ -85,15 +85,13 @@ public class GameLogic {
 					
 					passedStart(currentPlayer);
 					
-					checkIfExtraRound(currentPlayer);
-					
 					resolveField(currentPlayer, diceCup);
 					
 					if(currentPlayer.isMoved()) {
 						resolveField(currentPlayer, diceCup);
 						currentPlayer.setMoved(false);
 					}
-					if(currentPlayer.isBanktrupt() || currentPlayer.isPrison()) {
+					if(currentPlayer.isBanktrupt() || currentPlayer.isPrison() || checkIfExtraRound(currentPlayer)) {
 						return true;
 					}
 					
@@ -182,7 +180,7 @@ public class GameLogic {
 		guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
 	}
 	
-	private void checkIfExtraRound(Player currentPlayer) {
+	private boolean checkIfExtraRound(Player currentPlayer) {
 		//check if player will get another turn because of pairs
 		if(!diceCup.isPair()) {
 			currentPlayer.setRolled(true);
@@ -193,8 +191,10 @@ public class GameLogic {
 				guiController.writeMessage("You rolled 3 pairs in a row and were jailed");
 				PrisonController prisonController = new PrisonController(currentPlayer, diceCup, cardController);
 				prisonController.jailPlayer(currentPlayer);
+				return true;
 			}
 		}
+		return false;
 	}
 	
 
