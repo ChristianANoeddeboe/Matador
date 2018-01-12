@@ -25,10 +25,8 @@ public class GameLogic {
 		tradeController = new TradeController();
 	}
 
-	protected boolean showOptions(PlayerController playerController, Player currentPlayer) {
-		fieldController = guiController.getFieldController();
-		fields = fieldController.getFieldArr();
-	public boolean callLogic(PlayerController playerController, Player currentPlayer) {
+	
+	public boolean showOptions(PlayerController playerController, Player currentPlayer) {
 		fieldController = guiController.getFieldController(); // TODO:
 		fields =fieldController.getFieldArr();
 		BuyController buyController = new BuyController(currentPlayer);
