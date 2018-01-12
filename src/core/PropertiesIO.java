@@ -17,7 +17,7 @@ public class PropertiesIO {
      * Translator constructor
      * @throws IOException may throw exception if file is not found
      */
-    private PropertiesIO () {
+    static {
         try {
             translations.load(ClassLoader.getSystemResourceAsStream("config.properties"));
         } catch (FileNotFoundException e) {
