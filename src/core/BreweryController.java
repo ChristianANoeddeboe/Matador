@@ -32,11 +32,11 @@ public class BreweryController {
 			if(currentPlayer.getAccount().canAfford(brewery.getBuyValue())) {
 				
 				// Give the player choices
-				String[] choices = {"Yes", "No"};
-				String result = guiController.requestPlayerChoiceButtons("Vil du købe..."+brewery.getName(), choices);
+				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+brewery.getName(), choices);
 				
 				// If they choose Yes run buyLogic method
-				if(result.equals("Yes")) {
+				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
 					BuyController buyController = new BuyController(currentPlayer, brewery);
 					buyController.buyLogic();
 				}

@@ -27,7 +27,7 @@ public class StreetController {
 	/**
 	 * The logic when landing on a normal/property field( a field where you can put houses on)
 	 */
-	protected void logic() {
+	public void logic() {
 		// Check if field is owned
 		if(street.getOwner() == null) {  
 			// Check if we can afford it
@@ -36,7 +36,7 @@ public class StreetController {
 
 				// Prompt the player for a choice
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+street.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getName(), choices);
 				
 				// Check if choice is Yes
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
@@ -62,7 +62,7 @@ public class StreetController {
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
 					// Show information to player
-					guiController.writeMessage(PropertiesIO.getTranslation("streetlandonbuy")+street.getOwner().getName() + PropertiesIO.getTranslation("streetlanddon2")+street.getRentValue());
+					guiController.writeMessage(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getOwner().getName() + PropertiesIO.getTranslation("streetlanddon2")+street.getRentValue());
 					// Withdraw rentValue from the player
 					currentPlayer.getAccount().withdraw(street.getRentValue());
 					
