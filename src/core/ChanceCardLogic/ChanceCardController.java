@@ -137,6 +137,7 @@ public class ChanceCardController {
 		ChanceCard drawnChanceCard = chanceCardDeck.bottom();
 
 		guiController.displayChanceCard(drawnChanceCard.getDescription());
+		guiController.writeMessage("You landed on chancecard");
 		if(drawnChanceCard instanceof PrisonCard) {
 			prisonCard(currentPlayer);
 		}else if(drawnChanceCard instanceof MoveCard) {
