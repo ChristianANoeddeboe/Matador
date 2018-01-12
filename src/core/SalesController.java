@@ -82,7 +82,7 @@ public class SalesController {
 	 * Logic for selling a house
 	 * @return a boolean that indicates if we have any houses to sell or not
 	 */
-	protected boolean sellHouse() {
+	public boolean sellHouse() {
 		// Method returns a String array with all fields that the current player owns that haves houses built on them
 		String[] temp = fieldcontroller.streetsWithHouses(currentPlayer); // A temporary array 
 		String[] streets = new String[temp.length+1]; // A street array that is one size bigger than the previous, because we need the return option
@@ -126,7 +126,7 @@ public class SalesController {
 	 * Logic for pawning a property
 	 * @return Returns true if we have anything at all to pawn, and false if not
 	 */
-	protected boolean pawnProperty() {
+	public boolean pawnProperty() {
 		
 		// Holds a String array of all the properties owned by the current Player
 		String[] temp = fieldcontroller.propertiesToPawn(currentPlayer);
