@@ -163,5 +163,8 @@ public class SalesController {
 		}
 		return true;
 	}
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
 }
 
