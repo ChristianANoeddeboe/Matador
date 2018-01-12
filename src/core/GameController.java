@@ -4,7 +4,6 @@ public class GameController {
 	private GUIController guiController;
 	private PlayerController playerController;
 	private GameLogic gameLogic;
-	private PropertiesIO properties;
 
 	public static void main(String Args[]) {
 		GameController gameController = new GameController();
