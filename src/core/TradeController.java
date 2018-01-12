@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Properties;
+
 /**
  *
  * @author Magnus Stjernborg Koch s175189 & Nicolai Kammersgård s143780
@@ -16,11 +18,11 @@ public class TradeController {
                 choices[counter++] = players[i].getName();
             }
         }
-        String response = guiController.requestPlayerChoiceButtons("Hvem vil du gerne trade med: ",choices);
+        String response = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("tradewhototradewith"),choices);
         for (int i = 0; i < players.length; i++) {
             if (players[i].getName().equals(response)) {
             	if (fieldController.FieldsOwned(players[i]).length > 0) {
-            		response = guiController.requestPlayerChoiceButtons("Hvem vil du gerne trade med: ", fieldController.FieldsOwned(players[i]));
+            		response = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("tradewhototradewith"), fieldController.FieldsOwned(players[i]));
             	}
             }
         }
@@ -33,14 +35,14 @@ public class TradeController {
                 int amountOffered = 0;
                 boolean cannotAfford = true;
                 do {
-                	amountOffered = guiController.requestIntegerInput("Hvor mange penge tilbyder du: "); //TODO Ret til at bruge PropetiesIO
+                	amountOffered = guiController.requestIntegerInput(PropertiesIO.getTranslation("tradehowmuchoffer")); 
                 	if(currentPlayer.getAccount().canAfford(amountOffered)) {
                 		cannotAfford = false;
                 	}	
                 } while(cannotAfford);
                 
-                response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+" accpetere du tilbuddet på "+amountOffered+" for "+property.getName()+"?","yes","no");
-                if (response.equals("yes")) {
+                response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+PropertiesIO.getTranslation("tradeacceptoffer")+amountOffered+" for "+property.getName()+"?",PropertiesIO.getTranslation("yesbutton"),PropertiesIO.getTranslation("nobutton"));
+                if (response.equals(PropertiesIO.getTranslation("yesbutton"))) {
                     currentPlayer.getAccount().withdraw(amountOffered);
                     property.getOwner().getAccount().deposit(amountOffered);
                     guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
