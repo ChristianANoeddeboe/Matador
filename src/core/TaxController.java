@@ -23,7 +23,7 @@ public class TaxController {
 	 * If we land on field 39, we have to pay 2000
 	 * @return depends on outcome
 	 */
-	protected void taxLogic38() {
+	public void taxLogic38() {
 		if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")))) {
 			currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
@@ -48,7 +48,7 @@ public class TaxController {
 	 * If we land on field 5, you can either pay 10% of income tax or 4000
 	 * @return Depends on outcome
 	 */
-	protected void taxLogic4() {
+	public void taxLogic4() {
 		int buildingvalue = 0;
 		int playervalue = currentPlayer.getAccount().getBalance(); // The players current balance
 		int propertyvalue = 0;
@@ -105,7 +105,7 @@ public class TaxController {
 		}
 	}
 
-	protected void taxLogic() {
+	public void taxLogic() {
 		if(currentPlayer.getEndPosition() == 38) {
 			taxLogic38();
 		}else {
