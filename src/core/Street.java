@@ -26,12 +26,15 @@ public class Street extends Property {
 	 */
 	public Street(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue, int[] housePrices, int buildPrice, Color colour) {
 		super(id, name, description, owner, buyValue, pawnValue, rentValue);
-		this.houseCounter = 0;
-		this.housePrices = housePrices;
-		this.BuildPrice = buildPrice;
-		this.colour = colour;
+		this.houseCounter = 0; // Amount of house on the field
+		this.housePrices = housePrices; // The rent price when houses are build
+		this.BuildPrice = buildPrice; // The price for building a house/hotel
+		this.colour = colour; // The color for the field when owned by a player
 	}
 	
+	/**
+	 * Getter and Setters
+	 */
 	public int getHouseCounter() {
 		return houseCounter;
 	}
