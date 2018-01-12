@@ -84,7 +84,7 @@ public class PrisonController {
 	public void usePrisonCard(Player currentPlayer) {
 		chanceCardController.putPrisonCardInDeck();
 		currentPlayer.setPrisonCard(currentPlayer.getPrisonCard()-1);
-		guiController.writeMessage(PropertiesIO.getTranslation("prisoncarduse")+currentPlayer.getPrisonCard());
+		guiController.writeMessage(PropertiesIO.getTranslation("prisonusecard")+currentPlayer.getPrisonCard());
 		if (currentPlayer.isPrison()) {
 			releasePrison(currentPlayer);
 		}
