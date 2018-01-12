@@ -56,7 +56,11 @@ public class SalesController {
 				options[i] = temp[i];
 			}
 			// Ask user for choice
+<<<<<<< HEAD
 			String result = guiController.requestPlayerChoice(PropertiesIO.getTranslation("salescontrollerrequest"), options);
+=======
+			String result = guiController.requestPlayerChoiceDropdown("What do you wish to do?", options);
+>>>>>>> branch 'master' of https://github.com/mathiasthejsen/13_Final
 			
 			// Runs the sellHouse method if chosen
 			if(result.equals(PropertiesIO.getTranslation("sellhouses"))) {
@@ -93,8 +97,13 @@ public class SalesController {
 		
 		
 		// Prompts the user for a choice
+<<<<<<< HEAD
 		String response = guiController.requestPlayerChoice(PropertiesIO.getTranslation("sellhouse"), streets);
 		if(response.equals(PropertiesIO.getTranslation("returnbutton"))) { // We can go a menu back
+=======
+		String response = guiController.requestPlayerChoiceDropdown("Please choose a street to sell your houses from: ", streets);
+		if(response.equals("Return")) { // We can go a menu back
+>>>>>>> branch 'master' of https://github.com/mathiasthejsen/13_Final
 			return true;
 		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
@@ -136,7 +145,7 @@ public class SalesController {
 		// Returns false if the player owns no properties to pawn
 		
 		// Prompts the user for a choice
-		String response = guiController.requestPlayerChoice(PropertiesIO.getTranslation("pawnpick"), properties);
+		String response = guiController.requestPlayerChoiceDropdown(PropertiesIO.getTranslation("pawnpick"), properties);
 		if(response.equals(PropertiesIO.getTranslation("returnbutton"))) {
 			return true;
 		}
