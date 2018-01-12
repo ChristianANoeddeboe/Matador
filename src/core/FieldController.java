@@ -12,7 +12,7 @@ public class FieldController {
 	public FieldController() {
 		initFields();
 	}
-	
+
 	/**
 	 * Fills out the fields array
 	 */
@@ -350,19 +350,23 @@ public class FieldController {
 		}
 		return propertyOwned;
 	}
-
+	/**
+	 * returns a list of pawned fields
+	 * @param currentPlayer
+	 * @return
+	 */
 	protected String[] pawnedFields(Player currentPlayer) {
 		String[] temp = new String[28];
 		int counter = 0;
-
+		// Looping over all fields
 		for(int i = 0; i < fieldArr.length; i++) {
-			if(fieldArr[i] instanceof Property) {
-				Property property = (Property) fieldArr[i];
-				if(property.getOwner() == currentPlayer) {
-					if(property.isPawned()) {
-						if(currentPlayer.getAccount().canAfford((int) (property.getPawnValue()+(property.getPawnValue()*0.10)))) {
-							temp[counter] = fieldArr[i].getName();
-							counter++;
+			if(fieldArr[i] instanceof Property) { // Check if it's a property
+				Property property = (Property) fieldArr[i]; //casting
+				if(property.getOwner() == currentPlayer) { // Find the fields the player owns
+					if(property.isPawned()) { // check if it's pawned
+						if(currentPlayer.getAccount().canAfford((int) (property.getPawnValue()+(property.getPawnValue()*0.10)))) { // check if he can afford to unpawn
+							temp[counter] = fieldArr[i].getName();// add it
+							counter++; // add it
 						}
 					}
 				}
