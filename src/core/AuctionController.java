@@ -1,7 +1,7 @@
 package core;
 
 /**
- * Created by magnus
+ * Created by Magnus & Nicolai
  *
  */
 public class AuctionController {

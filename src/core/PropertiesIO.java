@@ -31,7 +31,6 @@ public class PropertiesIO {
 	 * @return The attached string to the key
 	 */
 	public static String getTranslation (String toTranslate) {
-		System.out.println("Got translation: " + toTranslate);
 		if (propertiesIO == null){ 
 			propertiesIO = new PropertiesIO();
 			}
