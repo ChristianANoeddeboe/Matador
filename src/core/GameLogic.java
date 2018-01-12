@@ -9,7 +9,7 @@ import core.ChanceCardLogic.ChanceCardController;
  */
 public class GameLogic {
 	private DiceCup	diceCup;
-	private GUIController guiController;
+	private GUIController guiController = GUIController.getInstance();
 	private Field[] fields;
 	private PrisonController prisonController;
 	private FieldController fieldController;
@@ -20,15 +20,14 @@ public class GameLogic {
 	 * Constructor for gamelogic
 	 */
 	public GameLogic() {
-		guiController = guiController.getInstance();
 		cardController = new ChanceCardController();
 		diceCup = new DiceCup(2);
 		tradeController = new TradeController();
 	}
 
-	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
-		fieldController = guiController.getFieldController(); // TODO:
-		fields =fieldController.getFieldArr();
+	protected boolean showOptions(PlayerController playerController, Player currentPlayer) {
+		fieldController = guiController.getFieldController();
+		fields = fieldController.getFieldArr();
 		BuyController buyController = new BuyController(currentPlayer);
 		SalesController salesController = new SalesController(currentPlayer);
 		this.playerController = playerController;

@@ -56,7 +56,7 @@ public class GUIController {
 		for (int i = 0 ; i < fields_GUI.length ; i++) { //Iterates over every field, and creates the GUI_Field objects, corrosponding to their Field part.
 			if(fields[i] instanceof Start) {
 				Start start = (Start) fields[i];
-				fields_GUI[i] = new GUI_Start("Start", "", start.getDescription(), Color.GREEN, Color.BLACK);
+				fields_GUI[i] = new GUI_Start("Start", "Kr. 4000", start.getDescription(), Color.RED, Color.BLACK);
 			}else if(fields[i] instanceof Street) {
 				Street normal = (Street)fields[i];
 				fields_GUI[i] = new GUI_Street(normal.getName(), "kr. "+normal.getBuyValue(), normal.getDescription(), ""+normal.getBuyValue(), normal.getColour(), Color.BLACK);
@@ -68,10 +68,10 @@ public class GUIController {
 				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "kr. "+shipping.getBuyValue(), shipping.getDescription(), ""+shipping.getBuyValue(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Chance) {
 				Chance chance = (Chance)fields[i];
-				fields_GUI[i] = new GUI_Chance(chance.getName(), "", chance.getDescription(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Chance("?", "Tag et chance kort", "Tag et chance kort", Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Prison) {
 				Prison prison = (Prison)fields[i];
-				fields_GUI[i] = new GUI_Jail("default", prison.getName(), "", prison.getDescription(), Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Jail("default", prison.getName(), prison.getName(), prison.getDescription(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Parking) {
 				Parking parking = (Parking)fields[i];
 				fields_GUI[i] = new GUI_Refuge("default", parking.getName(), "", parking.getDescription(), Color.WHITE, Color.BLACK);
