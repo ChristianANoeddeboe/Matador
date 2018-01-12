@@ -25,24 +25,29 @@ public class GameLogic {
 		tradeController = new TradeController();
 	}
 
-	
+	/**
+	 * Generates a list of options for the player
+	 * @param playerController
+	 * @param currentPlayer
+	 * @return true if their turn is over 
+	 */
 	public boolean showOptions(PlayerController playerController, Player currentPlayer) {
-		fieldController = guiController.getFieldController(); // TODO:
+		fieldController = guiController.getFieldController();
 		fields =fieldController.getFieldArr();
 		BuyController buyController = new BuyController(currentPlayer);
 		SalesController salesController = new SalesController(currentPlayer);
 		this.playerController = playerController;
 		int counter = 0;
 		String choicesArr[] = new String[5];
-		if(currentPlayer.isPrison()) {
+		if(currentPlayer.isPrison()) { // Check if player is prisoned
 			prisonController.prison(currentPlayer);
 			if(!currentPlayer.isPrison()) {
 				updatePos(currentPlayer);
-				
+
 				passedStart(currentPlayer);
-				
+
 				checkIfExtraRound(currentPlayer);
-				
+
 				resolveField(currentPlayer, diceCup);
 
 				return false;
@@ -61,65 +66,66 @@ public class GameLogic {
 			if(!currentPlayer.isRolled()) {
 				choicesArr[counter++] = "Rul terningerne";
 			}
-			if(fieldController.propertiesToPawn(currentPlayer).length > 0) {
+			
+			if(fieldController.propertiesToPawn(currentPlayer).length > 0) { // Check if the player has anything to pawn
 				choicesArr[counter++] = "Pantsæt grund";	
 			}
-			if(fieldController.pawnedFields(currentPlayer).length > 0) {
+			if(fieldController.pawnedFields(currentPlayer).length > 0) { // Check if the player has any pawned property
 				choicesArr[counter++] = "Fjern pantsætning";
 			}
 			choicesArr[counter++] = "Byt grunde";
-			
+
 			//Move to new array
 			String choices[] = new String[counter];
 			for (int i = 0 ; i < counter ; i++)
 				choices[i] = choicesArr[i];
-	
+
 			do {
 				switch(guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("turn1") + currentPlayer.getName() + PropertiesIO.getTranslation("turn2"), choices)) {
 				case "Rul terningerne" : {
-					
-					diceCup.roll();
-					guiController.showDice(diceCup);
-					
-					updatePos(currentPlayer);
-					
-					passedStart(currentPlayer);
-					
-					resolveField(currentPlayer, diceCup);
-					
-					if(currentPlayer.isMoved()) {
+
+					diceCup.roll(); // roll dices
+					guiController.showDice(diceCup); // show the dices on the gui
+
+					updatePos(currentPlayer); // update pos
+
+					passedStart(currentPlayer); // check if we passed start if so give money
+
+					resolveField(currentPlayer, diceCup); // call some logic on the field
+
+					if(currentPlayer.isMoved()) { // check if the player was moved with a chance card
 						resolveField(currentPlayer, diceCup);
 						currentPlayer.setMoved(false);
 					}
-					if(currentPlayer.isBanktrupt() || currentPlayer.isPrison() || checkIfExtraRound(currentPlayer)) {
+					if(currentPlayer.isBanktrupt() || currentPlayer.isPrison() || checkIfExtraRound(currentPlayer)) { // Check if player is bankrupt, prisoned or if he deserves an extra round
 						return true;
 					}
-					
+
 					return false;
 				}
 				case "Køb huse/hoteller" : {
-					buildablestreets = fieldController.allFieldsToBuildOn(currentPlayer);
-					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]);
-					String houseList = guiController.requestPlayerChoiceDropdown(PropertiesIO.getTranslation("chooseproperty"), buyController.listOfFieldsYouCanBuildOn(buildablestreets));
+					buildablestreets = fieldController.allFieldsToBuildOn(currentPlayer); // Grab list of buildable streets
+					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]); // initialize buycontroller
+					String houseList = guiController.requestPlayerChoiceDropdown(PropertiesIO.getTranslation("chooseproperty"), buyController.listOfFieldsYouCanBuildOn(buildablestreets)); // The property a player chose
 					for (int j = 0; j < fields.length; j++) {
-						if(fields[j].getName() == houseList) {
-							buyController.houseBuyLogic(fields[j]);
+						if(fields[j].getName() == houseList) { // Find the specificed house
+							buyController.houseBuyLogic(fields[j]); // call housebuylogic which adds the house
 							break;
 						}
 					}
 					guiController.writeMessage(PropertiesIO.getTranslation("boughthouseon")+houseList);				
 					return false;
 				}
-				
+
 				case "Pantsæt grund":{
-					salesController.pawnProperty();
+					salesController.pawnProperty(); // Call pawn property
 					return false;
 				}
-	
+
 				case "Afslut tur":{
-					return true;
+					return true; // end turn
 				}
-				
+
 				case "Fjern pantsætning":{
 					buyController.unPawnProperty();
 					return false;
@@ -129,7 +135,7 @@ public class GameLogic {
 					tradeController.startTrade(currentPlayer, fieldController, playerController.getPlayers());
 					return false;
 				}
-	
+
 				}
 			} while (diceCup.isPair());
 		}
@@ -172,31 +178,31 @@ public class GameLogic {
 		//save start position and set new end position
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if(( currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() ) > 39) {
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() - 40);
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue() - 40); // Player passed start
 		}else {
-			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue());
+			currentPlayer.setEndPosition(currentPlayer.getEndPosition() + diceCup.getTotalFaceValue()); // Player did not pass start
 
 		}
-		guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition());
+		guiController.updatePlayerPosition(currentPlayer.getGuiId(), currentPlayer.getEndPosition(), currentPlayer.getStartPosition()); // Update position on gui 
 	}
-	
+
 	private boolean checkIfExtraRound(Player currentPlayer) {
 		//check if player will get another turn because of pairs
 		if(!diceCup.isPair()) {
 			currentPlayer.setRolled(true);
 		}else {
 			currentPlayer.setPairs(currentPlayer.getPairs()+1);
-			if (currentPlayer.getPairs() >= 3) {
+			if (currentPlayer.getPairs() >= 3) { // Check if he rolled 3 pairs in a row
 				currentPlayer.setPairs(0);
 				guiController.writeMessage(PropertiesIO.getTranslation("rolled3inarow"));
 				PrisonController prisonController = new PrisonController(currentPlayer, diceCup, cardController);
-				prisonController.jailPlayer(currentPlayer);
+				prisonController.jailPlayer(currentPlayer); // jail the player
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 
 	/**
 	 * Updates balance if we passed start, called everytime we roll dices
@@ -205,7 +211,7 @@ public class GameLogic {
 	public void passedStart(Player currentPlayer) {
 		boolean passed = false;
 		if(!currentPlayer.isStartRound()) {
-			if(((diceCup.getTotalFaceValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
+			if(((diceCup.getTotalFaceValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) { // Check if he passed start
 				currentPlayer.getAccount().deposit(4000);
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				passed = true;
@@ -214,13 +220,13 @@ public class GameLogic {
 			currentPlayer.setStartRound(false);
 			passed = false;
 		}
-		
+
 		//update balance if start is passed
 		if(passed)
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());	
 	}
-	
-	
+
+
 
 	public PrisonController getPrisonLogic() {
 		return prisonController;
