@@ -24,22 +24,34 @@ public class TaxController {
 	 * @return depends on outcome
 	 */
 	public void taxLogic38() {
+		// Check if the player can afford the tax
 		if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")))) {
+			
+			// Withdraw the value from the players account
 			currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
+			
+			// Send updates to the GUIController
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			guiController.writeMessage(PropertiesIO.getTranslation("statetatxpaymentstr"));
 		} 
-		else {
+		else { // If the player cannot afford the tax
+			
+			// Notify the player
 			guiController.writeMessage(PropertiesIO.getTranslation("statetaxnotpaidstr"));
+			
+			// Make SalesController
 			SalesController salesController = new SalesController(currentPlayer);
-			boolean response = salesController.cannotAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue"))); // We can't afford it
-			if(response) {
+			
+			// Calls the cannotAfford method, which returns a boolean depending on whether or not the player can afford the tax after selling/pawning
+			boolean response = salesController.cannotAfford(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
+			if(response) { //If we can afford the tax after selling/pawning
+				
+				// Withdraw the tax from the player
 				currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("statetaxvalue")));
+				
+				// Send update to the GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage(PropertiesIO.getTranslation("statetatxpaymentstr"));
-			}
-			else {
-				
 			}
 		}
 	}
@@ -49,66 +61,129 @@ public class TaxController {
 	 * @return Depends on outcome
 	 */
 	public void taxLogic4() {
-		int buildingvalue = 0;
+		int buildingvalue = 0; // Variable used to hold value of houses
 		int playervalue = currentPlayer.getAccount().getBalance(); // The players current balance
-		int propertyvalue = 0;
-		SalesController salesController = new SalesController(currentPlayer);
+		int propertyvalue = 0; // Variable used to hold value of properties
+		SalesController salesController = new SalesController(currentPlayer); // Initialize a SalesController
+		
+		// Make the two choices for the player
 		String[] choices = {"4000", "10%"};
+		
+		// Prompt user for a choice
 		String choice = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("taxoptions"), choices);
-		if (choice.equals("10%")) { // we calulate 10% of income tax
-			for (int i = 0; i < fields.length; i++) { // looping over all fields
-				if (fields[i] instanceof Property) { // Only dealing with fields that are property -> can be owned
-					Property property = (Property) fields[i]; // Casting& initializing a new property as we know fields[i] represents a property
-					if (property.getOwner() == currentPlayer) {// find those that the player owns
-						propertyvalue = propertyvalue + property.getBuyValue(); // The property value is a sum of all the basevalues
+		
+		// If they chose the 10% 
+		if (choice.equals("10%")) { 
+			// Calculates 10% of income tax
+			
+			// looping over all fields
+			for (int i = 0; i < fields.length; i++) {
+				
+				// Only dealing with fields that are property -> can be owned
+				if (fields[i] instanceof Property) { 
+					
+					// Casting & initializing a new property as we know fields[i] represents a property
+					Property property = (Property) fields[i]; 
+					
+					// Find those that the player owns
+					if (property.getOwner() == currentPlayer) {
+						
+						// The property value is a sum of all the basevalues
+						propertyvalue = propertyvalue + property.getBuyValue(); 
 					}
-				}else if(fields[i] instanceof Street) { // If we are dealing with streets->Properties that can have houses
+				
+				}
+				// If we are dealing with streets->Properties that can have houses
+				else if(fields[i] instanceof Street) { 
 					Street street = (Street) fields[i];
-					for (int j = 0; j < street.getHouseCounter(); j++) { // loop over all the houses
-						buildingvalue = buildingvalue + street.getHousePrices()[i]; // adding up all the house prices
+					
+					// Loop over all the houses
+					for (int j = 0; j < street.getHouseCounter(); j++) {
+						
+						// adding up all the house prices
+						buildingvalue = buildingvalue + street.getHousePrices()[i]; 
 					}
 				}
 			}
-			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10); // Take 10% of it
-			if(currentPlayer.getAccount().canAfford(value)) { // Check if we can afford
+			// Take 10% of it
+			int value = (int) ((buildingvalue + playervalue + propertyvalue) * 0.10);
+			// Check if we can afford
+			if(currentPlayer.getAccount().canAfford(value)) {
+				
+				// If we can, withdraw the value from the player
 				currentPlayer.getAccount().withdraw(value);
+				
+				// Send update to the GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.writeMessage(PropertiesIO.getTranslation("statetaxtotal")+ value);
-			}else {
+			}
+			// If we cannot afford it
+			else {
+				
+				//Notify the player
 				guiController.writeMessage(PropertiesIO.getTranslation("incometaxcantafford"));
-				boolean response = salesController.cannotAfford(value); // We can't afford it
+				
+				// Call the cannotAfford method, which keeps running until the player can either afford the tax or have gone bankrupt
+				boolean response = salesController.cannotAfford(value);
+				
+				// If the player can afford the tax after selling
 				if(response) {
+					
+					// Withdraw the value from the player
 					currentPlayer.getAccount().withdraw(value);
+					
+					// Send update to the GUIController
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 					guiController.writeMessage(PropertiesIO.getTranslation("statetaxtotal")+ value);
 				}
-				else {
-				}
 			}
 			
-		}else{ // 4000
-			if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")))) { // check if player can afford 4000
+		}else{ // If the choice is to pay 4000
+			
+			// Check if the player can afford the tax
+			if (currentPlayer.getAccount().canAfford(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")))) {
+				
+				// If the player can afford it, withdraw the tax from the players account
 				currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")));
+				
+				// Send update to the GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			}
+			// If the player cannot afford the tax
 			else {
+				
+				// Notify the player
 				guiController.writeMessage(PropertiesIO.getTranslation("incometaxcantafford"));
-				boolean response = salesController.cannotAfford(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue"))); // We can't afford it
+				
+				// Call the cannotAfford method, which keeps running until the player can either pay the tax or have gone bankrupt
+				boolean response = salesController.cannotAfford(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")));
+				
+				// If the player can afford the tax after selling/pawning
 				if(response) {
+					
+					// Notify the player
 					guiController.writeMessage(PropertiesIO.getTranslation("incometaxnowavailable"));
+					
+					// Withdraw the tax from the player
 					currentPlayer.getAccount().withdraw(Integer.parseInt(PropertiesIO.getTranslation("incometaxvalue")));
+					
+					// Send an update to the GUIController
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				}
-				else {
 				}
 			}
 		}
 	}
-
+	/**
+	 * Method that checks which tax field the player has landed on
+	 */
 	public void taxLogic() {
+		
+		// Check if the player landed on the tax field on field 38
 		if(currentPlayer.getEndPosition() == 38) {
 			taxLogic38();
-		}else {
+		}
+		// If the player has landed on the tax field on field 4
+		else {
 			taxLogic4();
 		}
 	}
