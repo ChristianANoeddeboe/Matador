@@ -47,11 +47,11 @@ public class StreetController {
 					// Run the buyLogic method
 					buyController.buyLogic();
 				}
-				else {
+				else { // If the player does not wish to buy the field
 					auctionController.startAuction(currentPlayer, street, players);
 				}
 			}
-			else {
+			else { // If the player cannot afford the field
 				auctionController.startAuction(currentPlayer, street, players);
 			}
 		}
@@ -94,8 +94,6 @@ public class StreetController {
 						// Sends updates to GUIController
 						guiController.updatePlayerBalance(street.getOwner().getGuiId(), street.getOwner().getAccount().getBalance());
 						guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-					}
-					else {
 					}
 				}
 			}

@@ -24,6 +24,7 @@ public class SalesController {
 	public boolean cannotAfford(int value) {
 		boolean housesToSell = true;
 		boolean propertyToPawn = true;
+		Field[] fields = fieldcontroller.getFieldArr();
 		
 		// While loop until the player can afford the rent/pay
 		while(currentPlayer.getAccount().getBalance() < value && !currentPlayer.isBanktrupt()) {
