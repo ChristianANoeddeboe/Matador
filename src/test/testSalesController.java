@@ -11,7 +11,7 @@ import core.Property;
 import core.SalesController;
 import core.Street;
 
-public class SalesControllerTest {
+public class testSalesController {
 	private Player testplayer;
 	private int value;
 	private FieldController fieldcontroller;
