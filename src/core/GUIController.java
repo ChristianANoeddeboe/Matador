@@ -68,7 +68,7 @@ public class GUIController {
 				fields_GUI[i] = new GUI_Shipping("default", shipping.getName(), "kr. "+shipping.getBuyValue(), shipping.getDescription(), ""+shipping.getBuyValue(), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Chance) {
 				Chance chance = (Chance)fields[i];
-				fields_GUI[i] = new GUI_Chance("?", "Tag et chance kort", "Tag et chance kort", Color.WHITE, Color.BLACK);
+				fields_GUI[i] = new GUI_Chance("?", PropertiesIO.getTranslation("takeachancecard"), PropertiesIO.getTranslation("takeachancecard"), Color.WHITE, Color.BLACK);
 			}else if(fields[i] instanceof Prison) {
 				Prison prison = (Prison)fields[i];
 				fields_GUI[i] = new GUI_Jail("default", prison.getName(), prison.getName(), prison.getDescription(), Color.WHITE, Color.BLACK);

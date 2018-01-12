@@ -179,14 +179,12 @@ public class BuyController {
 	protected void houseBuyLogic(Field field) {
 		if(field instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
 			Street normal = (Street) field; // Instantiate a new Normal object casting fieldsid normal
-			//if (normal.getHouseCounter() <= 5) { // Check if player can afford house and making sure there is not already 5
 			currentPlayer.getAccount().withdraw(normal.getBuildPrice());
 			normal.setHouseCounter(normal.getHouseCounter() + 1);
 			normal.setRentValue(calcHousePrice(normal.getHouseCounter()));
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 			guiController.setHouse(normal.getId(),normal.getHouseCounter());
 			guiController.setOwner(currentPlayer.getGuiId(), normal.getId());
-			//}
 		}
 	}
 

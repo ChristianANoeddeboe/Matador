@@ -5,7 +5,6 @@ package core;
  *
  */
 public class Shipping extends Property {
-	int currentValue;
 	/**
 	 * Constructor for shipping field
 	 * @param id The id of the field
@@ -17,7 +16,6 @@ public class Shipping extends Property {
 	 */
 	public Shipping(int id, String name, String description, Player owner, int buyValue, int pawnValue, int rentValue) {
 		super(id, name, description, owner, buyValue, pawnValue, rentValue);
-		this.currentValue = 500;
 	}
 }
 

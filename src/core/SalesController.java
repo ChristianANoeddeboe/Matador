@@ -32,7 +32,7 @@ public class SalesController {
 			
 			 // Check if the Player has anything to sell, if not they go bankrupt.
 			if(streets.length == 0 && properties.length == 0 && currentPlayer.getAccount().getBalance() < value) {
-				guiController.writeMessage("You've gone bankrupt! Thanks for playing");
+				guiController.writeMessage(PropertiesIO.getTranslation("banktrupt"));
 				currentPlayer.setBanktrupt(true);
 				return false;
 			}
@@ -42,32 +42,28 @@ public class SalesController {
 			int counter = 0;
 			// Check if the streets array is empty (There will always be one due to the Return Option)
 			if(streets.length > 0) { 
-				temp[counter] = "Sell Houses";
+				temp[counter] = PropertiesIO.getTranslation("sellhouses");
 				counter++;
 			}
 			// Check if the properties array is empty (There will always be one due to the Return Option)
 			if(properties.length > 0) {
-				temp[counter] = "Pawn Property";
+				temp[counter] = "PropertiesIO.getTranslation(\"pawnproperty\")";
 				counter++;
 			}
-			System.out.println(streets.length+" street length");
-			System.out.println(properties.length+" properties length");
 			String[] options = new String[counter];
 			for(int i = 0; i < options.length; i++) {
 				options[i] = temp[i];
 			}
-			System.out.println(options.length+ "len");
-			System.out.println(counter + "counter");
 			// Ask user for choice
-			String result = guiController.requestPlayerChoice("What do you wish to do?", options);
+			String result = guiController.requestPlayerChoice(PropertiesIO.getTranslation("salescontrollerrequest"), options);
 			
 			// Runs the sellHouse method if chosen
-			if(result.equals("Sell Houses")) {
+			if(result.equals(PropertiesIO.getTranslation("sellhouses"))) {
 				housesToSell = sellHouse();
 			}
 			
 			// Runs the pawnProperty method if chosen
-			if(result.equals("Pawn Property")) {
+			if(result.equals(PropertiesIO.getTranslation("pawnproperty"))) {
 				propertyToPawn = pawnProperty();
 			}
 			
@@ -91,13 +87,13 @@ public class SalesController {
 		for(int i = 0; i<temp.length;i++) {
 			streets[i] = temp[i]; // Fill the streets array
 		}
-		streets[streets.length-1] = "Return";
+		streets[streets.length-1] = PropertiesIO.getTranslation("returnbutton");
 		// Returns false if there is no fields with houses
 		
 		
 		// Prompts the user for a choice
-		String response = guiController.requestPlayerChoice("Please choose a street to sell your houses from: ", streets);
-		if(response.equals("Return")) { // We can go a menu back
+		String response = guiController.requestPlayerChoice(PropertiesIO.getTranslation("sellhouse"), streets);
+		if(response.equals(PropertiesIO.getTranslation("returnbutton"))) { // We can go a menu back
 			return true;
 		}
 		for(int i = 0; i < fieldcontroller.getFieldArr().length; i++) {
@@ -116,7 +112,7 @@ public class SalesController {
 				// Send all the updates to GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				guiController.setHouse(street.getId(), ((street.getHouseCounter())-1));
-				guiController.writeMessage("You have sold a house for: "+street.getBuildPrice());
+				guiController.writeMessage(PropertiesIO.getTranslation("soldhouse")+street.getBuildPrice());
 			}
 		}
 		return true;
