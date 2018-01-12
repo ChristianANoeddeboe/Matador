@@ -55,19 +55,19 @@ public class GameLogic {
 			//Add buy house or hotel
 			Street[] buildablestreets= fieldController.allFieldsToBuildOn(currentPlayer);
 			if(buildablestreets.length > 0) {
-				choicesArr[counter++] = "Buy house/hotel";
+				choicesArr[counter++] = "Køb huse/hoteller";
 			}
 			//Add Roll dice if not already rolled
 			if(!currentPlayer.isRolled()) {
-				choicesArr[counter++] = "Roll dice";
+				choicesArr[counter++] = "Rul terningerne";
 			}
 			if(fieldController.propertiesToPawn(currentPlayer).length > 0) {
-				choicesArr[counter++] = "Pawn property";	
+				choicesArr[counter++] = "Pantsæt grund";	
 			}
 			if(fieldController.pawnedFields(currentPlayer).length > 0) {
-				choicesArr[counter++] = "Unpawn property";
+				choicesArr[counter++] = "Fjern pantsætning";
 			}
-			choicesArr[counter++] = "Trade";
+			choicesArr[counter++] = "Byt grunde";
 			
 			//Move to new array
 			String choices[] = new String[counter];
@@ -75,8 +75,8 @@ public class GameLogic {
 				choices[i] = choicesArr[i];
 	
 			do {
-				switch(guiController.requestPlayerChoiceButtons("It is " + currentPlayer.getName() + "'s turn, choose option:", choices)) {
-				case "Roll dice" : {
+				switch(guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("turn1") + currentPlayer.getName() + PropertiesIO.getTranslation("turn2"), choices)) {
+				case "Rul terningerne" : {
 					
 					diceCup.roll();
 					guiController.showDice(diceCup);
@@ -97,21 +97,21 @@ public class GameLogic {
 					
 					return false;
 				}
-				case "Buy house/hotel" : {
+				case "Køb huse/hoteller" : {
 					buildablestreets = fieldController.allFieldsToBuildOn(currentPlayer);
 					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]);
-					String houseList = guiController.requestPlayerChoice("Vælg grund at bygge huse på", buyController.listOfFieldsYouCanBuildOn(buildablestreets));
+					String houseList = guiController.requestPlayerChoice(PropertiesIO.getTranslation("chooseproperty"), buyController.listOfFieldsYouCanBuildOn(buildablestreets));
 					for (int j = 0; j < fields.length; j++) {
 						if(fields[j].getName() == houseList) {
 							buyController.houseBuyLogic(fields[j]);
 							break;
 						}
 					}
-					guiController.writeMessage("Du har købt et hus på..."+houseList);				
+					guiController.writeMessage(PropertiesIO.getTranslation("boughthouseon")+houseList);				
 					return false;
 				}
 				
-				case "Pawn property":{
+				case "Pantsæt grund":{
 					salesController.pawnProperty();
 					return false;
 				}
@@ -120,12 +120,12 @@ public class GameLogic {
 					return true;
 				}
 				
-				case "Unpawn property":{
+				case "Fjern pantsætning":{
 					buyController.unPawnProperty();
 					return false;
 				}
 
-				case "Trade": {
+				case "Byt grunde": {
 					tradeController.startTrade(currentPlayer, fieldController, playerController.getPlayers());
 					return false;
 				}
@@ -162,7 +162,7 @@ public class GameLogic {
 			prisonController = new PrisonController(currentPlayer, diceCup, cardController);
 			prisonController.logic();
 		} else if (fields[id] instanceof Parking) {
-			guiController.writeMessage("You landed on parking");
+			guiController.writeMessage(PropertiesIO.getTranslation("landonparking"));
 		} else if (fields[id] instanceof Tax) {
 			TaxController taxController = new TaxController(currentPlayer, fields);
 			taxController.taxLogic();
@@ -188,7 +188,7 @@ public class GameLogic {
 			currentPlayer.setPairs(currentPlayer.getPairs()+1);
 			if (currentPlayer.getPairs() >= 3) {
 				currentPlayer.setPairs(0);
-				guiController.writeMessage("You rolled 3 pairs in a row and were jailed");
+				guiController.writeMessage(PropertiesIO.getTranslation("rolled3inarow"));
 				PrisonController prisonController = new PrisonController(currentPlayer, diceCup, cardController);
 				prisonController.jailPlayer(currentPlayer);
 				return true;

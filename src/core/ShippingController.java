@@ -40,7 +40,7 @@ public class ShippingController {
 				
 				// Prompt user for choice
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandedon")+shipping.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlanddon")+" "+shipping.getName(), choices);
 				
 				// Check if the choice is Yes
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
@@ -76,7 +76,7 @@ public class ShippingController {
 				// Check if the player can afford the rent
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					// Send update to player
-					guiController.writeMessage(PropertiesIO.getTranslation("streetlandedon")+shipping.getName() + PropertiesIO.getTranslation("streetlandedon2")+shipping.getRentValue()+" to "+shipping.getOwner().getName());
+					guiController.writeMessage(PropertiesIO.getTranslation("streetlanddon")+shipping.getName() + PropertiesIO.getTranslation("streetlanddon2")+shipping.getRentValue()+" to "+shipping.getOwner().getName());
 					
 					// Withdraw rentPrice from player
 					currentPlayer.getAccount().withdraw(rentPrice);
