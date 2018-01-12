@@ -1,20 +1,12 @@
 package test;
 
-import core.ChanceCardLogicOld;
-import core.Entities;
-import core.Player;
-import core.PropertiesIO;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 /**
  * @author Magnus Stjernborg Koch - s175189 og Zeth Benjamin ...
  * This class contains test functions for the object/class ChanceCardLogicOld
  */
 public class testChanceCardLogic {
-    private ChanceCardLogicOld chanceCardLogic;
+    /*
+    private ChanceCardController chanceCardController;
     private Player testPlayer;
     private Player testPlayer2;
     private Player testPlayer3;
@@ -32,7 +24,7 @@ public class testChanceCardLogic {
         testPlayerArray = new Player[]{testPlayer, testPlayer2, testPlayer3};
         entities = Entities.getInstance();
         entities.setPlayers(testPlayerArray);
-        chanceCardLogic = new ChanceCardLogicOld();
+        chanceCardController = new ChanceCardLogicOld();
         chanceCardDeck = entities.getChanceCardArr();
         config = entities.getConfig();
         startMoney = 30000;
@@ -48,8 +40,8 @@ public class testChanceCardLogic {
     }
 
     public void runChance (int chance) {
-        chanceCardLogic.setIndex(findCardInDeck(chance));
-        chanceCardLogic.getCard(testPlayer);
+        chanceCardController.setIndex(findCardInDeck(chance));
+        chanceCardController.getCard(testPlayer);
     }
 
     @Test
@@ -197,6 +189,6 @@ public class testChanceCardLogic {
     @Test
     public void testChance27 () {
         runChance(27);
-    }
+    }*/
 
 }
