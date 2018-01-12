@@ -83,6 +83,7 @@ public class AuctionController {
     private void wonAuction(Property propertyOnAuction) {
         whoHasTheHighestBid.getAccount().withdraw(highestBid);
         propertyOnAuction.setOwner(whoHasTheHighestBid);
+        guiController.updatePlayerBalance(whoHasTheHighestBid.getGuiId(),whoHasTheHighestBid.getAccount().getBalance());
         guiController.setOwner(whoHasTheHighestBid.getGuiId(),propertyOnAuction.getId());
     }
 }
