@@ -19,14 +19,14 @@ public class GameLogic {
 	/**
 	 * Constructor for gamelogic
 	 */
-	public GameLogic() {
-		guiController = guiController.getInstance();
+	GameLogic() {
+		guiController = GUIController.getInstance();
 		cardController = new ChanceCardController();
 		diceCup = new DiceCup(2);
 		tradeController = new TradeController();
 	}
 
-	protected boolean callLogic(PlayerController playerController, Player currentPlayer) {
+	public boolean callLogic(PlayerController playerController, Player currentPlayer) {
 		fieldController = guiController.getFieldController(); // TODO:
 		fields =fieldController.getFieldArr();
 		BuyController buyController = new BuyController(currentPlayer);
@@ -147,7 +147,7 @@ public class GameLogic {
 	 * @param currentPlayer
 	 * @return A message to the gamecontroller
 	 */
-	protected void resolveField(Player currentPlayer, DiceCup diceCup) {
+	public void resolveField(Player currentPlayer, DiceCup diceCup) {
 		int id = currentPlayer.getEndPosition();
 		if (fields[id] instanceof Street) { 
 			StreetController streetController = new StreetController(currentPlayer, fields[id], playerController.getPlayers());
@@ -202,7 +202,7 @@ public class GameLogic {
 	 * Updates balance if we passed start, called everytime we roll dices
 	 * @param currentPlayer
 	 */
-	protected void passedStart(Player currentPlayer) {
+	public void passedStart(Player currentPlayer) {
 		boolean passed = false;
 		if(!currentPlayer.isStartRound()) {
 			if(((diceCup.getTotalFaceValue() + currentPlayer.getStartPosition()) > 40) || currentPlayer.getStartPosition() == 0) {
