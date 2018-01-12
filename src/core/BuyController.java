@@ -248,7 +248,7 @@ public class BuyController {
 		pawnedProperties[pawnedProperties.length-1] = PropertiesIO.getTranslation("returnbutton");
 		
 		// Prompts the user to choose a field to unpawn or return
-		String result = guiController.requestPlayerChoice(PropertiesIO.getTranslation("unpawnpick"), pawnedProperties);
+		String result = guiController.requestPlayerChoiceDropdown(PropertiesIO.getTranslation("unpawnpick"), pawnedProperties);
 		
 		// If the choice is not the return option
 		if(!result.equals(PropertiesIO.getTranslation("returnbutton"))) {

@@ -100,7 +100,11 @@ public class GameLogic {
 				case "Køb huse/hoteller" : {
 					buildablestreets = fieldController.allFieldsToBuildOn(currentPlayer);
 					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]);
+<<<<<<< HEAD
 					String houseList = guiController.requestPlayerChoice(PropertiesIO.getTranslation("chooseproperty"), buyController.listOfFieldsYouCanBuildOn(buildablestreets));
+=======
+					String houseList = guiController.requestPlayerChoiceDropdown("Vælg grund at bygge huse på", buyController.listOfFieldsYouCanBuildOn(buildablestreets));
+>>>>>>> branch 'master' of https://github.com/mathiasthejsen/13_Final
 					for (int j = 0; j < fields.length; j++) {
 						if(fields[j].getName() == houseList) {
 							buyController.houseBuyLogic(fields[j]);

@@ -272,7 +272,7 @@ public class GUIController {
 	 * @param options the list of options for the dropdown menu.
 	 * @return a String with the players choice.
 	 */
-	public String requestPlayerChoice(String message, String[] options) {
+	public String requestPlayerChoiceDropdown(String message, String[] options) {
 		return gui.getUserSelection("   "+message, options);
 	}
 
