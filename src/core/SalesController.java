@@ -115,7 +115,7 @@ public class SalesController {
 				
 				// Send all the updates to GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				guiController.setHouse(street.getId(), street.getHouseCounter()-1);
+				guiController.setHouse(street.getId(), ((street.getHouseCounter())-1));
 				guiController.writeMessage("You have sold a house for: "+street.getBuildPrice());
 			}
 		}
