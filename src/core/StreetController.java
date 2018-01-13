@@ -36,7 +36,7 @@ public class StreetController {
 
 				// Prompt the player for a choice
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getName()+ " for " + street.getBuyValue(), choices);
 				
 				// Check if choice is Yes
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
@@ -62,7 +62,7 @@ public class StreetController {
 				// If field is owned by someone else, we check if they can afford landing there
 				if(currentPlayer.getAccount().canAfford(street.getRentValue())) { 
 					// Show information to player
-					guiController.writeMessage(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getOwner().getName() + PropertiesIO.getTranslation("streetlanddon2")+street.getRentValue());
+					guiController.writeMessage(PropertiesIO.getTranslation("streetlanddon")+" "+street.getName() +" " + PropertiesIO.getTranslation("streetlanddon2") + " "+street.getRentValue()+" til "+street.getOwner().getName());
 					// Withdraw rentValue from the player
 					currentPlayer.getAccount().withdraw(street.getRentValue());
 					

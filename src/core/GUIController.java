@@ -233,6 +233,9 @@ public class GUIController {
 	 */
 	public int requestNumberOfPlayers() {
 		int input = gui.getUserInteger("    "+PropertiesIO.getTranslation("amountofplayers"), 3, 6);
+		while(input < 3 || input > 6) {
+			input = gui.getUserInteger("    "+PropertiesIO.getTranslation("amountofplayers"), 3, 6);
+		}
 		players_GUI = new GUI_Player[input];
 		return input;
 	}
