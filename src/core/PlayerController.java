@@ -1,5 +1,9 @@
 package core;
-
+/**
+ * 
+ * @author Mathias Thejsen
+ *
+ */
 public class PlayerController {
 	private Player playerArr[];
 	
