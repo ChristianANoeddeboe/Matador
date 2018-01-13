@@ -40,7 +40,11 @@ public class testSalesController {
 		}
 	}
 
+
 	@Test
+	/**
+	 * Test of the constructor
+	 */
 	public void testSalesController() {
 		initTest();
 		SalesController salescontroller = new SalesController(testplayer);
@@ -48,27 +52,20 @@ public class testSalesController {
 	}
 
 	@Test
+	/**
+	 * Testing the functionallity of the cannot afford function
+	 */
 	public void testCannotAfford() {
 		initTest();
 		SalesController salescontroller = new SalesController(testplayer);
 		
 		testplayer.getAccount().setBalance(3000);
-		boolean testbool = salescontroller.cannotAfford(value);
+		boolean testbool = salescontroller.cannotAfford(4500);
 		
 		
 		
 		assertEquals(true, testbool);
-		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testSellHouse() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testPawnProperty() {
-		fail("Not yet implemented");
-	}
 
 }

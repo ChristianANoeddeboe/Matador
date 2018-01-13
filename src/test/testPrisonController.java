@@ -5,7 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+/**
+ * Test of the prison controller
+ * @author Mathias Thejsen - Thejsen@live.dk
+ *
+ */
 public class testPrisonController {
 
     private Player currentPlayer;
@@ -14,7 +18,9 @@ public class testPrisonController {
     public void setUp() throws Exception {
         currentPlayer = new Player("test1", 0);
     }
-
+    /**
+     * Testing if the jailing part works
+     */
     @Test
     public void jailPlayerPositive() {
         currentPlayer.setEndPosition(10);
@@ -22,6 +28,9 @@ public class testPrisonController {
         assertTrue("Player was not prisoned or was placed at wrong position.", currentPlayer.isPrison() && currentPlayer.getEndPosition() == 10);
     }
 
+    /**
+     * Testing the ability to pay the fine
+     */
     @Test
     public void payFine() {
         int playerAmount = currentPlayer.getAccount().getBalance();
@@ -32,7 +41,9 @@ public class testPrisonController {
         }
         assertTrue("Player did not pay fine correctly.", !currentPlayer.isPrison() && currentPlayer.getAccount().getBalance() == playerAmount - 1000);
     }
-
+    /**
+     * Testing the usability of the prison card
+     */
     @Test
     public void usePrisonCard() {
         currentPlayer.setPrisonCard(1);
