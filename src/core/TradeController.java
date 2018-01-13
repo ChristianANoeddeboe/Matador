@@ -51,7 +51,7 @@ public class TradeController {
 						}	
 					} while(cannotAfford);
 					// Ask the player if he wishses to acccept the offer
-					response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+PropertiesIO.getTranslation("tradeacceptoffer")+amountOffered+" for "+property.getName()+"?",PropertiesIO.getTranslation("yesbutton"),PropertiesIO.getTranslation("nobutton"));
+					response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+PropertiesIO.getTranslation("tradeacceptoffer")+" "+amountOffered+" for "+property.getName()+"?",PropertiesIO.getTranslation("yesbutton"),PropertiesIO.getTranslation("nobutton"));
 					if (response.equals(PropertiesIO.getTranslation("yesbutton"))) {
 						currentPlayer.getAccount().withdraw(amountOffered);
 						property.getOwner().getAccount().deposit(amountOffered);

@@ -41,7 +41,7 @@ public class AuctionController {
 
         //The auctions starts only if there are at least one that can bet
         if (!(playersInAuction == 0)) {
-            guiController.writeMessage("Auction on card: " + field.getName());
+            guiController.writeMessage(PropertiesIO.getTranslation("auctionon")+ " "+ field.getName());
 
             //Runs auction until the auctionstatus is changed
             while (auctionStatus) {
@@ -53,7 +53,7 @@ public class AuctionController {
                         if (!(bidder == whoHasTheHighestBid)) {
                             //checks if bidder can afford highest bet
                             if (bidder.getAccount().canAfford(highestBid + 1)) {
-                                switch (guiController.requestPlayerChoiceButtons("Vil spilleren: " + bidder.getName() + " byde?", PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton"))) {
+                                switch (guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("auctionplayer")+" " + bidder.getName() + " "+PropertiesIO.getTranslation("auctionbid")+"?", PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton"))) {
                                     case "Ja":
                                         //The amount the player bets
                                         int bid = guiController.requestIntegerInput(bidder.getName() + "'s turn, Top bid: " + highestBid + ", your bid: ",0,200000);
@@ -65,8 +65,7 @@ public class AuctionController {
                                                 whoHasTheHighestBid = bidder;
                                                 noMoreRounds = false;
                                             }
-                                        }
-                                        else {
+                                        }else {
                                             bid = guiController.requestIntegerInput(bidder.getName() + " bet were too high try again, highest bid " + highestBid + ", your bid: ",0,200000);
                                             if (bid > highestBid) {
                                                 highestBid = bid;
@@ -80,7 +79,7 @@ public class AuctionController {
                                 }
                             }
                         } else {
-                            guiController.writeMessage("You already have the highest bid XD");
+                            guiController.writeMessage(PropertiesIO.getTranslation("auctionalreadyhighestbid"));
                         }
                     }
                 }
@@ -92,9 +91,9 @@ public class AuctionController {
             //Checks if there is a winner
             if (!(whoHasTheHighestBid == null)) {
                 wonAuction(propertyOnAuction);
-                guiController.writeMessage(whoHasTheHighestBid.getName() + " had the highest bid on " + propertyOnAuction.getName());
+                guiController.writeMessage(whoHasTheHighestBid.getName() + " "+ PropertiesIO.getTranslation("auctionhighestbid")+" "+ propertyOnAuction.getName());
             } else
-                guiController.writeMessage("No one made a bet. The auction is now closed");
+                guiController.writeMessage(PropertiesIO.getTranslation("auctionnobids"));
         }
     }
 

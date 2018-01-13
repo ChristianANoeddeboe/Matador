@@ -73,7 +73,9 @@ public class GameLogic {
 			if(fieldController.pawnedFields(currentPlayer).length > 0) { // Check if the player has any pawned property
 				choicesArr[counter++] = "Fjern pantsætning";
 			}
-			choicesArr[counter++] = "Byt grunde";
+			if(fieldController.tradePossible(currentPlayer)) { // Check if there are any propreties to trade with
+				choicesArr[counter++] = "Byt grunde";
+			}
 
 			//Move to new array
 			String choices[] = new String[counter];

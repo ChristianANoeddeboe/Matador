@@ -149,7 +149,7 @@ public class FieldController {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected Street[] allFieldsToBuildOn(Player currentPlayer) {
+	public Street[] allFieldsToBuildOn(Player currentPlayer) {
 		Street streetArr[] = new Street[40];
 		int val = 0;
 		boolean exists = false;
@@ -213,7 +213,7 @@ public class FieldController {
 	 * @param currentPlayer
 	 * @return
 	 */
-	protected String[] FieldsOwned(Player currentPlayer) {
+	public String[] FieldsOwned(Player currentPlayer) {
 
 		// Makes a temporary String array with the length of all properties
 		String[] temp = new String[28];
@@ -378,6 +378,24 @@ public class FieldController {
 			propertyOwned[j] = temp[j];
 		}
 		return propertyOwned;
+	}
+
+	/**
+	 * Used to check if the player should have the possibility to trade with someone
+	 * @param currentPlayer
+	 * @return true if possible else false
+	 */
+	protected boolean tradePossible(Player currentPlayer) {
+		for (int i = 0; i < fieldArr.length; i++) { // loop over all fields
+			if(fieldArr[i] instanceof Property) { // Find those who are properties
+				Property property = (Property) fieldArr[i]; // Initialize and cast
+				if(property.getOwner() != currentPlayer && property.getOwner() != null) { // Make sure it's owned by someone that is not currentPlayer
+					return true; // Return true, no need to look any futher
+				}
+			}
+		}
+		return false; // Not possible to trade so no need to show option
+
 	}
 }
 
