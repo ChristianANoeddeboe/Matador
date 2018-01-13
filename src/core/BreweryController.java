@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Properties;
+
 /**
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *
@@ -33,7 +35,7 @@ public class BreweryController {
 				
 				// Give the player choices
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+brewery.getName(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+brewery.getName() + " for " + brewery.getBuyValue(), choices);
 				
 				// If they choose Yes run buyLogic method
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
@@ -61,7 +63,7 @@ public class BreweryController {
 				if(currentPlayer.getAccount().canAfford(rentPrice)) {
 					
 					// Notify the user
-					guiController.writeMessage("You landed on.."+brewery.getName() + "..'s field and have to pay.."+brewery.getRentValue()+" to "+brewery.getOwner().getName());
+					guiController.writeMessage(PropertiesIO.getTranslation("streetlanddon")+" "+brewery.getName() +" " + PropertiesIO.getTranslation("streetlanddon2") + " "+brewery.getRentValue()+" til "+brewery.getOwner().getName());
 					
 					// Withdraw the rentPrice from the player
 					currentPlayer.getAccount().withdraw(rentPrice);
@@ -73,14 +75,14 @@ public class BreweryController {
 					guiController.updatePlayerBalance(brewery.getOwner().getGuiId(), brewery.getOwner().getAccount().getBalance());
 					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 				}else { 
-					guiController.writeMessage("You cannot afford the rent, you have to pawn or sell something");
+					guiController.writeMessage(PropertiesIO.getTranslation("streetcantafford"));
 					// Initialize the SalesController
 					SalesController salesController = new SalesController(currentPlayer);
 					
 					// Run cannotAfford method
 					boolean response = salesController.cannotAfford(rentPrice);
 					if(response) {
-						guiController.writeMessage("You can now pay the rent of "+rentPrice);
+						guiController.writeMessage(PropertiesIO.getTranslation("streetcanpayrent")+rentPrice);
 						
 						// Withdraw rentValue from the player
 						currentPlayer.getAccount().withdraw(rentPrice);
