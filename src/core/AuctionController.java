@@ -56,7 +56,7 @@ public class AuctionController {
                                 switch (guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("auctionplayer")+" " + bidder.getName() + " "+PropertiesIO.getTranslation("auctionbid")+"?", PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton"))) {
                                     case "Ja":
                                         //The amount the player bets
-                                        int bid = guiController.requestIntegerInput(bidder.getName() + "'s turn, Top bid: " + highestBid + ", your bid: ",0,200000);
+                                        int bid = guiController.requestIntegerInput(bidder.getName() + PropertiesIO.getTranslation("auctiontopbid") + highestBid + PropertiesIO.getTranslation("auctionyourbid"),0,200000);
                                         //can player afford the bet
                                         if (bidder.getAccount().canAfford(bid)) {
                                             //is bet higher then highest bet
@@ -66,7 +66,7 @@ public class AuctionController {
                                                 noMoreRounds = false;
                                             }
                                         }else {
-                                            bid = guiController.requestIntegerInput(bidder.getName() + " bet were too high try again, highest bid " + highestBid + ", your bid: ",0,200000);
+                                            bid = guiController.requestIntegerInput(bidder.getName() + " " + PropertiesIO.getTranslation("auctiontoohigh") +" " + highestBid + PropertiesIO.getTranslation("auctionyourbid"),0,200000);
                                             if (bid > highestBid) {
                                                 highestBid = bid;
                                                 whoHasTheHighestBid = bidder;
