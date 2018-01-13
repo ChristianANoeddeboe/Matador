@@ -1,7 +1,5 @@
 package core;
 
-import java.util.Properties;
-
 /**
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
  *

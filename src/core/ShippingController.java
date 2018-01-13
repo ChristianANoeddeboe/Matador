@@ -1,7 +1,5 @@
 package core;
 
-import java.util.Properties;
-
 /**
  * Logic for landing on a shipping field
  * @author Mathias Thejsen s175192 && Simon Hansen s175191
@@ -40,7 +38,7 @@ public class ShippingController {
 				
 				// Prompt user for choice
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlanddon")+" "+shipping.getName() + " for " + shipping.getBuyValue(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+shipping.getName() + " for " + shipping.getBuyValue(), choices);
 				
 				// Check if the choice is Yes
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {
