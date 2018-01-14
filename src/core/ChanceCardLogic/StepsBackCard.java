@@ -1,9 +1,11 @@
 package core.ChanceCardLogic;
 
 /**
- * Created by magnus
+ * @author Magnus Stjernborg Koch - s175189
+ *
  */
 public class StepsBackCard extends ChanceCard{
+    //The amount of steps going back
     private int amount;
     public StepsBackCard(int id, String description, int amount) {
         super(id, description);

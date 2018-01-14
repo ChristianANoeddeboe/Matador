@@ -5,26 +5,32 @@ import core.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Created by magnus
+ * @author Magnus Stjernborg Koch - s175189
+ *
  */
 public class ChanceCardController {
 	private GUIController guiController;
-
-	//Deck to hold cards in randomized order
+	//Deck to hold the different kind of cards
 	private ChanceCardDeck chanceCardDeck;
+	//Saving the prisonCard for discard purposes
 	private PrisonCard prisonCard;
 
 	public ChanceCardController () {
 		guiController = GUIController.getInstance();
+		//initialising chancecarddeck with the amount of 32 ChanceCards
 		chanceCardDeck = new ChanceCardDeck(32);
+		//Initialising chancards with the specifications from config/PropertiesIO
 		initializeChanceCards();
 	}
 
 	private void initializeChanceCards () {
 		ChanceCard[] chanceCardArray = new ChanceCard[32];
+		//Randomarray for making a unsorted deck
 		int[] randomArray = new int[32];
+		//Initialising the random array, creating 32 different ints from 0 to 31, so each card has its own id based on field id
 		initializeRandomArray(randomArray);
 
+		//Loop goes through all chancecards and adding them to the array of chanceCards
 		for (int i = 0; i < chanceCardArray.length; i++) {
 			switch (i) {
 			case 0:
@@ -105,13 +111,20 @@ public class ChanceCardController {
 				break;
 			}
 		}
+		//Saving the prisonCard so it easier can be removed later.
 		prisonCard = (PrisonCard) chanceCardArray[0];
+		//Using the randomarray to push each card in the deck unsorted and random
 		for (int i = 0 ; i < chanceCardArray.length ; i++) {
+			//Pushing card to deck (queue structure)
 			chanceCardDeck.push(chanceCardArray[randomArray[i]]);
 		}
 
 	}
 
+	/**
+	 * Function for creating the random array to be used to making a random order in the ChanceCardDeckArray
+	 *
+	 */
 	private void initializeRandomArray (int[] randomArray) {
 		for (int i = 0 ; i < randomArray.length ; i++) {
 			int rndNumber;
@@ -129,11 +142,20 @@ public class ChanceCardController {
 		}
 	}
 
+	/**
+	 * The function called by other controllers when landed on the ChanceCard field, then it handles both the logic and
+	 * the user interface related to chance cards
+	 *
+	 */
 	public void getCard (Player currentPlayer, Field[] fields, Player[] players) {
+		//picks a new card from the bottom of the deck.
 		ChanceCard drawnChanceCard = chanceCardDeck.bottom();
 
+		//getting the description for user interface
 		guiController.displayChanceCard(drawnChanceCard.getDescription());
 		guiController.writeMessage(PropertiesIO.getTranslation("takeachancecard"));
+
+		//Checks with type of chanceCard has been drawned, and then calls a function related to that type of chance card
 		if(drawnChanceCard instanceof PrisonCard) {
 			prisonCard(currentPlayer);
 		}else if(drawnChanceCard instanceof MoveCard) {
@@ -153,15 +175,25 @@ public class ChanceCardController {
 		}else if(drawnChanceCard instanceof EstateTaxCard) {
 			estateTaxCard(currentPlayer, fields, ((EstateTaxCard) drawnChanceCard).getTaxHouse(), ((EstateTaxCard) drawnChanceCard).getTaxHotel());
 		}
+
+		//If the drawn card were a prison card dont push it back.
 		if(!(drawnChanceCard instanceof PrisonCard)) {
 			chanceCardDeck.push(drawnChanceCard);
 		}
 	}
 
+	/**
+	 * This function adds a prison card to a user which drawn the card
+	 *
+	 */
 	private void prisonCard (Player currentPlayer) {
 		currentPlayer.addPrisonCard();
 	}
 
+	/**
+	 * This function is moving the player depending on which moveCard were drawn
+	 *
+	 */
 	private void moveCard (Player currentPlayer, int field, ChanceCard drawnChanceCard) {
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		currentPlayer.setEndPosition(field);
@@ -180,6 +212,10 @@ public class ChanceCardController {
 		}
 	}
 
+	/**
+	 * This function moves to the closes shipping field depending on which chance field the player landed on
+	 *
+	 */
 	private void moveShippingCard (Player currentPlayer) {
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if (currentPlayer.getEndPosition() == 2) {
@@ -208,6 +244,10 @@ public class ChanceCardController {
 
 	}
 
+	/**
+	 * This function is checking if the player's networth is higher or lower then 15.000 if yes then ads 40000 to balance
+	 *
+	 */
 	private void grantCard (Player currentPlayer,Field[] fields) {
 		int playerValue = 0;
 		for (int i = 0; i < fields.length; i++) {
@@ -235,6 +275,10 @@ public class ChanceCardController {
 		}
 	}
 
+	/**
+	 * This function takes 200 money from each player (not the currentplayer) and give all the total money to the currentplayer)
+	 *
+	 */
 	private void presentDepositCard (Player currentPlayer, Player[] players) {
 		int	present = 0;
 		for (int i = 0; i < players.length; i++) {
@@ -248,6 +292,10 @@ public class ChanceCardController {
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
 	}
 
+	/**
+	 * This function moves the player some steps back depending on the card
+	 *
+	 */
 	private void stepsBackCard (Player currentPlayer, int amountOfSteps) {
 		currentPlayer.setStartPosition(currentPlayer.getEndPosition());
 		if((currentPlayer.getEndPosition() - amountOfSteps) < 0)
@@ -258,6 +306,10 @@ public class ChanceCardController {
 
 	}
 
+	/**
+	 * This function is withdrawing a specific amount of money from the current player depending on which card
+	 *
+	 */
 	private void withdrawCard(Player currentPlayer, int amount) {
 		int currentPlayerBalance = currentPlayer.getAccount().getBalance();
 		if (checkIfAfford(currentPlayer, amount))
@@ -269,11 +321,20 @@ public class ChanceCardController {
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
 	}
 
+	/**
+	 * This function is depositing a specific amount of money to the current player depending on which card
+	 *
+	 */
 	private void depositCard (Player currentPlayer, int amount) {
 		currentPlayer.getAccount().deposit(amount);
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
 	}
 
+	/**
+	 * This function is checking which fields is owned by the currentplayer and how many houses and hotels are placed on them
+	 * then withdrawing a tax from each house and hotel.
+	 *
+	 */
 	private void estateTaxCard (Player currentPlayer, Field[] fields, int housetax, int hoteltax) {
 		int estateTax = 0;
 
@@ -293,10 +354,18 @@ public class ChanceCardController {
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(),currentPlayer.getAccount().getBalance());
 	}
 
+	/**
+	 * This function is called when the prisoncard is used and needs to be return to the deck, so it can be drawn by others
+	 *
+	 */
 	public void putPrisonCardInDeck () {
 		chanceCardDeck.push(prisonCard);
 	}
 
+	/**
+	 * This function is using the SalesController to check if the player can afford the different types of cards.
+	 *
+	 */
 	private boolean checkIfAfford (Player currentPlayer, int value) {
 		SalesController salesController = new SalesController(currentPlayer);
 		return salesController.cannotAfford(value);

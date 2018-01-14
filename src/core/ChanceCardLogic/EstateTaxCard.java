@@ -1,10 +1,13 @@
 package core.ChanceCardLogic;
 
 /**
- * Created by magnus
+ * @author Magnus Stjernborg Koch - s175189
+ *
  */
 public class EstateTaxCard extends ChanceCard {
+    //The specific tax for houses
     private int taxHouse;
+    //The specific tax for hotels
     private int taxHotel;
     public EstateTaxCard(int id, String description, int taxHouse, int taxHotel) {
         super(id, description);
