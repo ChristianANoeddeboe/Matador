@@ -60,7 +60,7 @@ public class testPlayer extends Player {
 	 */
 	@Test
 	public void testCanAffrord() {
-		assertEquals(player.getAccount().canAfford(13000),false);
+		assertEquals(player.getAccount().canAfford(30000),false);
 	}
 	
 	
