@@ -1,9 +1,11 @@
 package core.ChanceCardLogic;
 
 /**
- * Created by magnus
+ * @author Magnus Stjernborg Koch - s175189
+ *
  */
 public class GrantCard extends ChanceCard {
+    //What the grant amount is
     private int grantAmount;
     public GrantCard(int id, String description) {
         super(id, description);

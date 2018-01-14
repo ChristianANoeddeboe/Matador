@@ -1,7 +1,8 @@
 package core.ChanceCardLogic;
 
 /**
- * Created by magnus
+ * @author Magnus Stjernborg Koch - s175189
+ *
  */
 public class PresentDepositCard extends ChanceCard {
     public PresentDepositCard(int id, String description) {
