@@ -159,7 +159,7 @@ public class SalesController {
 				
 				// Send all updates to GUIController
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				guiController.writeMessage(PropertiesIO.getTranslation("pawnstr") + " "+property.getName()+" for "+property.getPawnValue());
+				guiController.writeMessage(PropertiesIO.getTranslation("pawnstr") + " "+property.getName()+" for kr."+property.getPawnValue());
 			}
 		}
 		return true;
