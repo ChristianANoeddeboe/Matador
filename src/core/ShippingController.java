@@ -38,7 +38,7 @@ public class ShippingController {
 				
 				// Prompt user for choice
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+shipping.getName() + " for " + shipping.getBuyValue(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+shipping.getName() + " for kr." + shipping.getBuyValue(), choices);
 				
 				// Check if the choice is Yes
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {

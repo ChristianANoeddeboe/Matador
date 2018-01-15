@@ -33,7 +33,7 @@ public class BreweryController {
 				
 				// Give the player choices
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+brewery.getName() + " for " + brewery.getBuyValue(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+brewery.getName() + " for kr." + brewery.getBuyValue(), choices);
 				
 				// If they choose Yes run buyLogic method
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {

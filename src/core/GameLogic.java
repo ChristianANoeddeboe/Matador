@@ -74,7 +74,7 @@ public class GameLogic {
 				choicesArr[counter++] = "Fjern pantsætning";
 			}
 			if(fieldController.tradePossible(currentPlayer)) { // Check if there are any propreties to trade with
-				choicesArr[counter++] = "Byt grunde";
+				choicesArr[counter++] = "Byd på grund";
 			}
 
 			//Move to new array
@@ -94,7 +94,7 @@ public class GameLogic {
 					passedStart(currentPlayer); // check if we passed start if so give money
 
 					resolveField(currentPlayer, diceCup); // call some logic on the field
-
+					guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 					if(currentPlayer.isMoved()) { // check if the player was moved with a chance card
 						resolveField(currentPlayer, diceCup);
 						currentPlayer.setMoved(false);
@@ -133,7 +133,7 @@ public class GameLogic {
 					return false;
 				}
 
-				case "Byt grunde": {
+				case "Byd på grund": {
 					tradeController.startTrade(currentPlayer, fieldController, playerController.getPlayers());
 					return false;
 				}

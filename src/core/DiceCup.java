@@ -41,8 +41,9 @@ public class DiceCup {
 	
 	public int getTotalFaceValue() {
 		int total = 0;
-		for (Dice dice : diceArr)
-			total += dice.getFaceValue();
+		for (int i = 0; i < diceArr.length; i++) {
+			total = total + diceArr[i].getFaceValue();
+		}
 		return total;
 	}
 	

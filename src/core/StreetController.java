@@ -36,7 +36,7 @@ public class StreetController {
 
 				// Prompt the player for a choice
 				String[] choices = {PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton")};
-				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getName()+ " for " + street.getBuyValue(), choices);
+				String result = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("streetlandonbuy")+" "+street.getName()+ " for kr." + street.getBuyValue(), choices);
 				
 				// Check if choice is Yes
 				if(result.equals(PropertiesIO.getTranslation("yesbutton"))) {

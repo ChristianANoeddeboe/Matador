@@ -48,7 +48,7 @@ public class SalesController {
 			}
 			// Check if the properties array is empty (There will always be one due to the Return Option)
 			if(properties.length > 0) {
-				temp[counter] = "PropertiesIO.getTranslation(\"pawnproperty\")";
+				temp[counter] = PropertiesIO.getTranslation("pawnproperty");
 				counter++;
 			}
 			String[] options = new String[counter];
@@ -113,8 +113,9 @@ public class SalesController {
 				street.setHouseCounter(street.getHouseCounter()-1);
 				
 				// Send all the updates to GUIController
+				int value = street.getHouseCounter() -1;
 				guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
-				guiController.setHouse(street.getId(), ((street.getHouseCounter())-1));
+				guiController.setHouse(street.getId(), value);
 				guiController.writeMessage(PropertiesIO.getTranslation("soldhouse")+street.getBuildPrice());
 			}
 		}

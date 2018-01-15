@@ -32,7 +32,7 @@ public class TradeController {
 			for (int i = 0; i < players.length; i++) { // Loop over all players
 				if (players[i].getName().equals(response)) { // find the player the currentPlayer choose to trade with
 					if (fieldController.FieldsOwned(players[i]).length > 0) { // Make sure he owns some fields
-						response = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("tradewhototradewith"), fieldController.FieldsOwned(players[i])); //Pick a field
+						response = guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("tradewhattotradewith"), fieldController.FieldsOwned(players[i])); //Pick a field
 					}
 				}
 			}
@@ -45,13 +45,13 @@ public class TradeController {
 					int amountOffered = 0;
 					boolean cannotAfford = true;
 					do {
-						amountOffered = guiController.requestIntegerInput(PropertiesIO.getTranslation("tradehowmuchoffer"));  
+						amountOffered = guiController.requestIntegerInput(PropertiesIO.getTranslation("tradehowmuchoffer"),0,currentPlayer.getAccount().getBalance());  
 						if(currentPlayer.getAccount().canAfford(amountOffered)) {
 							cannotAfford = false;
 						}	
 					} while(cannotAfford);
 					// Ask the player if he wishses to acccept the offer
-					response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+PropertiesIO.getTranslation("tradeacceptoffer")+" "+amountOffered+" for "+property.getName()+"?",PropertiesIO.getTranslation("yesbutton"),PropertiesIO.getTranslation("nobutton"));
+					response = guiController.requestPlayerChoiceButtons(property.getOwner().getName()+" "+PropertiesIO.getTranslation("tradeacceptoffer")+" "+amountOffered+" for "+property.getName()+"?",PropertiesIO.getTranslation("yesbutton"),PropertiesIO.getTranslation("nobutton"));
 					if (response.equals(PropertiesIO.getTranslation("yesbutton"))) {
 						currentPlayer.getAccount().withdraw(amountOffered);
 						property.getOwner().getAccount().deposit(amountOffered);
