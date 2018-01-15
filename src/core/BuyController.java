@@ -303,12 +303,12 @@ public class BuyController {
 			if(mayBuild)
 				properties[index++] = street[counter].getName();
 		}
-		
 		//add to return array.
-		propertiesSorted = new String[index];
+		propertiesSorted = new String[index+1];
 		for (int i = 0; i < propertiesSorted.length; i++) {
 			propertiesSorted[i] = properties[i];
 		}
+		propertiesSorted[propertiesSorted.length-1] = PropertiesIO.getTranslation("returnbutton");
 		return propertiesSorted;
 	}
 }

@@ -202,7 +202,7 @@ public class FieldController {
 		/**
 		 * We create a new array which only contains the streets we are allowed to build on with the right size
 		 */
-		Street[] sortedStreetArr = new Street[val];
+		Street[] sortedStreetArr = new Street[val+1];
 		for (int i = 0; i < sortedStreetArr.length; i++) {
 			sortedStreetArr[i] = streetArr[i];
 		}

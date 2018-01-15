@@ -109,6 +109,9 @@ public class GameLogic {
 					buildablestreets = fieldController.allFieldsToBuildOn(currentPlayer); // Grab list of buildable streets
 					buyController = new BuyController(currentPlayer, fields[currentPlayer.getEndPosition()]); // initialize buycontroller
 					String houseList = guiController.requestPlayerChoiceDropdown(PropertiesIO.getTranslation("chooseproperty"), buyController.listOfFieldsYouCanBuildOn(buildablestreets)); // The property a player chose
+					if(houseList.equals(PropertiesIO.getTranslation("returnbutton"))) {
+						return false;
+					}
 					for (int j = 0; j < fields.length; j++) {
 						if(fields[j].getName() == houseList) { // Find the specificed house
 							buyController.houseBuyLogic(fields[j]); // call housebuylogic which adds the house
