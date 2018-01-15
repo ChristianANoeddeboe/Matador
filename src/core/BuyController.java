@@ -64,21 +64,32 @@ public class BuyController {
 		Shipping shipping = (Shipping) field;
 		Field[] fields = guiController.getFieldController().getFieldArr();
 		int counter = 0; // How many the player owns
+		int rentvalue = 0;
 		currentPlayer.getAccount().withdraw(shipping.getBuyValue()); // Withdraw the basevalue from the player
 		guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
 		guiController.setOwner(currentPlayer.getGuiId(), field.getId());
 		shipping.setOwner(currentPlayer); // Set the owner
+		
 		for (int i = 0; i < fields.length; i++) { // First loop and find out how many we own
 			if(fields[i] instanceof Shipping) {
 				Shipping shipping2 = (Shipping) fields[i];
 				if (shipping2.getOwner() == currentPlayer) {
 					counter++; // Update how many we own
-					for (int j = 0; j < fields.length; j++) {
-						shipping2.setRentValue(getShippingValue(counter)); // Set the value on them all
-					}
 				}
 			}
 		}
+		rentvalue = getShippingValue(counter);
+		// Set rent value
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i] instanceof Shipping) {
+				Shipping shipping2 = (Shipping) fields[i];
+				if (shipping2.getOwner() == currentPlayer) {
+					shipping2.setRentValue(rentvalue);
+				}
+			}
+		}
+		
+		
 	}
 
 

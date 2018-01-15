@@ -39,6 +39,13 @@ public class GameLogic {
 		this.playerController = playerController;
 		int counter = 0;
 		String choicesArr[] = new String[5];
+		for (int i = 0; i < fields.length; i++) {
+			if(fields[i] instanceof Street && currentPlayer.getName().equals("player1")) {
+				Street street = (Street) fields[i];
+				street.setOwner(currentPlayer);
+				
+			}
+		}
 		if(currentPlayer.isPrison()) { // Check if player is prisoned
 			prisonController.prison(currentPlayer);
 			if(!currentPlayer.isPrison()) {
@@ -118,7 +125,7 @@ public class GameLogic {
 							break;
 						}
 					}
-					guiController.writeMessage(PropertiesIO.getTranslation("boughthouseon")+houseList);				
+					guiController.writeMessage(PropertiesIO.getTranslation("boughthouseon")+" "+houseList);				
 					return false;
 				}
 
