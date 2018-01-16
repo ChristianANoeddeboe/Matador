@@ -23,7 +23,7 @@ public class AuctionController {
         auctionStatus = true;
         //amount of players in auction
         int playersInAuction = 0;
-        //The property on auction
+        //The property on auction passed as parameter
         Property propertyOnAuction = (Property) field;
         //initialising an array for all bidders in the current auction
         bidders = new Player[players.length];
@@ -33,14 +33,14 @@ public class AuctionController {
         //Loop is going through players and checking who can bet in this auction
         for (int i = 0; i < players.length; i++) {
             if (!(players[i] == playerNotIncluded))
-                if (players[i].getAccount().canAfford(highestBid)) {
+                if (players[i].getAccount().canAfford(highestBid)) { // only include those who can afford to bid
                     playersInAuction++;
-                    bidders[i] = players[i];
+                    bidders[i] = players[i]; // Fill out bidders array with player refrences
                 }
         }
 
         //The auctions starts only if there are at least one that can bet
-        if (!(playersInAuction == 0)) {
+        if (playersInAuction != 0) {
             guiController.writeMessage(PropertiesIO.getTranslation("auctionon")+ " "+ field.getName());
 
             //Runs auction until the auctionstatus is changed
@@ -48,11 +48,11 @@ public class AuctionController {
                 boolean noMoreRounds = true;
                 //Goes through all bidders
                 for (Player bidder : bidders) {
-                    if (!(bidder == null)) {
+                    if (!(bidder == null)) { // Make sure it is not a null player
                         //if player has the highest bet
-                        if (!(bidder == whoHasTheHighestBid)) {
+                        if (bidder != whoHasTheHighestBid) { 
                             //checks if bidder can afford highest bet
-                            if (bidder.getAccount().canAfford(highestBid + 1)) {
+                            if (bidder.getAccount().canAfford(highestBid + 1)) { // Can he afford atleast the current highest bid
                                 switch (guiController.requestPlayerChoiceButtons(PropertiesIO.getTranslation("auctionplayer")+" " + bidder.getName() + " "+PropertiesIO.getTranslation("auctionbid")+"?", PropertiesIO.getTranslation("yesbutton"), PropertiesIO.getTranslation("nobutton"))) {
                                     case "Ja":
                                         //The amount the player bets
@@ -60,12 +60,12 @@ public class AuctionController {
                                         //can player afford the bet
                                         if (bidder.getAccount().canAfford(bid)) {
                                             //is bet higher then highest bet
-                                            if (bid > highestBid) {
+                                            if (bid > highestBid) { // Make sure his bid is higher than the current highest bid
                                                 highestBid = bid;
                                                 whoHasTheHighestBid = bidder;
                                                 noMoreRounds = false;
                                             }
-                                        }else {
+                                        }else { // Player can't afford the bid he placed
                                             bid = guiController.requestIntegerInput(bidder.getName() + " " + PropertiesIO.getTranslation("auctiontoohigh") +" " + highestBid + PropertiesIO.getTranslation("auctionyourbid"),0,bidder.getAccount().getBalance());
                                             if (bid > highestBid) {
                                                 highestBid = bid;
@@ -83,16 +83,16 @@ public class AuctionController {
                         }
                     }
                 }
-
+                // By now we have went through all the players atleast once.
                 if (noMoreRounds)
-                    auctionStatus = false;
+                    auctionStatus = false; // Auction status changed and thus we get out of the while loop
             }
 
             //Checks if there is a winner
-            if (!(whoHasTheHighestBid == null)) {
+            if (whoHasTheHighestBid != null) { // We have a winner
                 wonAuction(propertyOnAuction);
                 guiController.writeMessage(whoHasTheHighestBid.getName() + " "+ PropertiesIO.getTranslation("auctionhighestbid")+" "+ propertyOnAuction.getName());
-            } else
+            } else // No one bid
                 guiController.writeMessage(PropertiesIO.getTranslation("auctionnobids"));
         }
     }
