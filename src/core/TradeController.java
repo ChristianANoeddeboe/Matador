@@ -24,7 +24,7 @@ public class TradeController {
 			}
 		}
 		String[] actualchoices = new String[counter+1]; // make a new array and fill out
-		for (int i = 0; i < actualchoices.length; i++) {
+		for (int i = 0; i < (actualchoices.length - 1 ); i++) {
 			actualchoices[i] = choices[i];
 		}
 		actualchoices[actualchoices.length - 1] = PropertiesIO.getTranslation("returnbutton");
