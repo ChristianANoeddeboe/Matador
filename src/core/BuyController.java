@@ -191,6 +191,7 @@ public class BuyController {
 		if(field instanceof Street) { // We are only dealing with fields of the type normal, so only check for those
 			Street normal = (Street) field; // Instantiate a new Normal object casting fieldsid normal
 			currentPlayer.getAccount().withdraw(normal.getBuildPrice());
+			this.field = field;
 			normal.setHouseCounter(normal.getHouseCounter() + 1);
 			normal.setRentValue(calcHousePrice(normal.getHouseCounter()));
 			guiController.updatePlayerBalance(currentPlayer.getGuiId(), currentPlayer.getAccount().getBalance());
